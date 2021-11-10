@@ -1,13 +1,9 @@
 import 'dart:convert';
-import 'package:month_picker_dialog/month_picker_dialog.dart';
+import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_obat.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_application_1/akuntan/akuntan_fetch_penjualanObat.dart';
-import 'package:flutter_application_1/akuntan/akuntan_page_input_penjurnalan.dart';
-import 'package:flutter_application_1/akuntan/akuntan_main_page.dart';
+import 'package:flutter_application_1/akuntan/page_nota/akuntan_fetch_penjualan_nota.dart';
 import 'package:intl/intl.dart';
-
-import '../main.dart';
 
 class AkuntanVNotaPjln extends StatefulWidget {
   const AkuntanVNotaPjln({Key key}) : super(key: key);
@@ -33,65 +29,9 @@ class _AkuntanVNotaPjlnState extends State<AkuntanVNotaPjln> {
         ListPenjualanObat.add(pjlnObtNota);
       }
       setState(() {
-        widgetLsPjlnObat();
-        widgetTextTotalPenjualanObat();
+        WidgetAkunObat();
       });
     });
-  }
-
-  Widget widgetLsPjlnObat() {
-    if (ListPenjualanObat.length > 0) {
-      return ExpansionTile(title: Text('Daftar Penjualan Obat'), children: [
-        ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: ListPenjualanObat.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: Colors.black,
-                          width: 3.0,
-                        ),
-                      ),
-                    ),
-                    child: ListTile(
-                      onTap: () {},
-                      leading: CircleAvatar(
-                        child: Text('${index + 1}'),
-                      ),
-                      title: Text('${ListPenjualanObat[index].nama}'),
-                      subtitle: Text(
-                          '${ListPenjualanObat[index].tgl_resep.substring(0, 10)}\n${ListPenjualanObat[index].jumlah} x ${numberFormatRp.format(int.parse(ListPenjualanObat[index].harga))} |  Total:Rp ${numberFormatRp.format(ListPenjualanObat[index].total_harga)}'),
-                    ),
-                  ));
-            }),
-      ]);
-    } else {
-      return Column(
-        children: [
-          CircularProgressIndicator(),
-          Text('data tidak ditemukan'),
-        ],
-      );
-    }
-  }
-
-  Widget widgetTextTotalPenjualanObat() {
-    int total = 0;
-    if (ListPenjualanObat.length > 0) {
-      print('ListPenjualanObat.length: ${ListPenjualanObat.length}');
-      for (var i = 0; i < ListPenjualanObat.length; i++) {
-        total += ListPenjualanObat[i].total_harga;
-      }
-      print(total.toString());
-      return ListTile(
-          title:
-              Text('Total Penjualan Obat Rp ${numberFormatRp.format(total)}'));
-    }
   }
 
   var controllerdate = TextEditingController();
@@ -138,6 +78,7 @@ class _AkuntanVNotaPjlnState extends State<AkuntanVNotaPjln> {
                       .then((value) {
                     setState(() {
                       controllerdate.text = value.toString().substring(0, 10);
+                      // baca data seluruh nota transaksi yg ada di klinik
                       AkunanBacaDataPenjualanObat(controllerdate.text);
                       print('showDatePicker : ${controllerdate.text}');
                     });
@@ -170,11 +111,8 @@ class _AkuntanVNotaPjlnState extends State<AkuntanVNotaPjln> {
           body: ListView(
             children: [
               widgetSelectTgl(),
-              widgetLsPjlnObat(),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Center(child: widgetTextTotalPenjualanObat()),
-              ),
+              WidgetAkunObat(),
+              Divider(),
             ],
           )),
     );
