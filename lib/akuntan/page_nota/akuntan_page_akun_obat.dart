@@ -10,14 +10,15 @@ class WidgetAkunObat extends StatefulWidget {
 }
 
 class _WidgetAkunObatState extends State<WidgetAkunObat> {
+  
   var numberFormatRp = new NumberFormat("#,##0", "id_ID");
   Widget widgetListObat() {
-    if (ListPenjualanObat.length > 0) {
+    if (ListPenjualanObats.length > 0) {
       return ExpansionTile(title: Text('Daftar Penjualan Obat'), children: [
         ListView.builder(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            itemCount: ListPenjualanObat.length,
+            itemCount: ListPenjualanObats.length,
             itemBuilder: (context, index) {
               return Padding(
                   padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -35,9 +36,9 @@ class _WidgetAkunObatState extends State<WidgetAkunObat> {
                       leading: CircleAvatar(
                         child: Text('${index + 1}'),
                       ),
-                      title: Text('${ListPenjualanObat[index].nama}'),
+                      title: Text('${ListPenjualanObats[index].nama}'),
                       subtitle: Text(
-                          '${ListPenjualanObat[index].tgl_resep.substring(0, 10)}\n${ListPenjualanObat[index].jumlah} x ${numberFormatRp.format(int.parse(ListPenjualanObat[index].harga))} |  Total:Rp ${numberFormatRp.format(ListPenjualanObat[index].total_harga)}'),
+                          '${ListPenjualanObats[index].tgl_resep.substring(0, 10)}\n${ListPenjualanObats[index].jumlah} x ${numberFormatRp.format(int.parse(ListPenjualanObats[index].harga))} |  Total:Rp ${numberFormatRp.format(ListPenjualanObats[index].total_harga)}'),
                     ),
                   ));
             }),
@@ -54,10 +55,10 @@ class _WidgetAkunObatState extends State<WidgetAkunObat> {
 
   Widget widgetTextTotalPenjualanObat() {
     int total = 0;
-    if (ListPenjualanObat.length > 0) {
-      print('ListPenjualanObat.length: ${ListPenjualanObat.length}');
-      for (var i = 0; i < ListPenjualanObat.length; i++) {
-        total += ListPenjualanObat[i].total_harga;
+    if (ListPenjualanObats.length > 0) {
+      print('ListPenjualanObat.length: ${ListPenjualanObats.length}');
+      for (var i = 0; i < ListPenjualanObats.length; i++) {
+        total += ListPenjualanObats[i].total_harga;
       }
       print(total.toString());
       return Padding(

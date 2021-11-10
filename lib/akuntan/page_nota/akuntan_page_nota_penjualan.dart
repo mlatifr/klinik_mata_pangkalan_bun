@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_jasmed.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_obat.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,10 +15,30 @@ class AkuntanVNotaPjln extends StatefulWidget {
 
 class _AkuntanVNotaPjlnState extends State<AkuntanVNotaPjln> {
   var numberFormatRp = new NumberFormat("#,##0", "id_ID");
+//baca data nota akun jasmed
+// ignore: non_constant_identifier_names
+  AkunanBacaDataPenjualanjasmed(tgl) {
+    ListPenjualanJasmeds.clear();
+    Future<String> data = fetchDataVPenjualanJasmed(tgl);
+    data.then((value) {
+      //Mengubah json menjadi Array
+      // ignore: unused_local_variable
+      Map json = jsonDecode(value);
+      for (var i in json['data']) {
+        print(i);
+        AkuntanVPenjualanJasmed pjlnJsmdNota =
+            AkuntanVPenjualanJasmed.fromJson(i);
+        ListPenjualanJasmeds.add(pjlnJsmdNota);
+      }
+      setState(() {
+        WidgetAkunJasmed();
+      });
+    });
+  } //baca data nota akun obat
 
 // ignore: non_constant_identifier_names
   AkunanBacaDataPenjualanObat(tgl) {
-    ListPenjualanObat.clear();
+    ListPenjualanObats.clear();
     Future<String> data = fetchDataVPenjualanObat(tgl);
     data.then((value) {
       //Mengubah json menjadi Array
@@ -26,7 +47,7 @@ class _AkuntanVNotaPjlnState extends State<AkuntanVNotaPjln> {
       for (var i in json['data']) {
         print(i);
         AkuntanVPenjualanObat pjlnObtNota = AkuntanVPenjualanObat.fromJson(i);
-        ListPenjualanObat.add(pjlnObtNota);
+        ListPenjualanObats.add(pjlnObtNota);
       }
       setState(() {
         WidgetAkunObat();
@@ -80,6 +101,7 @@ class _AkuntanVNotaPjlnState extends State<AkuntanVNotaPjln> {
                       controllerdate.text = value.toString().substring(0, 10);
                       // baca data seluruh nota transaksi yg ada di klinik
                       AkunanBacaDataPenjualanObat(controllerdate.text);
+                      AkunanBacaDataPenjualanjasmed(controllerdate.text);
                       print('showDatePicker : ${controllerdate.text}');
                     });
                   });
@@ -113,6 +135,7 @@ class _AkuntanVNotaPjlnState extends State<AkuntanVNotaPjln> {
               widgetSelectTgl(),
               WidgetAkunObat(),
               Divider(),
+              WidgetAkunJasmed(),
             ],
           )),
     );

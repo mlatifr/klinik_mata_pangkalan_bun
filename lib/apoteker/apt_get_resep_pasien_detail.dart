@@ -46,7 +46,7 @@ class ApotekerVKeranjangObatDokter {
       obat_id: json['obat_id'],
       nama: json['nama'],
       dosis: json['dosis'],
-      jumlah: json['dosis'],
+      jumlah: json['jumlah'],
     );
   }
 }

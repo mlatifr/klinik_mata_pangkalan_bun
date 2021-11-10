@@ -143,7 +143,7 @@ class _KsrAntreanPasienState extends State<KsrAntreanPasien> {
     controllerdate.text = date.toString().substring(0, 10);
     KasirBacaDataVAntrean(controllerdate.text);
     KVAs = [];
-    functionTimerRefresh();
+    // functionTimerRefresh();
     super.initState();
   }
 
