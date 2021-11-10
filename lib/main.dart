@@ -26,6 +26,7 @@ String status_antrean, navigateToNomorAntrean;
 int antrean_sekarang, antrean_terakhir, batas_antrean;
 String APIurl = "https://192.168.1.8/tugas_akhir/";
 // String APIurl = "https://192.168.43.5/tugas_akhir/";
+// String APIurl = "http://kmtpbun.ddnsking.com//tugas_akhir/";
 void getUserId() async {
   final prefs = await SharedPreferences.getInstance();
   useridMainDart = prefs.getString("userid");

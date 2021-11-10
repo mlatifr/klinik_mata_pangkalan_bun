@@ -2,8 +2,10 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/akuntan/akuntan_input_penjurnalan.dart';
+import 'package:flutter_application_1/akuntan/akuntan_keranjang_penjurnalan.dart';
+import 'package:flutter_application_1/akuntan/akuntan_page_input_penjurnalan.dart';
 import 'package:flutter_application_1/akuntan/akuntan_page_nota_penjualan.dart';
+import 'package:flutter_application_1/akuntan/akuntan_page_split_view.dart';
 import 'package:flutter_application_1/akuntan/akuntan_send_transaksi_penjurnalan.dart';
 import 'package:http/http.dart' as http;
 import '../main.dart';
@@ -54,9 +56,22 @@ class _AkuntanMainPageState extends State<AkuntanMainPage> {
             },
           ),
           ListTile(
+            title: Text('Split View'),
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => VerticalSplitView(
+                            window1: AkuntanVNotaPjln(),
+                            window2: AkuntanInputPenjurnalan(),
+                            window3: AkuntanVNotaPjln(),
+                          )));
+            },
+          ),
+          ListTile(
             title: Text('Logout'),
             onTap: () {
-              Navigator.pop(context);
+              // Navigator.pop(context);
               // _timerForInter.cancel();
               doLogout();
             },

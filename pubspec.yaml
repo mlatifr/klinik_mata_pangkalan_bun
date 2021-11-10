@@ -21,6 +21,9 @@ environment:
   sdk: ">=2.7.0 <3.0.0"
 
 dependencies:
+  dio: ^4.0.1
+  connectivity: ^0.4.9
+  connectivity_for_web: ^0.3.0
   image_picker: ^0.7.5+3
   http: 0.13.1
   shared_preferences: ^0.5.12+4

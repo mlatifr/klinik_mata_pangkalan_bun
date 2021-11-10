@@ -3,7 +3,7 @@ import 'package:month_picker_dialog/month_picker_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/akuntan/akuntan_fetch_penjualanObat.dart';
-import 'package:flutter_application_1/akuntan/akuntan_input_penjurnalan.dart';
+import 'package:flutter_application_1/akuntan/akuntan_page_input_penjurnalan.dart';
 import 'package:flutter_application_1/akuntan/akuntan_main_page.dart';
 import 'package:intl/intl.dart';
 
@@ -130,14 +130,14 @@ class _AkuntanVNotaPjlnState extends State<AkuntanVNotaPjln> {
             )),
             ElevatedButton(
                 onPressed: () {
-                  showMonthPicker(
+                  showDatePicker(
                           context: context,
                           initialDate: DateTime.now(),
                           firstDate: DateTime(2000),
                           lastDate: DateTime(2200))
                       .then((value) {
                     setState(() {
-                      controllerdate.text = value.toString().substring(0, 7);
+                      controllerdate.text = value.toString().substring(0, 10);
                       AkunanBacaDataPenjualanObat(controllerdate.text);
                       print('showDatePicker : ${controllerdate.text}');
                     });
