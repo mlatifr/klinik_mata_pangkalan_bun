@@ -52,6 +52,19 @@ class _PagePasienDaftarBaruState extends State<PagePasienDaftarBaru> {
       );
   }
 
+  Widget widgetSandiCheck() {
+    if (_controllerSandi.text == _controllerSandi2.text) {
+      return Icon(
+        Icons.check,
+        color: Colors.green,
+      );
+    } else
+      return Icon(
+        Icons.cancel_sharp,
+        color: Colors.red,
+      );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -63,7 +76,15 @@ class _PagePasienDaftarBaruState extends State<PagePasienDaftarBaru> {
           leading: IconButton(
               icon: Icon(Icons.arrow_back),
               // onPressed: () => Navigator.of(context).pop(),
-              onPressed: () => Navigator.pop(context)),
+              onPressed: () {
+                _controllerUsername.clear();
+                _controllerSandi.clear();
+                _controllerSandi2.clear();
+                _controllerTglLahir.clear();
+                _controllersNik.clear();
+                _controllersNamaLengkap.clear();
+                Navigator.pop(context);
+              }),
         ),
         body: ListView(
           padding: EdgeInsets.all(20),
@@ -103,42 +124,62 @@ class _PagePasienDaftarBaruState extends State<PagePasienDaftarBaru> {
               height: 10,
             ),
             TextFormField(
+                controller: _controllerSandi,
+                obscureText: true,
                 decoration: InputDecoration(
-              labelText: "Sandi",
-              fillColor: Colors.white,
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: BorderSide(
-                  color: Colors.blue,
-                ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: BorderSide(
-                  color: Colors.blue,
-                ),
-              ),
-            )),
+                  labelText: "Sandi",
+                  fillColor: Colors.white,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide(
+                      color: Colors.blue,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide(
+                      color: Colors.blue,
+                    ),
+                  ),
+                )),
             SizedBox(
               height: 10,
             ),
-            TextFormField(
-                decoration: InputDecoration(
-              labelText: "Ulangi Sandi",
-              fillColor: Colors.white,
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: BorderSide(
-                  color: Colors.blue,
+            Row(
+              children: [
+                Expanded(
+                  flex: 8,
+                  child: TextFormField(
+                      controller: _controllerSandi2,
+                      onChanged: (value) {
+                        setState(() {
+                          widgetSandiCheck();
+                        });
+                      },
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        labelText: "Ulangi Sandi",
+                        fillColor: Colors.white,
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(
+                            color: Colors.blue,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(
+                            color: Colors.blue,
+                          ),
+                        ),
+                      )),
                 ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: BorderSide(
-                  color: Colors.blue,
-                ),
-              ),
-            )),
+                Expanded(flex: 2, child: widgetSandiCheck())
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
             TextFormField(
                 decoration: InputDecoration(
               labelText: "NIK: Nomor Induk Kependudukan",
@@ -223,47 +264,57 @@ class _PagePasienDaftarBaruState extends State<PagePasienDaftarBaru> {
             SizedBox(
               height: 10,
             ),
-            Padding(
-                padding: EdgeInsets.all(10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: [
-                    Expanded(
-                        child: TextFormField(
-                      enabled: false,
-                      decoration: InputDecoration(
-                        labelText: 'Tanggal Lahir',
-                        fillColor: Colors.white,
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide(
-                            color: Colors.blue,
+            Container(
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Expanded(
+                      flex: 4,
+                      child: TextField(
+                        enabled: false,
+                        decoration: InputDecoration(
+                          labelText: 'Tanggal Lahir',
+                          fillColor: Colors.white,
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(10.0),
+                            borderSide: BorderSide(
+                              color: Colors.blue,
+                            ),
                           ),
                         ),
-                      ),
-                      controller: _controllerTglLahir,
-                    )),
-                    ElevatedButton(
-                        onPressed: () {
-                          showDatePicker(
-                                  context: context,
-                                  initialDate: DateTime.now(),
-                                  firstDate: DateTime(2000),
-                                  lastDate: DateTime(2200))
-                              .then((value) {
-                            setState(() {
-                              _controllerTglLahir.text =
-                                  value.toString().substring(0, 10);
+                        controller: _controllerTglLahir,
+                      )),
+                  Expanded(
+                    flex: 2,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 8.0),
+                      child: ElevatedButton(
+                          onPressed: () {
+                            showDatePicker(
+                                    context: context,
+                                    initialDate: DateTime.now(),
+                                    firstDate: DateTime(2000),
+                                    lastDate: DateTime(2200))
+                                .then((value) {
+                              setState(() {
+                                _controllerTglLahir.text =
+                                    value.toString().substring(0, 10);
+                              });
                             });
-                          });
-                        },
-                        child: Icon(
-                          Icons.calendar_today_sharp,
-                          color: Colors.white,
-                          size: 24.0,
-                        ))
-                  ],
-                )),
+                          },
+                          child: Icon(
+                            Icons.calendar_today_sharp,
+                            color: Colors.white,
+                            size: 32.0,
+                          )),
+                    ),
+                  )
+                ],
+              ),
+            ),
+            SizedBox(
+              height: 10,
+            ),
             TextFormField(
                 decoration: InputDecoration(
               labelText: "Tanggal Lahir",
