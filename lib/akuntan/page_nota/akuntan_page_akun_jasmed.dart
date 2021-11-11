@@ -35,9 +35,9 @@ class _WidgetAkunJasmedState extends State<WidgetAkunJasmed> {
                       leading: CircleAvatar(
                         child: Text('${index + 1}'),
                       ),
-                      title: Text('${ListPenjualanJasmeds[index].tgl_resep}'),
+                      title: Text('${ListPenjualanJasmeds[index].nama_pasien}'),
                       subtitle: Text(
-                          '${ListPenjualanJasmeds[index].tgl_resep.substring(0, 10)}'),
+                          '${ListPenjualanJasmeds[index].tgl_resep} \nRp ${numberFormatRp.format(ListPenjualanJasmeds[index].harga)}'),
                     ),
                   ));
             }),
@@ -49,7 +49,7 @@ class _WidgetAkunJasmedState extends State<WidgetAkunJasmed> {
   Widget widgetTextTotalPenjualanJasmed() {
     int total = 0;
     if (ListPenjualanJasmeds.length > 0) {
-      print('ListPenjualanObat.length: ${ListPenjualanJasmeds.length}');
+      print('ListPenjualanJasmed.length: ${ListPenjualanJasmeds.length}');
       for (var i = 0; i < ListPenjualanJasmeds.length; i++) {
         total += ListPenjualanJasmeds[i].harga;
       }

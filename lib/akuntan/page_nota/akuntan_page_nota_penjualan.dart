@@ -45,7 +45,7 @@ class _AkuntanVNotaPjlnState extends State<AkuntanVNotaPjln> {
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
       for (var i in json['data']) {
-        print(i);
+        // print(i);
         AkuntanVPenjualanObat pjlnObtNota = AkuntanVPenjualanObat.fromJson(i);
         ListPenjualanObats.add(pjlnObtNota);
       }

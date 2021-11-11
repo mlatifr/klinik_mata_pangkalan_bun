@@ -9,11 +9,12 @@ import 'package:http/http.dart' as http;
 List<AkuntanVPenjualanJasmed> ListPenjualanJasmeds = [];
 
 class AkuntanVPenjualanJasmed {
-  var tgl_resep, harga;
-  AkuntanVPenjualanJasmed({this.tgl_resep, this.harga});
+  var nama_pasien, tgl_resep, harga;
+  AkuntanVPenjualanJasmed({this.nama_pasien, this.tgl_resep, this.harga});
   // untuk convert dari jSon
   factory AkuntanVPenjualanJasmed.fromJson(Map<String, dynamic> json) {
     return new AkuntanVPenjualanJasmed(
+      nama_pasien: json['nama_pasien'],
       tgl_resep: json['periode_transaksi'],
       harga: json['jasa_medis'],
     );
@@ -26,7 +27,7 @@ Future<String> fetchDataVPenjualanJasmed(p_tgl_catat) async {
     'tgl_transaksi': p_tgl_catat.toString(),
   });
   if (response.statusCode == 200) {
-    print('fetchDataVPenjualanObat: ${response.body}');
+    print('fetchDataVPenjualanJasmed: ${response.body}');
     return response.body;
   } else {
     throw Exception('Failed to read API');
