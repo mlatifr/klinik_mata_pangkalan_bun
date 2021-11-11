@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/pasien/pendaftaran_pasien_baru/pendaftaran_pasien_baru.dart';
 import 'main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
@@ -239,7 +240,10 @@ class _LoginPageState extends State<LoginPage> {
                         backgroundColor: Colors.blue[200],
                       ),
                       onPressed: () {
-                        doDaftar();
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => PagePasienDaftarBaru()));
                       },
                       child: Text(
                         'DAFTAR',

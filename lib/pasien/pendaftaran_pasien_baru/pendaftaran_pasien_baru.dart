@@ -1,23 +1,57 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/login.dart';
+import 'package:flutter_application_1/pasien/pendaftaran_pasien_baru/pasien_cek_available.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../main.dart';
+import '../../main.dart';
 
-final _controllerdate = TextEditingController();
-void doLogout() async {
-  final prefs = await SharedPreferences.getInstance();
-  prefs.remove("user_id");
-  main();
-}
+final _controllerTglLahir = TextEditingController();
+final _controllerUsername = TextEditingController();
+final _controllerSandi = TextEditingController();
+final _controllerSandi2 = TextEditingController();
+final _controllersNik = TextEditingController();
+final _controllersNamaLengkap = TextEditingController();
+String AvailableUsername = '';
 
-class DaftarPasienBaru extends StatefulWidget {
-  const DaftarPasienBaru({Key key}) : super(key: key);
+class PagePasienDaftarBaru extends StatefulWidget {
+  const PagePasienDaftarBaru({Key key}) : super(key: key);
 
   @override
-  _DaftarPasienBaruState createState() => _DaftarPasienBaruState();
+  _PagePasienDaftarBaruState createState() => _PagePasienDaftarBaruState();
 }
 
-class _DaftarPasienBaruState extends State<DaftarPasienBaru> {
+class _PagePasienDaftarBaruState extends State<PagePasienDaftarBaru> {
+  PasienBacaDataAvailableUsername(username) {
+    AvailableUsername = '';
+    Future<String> data = fetchDataAvailableUsername(username);
+    data.then((value) {
+      //Mengubah json menjadi string
+      // ignore: unused_local_variable
+      Map json = jsonDecode(value);
+      if (json['data'] == 'username available') {
+        AvailableUsername = json['data'].toString();
+      }
+      setState(() {
+        widgetUsernameCheck();
+      });
+    });
+  }
+
+  Widget widgetUsernameCheck() {
+    if (AvailableUsername == 'username available') {
+      return Icon(
+        Icons.check,
+        color: Colors.green,
+      );
+    } else
+      return Icon(
+        Icons.cancel_sharp,
+        color: Colors.red,
+      );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -27,51 +61,44 @@ class _DaftarPasienBaruState extends State<DaftarPasienBaru> {
           title: Text('Pendaftaran Pasien Baru'),
           centerTitle: true,
           leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            // onPressed: () => Navigator.of(context).pop(),
-            onPressed: () => doLogout(),
-          ),
+              icon: Icon(Icons.arrow_back),
+              // onPressed: () => Navigator.of(context).pop(),
+              onPressed: () => Navigator.pop(context)),
         ),
         body: ListView(
           padding: EdgeInsets.all(20),
           children: <Widget>[
-            TextFormField(
-                decoration: InputDecoration(
-              labelText: "NIK: Nomor Induk Kependudukan",
-              fillColor: Colors.white,
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: BorderSide(
-                  color: Colors.blue,
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Expanded(
+                  flex: 8,
+                  child: TextFormField(
+                      controller: _controllerUsername,
+                      onChanged: (value) {
+                        PasienBacaDataAvailableUsername(
+                            _controllerUsername.text);
+                      },
+                      decoration: InputDecoration(
+                        labelText: "Username",
+                        fillColor: Colors.white,
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(
+                            color: Colors.blue,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(
+                            color: Colors.blue,
+                          ),
+                        ),
+                      )),
                 ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: BorderSide(
-                  color: Colors.blue,
-                ),
-              ),
-            )),
-            SizedBox(
-              height: 10,
+                Expanded(flex: 2, child: widgetUsernameCheck())
+              ],
             ),
-            TextFormField(
-                decoration: InputDecoration(
-              labelText: "Nama Lengkap",
-              fillColor: Colors.white,
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: BorderSide(
-                  color: Colors.blue,
-                ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: BorderSide(
-                  color: Colors.blue,
-                ),
-              ),
-            )),
             SizedBox(
               height: 10,
             ),
@@ -112,6 +139,46 @@ class _DaftarPasienBaruState extends State<DaftarPasienBaru> {
                 ),
               ),
             )),
+            TextFormField(
+                decoration: InputDecoration(
+              labelText: "NIK: Nomor Induk Kependudukan",
+              fillColor: Colors.white,
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: BorderSide(
+                  color: Colors.blue,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: BorderSide(
+                  color: Colors.blue,
+                ),
+              ),
+            )),
+            SizedBox(
+              height: 10,
+            ),
+            TextFormField(
+                decoration: InputDecoration(
+              labelText: "Nama Lengkap",
+              fillColor: Colors.white,
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: BorderSide(
+                  color: Colors.blue,
+                ),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(10.0),
+                borderSide: BorderSide(
+                  color: Colors.blue,
+                ),
+              ),
+            )),
+            SizedBox(
+              height: 10,
+            ),
             SizedBox(
               height: 10,
             ),
@@ -174,7 +241,7 @@ class _DaftarPasienBaruState extends State<DaftarPasienBaru> {
                           ),
                         ),
                       ),
-                      controller: _controllerdate,
+                      controller: _controllerTglLahir,
                     )),
                     ElevatedButton(
                         onPressed: () {
@@ -185,7 +252,7 @@ class _DaftarPasienBaruState extends State<DaftarPasienBaru> {
                                   lastDate: DateTime(2200))
                               .then((value) {
                             setState(() {
-                              _controllerdate.text =
+                              _controllerTglLahir.text =
                                   value.toString().substring(0, 10);
                             });
                           });
