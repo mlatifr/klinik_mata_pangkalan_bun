@@ -133,9 +133,9 @@ class _AkuntanVNotaPjlnState extends State<AkuntanVNotaPjln> {
           body: ListView(
             children: [
               widgetSelectTgl(),
-              WidgetAkunObat(),
-              Divider(),
               WidgetAkunJasmed(),
+              Divider(),
+              WidgetAkunObat(),
             ],
           )),
     );

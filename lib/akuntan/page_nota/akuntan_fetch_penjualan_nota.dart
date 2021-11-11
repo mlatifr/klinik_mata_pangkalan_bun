@@ -5,7 +5,35 @@ import 'dart:convert';
 import 'package:flutter_application_1/main.dart';
 import 'package:http/http.dart' as http;
 
-//untuk akun jasmed
+//untuk akun admin
+List<AkuntanVPenjualanJasmed> ListPenjualanAdmins = [];
+
+class AkuntanVPenjualanAdmin {
+  var nama_pasien, tgl_resep, harga;
+  AkuntanVPenjualanAdmin({this.nama_pasien, this.tgl_resep, this.harga});
+  // untuk convert dari jSon
+  factory AkuntanVPenjualanAdmin.fromJson(Map<String, dynamic> json) {
+    return new AkuntanVPenjualanAdmin(
+      nama_pasien: json['nama_pasien'],
+      tgl_resep: json['periode_transaksi'],
+      harga: json['jasa_medis'],
+    );
+  }
+}
+
+Future<String> fetchDataVPenjualanAdmin(p_tgl_catat) async {
+  final response =
+      await http.post(Uri.parse(APIurl + "akuntan_v_pjualan_admin.php"), body: {
+    'tgl_transaksi': p_tgl_catat.toString(),
+  });
+  if (response.statusCode == 200) {
+    print('fetchDataVPenjualanJasmed: ${response.body}');
+    return response.body;
+  } else {
+    throw Exception('Failed to read API');
+  }
+} //untuk akun jasmed
+
 List<AkuntanVPenjualanJasmed> ListPenjualanJasmeds = [];
 
 class AkuntanVPenjualanJasmed {
