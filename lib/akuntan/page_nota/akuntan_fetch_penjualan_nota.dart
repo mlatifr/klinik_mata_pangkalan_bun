@@ -6,17 +6,17 @@ import 'package:flutter_application_1/main.dart';
 import 'package:http/http.dart' as http;
 
 //untuk akun admin
-List<AkuntanVPenjualanJasmed> ListPenjualanAdmins = [];
+List<AkuntanVPenjualanAdmin> ListPenjualanAdmins = [];
 
 class AkuntanVPenjualanAdmin {
-  var nama_pasien, tgl_resep, harga;
-  AkuntanVPenjualanAdmin({this.nama_pasien, this.tgl_resep, this.harga});
+  var nama_pasien, tgl_transaksi, harga;
+  AkuntanVPenjualanAdmin({this.nama_pasien, this.tgl_transaksi, this.harga});
   // untuk convert dari jSon
   factory AkuntanVPenjualanAdmin.fromJson(Map<String, dynamic> json) {
     return new AkuntanVPenjualanAdmin(
       nama_pasien: json['nama_pasien'],
-      tgl_resep: json['periode_transaksi'],
-      harga: json['jasa_medis'],
+      tgl_transaksi: json['tgl_transaksi'],
+      harga: json['total_admin'],
     );
   }
 }
@@ -32,8 +32,9 @@ Future<String> fetchDataVPenjualanAdmin(p_tgl_catat) async {
   } else {
     throw Exception('Failed to read API');
   }
-} //untuk akun jasmed
+}
 
+//untuk akun jasmed
 List<AkuntanVPenjualanJasmed> ListPenjualanJasmeds = [];
 
 class AkuntanVPenjualanJasmed {

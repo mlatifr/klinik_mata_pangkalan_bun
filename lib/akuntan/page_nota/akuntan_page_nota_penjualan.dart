@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_admin.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_jasmed.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_obat.dart';
 import 'package:flutter/material.dart';
@@ -15,6 +16,27 @@ class AkuntanVNotaPjln extends StatefulWidget {
 
 class _AkuntanVNotaPjlnState extends State<AkuntanVNotaPjln> {
   var numberFormatRp = new NumberFormat("#,##0", "id_ID");
+//baca data nota akun jasmed
+// ignore: non_constant_identifier_names
+  AkunanBacaDataPenjualanAdmin(tgl) {
+    ListPenjualanJasmeds.clear();
+    Future<String> data = fetchDataVPenjualanAdmin(tgl);
+    data.then((value) {
+      //Mengubah json menjadi Array
+      // ignore: unused_local_variable
+      Map json = jsonDecode(value);
+      for (var i in json['data']) {
+        print(i);
+        AkuntanVPenjualanAdmin pjlnAdminNota =
+            AkuntanVPenjualanAdmin.fromJson(i);
+        ListPenjualanAdmins.add(pjlnAdminNota);
+      }
+      setState(() {
+        WidgetAkunJasmed();
+      });
+    });
+  }
+
 //baca data nota akun jasmed
 // ignore: non_constant_identifier_names
   AkunanBacaDataPenjualanjasmed(tgl) {
@@ -34,8 +56,9 @@ class _AkuntanVNotaPjlnState extends State<AkuntanVNotaPjln> {
         WidgetAkunJasmed();
       });
     });
-  } //baca data nota akun obat
+  }
 
+//baca data nota akun obat
 // ignore: non_constant_identifier_names
   AkunanBacaDataPenjualanObat(tgl) {
     ListPenjualanObats.clear();
@@ -102,6 +125,7 @@ class _AkuntanVNotaPjlnState extends State<AkuntanVNotaPjln> {
                       // baca data seluruh nota transaksi yg ada di klinik
                       AkunanBacaDataPenjualanObat(controllerdate.text);
                       AkunanBacaDataPenjualanjasmed(controllerdate.text);
+                      AkunanBacaDataPenjualanAdmin(controllerdate.text);
                       print('showDatePicker : ${controllerdate.text}');
                     });
                   });
@@ -136,6 +160,8 @@ class _AkuntanVNotaPjlnState extends State<AkuntanVNotaPjln> {
               WidgetAkunJasmed(),
               Divider(),
               WidgetAkunObat(),
+              Divider(),
+              WidgetAkunAdmin(),
             ],
           )),
     );

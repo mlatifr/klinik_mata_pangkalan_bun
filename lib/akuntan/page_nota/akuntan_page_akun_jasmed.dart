@@ -58,7 +58,7 @@ class _WidgetAkunJasmedState extends State<WidgetAkunJasmed> {
         padding: const EdgeInsets.all(8.0),
         child: ListTile(
             title: Text(
-                'Total Penjualan Obat Rp ${numberFormatRp.format(total)}')),
+                'Total Penjualan Jasmed Rp ${numberFormatRp.format(total)}')),
       );
     } else
       return Container();
