@@ -4,21 +4,66 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/pasien/pendaftaran_pasien_baru/pasien_cek_available.dart';
 
-final _controllerTglLahir = TextEditingController();
 final _controllerUsername = TextEditingController();
 final _controllerSandi = TextEditingController();
 final _controllerSandi2 = TextEditingController();
 final _controllerNik = TextEditingController();
 final _controllerNamaLengkap = TextEditingController();
-final _controllerAlamat = TextEditingController();
+final _controllerTglLahir = TextEditingController();
 final _controllerTempatLahir = TextEditingController();
+final _controllerKelamin = TextEditingController();
+final _controllerGolonganDarah = TextEditingController();
+final _controllerAgama = TextEditingController();
+final _controllerPekerjaan = TextEditingController();
+final _controllerKewarganegaraan = TextEditingController();
+final _controllerAlamat = TextEditingController();
 final _controllerTelepon = TextEditingController();
-String availableUsername, valueStatusPernikahan = '';
+String availableUsername,
+    valueStatusPernikahan,
+    valueKelamin,
+    valueGolonganDarah,
+    valueAgama,
+    valuePekerjaan = '';
 List<String> listStatusPernikahans = [
   'belum kawin',
   'kawin',
   'cerai hidup',
   'cerai mati'
+];
+List<String> listStatusKelamin = ['Laki-laki', 'Perempuan'];
+List<String> listStatusGolonganDarah = [
+  'A',
+  'B',
+  'AB',
+  'O',
+  'A+',
+  'A‑',
+  'B+',
+  'B‑',
+  'AB+',
+  'AB‑',
+  'O+',
+  'O‑'
+];
+List<String> listStatusAgama = [
+  'Islam',
+  'Kristen',
+  'Katolik',
+  'Budha',
+  'Hindu',
+  'Konghuchu'
+];
+List<String> listStatusPekerjaan = [
+  '-',
+  'Belum/ Tidak Bekerja',
+  'Mengurus Rumah Tangga',
+  'Pelajar/ Mahasiswa',
+  'Pensiunan',
+  'Pewagai Negeri Sipil',
+  'Tentara Nasional Indonesia',
+  'Kepolisisan RI',
+  'Wiraswasta',
+  'Karyawan Swasta',
 ];
 
 class PagePasienDaftarBaru extends StatefulWidget {
@@ -110,11 +155,19 @@ class _PagePasienDaftarBaruState extends State<PagePasienDaftarBaru> {
     availableUsername = '';
     valueStatusPernikahan = 'belum kawin';
     _controllerUsername.clear();
-    _controllerSandi.text = '';
+    _controllerSandi.clear();
     _controllerSandi2.clear();
-    _controllerTglLahir.clear();
     _controllerNik.clear();
     _controllerNamaLengkap.clear();
+    _controllerTglLahir.clear();
+    _controllerTempatLahir.clear();
+    _controllerKelamin.clear();
+    _controllerGolonganDarah.clear();
+    _controllerAgama.clear();
+    _controllerPekerjaan.clear();
+    _controllerKewarganegaraan.clear();
+    _controllerAlamat.clear();
+    _controllerTelepon.clear();
     super.initState();
   }
 
@@ -397,7 +450,7 @@ class _PagePasienDaftarBaruState extends State<PagePasienDaftarBaru> {
                   child: TextFormField(
                       enabled: false,
                       decoration: InputDecoration(
-                        labelText: "Status pernikahan: ",
+                        labelText: "Jenis Kelamin: ",
                         fillColor: Colors.white,
                         enabledBorder: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10.0),
@@ -417,9 +470,9 @@ class _PagePasienDaftarBaruState extends State<PagePasienDaftarBaru> {
                   flex: 2,
                   child: DropdownButton(
                     itemHeight: 88.0,
-                    hint: Text("Status Pernikahan"),
-                    value: valueStatusPernikahan,
-                    items: listStatusPernikahans.map((value) {
+                    hint: Text("Jenis Kelamin"),
+                    value: valueKelamin,
+                    items: listStatusKelamin.map((value) {
                       return DropdownMenuItem(
                         child: Text(value),
                         value: value,
@@ -427,7 +480,57 @@ class _PagePasienDaftarBaruState extends State<PagePasienDaftarBaru> {
                     }).toList(),
                     onChanged: (value) {
                       setState(() {
-                        valueStatusPernikahan = value;
+                        valueKelamin = value;
+                        _controllerKelamin.text = value;
+                        print('$valueKelamin');
+                      });
+                    },
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: TextFormField(
+                      enabled: false,
+                      decoration: InputDecoration(
+                        labelText: "Golongan Darah: ",
+                        fillColor: Colors.white,
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(
+                            color: Colors.blue,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(
+                            color: Colors.blue,
+                          ),
+                        ),
+                      )),
+                ),
+                Expanded(
+                  flex: 2,
+                  child: DropdownButton(
+                    itemHeight: 88.0,
+                    hint: Text("Golongan Darah"),
+                    value: valueGolonganDarah,
+                    items: listStatusGolonganDarah.map((value) {
+                      return DropdownMenuItem(
+                        child: Text(value),
+                        value: value,
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        valueGolonganDarah = value;
+                        _controllerGolonganDarah.text = value;
                         print('$valueStatusPernikahan');
                       });
                     },
@@ -476,9 +579,10 @@ class _PagePasienDaftarBaruState extends State<PagePasienDaftarBaru> {
                         style: TextStyle(fontSize: 14),
                       ),
                       content: TextFormField(
+                        enabled: false,
                         maxLines: 8,
                         initialValue:
-                            'Username: ${_controllerUsername.text}\nNIK: ${_controllerNik.text}\nNama: ${_controllerNamaLengkap.text}\nAlamat: ${_controllerAlamat.text}\nTempat Lahir: ${_controllerTempatLahir.text}\nTanggal Lahir: ${_controllerTglLahir.text}\nTlp: ${_controllerTelepon.text}',
+                            'Username: ${_controllerUsername.text}\nNIK: ${_controllerNik.text}\nNama: ${_controllerNamaLengkap.text}\nKelamin: ${_controllerKelamin.text}\nAlamat: ${_controllerAlamat.text}\nTempat Lahir: ${_controllerTempatLahir.text}\nTanggal Lahir: ${_controllerTglLahir.text}\nTlp: ${_controllerTelepon.text}',
                       ),
                       actions: <Widget>[
                         TextButton(
