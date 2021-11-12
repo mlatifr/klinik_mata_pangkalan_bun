@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/kasir/kasir_get_tindakan.dart';
-import 'package:flutter_application_1/login.dart';
 import 'package:flutter_application_1/main.dart';
 import 'kasir_get_resep.dart';
 import 'package:intl/intl.dart';
@@ -26,14 +25,14 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
   void initState() {
     getUserId();
     print('init state $cekInitState');
-    KasirBacaDataVListTindakan(widget.visitId);
+    kasirBacaDataVListTindakan(widget.visitId);
     KasirBacaDataVResep(widget.visitId);
     super.initState();
   }
 
   // ignore: non_constant_identifier_names
   KasirBacaDataVResep(pVisitId) {
-    KVKRs.clear();
+    kVKRs.clear();
     Future<String> data = fetchDataDokterVKeranjangResep(pVisitId);
     data.then((value) {
       numberFormatRpResep = new NumberFormat("#,##0", "id_ID");
@@ -43,7 +42,7 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
       for (var i in json['data']) {
         print('fetchDataDokterVKeranjangTindakan: ${i.toString()}');
         KasirVKeranjangResep kvt = KasirVKeranjangResep.fromJson(i);
-        KVKRs.add(kvt);
+        kVKRs.add(kvt);
       }
       setState(() {
         widgetKeranjangResep();
@@ -51,8 +50,8 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
     });
   }
 
-  KasirBacaDataVListTindakan(pVisitId) {
-    KVKTs.clear();
+  kasirBacaDataVListTindakan(pVisitId) {
+    kVKTs.clear();
     Future<String> data = fetchDataKasirVKeranjangTindakan(pVisitId);
     data.then((value) {
       numberFormatRpTindakan = new NumberFormat("#,##0", "id_ID");
@@ -62,7 +61,7 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
       for (var i in json['data']) {
         print('fetchDataDokterVKeranjangTindakan: ${i.toString()}');
         KasirVKeranjangTindakan kvt = KasirVKeranjangTindakan.fromJson(i);
-        KVKTs.add(kvt);
+        kVKTs.add(kvt);
       }
       setState(() {
         widgetKeranjangTindakan();
@@ -75,10 +74,10 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
   Widget widgetKeranjangResep() {
     hargaKaliObat.clear();
     totalBiayaObat = 0;
-    if (KVKRs.length > 0) {
-      for (var i = 0; i < KVKRs.length; i++) {
+    if (kVKRs.length > 0) {
+      for (var i = 0; i < kVKRs.length; i++) {
         hargaKaliObat
-            .add(int.parse(KVKRs[i].hargaJual) * int.parse(KVKRs[i].jumlah));
+            .add(int.parse(kVKRs[i].hargaJual) * int.parse(kVKRs[i].jumlah));
         // totalBiayaObat = totalBiayaObat + hargaKaliObat[i];
       }
       for (var i = 0; i < hargaKaliObat.length; i++) {
@@ -113,7 +112,7 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
           ListView.builder(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: KVKRs.length,
+              itemCount: kVKRs.length,
               itemBuilder: (context, index) {
                 return Table(
                     border: TableBorder
@@ -121,15 +120,15 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
                     children: [
                       TableRow(children: [
                         Text(
-                          ' $index| ${KVKRs[index].namaObat}',
+                          ' $index| ${kVKRs[index].namaObat}',
                           textAlign: TextAlign.left,
                         ),
                         Text(
-                          '${KVKRs[index].jumlah}',
+                          '${kVKRs[index].jumlah}',
                           textAlign: TextAlign.center,
                         ),
                         Text(
-                          '${numberFormatRpResep.format(int.parse(KVKRs[index].hargaJual))}',
+                          '${numberFormatRpResep.format(int.parse(kVKRs[index].hargaJual))}',
                           textAlign: TextAlign.center,
                         ),
                         Text(
@@ -170,14 +169,14 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
   TextEditingController controllerBiayaAdmin = TextEditingController(text: "0");
   TextEditingController controllerBiayaJasaMedis =
       TextEditingController(text: "0");
-  var totalAdmin, totalMedis, TotalTdknRspAdmMdis;
+  var totalAdmin, totalMedis, totalTdknRspAdmMdis;
   Widget widgetTextTotalPembayaran() {
     totalAdmin = int.parse(controllerBiayaAdmin.text);
     totalMedis = int.parse(controllerBiayaJasaMedis.text);
-    TotalTdknRspAdmMdis =
+    totalTdknRspAdmMdis =
         totalBiayaTindakan + totalBiayaObat + totalAdmin + totalMedis;
     return Text(
-      'Rp ${numberFormatRpResep.format(TotalTdknRspAdmMdis)}',
+      'Rp ${numberFormatRpResep.format(totalTdknRspAdmMdis)}',
       textAlign: TextAlign.center,
     );
   }
@@ -277,9 +276,9 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
   int totalBiayaTindakan = 0;
   Widget widgetKeranjangTindakan() {
     totalBiayaTindakan = 0;
-    if (KVKTs.length > 0) {
-      for (var i = 0; i < KVKTs.length; i++) {
-        totalBiayaTindakan = totalBiayaTindakan + KVKTs[i].harga;
+    if (kVKTs.length > 0) {
+      for (var i = 0; i < kVKTs.length; i++) {
+        totalBiayaTindakan = totalBiayaTindakan + kVKTs[i].harga;
       }
       return Column(
         children: [
@@ -305,7 +304,7 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
           ListView.builder(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: KVKTs.length,
+              itemCount: kVKTs.length,
               itemBuilder: (context, index) {
                 return Table(
                     border: TableBorder
@@ -313,15 +312,15 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
                     children: [
                       TableRow(children: [
                         Text(
-                          '${KVKTs[index].nama}',
+                          '${kVKTs[index].nama}',
                           textAlign: TextAlign.center,
                         ),
                         Text(
-                          '${KVKTs[index].mtSisi}',
+                          '${kVKTs[index].mtSisi}',
                           textAlign: TextAlign.center,
                         ),
                         Text(
-                          '${numberFormatRpTindakan.format(KVKTs[index].harga)}',
+                          '${numberFormatRpTindakan.format(kVKTs[index].harga)}',
                           textAlign: TextAlign.center,
                         ),
                       ]),
@@ -424,7 +423,7 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
                                       widget.visitDate,
                                       controllerBiayaJasaMedis.text,
                                       controllerBiayaAdmin.text,
-                                      TotalTdknRspAdmMdis)
+                                      totalTdknRspAdmMdis)
                                   .then((value) => showDialog<String>(
                                         context: context,
                                         builder: (BuildContext context) =>

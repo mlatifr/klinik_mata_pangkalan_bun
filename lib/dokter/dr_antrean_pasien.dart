@@ -77,7 +77,7 @@ class _DrAntreanPasienState extends State<DrAntreanPasien> {
 
   Future<String> fetchDataDokterAntreanPasien() async {
     final response =
-        await http.post(Uri.parse(APIurl + "dokter_v_antrean.php"), body: {
+        await http.post(Uri.parse(apiUrl + "dokter_v_antrean.php"), body: {
       'tgl_visit': controllerdate.text.toString().substring(0, 10),
       // 'tgl_visit': '2021-10-21',
     });
@@ -152,6 +152,7 @@ class _DrAntreanPasienState extends State<DrAntreanPasien> {
     });
   }
 
+  // ignore: missing_return
   Widget widgetStatusAntrean(int index) {
     if (DVAs[index].statusAntrean.toString() == 'belum') {
       return CircleAvatar(radius: 15, child: Icon(Icons.watch_later_outlined));
@@ -188,7 +189,7 @@ class _DrAntreanPasienState extends State<DrAntreanPasien> {
                                       namaPasien: '${DVAs[index].userName}',
                                       visitId: '${DVAs[index].visitId}',
                                       keluhan: '${DVAs[index].keluhan}',
-                                    ))).then((onGoBack));
+                                    )));
                       },
                       leading: CircleAvatar(
                         child: Text('${index + 1}'),

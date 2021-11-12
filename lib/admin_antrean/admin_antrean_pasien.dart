@@ -14,40 +14,40 @@ var controllerAntreanTerakhir = TextEditingController();
 
 class AdminVAntrean {
   // ignore: non_constant_identifier_names
-  var visit_id,
-      vhu_id,
-      pasien_id,
-      tgl_visit,
+  var visitId,
+      vhuId,
+      pasienId,
+      tglVisit,
       username,
-      nomor_antrean,
-      status_antrean,
+      nomorAntrean,
+      statusAntrean,
       keluhan;
   AdminVAntrean(
-      {this.visit_id,
-      this.vhu_id,
-      this.pasien_id,
-      this.tgl_visit,
+      {this.visitId,
+      this.vhuId,
+      this.pasienId,
+      this.tglVisit,
       this.username,
-      this.nomor_antrean,
-      this.status_antrean,
+      this.nomorAntrean,
+      this.statusAntrean,
       this.keluhan});
 
   // untuk convert dari jSon
   factory AdminVAntrean.fromJson(Map<String, dynamic> json) {
     return new AdminVAntrean(
-      visit_id: json['visit_id'],
-      vhu_id: json['vhu_id'],
-      pasien_id: json['pasien_id'],
-      tgl_visit: json['tgl_visit'],
+      visitId: json['visit_id'],
+      vhuId: json['vhu_id'],
+      pasienId: json['pasien_id'],
+      tglVisit: json['tgl_visit'],
       username: json['username'],
-      nomor_antrean: json['nomor_antrean'],
-      status_antrean: json['status_antrean'],
+      nomorAntrean: json['nomor_antrean'],
+      statusAntrean: json['status_antrean'],
       keluhan: json['keluhan'],
     );
   }
 }
 
-List<AdminVAntrean> AVAs = [];
+List<AdminVAntrean> adminVAntreans = [];
 var antreanSekarang, batasAntrean, antreanTerakhir;
 
 class AdminAntreanPasien extends StatefulWidget {
@@ -80,14 +80,14 @@ class _AdminAntreanPasienState extends State<AdminAntreanPasien> {
     controllerdate.text = date.toString().substring(0, 10);
     AdminBacaDataAntrean();
     AdminBacaDataAntreanSekarangAwal();
-    AVAs = [];
+    adminVAntreans = [];
     functionTimerRefresh();
     super.initState();
   }
 
   Future<String> fetchDataResetAntreanTerakhir() async {
     final response =
-        await http.post(Uri.parse(APIurl + "admin_upd_antrean_now.php"), body: {
+        await http.post(Uri.parse(apiUrl + "admin_upd_antrean_now.php"), body: {
       'antrean_terakhir': '0',
       // 'tgl_visit': '2021-10-21',
     });
@@ -102,7 +102,7 @@ class _AdminAntreanPasienState extends State<AdminAntreanPasien> {
 
   Future<String> fetchDataAntreanSekarangAwal() async {
     final response =
-        await http.post(Uri.parse(APIurl + "pasien_view_antrean_sekarang.php"));
+        await http.post(Uri.parse(apiUrl + "pasien_view_antrean_sekarang.php"));
     if (response.statusCode == 200) {
       return response.body;
     } else {
@@ -112,7 +112,7 @@ class _AdminAntreanPasienState extends State<AdminAntreanPasien> {
 
   // ignore: non_constant_identifier_names
   AdminBacaDataAntreanSekarangAwal() {
-    AVAs.clear();
+    adminVAntreans.clear();
     Future<String> data = fetchDataAntreanSekarangAwal();
     data.then((value) {
       //Mengubah json menjadi Array
@@ -129,7 +129,7 @@ class _AdminAntreanPasienState extends State<AdminAntreanPasien> {
 
   Future<String> fetchDataAntrean() async {
     final response =
-        await http.post(Uri.parse(APIurl + "admin_v_antrean.php"), body: {
+        await http.post(Uri.parse(apiUrl + "admin_v_antrean.php"), body: {
       'tgl_visit': controllerdate.text.toString().substring(0, 10),
       // 'tgl_visit': '2021-10-21',
     });
@@ -144,7 +144,7 @@ class _AdminAntreanPasienState extends State<AdminAntreanPasien> {
 // tahap 2 API 1
   // ignore: non_constant_identifier_names
   AdminBacaDataAntrean() {
-    AVAs.clear();
+    adminVAntreans.clear();
     Future<String> data = fetchDataAntrean();
     data.then((value) {
       //Mengubah json menjadi Array
@@ -154,7 +154,7 @@ class _AdminAntreanPasienState extends State<AdminAntreanPasien> {
       if (json['result'].toString() == 'success') {
         for (var i in json['data']) {
           AdminVAntrean ava = AdminVAntrean.fromJson(i);
-          AVAs.add(ava);
+          adminVAntreans.add(ava);
         }
       } else {}
       setState(() {
@@ -165,7 +165,7 @@ class _AdminAntreanPasienState extends State<AdminAntreanPasien> {
 
   Future<String> fetchDataAntreanSekarang() async {
     final response =
-        await http.post(Uri.parse(APIurl + "admin_upd_antrean_now.php"), body: {
+        await http.post(Uri.parse(apiUrl + "admin_upd_antrean_now.php"), body: {
       'antrean_sekarang': controllerAntreanSekarang.text.toString(),
       'batas_antrean': controllerBatasAntrean.text.toString(),
       // 'tgl_visit': '2021-10-21',
@@ -181,7 +181,7 @@ class _AdminAntreanPasienState extends State<AdminAntreanPasien> {
   // tahap 2 API 1
   // ignore: non_constant_identifier_names
   AdminBacaDataAntreanSekarang() {
-    AVAs.clear();
+    adminVAntreans.clear();
     Future<String> data = fetchDataAntreanSekarang();
     data.then((value) {
       //Mengubah json menjadi Array
@@ -201,7 +201,7 @@ class _AdminAntreanPasienState extends State<AdminAntreanPasien> {
 
   // ignore: non_constant_identifier_names
   AdminKlikBacaDataAntrean() {
-    AVAs.clear();
+    adminVAntreans.clear();
     setState(() {
       widgetLbuilderCekAntrean();
     });
@@ -214,7 +214,7 @@ class _AdminAntreanPasienState extends State<AdminAntreanPasien> {
       if (json['result'].toString() == 'success') {
         for (var i in json['data']) {
           AdminVAntrean ava = AdminVAntrean.fromJson(i);
-          AVAs.add(ava);
+          adminVAntreans.add(ava);
         }
       } else {}
       setState(() {});
@@ -223,8 +223,8 @@ class _AdminAntreanPasienState extends State<AdminAntreanPasien> {
 
   Future<String> fetchDataStatusAntrean(index, String status) async {
     final response = await http.post(
-        Uri.parse(APIurl + "admin_status_antrean.php"),
-        body: {'visit_id': AVAs[index].visit_id.toString(), 'status': status});
+        Uri.parse(apiUrl + "admin_status_antrean.php"),
+        body: {'visit_id': adminVAntreans[index].visitId.toString(), 'status': status});
     if (response.statusCode == 200) {
       AdminKlikBacaDataAntrean();
       return response.body;
@@ -237,7 +237,7 @@ class _AdminAntreanPasienState extends State<AdminAntreanPasien> {
     functionTimerRefresh();
     print('timer start');
     setState(() {
-      AVAs = [];
+      adminVAntreans = [];
     });
   }
 
@@ -357,8 +357,8 @@ class _AdminAntreanPasienState extends State<AdminAntreanPasien> {
         leading: CircleAvatar(
           child: Text("${index + 1}"),
         ),
-        title: Text('${AVAs[index].username}'),
-        subtitle: Text('${AVAs[index].tgl_visit}'),
+        title: Text('${adminVAntreans[index].username}'),
+        subtitle: Text('${adminVAntreans[index].tglVisit}'),
         trailing: widgetStatusAntrean(index),
       ),
     );
@@ -366,11 +366,11 @@ class _AdminAntreanPasienState extends State<AdminAntreanPasien> {
 
   // ignore: missing_return
   Widget widgetStatusAntrean(int index) {
-    if (AVAs[index].status_antrean.toString() == 'belum') {
+    if (adminVAntreans[index].statusAntrean.toString() == 'belum') {
       return CircleAvatar(radius: 15, child: Icon(Icons.watch_later_outlined));
-    } else if (AVAs[index].status_antrean.toString() == 'sudah') {
+    } else if (adminVAntreans[index].statusAntrean.toString() == 'sudah') {
       return CircleAvatar(radius: 15, child: Icon(Icons.check));
-    } else if (AVAs[index].status_antrean.toString() == 'batal') {
+    } else if (adminVAntreans[index].statusAntrean.toString() == 'batal') {
       return CircleAvatar(
           radius: 15,
           backgroundColor: Colors.red[400],
@@ -382,11 +382,11 @@ class _AdminAntreanPasienState extends State<AdminAntreanPasien> {
   }
 
   Widget widgetLbuilderCekAntrean() {
-    if (AVAs.length > 0) {
+    if (adminVAntreans.length > 0) {
       return ListView.builder(
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: AVAs.length,
+          itemCount: adminVAntreans.length,
           itemBuilder: (context, index) {
             return widgetListAntrean(index);
           });

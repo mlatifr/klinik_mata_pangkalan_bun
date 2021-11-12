@@ -2,13 +2,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/dokter/dr_get_list_obat.dart';
-import 'package:http/http.dart';
 import 'apt_get_resep_pasien_detail.dart';
 
 class AptInputObat extends StatefulWidget {
-  final AptkrId, namaPasien, visitId;
+  final aptkrId, namaPasien, visitId;
 
-  const AptInputObat({Key key, this.AptkrId, this.namaPasien, this.visitId})
+  const AptInputObat({Key key, this.aptkrId, this.namaPasien, this.visitId})
       : super(key: key);
 
   @override
@@ -18,7 +17,7 @@ class AptInputObat extends StatefulWidget {
 class _AptInputObatState extends State<AptInputObat> {
 // ignore: non_constant_identifier_names
   ApotekerBacaDataVKeranjangResepApoteker(pVisitId) {
-    AVKOs.clear();
+    aVKOs.clear();
     Future<String> data = fetchDataApotekerVKeranjangResepApotekerId(pVisitId);
     data.then((value) {
       Map json = jsonDecode(value);
@@ -26,8 +25,8 @@ class _AptInputObatState extends State<AptInputObat> {
         for (var i in json['data']) {
           ApotekerVKeranjangObat keranjangObatDokter =
               ApotekerVKeranjangObat.fromJson(i);
-          AVKOs.add(keranjangObatDokter);
-          print('AVKOs[length]: ${AVKOs.length}');
+          aVKOs.add(keranjangObatDokter);
+          print('AVKOs[length]: ${aVKOs.length}');
         }
         setState(() {
           widgetKeranjangObatApotekerBody();
@@ -39,7 +38,7 @@ class _AptInputObatState extends State<AptInputObat> {
 // ignore: non_constant_identifier_names
   ApotekerBacaDataVKeranjangResep(
       pRspAptkrId, pObtId, pDosis, pJumlah, pVisitId) {
-    AVKOs.clear();
+    aVKOs.clear();
     Future<String> data = fetchDataApotekerInputResepObat(
         pRspAptkrId, pObtId, pDosis, pJumlah, pVisitId);
     data.then((value) {
@@ -72,8 +71,8 @@ class _AptInputObatState extends State<AptInputObat> {
         for (var i in json['data']) {
           ApotekerVKeranjangObat keranjangObatDokter =
               ApotekerVKeranjangObat.fromJson(i);
-          AVKOs.add(keranjangObatDokter);
-          print('AVKOs[length]: ${AVKOs.length}');
+          aVKOs.add(keranjangObatDokter);
+          print('AVKOs[length]: ${aVKOs.length}');
         }
         setState(() {
           widgetKeranjangObatApotekerBody();
@@ -84,7 +83,7 @@ class _AptInputObatState extends State<AptInputObat> {
 
   // ignore: non_constant_identifier_names
   ApotekerBacaDataVKeranjangResepDokter(pVisitId) {
-    AVKODrs.clear();
+    aVKODrs.clear();
     Future<String> data = fetchDataDokterKeranjangObat(pVisitId);
     data.then((value) {
       //Mengubah json menjadi Array
@@ -93,7 +92,7 @@ class _AptInputObatState extends State<AptInputObat> {
       for (var i in json['data']) {
         ApotekerVKeranjangObatDokter keranjangObatDokter =
             ApotekerVKeranjangObatDokter.fromJson(i);
-        AVKODrs.add(keranjangObatDokter);
+        aVKODrs.add(keranjangObatDokter);
       }
       setState(() {
         widgetListObats();
@@ -103,7 +102,7 @@ class _AptInputObatState extends State<AptInputObat> {
 
   // ignore: non_constant_identifier_names
   ApotekerBacaDataVListObat(pNamaObat) {
-    AVLOs.clear();
+    aVLOs.clear();
     Future<String> data = fetchDataApotekerVListObat(pNamaObat);
     data.then((value) {
       //Mengubah json menjadi Array
@@ -111,7 +110,7 @@ class _AptInputObatState extends State<AptInputObat> {
       Map json = jsonDecode(value);
       for (var i in json['data']) {
         ApotekerrVListObat avlo = ApotekerrVListObat.fromJson(i);
-        AVLOs.add(avlo);
+        aVLOs.add(avlo);
       }
       setState(() {
         widgetListObats();
@@ -181,13 +180,13 @@ class _AptInputObatState extends State<AptInputObat> {
   int selected; //agar yg terbuka hanya bisa 1 ListTile
   // ignore: missing_return
   Widget widgetListObats() {
-    if (AVLOs.length > 0) {
+    if (aVLOs.length > 0) {
       return ListView.builder(
           key: Key(
               'builder ${selected.toString()}'), //agar yg terbuka hanya bisa 1 ListTile
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: AVLOs.length,
+          itemCount: aVLOs.length,
           itemBuilder: (context, index) {
             return Row(
               children: [
@@ -211,7 +210,7 @@ class _AptInputObatState extends State<AptInputObat> {
                               });
                           }),
                           title: Text(
-                            '${AVLOs[index].obatNama} : ${AVLOs[index].obatStok}',
+                            '${aVLOs[index].obatNama} : ${aVLOs[index].obatStok}',
                             textAlign: TextAlign.center,
                             style: TextStyle(),
                           ),
@@ -303,8 +302,8 @@ class _AptInputObatState extends State<AptInputObat> {
                               child: TextButton(
                                 onPressed: () {
                                   ApotekerBacaDataVKeranjangResep(
-                                      AptkrRspId,
-                                      AVLOs[index].obatId,
+                                      aptkrRspId,
+                                      aVLOs[index].obatId,
                                       controllerDosis.text,
                                       controllerJumlah.text,
                                       widget.visitId);
@@ -360,7 +359,7 @@ class _AptInputObatState extends State<AptInputObat> {
       child: ListView.builder(
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: AVKOs.length,
+          itemCount: aVKOs.length,
           itemBuilder: (context, index) {
             return Table(
                 border: TableBorder
@@ -368,15 +367,15 @@ class _AptInputObatState extends State<AptInputObat> {
                 children: [
                   TableRow(children: [
                     Text(
-                      '${AVKOs[index].nama}',
+                      '${aVKOs[index].nama}',
                       textAlign: TextAlign.center,
                     ),
                     Text(
-                      '${AVKOs[index].jumlah}',
+                      '${aVKOs[index].jumlah}',
                       textAlign: TextAlign.center,
                     ),
                     Text(
-                      '${AVKOs[index].dosis}',
+                      '${aVKOs[index].dosis}',
                       textAlign: TextAlign.center,
                     ),
                   ]),
@@ -391,7 +390,7 @@ class _AptInputObatState extends State<AptInputObat> {
       child: ListView.builder(
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: AVKODrs.length,
+          itemCount: aVKODrs.length,
           itemBuilder: (context, index) {
             return Table(
                 border: TableBorder
@@ -399,15 +398,15 @@ class _AptInputObatState extends State<AptInputObat> {
                 children: [
                   TableRow(children: [
                     Text(
-                      '${AVKODrs[index].nama}',
+                      '${aVKODrs[index].nama}',
                       textAlign: TextAlign.center,
                     ),
                     Text(
-                      '${AVKODrs[index].jumlah}',
+                      '${aVKODrs[index].jumlah}',
                       textAlign: TextAlign.center,
                     ),
                     Text(
-                      '${AVKODrs[index].dosis}',
+                      '${aVKODrs[index].dosis}',
                       textAlign: TextAlign.center,
                     ),
                   ]),
@@ -416,21 +415,21 @@ class _AptInputObatState extends State<AptInputObat> {
     );
   }
 
-  var AptkrRspId;
+  var aptkrRspId;
   // ignore: non_constant_identifier_names
   ApotekerBacaDataRspVst() {
-    AptkrRspId = '';
+    aptkrRspId = '';
     Future<String> data = fetchDataApotekerInputRspVst(
       widget.visitId,
-      widget.AptkrId,
+      widget.aptkrId,
       DateTime.now().toString().substring(0, 10),
     );
     data.then((value) {
       //Mengubah json menjadi Array
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
-      AptkrRspId = json['id_resep_apoteker'].toString();
-      print('ApotekerBacaDataRspVst(): $AptkrRspId');
+      aptkrRspId = json['id_resep_apoteker'].toString();
+      print('ApotekerBacaDataRspVst(): $aptkrRspId');
       // for (var i in json['data']) {
       //   print(i);
       //   ApotekerVAntrean dva = ApotekerVAntrean.fromJson(i);
@@ -475,7 +474,7 @@ class _AptInputObatState extends State<AptInputObat> {
 
   @override
   Widget build(BuildContext context) {
-    if (AVKODrs.length > 0) {
+    if (aVKODrs.length > 0) {
       return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(

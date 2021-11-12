@@ -5,26 +5,26 @@ import 'package:flutter_application_1/main.dart';
 import 'package:http/http.dart' as http;
 
 class PsienVNoAntr {
-  var id_user, no_antre, tgl_visit;
-  PsienVNoAntr({this.id_user, this.no_antre, this.tgl_visit});
+  var idUser, noAntre, tglVisit;
+  PsienVNoAntr({this.idUser, this.noAntre, this.tglVisit});
 
   // untuk convert dari jSon
   factory PsienVNoAntr.fromJson(Map<String, dynamic> json) {
     return new PsienVNoAntr(
-      id_user: json['id_user'],
-      no_antre: json['no_antre'],
-      tgl_visit: json['tgl_visit'],
+      idUser: json['id_user'],
+      noAntre: json['no_antre'],
+      tglVisit: json['tgl_visit'],
     );
   }
 }
 
-List<PsienVNoAntr> PVAs = [];
+List<PsienVNoAntr> pVAs = [];
 
 // ignore: must_be_immutable
 class AntreanPasien extends StatefulWidget {
-  var user_klinik_id, tgl_visit, antrean_sekarang;
+  var userKlinikId, tglVisit, antreanSekarang;
   AntreanPasien(
-      {Key key, this.user_klinik_id, this.tgl_visit, this.antrean_sekarang})
+      {Key key, this.userKlinikId, this.tglVisit, this.antreanSekarang})
       : super(key: key);
 
   @override
@@ -34,9 +34,9 @@ class AntreanPasien extends StatefulWidget {
 class _AntreanPasienState extends State<AntreanPasien> {
   Future<String> fetchDataTglVstPsien() async {
     var response = await http
-        .post(Uri.parse(APIurl + "pasien_view_antrean_user_tgl.php"), body: {
-      'user_klinik_id': widget.user_klinik_id.toString(),
-      'tgl_visit': widget.tgl_visit.toString()
+        .post(Uri.parse(apiUrl + "pasien_view_antrean_user_tgl.php"), body: {
+      'user_klinik_id': widget.userKlinikId.toString(),
+      'tgl_visit': widget.tglVisit.toString()
     });
     if (response.statusCode == 200) {
       print(response.body);
@@ -55,7 +55,7 @@ class _AntreanPasienState extends State<AntreanPasien> {
         if (json['result'].toString() == 'success') {
           for (var i in json['data']) {
             PsienVNoAntr pva = PsienVNoAntr.fromJson(i);
-            PVAs.add(pva);
+            pVAs.add(pva);
           }
         } else {}
         setState(() {
@@ -68,7 +68,7 @@ class _AntreanPasienState extends State<AntreanPasien> {
 
   @override
   void initState() {
-    PVAs.clear();
+    pVAs.clear();
     bacaDataTglVstPsien();
     super.initState();
   }
@@ -91,12 +91,12 @@ class _AntreanPasienState extends State<AntreanPasien> {
         body: FutureBuilder(
             future: fetchDataTglVstPsien(),
             builder: (context, snapshot) {
-              print(PVAs.length);
+              print(pVAs.length);
               if (snapshot.hasData) {
                 return ListView.builder(
                     // physics: NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: PVAs.length,
+                    itemCount: pVAs.length,
                     itemBuilder: (context, index) {
                       return Center(
                         child: Column(
@@ -109,7 +109,7 @@ class _AntreanPasienState extends State<AntreanPasien> {
                               textAlign: TextAlign.center,
                             ),
                             Text(
-                              PVAs[index].no_antre.toString(),
+                              pVAs[index].noAntre.toString(),
                               style: TextStyle(
                                   fontSize: 88, color: Colors.blueAccent),
                               textAlign: TextAlign.center,
@@ -120,7 +120,7 @@ class _AntreanPasienState extends State<AntreanPasien> {
                               textAlign: TextAlign.center,
                             ),
                             Text(
-                              PVAs[index].tgl_visit.toString(),
+                              pVAs[index].tglVisit.toString(),
                               style: TextStyle(
                                   color: Colors.black38, fontSize: 25),
                               textAlign: TextAlign.center,
@@ -131,7 +131,7 @@ class _AntreanPasienState extends State<AntreanPasien> {
                               textAlign: TextAlign.center,
                             ),
                             Text(
-                              widget.antrean_sekarang.toString(),
+                              widget.antreanSekarang.toString(),
                               style: TextStyle(
                                   color: Colors.black38, fontSize: 50),
                               textAlign: TextAlign.center,

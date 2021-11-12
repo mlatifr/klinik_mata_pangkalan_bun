@@ -41,20 +41,20 @@ class DrRiwayatPeriksaPasien extends StatefulWidget {
 class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
   // ignore: non_constant_identifier_names
   DokterBacaDataVKeranjangTindakan(pVisitId) {
-    DVKTs.clear();
+    dVKTs.clear();
     Future<String> data = fetchDataDokterVKeranjangTindakan(pVisitId);
     data.then((value) {
       //Mengubah json menjadi Array
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
       if (json['result'].toString() == 'error') {
-        DVKTs.clear();
+        dVKTs.clear();
         print('json[result]: ${json['result']}');
       } else {
         for (var i in json['data']) {
           DokterVKeranjangTindakan keranjangObat =
               DokterVKeranjangTindakan.fromJson(i);
-          DVKTs.add(keranjangObat);
+          dVKTs.add(keranjangObat);
         }
       }
       setState(() {
@@ -65,7 +65,7 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
 
   // ignore: non_constant_identifier_names
   DokterBacaDataVKeranjangObat(pVisitId) {
-    DVLKOs.clear();
+    dVLKOs.clear();
     Future<String> data = fetchDataDokterKeranjangObat(pVisitId);
     data.then((value) {
       //Mengubah json menjadi Array
@@ -73,11 +73,11 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
       Map json = jsonDecode(value);
       for (var i in json['data']) {
         DokterVKeranjangObat keranjangObat = DokterVKeranjangObat.fromJson(i);
-        DVLKOs.add(keranjangObat);
+        dVLKOs.add(keranjangObat);
       }
       setState(() {
         widgetListObats();
-        for (var i = 0; i < DVLKOs.length; i++) {
+        for (var i = 0; i < dVLKOs.length; i++) {
           // print(
           //     'id: ${DVLOs[i].obatId}\nnama: ${DVLOs[i].obatNama}\nstok: ${DVLOs[i].obatStok}\n\n\n\n\n\n');
         }
@@ -85,8 +85,9 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
     });
   } // ignore: non_constant_identifier_names
 
+  // ignore: non_constant_identifier_names
   DokterBacaDataVListObat(pNamaObat) {
-    DVLOs.clear();
+    dVLOs.clear();
     Future<String> data = fetchDataDokterVListObat(pNamaObat);
     data.then((value) {
       //Mengubah json menjadi Array
@@ -95,11 +96,11 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
       for (var i in json['data']) {
         // print('DokterBacaDataVListTindakan: ${i}');
         DokterVListObat dvlo = DokterVListObat.fromJson(i);
-        DVLOs.add(dvlo);
+        dVLOs.add(dvlo);
       }
       setState(() {
         widgetListObats();
-        for (var i = 0; i < DVLOs.length; i++) {
+        for (var i = 0; i < dVLOs.length; i++) {
           // print(
           //     'id: ${DVLOs[i].obatId}\nnama: ${DVLOs[i].obatNama}\nstok: ${DVLOs[i].obatStok}\n\n\n\n\n\n');
         }
@@ -109,7 +110,7 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
 
   // ignore: non_constant_identifier_names
   DokterBacaDataVListTindakan() {
-    DVLTs.clear();
+    dVLTs.clear();
     Future<String> data = fetchDataDokterVListTindakan();
     data.then((value) {
       //Mengubah json menjadi Array
@@ -118,14 +119,14 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
       for (var i in json['data']) {
         // print('DokterBacaDataVListTindakan: ${i}');
         DokterVListTindakan dvlt = DokterVListTindakan.fromJson(i);
-        DVLTs.add(dvlt);
+        dVLTs.add(dvlt);
       }
       setState(() {
         widgetListTindakanKiri();
         widgetListTindakanKanan();
         listValueCheckKiri.clear();
         listValueCheckKanan.clear();
-        for (var i = 0; i < DVLTs.length; i++) {
+        for (var i = 0; i < dVLTs.length; i++) {
           listValueCheckKiri.add(false);
           listValueCheckKanan.add(false);
           // print('lValueCHeckLength ${listValueCheckKiri.length}');
@@ -194,13 +195,13 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
   int selected; //agar yg terbuka hanya bisa 1 ListTile
   // ignore: missing_return
   Widget widgetListObats() {
-    if (DVLOs.length > 0) {
+    if (dVLOs.length > 0) {
       return ListView.builder(
           key: Key(
               'builder ${selected.toString()}'), //agar yg terbuka hanya bisa 1 ListTile
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: DVLOs.length,
+          itemCount: dVLOs.length,
           itemBuilder: (context, index) {
             return Row(
               children: [
@@ -224,7 +225,7 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
                               });
                           }),
                           title: Text(
-                            '${DVLOs[index].obatNama}',
+                            '${dVLOs[index].obatNama}',
                             textAlign: TextAlign.center,
                             style: TextStyle(),
                           ),
@@ -232,7 +233,7 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
                             Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                'STOK: ${DVLOs[index].obatStok}',
+                                'STOK: ${dVLOs[index].obatStok}',
                                 textAlign: TextAlign.center,
                                 style: TextStyle(),
                               ),
@@ -329,7 +330,7 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
                               child: TextButton(
                                 onPressed: () {
                                   fetchDataDokterInputResepObat(
-                                          DVLOs[index].obatId,
+                                          dVLOs[index].obatId,
                                           controllerDosis.text,
                                           controllerJumlah.text,
                                           widget.visitId)
@@ -384,7 +385,6 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
   TextEditingController controllerDosis = TextEditingController();
   TextEditingController controllerKeluhan = TextEditingController();
   TextEditingController controllerCariObat = TextEditingController();
-  final List<Item> _data = generateItems(8);
 
   @override
   void initState() {
@@ -395,12 +395,12 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
     DokterBacaDataVListTindakan();
     DokterBacaDataVListObat('');
     DokterBacaDataVKeranjangObat(widget.visitId);
-    for (var index = 0; index < DVKTs.length; index++) {
+    for (var index = 0; index < dVKTs.length; index++) {
       fetchDataDokterInputTindakanBatal(
-              widget.visitId, DVKTs[index].tindakan_id, 'kiri')
+              widget.visitId, dVKTs[index].tindakanId, 'kiri')
           .then((value) => DokterBacaDataVKeranjangTindakan(widget.visitId));
       fetchDataDokterInputTindakanBatal(
-              widget.visitId, DVKTs[index].tindakan_id, 'kanan')
+              widget.visitId, dVKTs[index].tindakanId, 'kanan')
           .then((value) => DokterBacaDataVKeranjangTindakan(widget.visitId));
     }
     super.initState();
@@ -414,8 +414,9 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
 
   var listValueCheckKiri = [false, true];
   var listValueCheckKanan = [false, true];
+  // ignore: missing_return
   Widget widgetListTindakanKiri() {
-    if (DVLTs != null) {
+    if (dVLTs != null) {
       return Column(
         children: [
           Text(
@@ -427,11 +428,11 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
           ListView.builder(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: DVLTs.length,
+              itemCount: dVLTs.length,
               itemBuilder: (context, index) {
                 return CheckboxListTile(
                   title: Text(
-                    '${index + 1} ${DVLTs[index].namaTindakan}',
+                    '${index + 1} ${dVLTs[index].namaTindakan}',
                     style: TextStyle(fontSize: 14),
                   ),
                   value: listValueCheckKiri[index],
@@ -440,12 +441,12 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
                       listValueCheckKiri[index] = value;
                       if (value == true) {
                         fetchDataDokterInputTindakan(
-                                widget.visitId, DVLTs[index].idTindakan, 'kiri')
+                                widget.visitId, dVLTs[index].idTindakan, 'kiri')
                             .then((value) => DokterBacaDataVKeranjangTindakan(
                                 widget.visitId));
                       } else if (value == false) {
                         fetchDataDokterInputTindakanBatal(
-                                widget.visitId, DVLTs[index].idTindakan, 'kiri')
+                                widget.visitId, dVLTs[index].idTindakan, 'kiri')
                             .then((value) => DokterBacaDataVKeranjangTindakan(
                                 widget.visitId));
                       }
@@ -473,11 +474,11 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
             ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: DVLTs.length,
+                itemCount: dVLTs.length,
                 itemBuilder: (context, index) {
                   return CheckboxListTile(
                     title: Text(
-                      '${index + 1} ${DVLTs[index].namaTindakan}',
+                      '${index + 1} ${dVLTs[index].namaTindakan}',
                       style: TextStyle(fontSize: 14),
                     ),
                     value: listValueCheckKanan[index],
@@ -486,12 +487,12 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
                         listValueCheckKanan[index] = value;
                         if (value == true) {
                           fetchDataDokterInputTindakan(widget.visitId,
-                                  DVLTs[index].idTindakan, 'kanan')
+                                  dVLTs[index].idTindakan, 'kanan')
                               .then((value) => DokterBacaDataVKeranjangTindakan(
                                   widget.visitId));
                         } else if (value == false) {
                           fetchDataDokterInputTindakanBatal(widget.visitId,
-                                  DVLTs[index].idTindakan, 'kanan')
+                                  dVLTs[index].idTindakan, 'kanan')
                               .then((value) => DokterBacaDataVKeranjangTindakan(
                                   widget.visitId));
                         }
@@ -534,7 +535,7 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
       child: ListView.builder(
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: DVLKOs.length,
+          itemCount: dVLKOs.length,
           itemBuilder: (context, index) {
             return Table(
                 border: TableBorder
@@ -542,15 +543,15 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
                 children: [
                   TableRow(children: [
                     Text(
-                      '${DVLKOs[index].obatNama}',
+                      '${dVLKOs[index].obatNama}',
                       textAlign: TextAlign.center,
                     ),
                     Text(
-                      '${DVLKOs[index].obatJumlah}',
+                      '${dVLKOs[index].obatJumlah}',
                       textAlign: TextAlign.center,
                     ),
                     Text(
-                      '${DVLKOs[index].obatDosis}',
+                      '${dVLKOs[index].obatDosis}',
                       textAlign: TextAlign.center,
                     ),
                   ]),
@@ -560,7 +561,7 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
   }
 
   Widget widgetKeranjangTindakan() {
-    if (DVKTs.length > 0) {
+    if (dVKTs.length > 0) {
       return Column(
         children: [
           Table(
@@ -581,7 +582,7 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
           ListView.builder(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: DVKTs.length,
+              itemCount: dVKTs.length,
               itemBuilder: (context, index) {
                 return Table(
                     border: TableBorder
@@ -589,11 +590,11 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
                     children: [
                       TableRow(children: [
                         Text(
-                          '${DVKTs[index].namaTindakan}',
+                          '${dVKTs[index].namaTindakan}',
                           textAlign: TextAlign.center,
                         ),
                         Text(
-                          '${DVKTs[index].mataSisiTindakan}',
+                          '${dVKTs[index].mataSisiTindakan}',
                           textAlign: TextAlign.center,
                         ),
                       ]),
@@ -614,7 +615,7 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
 
   @override
   Widget build(BuildContext context) {
-    if (DVLTs.length > 0) {
+    if (dVLTs.length > 0) {
       return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(

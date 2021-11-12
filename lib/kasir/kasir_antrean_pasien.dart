@@ -7,7 +7,6 @@ import 'package:flutter_application_1/kasir/kasir_detail_pasien.dart';
 
 import '../main.dart';
 import 'kasir_get_antrean.dart';
-import 'kasir_get_tindakan.dart';
 
 class KsrAntreanPasien extends StatefulWidget {
   const KsrAntreanPasien({Key key}) : super(key: key);
@@ -52,7 +51,7 @@ var controllerdate = TextEditingController();
 class _KsrAntreanPasienState extends State<KsrAntreanPasien> {
   // ignore: non_constant_identifier_names
   KasirBacaDataVAntrean(pDate) {
-    KVAs.clear();
+    kVAs.clear();
     Future<String> data = fetchDataKasirVAntreanPasien(pDate);
     data.then((value) {
       //Mengubah json menjadi Array
@@ -61,7 +60,7 @@ class _KsrAntreanPasienState extends State<KsrAntreanPasien> {
       for (var i in json['data']) {
         print(i);
         KasirVAntrean kva = KasirVAntrean.fromJson(i);
-        KVAs.add(kva);
+        kVAs.add(kva);
       }
       setState(() {});
     });
@@ -135,6 +134,7 @@ class _KsrAntreanPasienState extends State<KsrAntreanPasien> {
     });
   }
 
+
   @override
   void initState() {
     DateTime now = new DateTime.now();
@@ -142,7 +142,7 @@ class _KsrAntreanPasienState extends State<KsrAntreanPasien> {
     print(date);
     controllerdate.text = date.toString().substring(0, 10);
     KasirBacaDataVAntrean(controllerdate.text);
-    KVAs = [];
+    kVAs = [];
     // functionTimerRefresh();
     super.initState();
   }
@@ -157,23 +157,23 @@ class _KsrAntreanPasienState extends State<KsrAntreanPasien> {
   }
 
   Widget widgetLsTile() {
-    if (KVAs.length > 0) {
+    if (kVAs.length > 0) {
       return Expanded(
         child: ListView.builder(
-            itemCount: KVAs.length,
+            itemCount: kVAs.length,
             itemBuilder: (context, index) {
               return Padding(
                   padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                   child: ListTile(
                     onTap: () {
-                      _timerForInter.cancel();
+                      // _timerForInter.cancel();
                       print('timer stop');
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => KasirDetailPasien(
-                                  namaPasien: KVAs[index].userName,
-                                  visitId: KVAs[index].visitId,
+                                  namaPasien: kVAs[index].userName,
+                                  visitId: kVAs[index].visitId,
                                   visitDate: controllerdate.text
                                       .toString()
                                       .substring(0, 10)))).then((onGoBack));
@@ -181,7 +181,7 @@ class _KsrAntreanPasienState extends State<KsrAntreanPasien> {
                     leading: CircleAvatar(
                       child: Text('${index + 1}'),
                     ),
-                    title: Text('${KVAs[index].userName}'),
+                    title: Text('${kVAs[index].userName}'),
                     subtitle: Text('sub judul'),
                     // trailing: widgetStatusAntrean(index)
                   ));

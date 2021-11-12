@@ -22,9 +22,9 @@ DateTime date = new DateTime(now.year, now.month, now.day);
 String username, useridMainDart = "";
 var keluhan = TextEditingController();
 // ignore: non_constant_identifier_names
-String status_antrean, navigateToNomorAntrean;
-int antrean_sekarang, antrean_terakhir, batas_antrean;
-String APIurl = "https://192.168.1.8/tugas_akhir/";
+String statusAntrean, navigateToNomorAntrean;
+int antreanSekarang, antreanTerakhir, batasAntrean;
+String apiUrl = "https://192.168.1.8/tugas_akhir/";
 // String APIurl = "https://192.168.43.5/tugas_akhir/";
 // String APIurl = "http://kmtpbun.ddnsking.com//tugas_akhir/";
 void getUserId() async {
@@ -137,11 +137,11 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
 //untuk memasukan keluhan + nomor antrean: pasien_input_keluhan.php
   Future<String> fetchDataKeluhan() async {
-    print("antrean_terakhir: $antrean_terakhir");
+    print("antrean_terakhir: $antreanTerakhir");
     final response =
-        await http.post(Uri.parse(APIurl + "pasien_input_keluhan.php"), body: {
+        await http.post(Uri.parse(apiUrl + "pasien_input_keluhan.php"), body: {
       'keluhan': keluhan.text,
-      'no_antrean': antrean_terakhir.toString(),
+      'no_antrean': antreanTerakhir.toString(),
       'user_klinik_id': useridMainDart.toString()
     });
     if (response.statusCode == 200) {
@@ -153,7 +153,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   bacaDataKeluhan(context) {
     navigateToNomorAntrean = null;
-    antrean_terakhir = antrean_terakhir + 1;
+    antreanTerakhir = antreanTerakhir + 1;
     Future<String> data = fetchDataKeluhan();
     data.then((value) {
       // ignore: unused_local_variable
@@ -166,9 +166,9 @@ class _MyHomePageState extends State<MyHomePage> {
             context,
             MaterialPageRoute(
                 builder: (context) => AntreanPasien(
-                    user_klinik_id: useridMainDart,
-                    tgl_visit: date.toString().substring(0, 10),
-                    antrean_sekarang: antrean_sekarang.toString())));
+                    userKlinikId: useridMainDart,
+                    tglVisit: date.toString().substring(0, 10),
+                    antreanSekarang: antreanSekarang.toString())));
         setState(() {
           navigateToNomorAntrean = 'success';
         });
@@ -182,7 +182,7 @@ class _MyHomePageState extends State<MyHomePage> {
 // untuk mengecek antrean
   Future<String> fetchDataAntreanSekarang() async {
     final response =
-        await http.post(Uri.parse(APIurl + "pasien_view_antrean_sekarang.php"));
+        await http.post(Uri.parse(apiUrl + "pasien_view_antrean_sekarang.php"));
     if (response.statusCode == 200) {
       return response.body;
     } else {
@@ -196,12 +196,12 @@ class _MyHomePageState extends State<MyHomePage> {
       // ignore: unused_local_variable
       setState(() {
         Map json = jsonDecode(value);
-        status_antrean = json['status_antrean'];
+        statusAntrean = json['status_antrean'];
         //antrean yg sedang di dalam ruang periksa
-        antrean_sekarang = json['antrean_sekarang'];
+        antreanSekarang = json['antrean_sekarang'];
         //no pendaftar visit pasien terakhir
-        antrean_terakhir = json['antrean_terakhir'];
-        batas_antrean = json['batas_antrean'];
+        antreanTerakhir = json['antrean_terakhir'];
+        batasAntrean = json['batas_antrean'];
       });
     });
   }
@@ -238,15 +238,15 @@ class _MyHomePageState extends State<MyHomePage> {
               getUserId();
               print('onTap');
               print(
-                  "userid: $useridMainDart | tgl_visit: ${date.toString().substring(0, 10)} | antrean_sekarang: $antrean_sekarang");
+                  "userid: $useridMainDart | tgl_visit: ${date.toString().substring(0, 10)} | antrean_sekarang: $antreanSekarang");
               // Navigator.pop(context);
               Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => AntreanPasien(
-                          user_klinik_id: useridMainDart,
-                          tgl_visit: date.toString().substring(0, 10),
-                          antrean_sekarang: antrean_sekarang.toString())));
+                          userKlinikId: useridMainDart,
+                          tglVisit: date.toString().substring(0, 10),
+                          antreanSekarang: antreanSekarang.toString())));
             },
           ),
           ListTile(
@@ -273,12 +273,12 @@ class _MyHomePageState extends State<MyHomePage> {
             title: Text('Logout'),
             onTap: () {
               print(
-                  "antrean_sekarang= $antrean_sekarang antrean_terakhir= $antrean_terakhir");
-              if (antrean_sekarang != null) {
-                antrean_sekarang = 0;
-                antrean_terakhir = 0;
+                  "antrean_sekarang= $antreanSekarang antrean_terakhir= $antreanTerakhir");
+              if (antreanSekarang != null) {
+                antreanSekarang = 0;
+                antreanTerakhir = 0;
                 print(
-                    "antrean_sekarang= $antrean_sekarang antrean_terakhir= $antrean_terakhir");
+                    "antrean_sekarang= $antreanSekarang antrean_terakhir= $antreanTerakhir");
               }
               doLogout();
             },
@@ -343,9 +343,9 @@ class _MyHomePageState extends State<MyHomePage> {
                       getUserId();
                       bacaDataAntrean();
                       print(
-                          "antrean_terakhir tombol simpan: $antrean_terakhir");
-                      if (antrean_terakhir != null) {
-                        if (batas_antrean > antrean_terakhir) {
+                          "antrean_terakhir tombol simpan: $antreanTerakhir");
+                      if (antreanTerakhir != null) {
+                        if (batasAntrean > antreanTerakhir) {
                           setState(() {
                             showDialog<String>(
                               context: context,
@@ -393,7 +393,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               context: context,
                               builder: (BuildContext context) => AlertDialog(
                                 title: Text(
-                                  'antrean penuh \n batas_antrean: $batas_antrean \n antrean_terakhir $antrean_terakhir',
+                                  'antrean penuh \n batas_antrean: $batasAntrean \n antrean_terakhir $antreanTerakhir',
                                   style: TextStyle(fontSize: 14),
                                 ),
                               ),
@@ -406,7 +406,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             context: context,
                             builder: (BuildContext context) => AlertDialog(
                               title: Text(
-                                'antrean_terakhir $antrean_terakhir',
+                                'antrean_terakhir $antreanTerakhir',
                                 style: TextStyle(fontSize: 14),
                               ),
                             ),

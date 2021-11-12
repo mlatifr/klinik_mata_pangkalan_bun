@@ -12,12 +12,12 @@ class WidgetAkunJasmed extends StatefulWidget {
 class _WidgetAkunJasmedState extends State<WidgetAkunJasmed> {
   var numberFormatRp = new NumberFormat("#,##0", "id_ID");
   Widget widgetListJasmed() {
-    if (ListPenjualanJasmeds.length > 0) {
+    if (listPenjualanJasmeds.length > 0) {
       return ExpansionTile(title: Text('Daftar Penjualan Jasmed'), children: [
         ListView.builder(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            itemCount: ListPenjualanJasmeds.length,
+            itemCount: listPenjualanJasmeds.length,
             itemBuilder: (context, index) {
               return Padding(
                   padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -35,9 +35,9 @@ class _WidgetAkunJasmedState extends State<WidgetAkunJasmed> {
                       leading: CircleAvatar(
                         child: Text('${index + 1}'),
                       ),
-                      title: Text('${ListPenjualanJasmeds[index].nama_pasien}'),
+                      title: Text('${listPenjualanJasmeds[index].namaPasien}'),
                       subtitle: Text(
-                          '${ListPenjualanJasmeds[index].tgl_resep} \nRp ${numberFormatRp.format(ListPenjualanJasmeds[index].harga)}'),
+                          '${listPenjualanJasmeds[index].tglResep} \nRp ${numberFormatRp.format(listPenjualanJasmeds[index].harga)}'),
                     ),
                   ));
             }),
@@ -48,10 +48,10 @@ class _WidgetAkunJasmedState extends State<WidgetAkunJasmed> {
 
   Widget widgetTextTotalPenjualanJasmed() {
     int total = 0;
-    if (ListPenjualanJasmeds.length > 0) {
-      print('ListPenjualanJasmed.length: ${ListPenjualanJasmeds.length}');
-      for (var i = 0; i < ListPenjualanJasmeds.length; i++) {
-        total += ListPenjualanJasmeds[i].harga;
+    if (listPenjualanJasmeds.length > 0) {
+      print('ListPenjualanJasmed.length: ${listPenjualanJasmeds.length}');
+      for (var i = 0; i < listPenjualanJasmeds.length; i++) {
+        total += listPenjualanJasmeds[i].harga;
       }
       print(total.toString());
       return Padding(

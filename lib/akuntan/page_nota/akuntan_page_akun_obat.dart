@@ -13,12 +13,12 @@ class _WidgetAkunObatState extends State<WidgetAkunObat> {
   
   var numberFormatRp = new NumberFormat("#,##0", "id_ID");
   Widget widgetListObat() {
-    if (ListPenjualanObats.length > 0) {
+    if (listPenjualanObats.length > 0) {
       return ExpansionTile(title: Text('Daftar Penjualan Obat'), children: [
         ListView.builder(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            itemCount: ListPenjualanObats.length,
+            itemCount: listPenjualanObats.length,
             itemBuilder: (context, index) {
               return Padding(
                   padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -36,9 +36,9 @@ class _WidgetAkunObatState extends State<WidgetAkunObat> {
                       leading: CircleAvatar(
                         child: Text('${index + 1}'),
                       ),
-                      title: Text('${ListPenjualanObats[index].nama}'),
+                      title: Text('${listPenjualanObats[index].nama}'),
                       subtitle: Text(
-                          '${ListPenjualanObats[index].tgl_resep.substring(0, 10)}\n${ListPenjualanObats[index].jumlah} x ${numberFormatRp.format(int.parse(ListPenjualanObats[index].harga))} |  Total:Rp ${numberFormatRp.format(ListPenjualanObats[index].total_harga)}'),
+                          '${listPenjualanObats[index].tglResep.substring(0, 10)}\n${listPenjualanObats[index].jumlah} x ${numberFormatRp.format(int.parse(listPenjualanObats[index].harga))} |  Total:Rp ${numberFormatRp.format(listPenjualanObats[index].totalHarga)}'),
                     ),
                   ));
             }),
@@ -55,10 +55,10 @@ class _WidgetAkunObatState extends State<WidgetAkunObat> {
 
   Widget widgetTextTotalPenjualanObat() {
     int total = 0;
-    if (ListPenjualanObats.length > 0) {
-      print('ListPenjualanObat.length: ${ListPenjualanObats.length}');
-      for (var i = 0; i < ListPenjualanObats.length; i++) {
-        total += ListPenjualanObats[i].total_harga;
+    if (listPenjualanObats.length > 0) {
+      print('ListPenjualanObat.length: ${listPenjualanObats.length}');
+      for (var i = 0; i < listPenjualanObats.length; i++) {
+        total += listPenjualanObats[i].totalHarga;
       }
       print(total.toString());
       return Padding(

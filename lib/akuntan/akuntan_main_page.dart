@@ -1,13 +1,9 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/akuntan/page_input_penjurnalan/akuntan_keranjang_penjurnalan.dart';
 import 'package:flutter_application_1/akuntan/page_input_penjurnalan/akuntan_page_input_penjurnalan.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_nota_penjualan.dart';
 import 'package:flutter_application_1/akuntan/akuntan_page_split_view.dart';
-import 'package:flutter_application_1/akuntan/page_input_penjurnalan/akuntan_send_transaksi_penjurnalan.dart';
-import 'package:http/http.dart' as http;
 import '../main.dart';
 import 'page_input_penjurnalan/akuntan_get_daftar_akun.dart';
 
@@ -83,17 +79,17 @@ class _AkuntanMainPageState extends State<AkuntanMainPage> {
 
   @override
   void initState() {
-    DateTime now = new DateTime.now();
-    DateTime date = new DateTime(now.year, now.month, now.day);
+    // DateTime now = new DateTime.now();
+    // DateTime date = new DateTime(now.year, now.month, now.day);
     fetchDataAkuntanVDftrAkun().then((value) {
-      AkntVDftrAkns.clear();
+      akntVDftrAkns.clear();
       //Mengubah json menjadi Array
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
       for (var i in json['data']) {
         // print('DokterBacaDataVListTindakan: ${i}');
         AkuntanVDftrAkun dvlt = AkuntanVDftrAkun.fromJson(i);
-        AkntVDftrAkns.add(dvlt);
+        akntVDftrAkns.add(dvlt);
       }
       setState(() {});
     });
@@ -112,11 +108,11 @@ class _AkuntanMainPageState extends State<AkuntanMainPage> {
           drawer: widgetDrawer(),
           body: Column(
             children: [
-              ElevatedButton(
-                  onPressed: () {
-                    fetchDataAkuntanInputTransaksiPenjurnalanArray();
-                  },
-                  child: Text('From Postman'))
+              // ElevatedButton(
+              //     onPressed: () {
+              //       fetchDataAkuntanInputTransaksiPenjurnalanArray();
+              //     },
+              //     child: Text('From Postman'))
               // widgetSelectTgl(),
               // widgetLsTile(),
             ],

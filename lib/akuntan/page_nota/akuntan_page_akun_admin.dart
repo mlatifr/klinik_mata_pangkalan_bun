@@ -12,14 +12,14 @@ class WidgetAkunAdmin extends StatefulWidget {
 class _WidgetAkunAdminState extends State<WidgetAkunAdmin> {
   var numberFormatRp = new NumberFormat("#,##0", "id_ID");
   Widget widgetListAdmin() {
-    if (ListPenjualanAdmins.length > 0) {
+    if (listPenjualanAdmins.length > 0) {
       return ExpansionTile(
           title: Text('Daftar Penjualan Akun Admin'),
           children: [
             ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: ListPenjualanJasmeds.length,
+                itemCount: listPenjualanJasmeds.length,
                 itemBuilder: (context, index) {
                   return Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -38,9 +38,9 @@ class _WidgetAkunAdminState extends State<WidgetAkunAdmin> {
                             child: Text('${index + 1}'),
                           ),
                           title:
-                              Text('${ListPenjualanAdmins[index].nama_pasien}'),
+                              Text('${listPenjualanAdmins[index].namaPasien}'),
                           subtitle: Text(
-                              '${ListPenjualanAdmins[index].tgl_transaksi} \nRp ${numberFormatRp.format(ListPenjualanAdmins[index].harga)}'),
+                              '${listPenjualanAdmins[index].tglTransaksi} \nRp ${numberFormatRp.format(listPenjualanAdmins[index].harga)}'),
                         ),
                       ));
                 }),
@@ -51,10 +51,10 @@ class _WidgetAkunAdminState extends State<WidgetAkunAdmin> {
 
   Widget widgetTextTotalPenjualanAdmin() {
     int total = 0;
-    if (ListPenjualanAdmins.length > 0) {
-      print('ListPenjualanJasmed.length: ${ListPenjualanAdmins.length}');
-      for (var i = 0; i < ListPenjualanAdmins.length; i++) {
-        total += ListPenjualanAdmins[i].harga;
+    if (listPenjualanAdmins.length > 0) {
+      print('ListPenjualanJasmed.length: ${listPenjualanAdmins.length}');
+      for (var i = 0; i < listPenjualanAdmins.length; i++) {
+        total += listPenjualanAdmins[i].harga;
       }
       print(total.toString());
       return Padding(

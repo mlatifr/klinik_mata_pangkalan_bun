@@ -1,11 +1,10 @@
 library flutter_application_1.kasir_get_antrean;
 
 import 'dart:async';
-import 'dart:convert';
 import 'package:flutter_application_1/main.dart';
 import 'package:http/http.dart' as http;
 
-List<KasirVAntrean> KVAs = [];
+List<KasirVAntrean> kVAs = [];
 
 class KasirVAntrean {
   var visitId,
@@ -43,7 +42,7 @@ class KasirVAntrean {
 
 Future<String> fetchDataKasirVAntreanPasien(pDate) async {
   final response =
-      await http.post(Uri.parse(APIurl + "dokter_v_antrean.php"), body: {
+      await http.post(Uri.parse(apiUrl + "dokter_v_antrean.php"), body: {
     'tgl_visit': pDate.toString().substring(0, 10),
     // 'tgl_visit': '2021-10-21',
   });

@@ -4,8 +4,8 @@ import 'dart:async';
 import 'package:flutter_application_1/main.dart';
 import 'package:http/http.dart' as http;
 
-List<DokterVListObat> DVLOs = [];
-List<DokterVKeranjangObat> DVLKOs = [];
+List<DokterVListObat> dVLOs = [];
+List<DokterVKeranjangObat> dVLKOs = [];
 
 class DokterVKeranjangObat {
   var obatNama, obatJumlah, obatDosis;
@@ -45,7 +45,7 @@ class DokterVListObat {
 
 Future<String> fetchDataDokterVListObat(pNamaObat) async {
   // print('final: $pVisitId | $pTdkId | $pMtSisi');
-  final response = await http.post(Uri.parse(APIurl + "dokter_v_list_obat.php"),
+  final response = await http.post(Uri.parse(apiUrl + "dokter_v_list_obat.php"),
       body: {'nama_obat': pNamaObat.toString()});
   if (response.statusCode == 200) {
     // print('200: ${response.body}');
@@ -60,7 +60,7 @@ Future<String> fetchDataDokterInputResepObat(
     pObtId, pDosis, pJumlah, pVisitId) async {
   // print('final: $pObtId | $pDosis | $pJumlah | $pVisitId');
   final response = await http
-      .post(Uri.parse(APIurl + "dokter_input_resep_has_obat.php"), body: {
+      .post(Uri.parse(apiUrl + "dokter_input_resep_has_obat.php"), body: {
     "obat_id": pObtId.toString(),
     "dosis": pDosis.toString(),
     "jumlah": pJumlah.toString(),
@@ -78,7 +78,7 @@ Future<String> fetchDataDokterInputResepObat(
 Future<String> fetchDataDokterKeranjangObat(pVisitId) async {
   // print('final:$pVisitId');
   final response = await http
-      .post(Uri.parse(APIurl + "dokter_v_keranjang_resep_obat.php"), body: {
+      .post(Uri.parse(apiUrl + "dokter_v_keranjang_resep_obat.php"), body: {
     "visit_id": pVisitId.toString(),
   });
   if (response.statusCode == 200) {
