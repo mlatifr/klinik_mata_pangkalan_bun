@@ -1,11 +1,10 @@
 library flutter_application_1.kasir_get_tindakan;
 
 import 'dart:async';
-import 'dart:convert';
 import 'package:flutter_application_1/main.dart';
 import 'package:http/http.dart' as http;
 
-List<KasirVKeranjangTindakan> KVKTs = [];
+List<KasirVKeranjangTindakan> kVKTs = [];
 
 class KasirVKeranjangTindakan {
   var visitHasTdknId, nama, harga, mtSisi;
@@ -25,7 +24,7 @@ class KasirVKeranjangTindakan {
 
 Future<String> fetchDataKasirVKeranjangTindakan(pVisitId) async {
   // print('fetchDataDokterVKeranjangTindakan : $pVisitId');
-  final response = await http.post(Uri.parse(APIurl + "kasir_v_tindakan.php"),
+  final response = await http.post(Uri.parse(apiUrl + "kasir_v_tindakan.php"),
       body: {"visit_id": pVisitId.toString()});
   if (response.statusCode == 200) {
     // print('fetchDataDokterVKeranjangTindakan: ${response.body}');

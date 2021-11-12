@@ -19,7 +19,7 @@ class _AkuntanVNotaPjlnState extends State<AkuntanVNotaPjln> {
 //baca data nota akun jasmed
 // ignore: non_constant_identifier_names
   AkunanBacaDataPenjualanAdmin(tgl) {
-    ListPenjualanJasmeds.clear();
+    listPenjualanJasmeds.clear();
     Future<String> data = fetchDataVPenjualanAdmin(tgl);
     data.then((value) {
       //Mengubah json menjadi Array
@@ -29,7 +29,7 @@ class _AkuntanVNotaPjlnState extends State<AkuntanVNotaPjln> {
         print(i);
         AkuntanVPenjualanAdmin pjlnAdminNota =
             AkuntanVPenjualanAdmin.fromJson(i);
-        ListPenjualanAdmins.add(pjlnAdminNota);
+        listPenjualanAdmins.add(pjlnAdminNota);
       }
       setState(() {
         WidgetAkunJasmed();
@@ -40,7 +40,7 @@ class _AkuntanVNotaPjlnState extends State<AkuntanVNotaPjln> {
 //baca data nota akun jasmed
 // ignore: non_constant_identifier_names
   AkunanBacaDataPenjualanjasmed(tgl) {
-    ListPenjualanJasmeds.clear();
+    listPenjualanJasmeds.clear();
     Future<String> data = fetchDataVPenjualanJasmed(tgl);
     data.then((value) {
       //Mengubah json menjadi Array
@@ -50,7 +50,7 @@ class _AkuntanVNotaPjlnState extends State<AkuntanVNotaPjln> {
         print(i);
         AkuntanVPenjualanJasmed pjlnJsmdNota =
             AkuntanVPenjualanJasmed.fromJson(i);
-        ListPenjualanJasmeds.add(pjlnJsmdNota);
+        listPenjualanJasmeds.add(pjlnJsmdNota);
       }
       setState(() {
         WidgetAkunJasmed();
@@ -61,7 +61,7 @@ class _AkuntanVNotaPjlnState extends State<AkuntanVNotaPjln> {
 //baca data nota akun obat
 // ignore: non_constant_identifier_names
   AkunanBacaDataPenjualanObat(tgl) {
-    ListPenjualanObats.clear();
+    listPenjualanObats.clear();
     Future<String> data = fetchDataVPenjualanObat(tgl);
     data.then((value) {
       //Mengubah json menjadi Array
@@ -70,7 +70,7 @@ class _AkuntanVNotaPjlnState extends State<AkuntanVNotaPjln> {
       for (var i in json['data']) {
         // print(i);
         AkuntanVPenjualanObat pjlnObtNota = AkuntanVPenjualanObat.fromJson(i);
-        ListPenjualanObats.add(pjlnObtNota);
+        listPenjualanObats.add(pjlnObtNota);
       }
       setState(() {
         WidgetAkunObat();

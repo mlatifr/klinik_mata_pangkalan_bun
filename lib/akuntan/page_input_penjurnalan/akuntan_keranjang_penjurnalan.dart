@@ -1,28 +1,27 @@
 library flutter_application_1.akuntan_keranjang_penjurnalan;
 
 import 'dart:async';
-import 'dart:convert';
 import 'package:flutter_application_1/main.dart';
 import 'package:http/http.dart' as http;
 
-List<AkuntanKeranjangPenjurnalan> KeranjangTransaksiPenjurnalans = [];
+List<AkuntanKeranjangPenjurnalan> keranjangTransaksiPenjurnalans = [];
 
 class AkuntanKeranjangPenjurnalan {
-  var penjurnalan_id,
-      daftar_akun_id,
-      daftar_akun_nama,
-      tgl_catat,
+  var penjurnalanId,
+      daftarAkunId,
+      daftarAkunNama,
+      tglCatat,
       debet,
       kredit,
-      ket_transaksi;
+      ketTransaksi;
   AkuntanKeranjangPenjurnalan({
-    this.penjurnalan_id,
-    this.daftar_akun_id,
-    this.daftar_akun_nama,
-    this.tgl_catat,
+    this.penjurnalanId,
+    this.daftarAkunId,
+    this.daftarAkunNama,
+    this.tglCatat,
     this.debet,
     this.kredit,
-    this.ket_transaksi,
+    this.ketTransaksi,
   });
 }
 
@@ -41,21 +40,21 @@ class AkuntanKeranjangPenjurnalan {
 // }
 
 Future<String> fetchDataInputKeranjangPenjurnalan(
-  p_penjurnalan_id,
-  p_daftar_akun_id,
-  p_tgl_catat,
-  p_debet,
-  p_kredit,
-  p_ket_transaksi,
+  pPenjurnalanId,
+  pDaftarAkunId,
+  pTglCatat,
+  pDebet,
+  pKredit,
+  pKetTransaksi,
 ) async {
   final response = await http
-      .post(Uri.parse(APIurl + "akuntan_inpt_penjurnalan_akun.php"), body: {
-    'penjurnalan_id': p_penjurnalan_id.toString(),
-    'daftar_akun_id': p_daftar_akun_id.toString(),
-    'tgl_catat': p_tgl_catat.toString(),
-    'debet': p_debet.toString(),
-    'kredit': p_kredit.toString(),
-    'ket_transaksi': p_ket_transaksi.toString(),
+      .post(Uri.parse(apiUrl + "akuntan_inpt_penjurnalan_akun.php"), body: {
+    'penjurnalan_id': pPenjurnalanId.toString(),
+    'daftar_akun_id': pDaftarAkunId.toString(),
+    'tgl_catat': pTglCatat.toString(),
+    'debet': pDebet.toString(),
+    'kredit': pKredit.toString(),
+    'ket_transaksi': pKetTransaksi.toString(),
   });
   if (response.statusCode == 200) {
     return response.body;

@@ -26,7 +26,7 @@ class _AkuntanInputPenjurnalanState extends State<AkuntanInputPenjurnalan> {
             child: DropdownButton(
               hint: Text("Pilih Akun"),
               value: valIdAkun,
-              items: AkntVDftrAkns.map((value) {
+              items: akntVDftrAkns.map((value) {
                 return DropdownMenuItem(
                   value: value.idAkun,
                   child: Text(value.namaAkun),
@@ -35,7 +35,7 @@ class _AkuntanInputPenjurnalanState extends State<AkuntanInputPenjurnalan> {
               onChanged: (value) {
                 setState(() {
                   valIdAkun = value;
-                  valueNamaAkun = AkntVDftrAkns[value - 1].namaAkun;
+                  valueNamaAkun = akntVDftrAkns[value - 1].namaAkun;
                   print('$valueNamaAkun');
                 });
               },
@@ -56,7 +56,7 @@ class _AkuntanInputPenjurnalanState extends State<AkuntanInputPenjurnalan> {
             child: DropdownButton(
               hint: Text("Debet/Kredit"),
               value: valueDebetKredit,
-              items: DebetKredit.map((value) {
+              items: debetKredit.map((value) {
                 return DropdownMenuItem(
                   child: Text(value),
                   value: value,
@@ -146,17 +146,17 @@ class _AkuntanInputPenjurnalanState extends State<AkuntanInputPenjurnalan> {
       idPenjurnalan = json['penjurnalan_id'];
       print('id_penjurnalan: $idPenjurnalan');
     }).then((value) => fetchDataAkuntanVDftrAkun().then((value) {
-          AkntVDftrAkns.clear();
+          akntVDftrAkns.clear();
           //Mengubah json menjadi Array
           // ignore: unused_local_variable
           Map json = jsonDecode(value);
           for (var i in json['data']) {
             AkuntanVDftrAkun dvlt = AkuntanVDftrAkun.fromJson(i);
-            AkntVDftrAkns.add(dvlt);
+            akntVDftrAkns.add(dvlt);
           }
           setState(() {});
         }));
-    KeranjangTransaksiPenjurnalans.clear();
+    keranjangTransaksiPenjurnalans.clear();
     super.initState();
   }
 
@@ -218,25 +218,26 @@ class _AkuntanInputPenjurnalanState extends State<AkuntanInputPenjurnalan> {
         ),
         ElevatedButton(
             onPressed: () {
-              AkuntanKeranjangPenjurnalan AIP = AkuntanKeranjangPenjurnalan();
-              AIP.penjurnalan_id = idPenjurnalan.toString();
-              AIP.daftar_akun_id = valIdAkun.toString();
-              AIP.daftar_akun_nama = valueNamaAkun.toString();
-              AIP.tgl_catat = controllerdate.text;
+              AkuntanKeranjangPenjurnalan akntnInptPnjrln = AkuntanKeranjangPenjurnalan();
+              akntnInptPnjrln.penjurnalanId = idPenjurnalan.toString();
+              akntnInptPnjrln.daftarAkunId = valIdAkun.toString();
+              akntnInptPnjrln.daftarAkunNama = valueNamaAkun.toString();
+              akntnInptPnjrln.tglCatat = controllerdate.text;
               if (valueDebetKredit.toString() == 'debet') {
-                AIP.kredit = '0';
-                AIP.debet = controllerNilaiAkun.text;
+                akntnInptPnjrln.kredit = '0';
+                akntnInptPnjrln.debet = controllerNilaiAkun.text;
               } else if (valueDebetKredit.toString() == 'kredit') {
-                AIP.debet = '0';
-                AIP.kredit = controllerNilaiAkun.text;
+                akntnInptPnjrln.debet = '0';
+                akntnInptPnjrln.kredit = controllerNilaiAkun.text;
               }
-              AIP.ket_transaksi = controllerKeterangan.text;
-              KeranjangTransaksiPenjurnalans.add(AIP);
-              for (var i in KeranjangTransaksiPenjurnalans) {
+              akntnInptPnjrln.ketTransaksi = controllerKeterangan.text;
+              keranjangTransaksiPenjurnalans.add(akntnInptPnjrln);
+              for (var i in keranjangTransaksiPenjurnalans) {
                 print(
-                    'penjurnalan_id:i.penjurnalan_id${i.penjurnalan_id} \ndaftar_akun_id:${i.daftar_akun_id}\ntgl_catat:${i.tgl_catat}\ndebet:${i.debet}\nkredit:${i.kredit}\nket_transaksi${i.ket_transaksi}');
+                    'penjurnalan_id:i.penjurnalan_id${i.penjurnalanId} \ndaftar_akun_id:${i.daftarAkunId}\ntgl_catat:${i.tglCatat}\ndebet:${i.debet}\nkredit:${i.kredit}\nket_transaksi${i.ketTransaksi}');
               }
               setState(() {
+                // ignore: deprecated_member_use
                 _scaffoldKey.currentState.showSnackBar(SnackBar(
                   content: Text('$valueNamaAkun berhasil!'),
                   duration: Duration(seconds: 2),
@@ -248,29 +249,31 @@ class _AkuntanInputPenjurnalanState extends State<AkuntanInputPenjurnalan> {
     );
   }
 
+  // ignore: missing_return
   Widget widgetTxtDebetKredit(debet, kredit, i) {
     if (debet > 0) {
       return Text(
-        'debet: ${KeranjangTransaksiPenjurnalans[i].debet.toString()}',
+        'debet: ${keranjangTransaksiPenjurnalans[i].debet.toString()}',
         style:
             TextStyle(backgroundColor: Colors.blueAccent, color: Colors.white),
       );
     } else if (kredit > 0) {
       return Text(
-        'Kredit: ${KeranjangTransaksiPenjurnalans[i].kredit.toString()}',
+        'Kredit: ${keranjangTransaksiPenjurnalans[i].kredit.toString()}',
         style: TextStyle(backgroundColor: Colors.red, color: Colors.white),
       );
     }
   }
 
+  // ignore: missing_return
   Widget widgetTextKeranjangTransaksi() {
-    if (KeranjangTransaksiPenjurnalans.length > 0) {
+    if (keranjangTransaksiPenjurnalans.length > 0) {
       return Column(
         children: [
           ListView.builder(
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
-              itemCount: KeranjangTransaksiPenjurnalans.length,
+              itemCount: keranjangTransaksiPenjurnalans.length,
               itemBuilder: (context, i) {
                 return Row(
                   children: [
@@ -279,17 +282,17 @@ class _AkuntanInputPenjurnalanState extends State<AkuntanInputPenjurnalan> {
                         subtitle: Column(
                           children: [
                             Text(
-                                '${KeranjangTransaksiPenjurnalans[i].daftar_akun_nama}'),
+                                '${keranjangTransaksiPenjurnalans[i].daftarAkunNama}'),
                             Text(
-                                'tgl ${KeranjangTransaksiPenjurnalans[i].tgl_catat}'),
+                                'tgl ${keranjangTransaksiPenjurnalans[i].tglCatat}'),
                             widgetTxtDebetKredit(
                                 int.parse(
-                                    KeranjangTransaksiPenjurnalans[i].debet),
+                                    keranjangTransaksiPenjurnalans[i].debet),
                                 int.parse(
-                                    KeranjangTransaksiPenjurnalans[i].kredit),
+                                    keranjangTransaksiPenjurnalans[i].kredit),
                                 i),
                             Text(
-                                'ket_transaksi: ${KeranjangTransaksiPenjurnalans[i].ket_transaksi}'),
+                                'ket_transaksi: ${keranjangTransaksiPenjurnalans[i].ketTransaksi}'),
                             Divider()
                           ],
                         ),
@@ -297,7 +300,7 @@ class _AkuntanInputPenjurnalanState extends State<AkuntanInputPenjurnalan> {
                     ),
                     ElevatedButton(
                         onPressed: () {
-                          KeranjangTransaksiPenjurnalans.removeAt(i);
+                          keranjangTransaksiPenjurnalans.removeAt(i);
                           setState(() {
                             widgetTextKeranjangTransaksi();
                           });
@@ -308,29 +311,31 @@ class _AkuntanInputPenjurnalanState extends State<AkuntanInputPenjurnalan> {
               }),
         ],
       );
-    } else if (KeranjangTransaksiPenjurnalans.length <= 0) {
+    } else if (keranjangTransaksiPenjurnalans.length <= 0) {
       return Center(child: Text('Keranjang masih kosong'));
     }
   }
 
+  // ignore: missing_return
   Function functionSimpanPenjurnalan() {
-    if (KeranjangTransaksiPenjurnalans.isNotEmpty) {
-      for (var i = 0; i < KeranjangTransaksiPenjurnalans.length; i++) {
+    if (keranjangTransaksiPenjurnalans.isNotEmpty) {
+      for (var i = 0; i < keranjangTransaksiPenjurnalans.length; i++) {
         fetchDataAkuntanInputTransaksiPenjurnalan(
-                KeranjangTransaksiPenjurnalans[i].penjurnalan_id,
-                KeranjangTransaksiPenjurnalans[i].daftar_akun_id,
-                KeranjangTransaksiPenjurnalans[i].tgl_catat,
-                KeranjangTransaksiPenjurnalans[i].debet,
-                KeranjangTransaksiPenjurnalans[i].kredit,
-                KeranjangTransaksiPenjurnalans[i].ket_transaksi)
+                keranjangTransaksiPenjurnalans[i].penjurnalanId,
+                keranjangTransaksiPenjurnalans[i].daftarAkunId,
+                keranjangTransaksiPenjurnalans[i].tglCatat,
+                keranjangTransaksiPenjurnalans[i].debet,
+                keranjangTransaksiPenjurnalans[i].kredit,
+                keranjangTransaksiPenjurnalans[i].ketTransaksi)
             .then((value) {
           Map json = jsonDecode(value);
           if (json['result'].toString() == 'success') {
+            // ignore: deprecated_member_use
             _scaffoldKey.currentState.showSnackBar(SnackBar(
               content: Text(value),
               duration: Duration(milliseconds: 100),
             ));
-            KeranjangTransaksiPenjurnalans.clear();
+            keranjangTransaksiPenjurnalans.clear();
             setState(() {
               widgetTextKeranjangTransaksi();
               Navigator.pop(context);

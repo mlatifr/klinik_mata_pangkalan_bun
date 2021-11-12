@@ -19,25 +19,25 @@ class KasirInputNotaJual {
   }
 }
 
-Future<String> fetchDataKasirInputNotaJual(pUser_id, pVisit_id, pTgl_transaksi,
-    pJasa_medis, pBiaya_admin, pTotal_harga) async {
+Future<String> fetchDataKasirInputNotaJual(pUserId, pVisitId, pTglTransaksi,
+    pJasaMedis, pBiayaAdmin, pTotalHarga) async {
   final response =
-      await http.post(Uri.parse(APIurl + "kasir_input_nota_jual.php"), body: {
-    "user_id": pUser_id.toString(),
-    "visit_id": pVisit_id.toString(),
-    "tgl_transaksi": pTgl_transaksi.toString().substring(0, 10),
-    "jasa_medis": pJasa_medis.toString(),
-    "biaya_admin": pBiaya_admin.toString(),
-    "total_harga": pTotal_harga.toString(),
+      await http.post(Uri.parse(apiUrl + "kasir_input_nota_jual.php"), body: {
+    "user_id": pUserId.toString(),
+    "visit_id": pVisitId.toString(),
+    "tgl_transaksi": pTglTransaksi.toString().substring(0, 10),
+    "jasa_medis": pJasaMedis.toString(),
+    "biaya_admin": pBiayaAdmin.toString(),
+    "total_harga": pTotalHarga.toString(),
   });
   if (response.statusCode == 200) {
     print('kasir_input_nota_jual tindakan:  \n'
-        '$pUser_id \n'
-        '$pVisit_id \n'
-        '$pTgl_transaksi \n'
-        '$pJasa_medis \n'
-        '$pBiaya_admin \n'
-        '$pTotal_harga \n'
+        '$pUserId \n'
+        '$pVisitId \n'
+        '$pTglTransaksi \n'
+        '$pJasaMedis \n'
+        '$pBiayaAdmin \n'
+        '$pTotalHarga \n'
         '${response.body}');
     return response.body;
   } else {

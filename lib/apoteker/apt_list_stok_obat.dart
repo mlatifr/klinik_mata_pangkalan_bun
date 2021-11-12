@@ -7,7 +7,7 @@ class AptListObat extends StatefulWidget {
   _AptListObatState createState() => _AptListObatState();
 }
 
-Widget WgGridViewBuilderStok() {
+Widget widgetGridViewBuilderStok() {
   return GridView.builder(
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: 200,
@@ -25,7 +25,7 @@ Widget WgGridViewBuilderStok() {
       });
 }
 
-Widget WgGridViewBuilderKalauarsa() {
+Widget widgetGridViewBuilderKalauarsa() {
   return GridView.builder(
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: 200,
@@ -43,7 +43,7 @@ Widget WgGridViewBuilderKalauarsa() {
       });
 }
 
-Widget WgGridViewBuilderNama() {
+Widget widgetGridViewBuilderNama() {
   return GridView.builder(
       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
           maxCrossAxisExtent: 200,
@@ -78,7 +78,7 @@ class _FirstScreenState extends State<FirstScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: Scaffold(body: Center(child: WgGridViewBuilderStok())));
+        home: Scaffold(body: Center(child: widgetGridViewBuilderStok())));
   }
 }
 
@@ -92,7 +92,7 @@ class _SecondScreenState extends State<SecondScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: Scaffold(body: Center(child: WgGridViewBuilderKalauarsa())));
+        home: Scaffold(body: Center(child: widgetGridViewBuilderKalauarsa())));
   }
 }
 
@@ -106,7 +106,7 @@ class _ThirdScreenState extends State<ThirdScreen> {
   Widget build(BuildContext context) {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: Scaffold(body: Center(child: WgGridViewBuilderNama())));
+        home: Scaffold(body: Center(child: widgetGridViewBuilderNama())));
   }
 }
 

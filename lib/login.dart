@@ -9,7 +9,7 @@ import 'package:http/http.dart' as http;
 String username, password, useridLoginDart;
 Future<String> fetchDataLogin() async {
   // print('cek login function');
-  final response = await http.post(Uri.parse(APIurl + "login.php"), body: {
+  final response = await http.post(Uri.parse(apiUrl + "login.php"), body: {
     'id': username,
     'sandi': password,
     // 'id': 'pasien1',

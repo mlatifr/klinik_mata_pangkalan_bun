@@ -1,15 +1,14 @@
 library flutter_application_1.akuntan_send_transaksi_penjurnalan;
 
 import 'dart:async';
-import 'dart:convert';
 import 'package:flutter_application_1/main.dart';
 import 'package:http/http.dart' as http;
 
-Future<String> fetchDataAkuntanInputBukaBukuPenjurnalan(pId_Akuntan) async {
+Future<String> fetchDataAkuntanInputBukaBukuPenjurnalan(pIdAkuntan) async {
   final response =
-      await http.post(Uri.parse(APIurl + "akuntan_inpt_penjurnalan.php"),
+      await http.post(Uri.parse(apiUrl + "akuntan_inpt_penjurnalan.php"),
           // body: {'bodyPost': '1'});
-          body: {'user_klinik': pId_Akuntan.toString()});
+          body: {'user_klinik': pIdAkuntan.toString()});
   // body: jsonEncode({transaksi_array}));
   if (response.statusCode == 200) {
     print('fetchDataAkuntanInputTransaksiPenjurnalan: ${response.body}');
@@ -19,18 +18,18 @@ Future<String> fetchDataAkuntanInputBukaBukuPenjurnalan(pId_Akuntan) async {
   }
 }
 
-Future<String> fetchDataAkuntanInputTransaksiPenjurnalan(pPenjurnalan_id,
-    pDaftar_akun_id, pTgl_catat, pDebet, pKredit, pKet_transaksi) async {
+Future<String> fetchDataAkuntanInputTransaksiPenjurnalan(pPenjurnalanId,
+    pDaftarAkunId, pTglCatat, pDebet, pKredit, pKetTransaksi) async {
   final response =
-      await http.post(Uri.parse(APIurl + "akuntan_inpt_penjurnalan_akun.php"),
+      await http.post(Uri.parse(apiUrl + "akuntan_inpt_penjurnalan_akun.php"),
           // body: {'bodyPost': '1'});
           body: {
-        'penjurnalan_id': pPenjurnalan_id,
-        'daftar_akun_id': pDaftar_akun_id,
-        'tgl_catat': pTgl_catat,
+        'penjurnalan_id': pPenjurnalanId,
+        'daftar_akun_id': pDaftarAkunId,
+        'tgl_catat': pTglCatat,
         'debet': pDebet,
         'kredit': pKredit,
-        'ket_transaksi': pKet_transaksi,
+        'ket_transaksi': pKetTransaksi,
       });
   // body: jsonEncode({transaksi_array}));
   if (response.statusCode == 200) {
@@ -43,7 +42,7 @@ Future<String> fetchDataAkuntanInputTransaksiPenjurnalan(pPenjurnalan_id,
 
 Future<String> fetchDataAkuntanInputTransaksiPenjurnalanArray() async {
   final response = await http
-      .post(Uri.parse(APIurl + "akuntan_inpt_penjurnalan_akun_copy.php"),
+      .post(Uri.parse(apiUrl + "akuntan_inpt_penjurnalan_akun_copy.php"),
           // body: {'bodyPost': '1'});
           body: {
         'transaksi_array[transaksi_1][penjurnalan_id]': '1',

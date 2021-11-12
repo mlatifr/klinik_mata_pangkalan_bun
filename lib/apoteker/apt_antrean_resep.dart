@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_application_1/dokter/dr_get_list_tindakan.dart';
-import 'package:flutter_application_1/dokter/dr_riwayat_periksa.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../main.dart';
 import 'dart:async';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-import 'apt_get_resep_pasien_detail.dart';
 import 'apt_input_obat.dart';
 
 class AptAntreanPasien extends StatefulWidget {
@@ -81,7 +78,7 @@ class _AptAntreanPasienState extends State<AptAntreanPasien> {
 
   Future<String> fetchDataApotekerAntreanPasien() async {
     final response =
-        await http.post(Uri.parse(APIurl + "dokter_v_antrean.php"), body: {
+        await http.post(Uri.parse(apiUrl + "dokter_v_antrean.php"), body: {
       'tgl_visit': controllerdate.text.toString().substring(0, 10),
       // 'tgl_visit': '2021-10-21',
     });
@@ -194,7 +191,7 @@ class _AptAntreanPasienState extends State<AptAntreanPasien> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => AptInputObat(
-                                    AptkrId: useridMainDart,
+                                    aptkrId: useridMainDart,
                                     namaPasien: AptkrVAs[index].userName,
                                     visitId: AptkrVAs[index].visitId,
                                   ))).then((onGoBack));
