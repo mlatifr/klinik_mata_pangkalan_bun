@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_application_1/login.dart';
 import 'package:flutter_application_1/pasien/pendaftaran_pasien_baru/pasien_cek_available.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -53,16 +54,61 @@ class _PagePasienDaftarBaruState extends State<PagePasienDaftarBaru> {
   }
 
   Widget widgetSandiCheck() {
-    if (_controllerSandi.text == _controllerSandi2.text) {
+    if (_controllerSandi.text == _controllerSandi2.text &&
+        _controllerSandi.text != '' &&
+        _controllerSandi2.text != '') {
       return Icon(
         Icons.check,
         color: Colors.green,
+      );
+    } else if (_controllerSandi.text == '' && _controllerSandi2.text == '') {
+      return Padding(
+        padding: const EdgeInsets.only(left: 10.0),
+        child: Text(
+          'sandi tidak boleh kosong!',
+          style: TextStyle(color: Colors.red),
+        ),
       );
     } else
       return Icon(
         Icons.cancel_sharp,
         color: Colors.red,
       );
+  }
+
+  Widget widgetSandiText() {
+    if (_controllerSandi.text != _controllerSandi2.text) {
+      return Padding(
+        padding: const EdgeInsets.only(left: 10.0),
+        child: Text(
+          'sandi tidak sama!',
+          style: TextStyle(color: Colors.red),
+        ),
+      );
+    } else if (_controllerSandi.text == '' && _controllerSandi2.text == '') {
+      return Padding(
+        padding: const EdgeInsets.only(left: 10.0),
+        child: Text(
+          'sandi tidak boleh kosong!',
+          style: TextStyle(color: Colors.red),
+        ),
+      );
+    } else
+      return Icon(
+        Icons.check,
+        color: Colors.green,
+      );
+  }
+
+  @override
+  void initState() {
+    _controllerUsername.clear();
+    _controllerSandi.text = '';
+    _controllerSandi2.clear();
+    _controllerTglLahir.clear();
+    _controllersNik.clear();
+    _controllersNamaLengkap.clear();
+    super.initState();
   }
 
   @override
@@ -123,25 +169,39 @@ class _PagePasienDaftarBaruState extends State<PagePasienDaftarBaru> {
             SizedBox(
               height: 10,
             ),
-            TextFormField(
-                controller: _controllerSandi,
-                obscureText: true,
-                decoration: InputDecoration(
-                  labelText: "Sandi",
-                  fillColor: Colors.white,
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide(
-                      color: Colors.blue,
-                    ),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                    borderSide: BorderSide(
-                      color: Colors.blue,
-                    ),
-                  ),
-                )),
+            Row(
+              children: [
+                Expanded(
+                  flex: 8,
+                  child: TextFormField(
+                      onChanged: (value) {
+                        setState(() {
+                          widgetSandiCheck();
+                          widgetSandiText();
+                        });
+                      },
+                      controller: _controllerSandi,
+                      obscureText: true,
+                      decoration: InputDecoration(
+                        labelText: "Sandi",
+                        fillColor: Colors.white,
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(
+                            color: Colors.blue,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(
+                            color: Colors.blue,
+                          ),
+                        ),
+                      )),
+                ),
+                Expanded(flex: 2, child: widgetSandiText())
+              ],
+            ),
             SizedBox(
               height: 10,
             ),
@@ -154,6 +214,7 @@ class _PagePasienDaftarBaruState extends State<PagePasienDaftarBaru> {
                       onChanged: (value) {
                         setState(() {
                           widgetSandiCheck();
+                          widgetSandiText();
                         });
                       },
                       obscureText: true,
@@ -181,22 +242,27 @@ class _PagePasienDaftarBaruState extends State<PagePasienDaftarBaru> {
               height: 10,
             ),
             TextFormField(
-                decoration: InputDecoration(
-              labelText: "NIK: Nomor Induk Kependudukan",
-              fillColor: Colors.white,
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: BorderSide(
-                  color: Colors.blue,
+              keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly
+              ],
+              decoration: InputDecoration(
+                labelText: "NIK: Nomor Induk Kependudukan",
+                fillColor: Colors.white,
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: BorderSide(
+                    color: Colors.blue,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: BorderSide(
+                    color: Colors.blue,
+                  ),
                 ),
               ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: BorderSide(
-                  color: Colors.blue,
-                ),
-              ),
-            )),
+            ),
             SizedBox(
               height: 10,
             ),
@@ -356,22 +422,29 @@ class _PagePasienDaftarBaruState extends State<PagePasienDaftarBaru> {
               height: 10,
             ),
             TextFormField(
+                maxLength: 5,
+                maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                keyboardType: TextInputType.number,
+                inputFormatters: <TextInputFormatter>[
+                  FilteringTextInputFormatter.digitsOnly,
+                  LengthLimitingTextInputFormatter(5),
+                ],
                 decoration: InputDecoration(
-              labelText: "Telepon",
-              fillColor: Colors.white,
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: BorderSide(
-                  color: Colors.blue,
-                ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: BorderSide(
-                  color: Colors.blue,
-                ),
-              ),
-            )),
+                  labelText: "Telepon",
+                  fillColor: Colors.white,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide(
+                      color: Colors.blue,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide(
+                      color: Colors.blue,
+                    ),
+                  ),
+                )),
             TextButton(
                 style: TextButton.styleFrom(
                   primary: Colors.white,
