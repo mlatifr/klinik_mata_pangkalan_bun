@@ -2,11 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_application_1/login.dart';
 import 'package:flutter_application_1/pasien/pendaftaran_pasien_baru/pasien_cek_available.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../../main.dart';
 
 final _controllerTglLahir = TextEditingController();
 final _controllerUsername = TextEditingController();
@@ -17,8 +13,8 @@ final _controllerNamaLengkap = TextEditingController();
 final _controllerAlamat = TextEditingController();
 final _controllerTempatLahir = TextEditingController();
 final _controllerTelepon = TextEditingController();
-String AvailableUsername, valueStatusPernikahan = '';
-List<String> ListStatusPernikahans = [
+String availableUsername, valueStatusPernikahan = '';
+List<String> listStatusPernikahans = [
   'belum kawin',
   'kawin',
   'cerai hidup',
@@ -33,15 +29,15 @@ class PagePasienDaftarBaru extends StatefulWidget {
 }
 
 class _PagePasienDaftarBaruState extends State<PagePasienDaftarBaru> {
-  PasienBacaDataAvailableUsername(username) {
-    AvailableUsername = '';
+  pasienBacaDataAvailableUsername(username) {
+    availableUsername = '';
     Future<String> data = fetchDataAvailableUsername(username);
     data.then((value) {
       //Mengubah json menjadi string
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
       if (json['data'] == 'username available') {
-        AvailableUsername = json['data'].toString();
+        availableUsername = json['data'].toString();
       }
       setState(() {
         widgetUsernameCheck();
@@ -50,7 +46,7 @@ class _PagePasienDaftarBaruState extends State<PagePasienDaftarBaru> {
   }
 
   Widget widgetUsernameCheck() {
-    if (AvailableUsername == 'username available' && AvailableUsername != '') {
+    if (availableUsername == 'username available' && availableUsername != '') {
       return Icon(
         Icons.check,
         color: Colors.green,
@@ -111,7 +107,7 @@ class _PagePasienDaftarBaruState extends State<PagePasienDaftarBaru> {
 
   @override
   void initState() {
-    AvailableUsername = '';
+    availableUsername = '';
     valueStatusPernikahan = 'belum kawin';
     _controllerUsername.clear();
     _controllerSandi.text = '';
@@ -154,7 +150,7 @@ class _PagePasienDaftarBaruState extends State<PagePasienDaftarBaru> {
                   child: TextFormField(
                       controller: _controllerUsername,
                       onChanged: (value) {
-                        PasienBacaDataAvailableUsername(
+                        pasienBacaDataAvailableUsername(
                             _controllerUsername.text);
                       },
                       decoration: InputDecoration(
@@ -423,7 +419,7 @@ class _PagePasienDaftarBaruState extends State<PagePasienDaftarBaru> {
                     itemHeight: 88.0,
                     hint: Text("Status Pernikahan"),
                     value: valueStatusPernikahan,
-                    items: ListStatusPernikahans.map((value) {
+                    items: listStatusPernikahans.map((value) {
                       return DropdownMenuItem(
                         child: Text(value),
                         value: value,
@@ -487,11 +483,12 @@ class _PagePasienDaftarBaruState extends State<PagePasienDaftarBaru> {
                       actions: <Widget>[
                         TextButton(
                             onPressed: () {
-                              
-                              Navigator.pop(
-                                context,
-                                'ok',
-                              );
+                              Navigator.pop(context);
+                            },
+                            child: Text('Batal')),
+                        TextButton(
+                            onPressed: () {
+                              Navigator.pop(context);
                             },
                             child: Text('ok')),
                       ],
