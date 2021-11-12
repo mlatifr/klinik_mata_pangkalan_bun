@@ -12,9 +12,18 @@ final _controllerTglLahir = TextEditingController();
 final _controllerUsername = TextEditingController();
 final _controllerSandi = TextEditingController();
 final _controllerSandi2 = TextEditingController();
-final _controllersNik = TextEditingController();
-final _controllersNamaLengkap = TextEditingController();
-String AvailableUsername = '';
+final _controllerNik = TextEditingController();
+final _controllerNamaLengkap = TextEditingController();
+final _controllerAlamat = TextEditingController();
+final _controllerTempatLahir = TextEditingController();
+final _controllerTelepon = TextEditingController();
+String AvailableUsername, valueStatusPernikahan = '';
+List<String> ListStatusPernikahans = [
+  'belum kawin',
+  'kawin',
+  'cerai hidup',
+  'cerai mati'
+];
 
 class PagePasienDaftarBaru extends StatefulWidget {
   const PagePasienDaftarBaru({Key key}) : super(key: key);
@@ -41,7 +50,7 @@ class _PagePasienDaftarBaruState extends State<PagePasienDaftarBaru> {
   }
 
   Widget widgetUsernameCheck() {
-    if (AvailableUsername == 'username available') {
+    if (AvailableUsername == 'username available' && AvailableUsername != '') {
       return Icon(
         Icons.check,
         color: Colors.green,
@@ -102,12 +111,14 @@ class _PagePasienDaftarBaruState extends State<PagePasienDaftarBaru> {
 
   @override
   void initState() {
+    AvailableUsername = '';
+    valueStatusPernikahan = 'belum kawin';
     _controllerUsername.clear();
     _controllerSandi.text = '';
     _controllerSandi2.clear();
     _controllerTglLahir.clear();
-    _controllersNik.clear();
-    _controllersNamaLengkap.clear();
+    _controllerNik.clear();
+    _controllerNamaLengkap.clear();
     super.initState();
   }
 
@@ -127,8 +138,8 @@ class _PagePasienDaftarBaruState extends State<PagePasienDaftarBaru> {
                 _controllerSandi.clear();
                 _controllerSandi2.clear();
                 _controllerTglLahir.clear();
-                _controllersNik.clear();
-                _controllersNamaLengkap.clear();
+                _controllerNik.clear();
+                _controllerNamaLengkap.clear();
                 Navigator.pop(context);
               }),
         ),
@@ -242,6 +253,8 @@ class _PagePasienDaftarBaruState extends State<PagePasienDaftarBaru> {
               height: 10,
             ),
             TextFormField(
+              maxLength: 16,
+              controller: _controllerNik,
               keyboardType: TextInputType.number,
               inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.digitsOnly
@@ -267,29 +280,28 @@ class _PagePasienDaftarBaruState extends State<PagePasienDaftarBaru> {
               height: 10,
             ),
             TextFormField(
+                controller: _controllerNamaLengkap,
                 decoration: InputDecoration(
-              labelText: "Nama Lengkap",
-              fillColor: Colors.white,
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: BorderSide(
-                  color: Colors.blue,
-                ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: BorderSide(
-                  color: Colors.blue,
-                ),
-              ),
-            )),
-            SizedBox(
-              height: 10,
-            ),
+                  labelText: "Nama Lengkap",
+                  fillColor: Colors.white,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide(
+                      color: Colors.blue,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide(
+                      color: Colors.blue,
+                    ),
+                  ),
+                )),
             SizedBox(
               height: 10,
             ),
             TextFormField(
+                controller: _controllerAlamat,
                 maxLines: 3,
                 decoration: InputDecoration(
                   labelText: "Alamat",
@@ -311,22 +323,23 @@ class _PagePasienDaftarBaruState extends State<PagePasienDaftarBaru> {
               height: 10,
             ),
             TextFormField(
+                controller: _controllerTempatLahir,
                 decoration: InputDecoration(
-              labelText: "Tempat Lahir",
-              fillColor: Colors.white,
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: BorderSide(
-                  color: Colors.blue,
-                ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: BorderSide(
-                  color: Colors.blue,
-                ),
-              ),
-            )),
+                  labelText: "Tempat Lahir",
+                  fillColor: Colors.white,
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide(
+                      color: Colors.blue,
+                    ),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                    borderSide: BorderSide(
+                      color: Colors.blue,
+                    ),
+                  ),
+                )),
             SizedBox(
               height: 10,
             ),
@@ -359,8 +372,8 @@ class _PagePasienDaftarBaruState extends State<PagePasienDaftarBaru> {
                             showDatePicker(
                                     context: context,
                                     initialDate: DateTime.now(),
-                                    firstDate: DateTime(2000),
-                                    lastDate: DateTime(2200))
+                                    firstDate: DateTime(1900),
+                                    lastDate: DateTime(2500))
                                 .then((value) {
                               setState(() {
                                 _controllerTglLahir.text =
@@ -381,53 +394,61 @@ class _PagePasienDaftarBaruState extends State<PagePasienDaftarBaru> {
             SizedBox(
               height: 10,
             ),
-            TextFormField(
-                decoration: InputDecoration(
-              labelText: "Tanggal Lahir",
-              fillColor: Colors.white,
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: BorderSide(
-                  color: Colors.blue,
+            Row(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: TextFormField(
+                      enabled: false,
+                      decoration: InputDecoration(
+                        labelText: "Status pernikahan: ",
+                        fillColor: Colors.white,
+                        enabledBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(
+                            color: Colors.blue,
+                          ),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                          borderSide: BorderSide(
+                            color: Colors.blue,
+                          ),
+                        ),
+                      )),
                 ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: BorderSide(
-                  color: Colors.blue,
+                Expanded(
+                  flex: 2,
+                  child: DropdownButton(
+                    itemHeight: 88.0,
+                    hint: Text("Status Pernikahan"),
+                    value: valueStatusPernikahan,
+                    items: ListStatusPernikahans.map((value) {
+                      return DropdownMenuItem(
+                        child: Text(value),
+                        value: value,
+                      );
+                    }).toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        valueStatusPernikahan = value;
+                        print('$valueStatusPernikahan');
+                      });
+                    },
+                  ),
                 ),
-              ),
-            )),
+              ],
+            ),
             SizedBox(
               height: 10,
             ),
             TextFormField(
-                decoration: InputDecoration(
-              labelText: "Status Perkawinan",
-              fillColor: Colors.white,
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: BorderSide(
-                  color: Colors.blue,
-                ),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10.0),
-                borderSide: BorderSide(
-                  color: Colors.blue,
-                ),
-              ),
-            )),
-            SizedBox(
-              height: 10,
-            ),
-            TextFormField(
-                maxLength: 5,
+                controller: _controllerTelepon,
+                maxLength: 12,
                 maxLengthEnforcement: MaxLengthEnforcement.enforced,
                 keyboardType: TextInputType.number,
                 inputFormatters: <TextInputFormatter>[
                   FilteringTextInputFormatter.digitsOnly,
-                  LengthLimitingTextInputFormatter(5),
                 ],
                 decoration: InputDecoration(
                   labelText: "Telepon",
@@ -451,8 +472,31 @@ class _PagePasienDaftarBaruState extends State<PagePasienDaftarBaru> {
                   backgroundColor: Colors.blue,
                 ),
                 onPressed: () {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('Harap Isian diperbaiki')));
+                  showDialog<String>(
+                    context: context,
+                    builder: (BuildContext context) => AlertDialog(
+                      title: Text(
+                        'Anda akan menyimpan data:',
+                        style: TextStyle(fontSize: 14),
+                      ),
+                      content: TextFormField(
+                        maxLines: 8,
+                        initialValue:
+                            'Username: ${_controllerUsername.text}\nNIK: ${_controllerNik.text}\nNama: ${_controllerNamaLengkap.text}\nAlamat: ${_controllerAlamat.text}\nTempat Lahir: ${_controllerTempatLahir.text}\nTanggal Lahir: ${_controllerTglLahir.text}\nTlp: ${_controllerTelepon.text}',
+                      ),
+                      actions: <Widget>[
+                        TextButton(
+                            onPressed: () {
+                              
+                              Navigator.pop(
+                                context,
+                                'ok',
+                              );
+                            },
+                            child: Text('ok')),
+                      ],
+                    ),
+                  );
                 },
                 child: Text("SIMPAN"))
           ],
