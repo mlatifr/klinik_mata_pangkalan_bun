@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_application_1/pasien/pendaftaran_pasien_baru/pasien_cek_available.dart';
+import 'package:flutter_application_1/pasien/pendaftaran_pasien_baru/pasien_get_post_data.dart';
 
 final _controllerUsername = TextEditingController();
 final _controllerSandi = TextEditingController();
@@ -186,9 +186,17 @@ class _PagePasienDaftarBaruState extends State<PagePasienDaftarBaru> {
                 _controllerUsername.clear();
                 _controllerSandi.clear();
                 _controllerSandi2.clear();
-                _controllerTglLahir.clear();
                 _controllerNik.clear();
                 _controllerNamaLengkap.clear();
+                _controllerTglLahir.clear();
+                _controllerTempatLahir.clear();
+                _controllerKelamin.clear();
+                _controllerGolonganDarah.clear();
+                _controllerAgama.clear();
+                _controllerPekerjaan.clear();
+                _controllerKewarganegaraan.clear();
+                _controllerAlamat.clear();
+                _controllerTelepon.clear();
                 Navigator.pop(context);
               }),
         ),

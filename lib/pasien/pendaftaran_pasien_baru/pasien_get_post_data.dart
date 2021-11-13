@@ -24,19 +24,51 @@ import 'package:http/http.dart' as http;
 //   }
 // }
 
-Future<String> fetchDataPostDaftarBaru(pUsername, pSandi, pNik, pNamaLkp, pAlmt,
-    pTmptLhr, pTglLhr, pStsNkh, pTlp) async {
+Future<String> fetchDataPostDaftarUsernameBaru(pUsername, pSandi) async {
   final response = await http
       .post(Uri.parse(apiUrl + "pasien_v_username_available.php"), body: {
     'username': pUsername.toString(),
-    'username': pSandi.toString(),
-    'username': pNik.toString(),
-    'username': pNamaLkp.toString(),
-    'username': pAlmt.toString(),
-    'username': pTmptLhr.toString(),
-    'username': pTglLhr.toString(),
-    'username': pStsNkh.toString(),
-    'username': pTlp.toString(),
+    'sandi': pSandi.toString(),
+  });
+  if (response.statusCode == 200) {
+    print(response.body);
+    return response.body;
+  } else {
+    throw Exception('Failed to read API');
+  }
+}
+
+Future<String> fetchDataPostDaftarBaru(
+    pUsername,
+    pSandi,
+    pNik,
+    pNamaLkp,
+    pAlmt,
+    pAgama,
+    pTmptLhr,
+    pTglLhr,
+    pJnsKlm,
+    pGolDar,
+    pStatusNikah,
+    pPekerjaan,
+    pKewarganegaraan,
+    pTlp) async {
+  final response = await http
+      .post(Uri.parse(apiUrl + "pasien_v_username_available.php"), body: {
+    'username': pUsername.toString(),
+    'sandi': pSandi.toString(),
+    'NIK': pNik.toString(),
+    'nama': pNamaLkp.toString(),
+    'tempat_lahir': pTmptLhr.toString(),
+    'tgl_lahir': pTglLhr.toString(),
+    'kelamin': pJnsKlm.toString(),
+    'golongan_darah': pGolDar.toString(),
+    'alamat': pAlmt.toString(),
+    'agama': pAgama.toString(),
+    'status_kawin': pStatusNikah.toString(),
+    'pekerjaan': pPekerjaan.toString(),
+    'kewarganegaraan': pKewarganegaraan.toString(),
+    'tlp': pTlp.toString(),
   });
   if (response.statusCode == 200) {
     print(response.body);
