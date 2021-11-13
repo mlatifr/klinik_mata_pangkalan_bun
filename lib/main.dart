@@ -342,8 +342,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       print('userid: $useridMainDart');
                       getUserId();
                       bacaDataAntrean();
-                      print(
-                          "antrean_terakhir tombol simpan: $antreanTerakhir");
+                      print("antrean_terakhir tombol simpan: $antreanTerakhir");
                       if (antreanTerakhir != null) {
                         if (batasAntrean > antreanTerakhir) {
                           setState(() {

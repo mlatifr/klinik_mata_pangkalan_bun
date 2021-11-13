@@ -53,8 +53,8 @@ Future<String> fetchDataPostDaftarBaru(
     pPekerjaan,
     pKewarganegaraan,
     pTlp) async {
-  final response = await http
-      .post(Uri.parse(apiUrl + "pasien_v_username_available.php"), body: {
+  final response =
+      await http.post(Uri.parse(apiUrl + "pasien_daftar_user_baru.php"), body: {
     'username': pUsername.toString(),
     'sandi': pSandi.toString(),
     'NIK': pNik.toString(),
