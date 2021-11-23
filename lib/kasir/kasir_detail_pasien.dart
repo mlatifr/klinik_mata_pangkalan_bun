@@ -195,9 +195,9 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
               ],
               onChanged: (value) {
                 setState(() {
-                  controllerBiayaAdmin.text = value.toString();
-                  controllerBiayaAdmin.selection = TextSelection.fromPosition(
-                      TextPosition(offset: controllerBiayaAdmin.text.length));
+                  // controllerBiayaAdmin.text = value.toString();
+                  // controllerBiayaAdmin.selection = TextSelection.fromPosition(
+                  //     TextPosition(offset: controllerBiayaAdmin.text.length));
                   widgetTextTotalPembayaran();
                 });
               },
@@ -229,10 +229,10 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
               ],
               onChanged: (value) {
                 setState(() {
-                  controllerBiayaJasaMedis.text = value.toString();
-                  controllerBiayaJasaMedis.selection =
-                      TextSelection.fromPosition(TextPosition(
-                          offset: controllerBiayaJasaMedis.text.length));
+                  // controllerBiayaJasaMedis.text = value.toString();
+                  // controllerBiayaJasaMedis.selection =
+                  //     TextSelection.fromPosition(TextPosition(
+                  //         offset: controllerBiayaJasaMedis.text.length));
                   widgetTextTotalPembayaran();
                 });
               },

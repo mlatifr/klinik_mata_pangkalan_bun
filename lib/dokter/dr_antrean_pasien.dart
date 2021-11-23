@@ -243,26 +243,26 @@ class _DrAntreanPasienState extends State<DrAntreanPasien> {
                 ),
               ),
             )),
-            ElevatedButton(
-                onPressed: () {
-                  showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(2000),
-                          lastDate: DateTime(2200))
-                      .then((value) {
-                    setState(() {
-                      controllerdate.text = value.toString().substring(0, 10);
-                      print(value.toString());
-                      DokterBacaDataAntrean();
-                    });
-                  });
-                },
-                child: Icon(
-                  Icons.calendar_today_sharp,
-                  color: Colors.white,
-                  size: 24.0,
-                ))
+            // ElevatedButton(
+            //     onPressed: () {
+            //       showDatePicker(
+            //               context: context,
+            //               initialDate: DateTime.now(),
+            //               firstDate: DateTime(2000),
+            //               lastDate: DateTime(2200))
+            //           .then((value) {
+            //         setState(() {
+            //           controllerdate.text = value.toString().substring(0, 10);
+            //           print(value.toString());
+            //           DokterBacaDataAntrean();
+            //         });
+            //       });
+            //     },
+            //     child: Icon(
+            //       Icons.calendar_today_sharp,
+            //       color: Colors.white,
+            //       size: 24.0,
+            //     ))
           ],
         ));
   }

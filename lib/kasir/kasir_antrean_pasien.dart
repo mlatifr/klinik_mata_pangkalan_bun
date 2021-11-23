@@ -100,26 +100,26 @@ class _KsrAntreanPasienState extends State<KsrAntreanPasien> {
                 ),
               ),
             )),
-            ElevatedButton(
-                onPressed: () {
-                  showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(2000),
-                          lastDate: DateTime(2200))
-                      .then((value) {
-                    setState(() {
-                      controllerdate.text = value.toString().substring(0, 10);
-                      print(value.toString());
-                      KasirBacaDataVAntrean(controllerdate.text);
-                    });
-                  });
-                },
-                child: Icon(
-                  Icons.calendar_today_sharp,
-                  color: Colors.white,
-                  size: 24.0,
-                ))
+            // ElevatedButton(
+            //     onPressed: () {
+            //       showDatePicker(
+            //               context: context,
+            //               initialDate: DateTime.now(),
+            //               firstDate: DateTime(2000),
+            //               lastDate: DateTime(2200))
+            //           .then((value) {
+            //         setState(() {
+            //           controllerdate.text = value.toString().substring(0, 10);
+            //           print(value.toString());
+            //           KasirBacaDataVAntrean(controllerdate.text);
+            //         });
+            //       });
+            //     },
+            //     child: Icon(
+            //       Icons.calendar_today_sharp,
+            //       color: Colors.white,
+            //       size: 24.0,
+            //     ))
           ],
         ));
   }
@@ -134,7 +134,6 @@ class _KsrAntreanPasienState extends State<KsrAntreanPasien> {
     });
   }
 
-
   @override
   void initState() {
     DateTime now = new DateTime.now();
@@ -143,12 +142,11 @@ class _KsrAntreanPasienState extends State<KsrAntreanPasien> {
     controllerdate.text = date.toString().substring(0, 10);
     KasirBacaDataVAntrean(controllerdate.text);
     kVAs = [];
-    // functionTimerRefresh();
+    functionTimerRefresh();
     super.initState();
   }
 
   onGoBack(dynamic value) {
-    functionTimerRefresh();
     print('timer start');
     setState(() {
       KasirBacaDataVAntrean(controllerdate.text);
@@ -166,17 +164,19 @@ class _KsrAntreanPasienState extends State<KsrAntreanPasien> {
                   padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
                   child: ListTile(
                     onTap: () {
-                      // _timerForInter.cancel();
+                      _timerForInter.cancel();
                       print('timer stop');
                       Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => KasirDetailPasien(
-                                  namaPasien: kVAs[index].userName,
-                                  visitId: kVAs[index].visitId,
-                                  visitDate: controllerdate.text
-                                      .toString()
-                                      .substring(0, 10)))).then((onGoBack));
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => KasirDetailPasien(
+                                      namaPasien: kVAs[index].userName,
+                                      visitId: kVAs[index].visitId,
+                                      visitDate: controllerdate.text
+                                          .toString()
+                                          .substring(0, 10))))
+                          .then((onGoBack))
+                          .then((value) => functionTimerRefresh());
                     },
                     leading: CircleAvatar(
                       child: Text('${index + 1}'),
