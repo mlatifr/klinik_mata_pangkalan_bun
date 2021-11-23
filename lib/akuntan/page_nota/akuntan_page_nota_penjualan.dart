@@ -90,10 +90,10 @@ class _AkuntanVNotaPjlnState extends State<AkuntanVNotaPjln> {
               controller: controllerdate,
               onChanged: (value) {
                 setState(() {
-                  controllerdate.text = value.toString();
-                  controllerdate.selection = TextSelection.fromPosition(
-                      TextPosition(offset: controllerdate.text.length));
-                  print('TextFormField controllerdate $value');
+                  // controllerdate.text = value.toString();
+                  // controllerdate.selection = TextSelection.fromPosition(
+                  //     TextPosition(offset: controllerdate.text.length));
+                  // print('TextFormField controllerdate $value');
                 });
               },
               enabled: false,
@@ -137,6 +137,18 @@ class _AkuntanVNotaPjlnState extends State<AkuntanVNotaPjln> {
                 ))
           ],
         ));
+  }
+
+  @override
+  void initState() {
+    DateTime now = new DateTime.now();
+    DateTime date = new DateTime(now.year, now.month, now.day);
+    print(date);
+    controllerdate.text = date.toString().substring(0, 10);
+    AkunanBacaDataPenjualanObat(controllerdate.text);
+    AkunanBacaDataPenjualanjasmed(controllerdate.text);
+    AkunanBacaDataPenjualanAdmin(controllerdate.text);
+    super.initState();
   }
 
   @override
