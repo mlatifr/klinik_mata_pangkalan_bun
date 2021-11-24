@@ -169,16 +169,28 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
   TextEditingController controllerBiayaAdmin = TextEditingController(text: "0");
   TextEditingController controllerBiayaJasaMedis =
       TextEditingController(text: "0");
-  var totalAdmin, totalMedis, totalTdknRspAdmMdis;
+  var totalMedis, totalTdknRspAdmMdis;
+  var totalAdmin = 0;
   Widget widgetTextTotalPembayaran() {
-    totalAdmin = int.parse(controllerBiayaAdmin.text);
-    totalMedis = int.parse(controllerBiayaJasaMedis.text);
+    if (controllerBiayaAdmin.text.isNotEmpty) {
+      totalAdmin = int.parse(controllerBiayaAdmin.text);
+    }
+    if (controllerBiayaJasaMedis.text.isNotEmpty) {
+      totalMedis = int.parse(controllerBiayaJasaMedis.text);
+    }
     totalTdknRspAdmMdis =
         totalBiayaTindakan + totalBiayaObat + totalAdmin + totalMedis;
-    return Text(
-      'Rp ${numberFormatRpResep.format(totalTdknRspAdmMdis)}',
-      textAlign: TextAlign.center,
-    );
+    if (totalAdmin != 0 && totalMedis != 0) {
+      return Text(
+        'Rp ${numberFormatRpResep.format(totalTdknRspAdmMdis)}',
+        textAlign: TextAlign.center,
+      );
+    } else {
+      return Text(
+        'Rp ${totalTdknRspAdmMdis}',
+        textAlign: TextAlign.center,
+      );
+    }
   }
 
   Widget widgetInputPembayaran() {
