@@ -3,7 +3,9 @@ import 'package:flutter_application_1/akuntan/page_nota/akuntan_fetch_penjualan_
 import 'package:intl/intl.dart';
 
 class WidgetAkunJasmed extends StatefulWidget {
-  const WidgetAkunJasmed({Key key}) : super(key: key);
+  var pTextDaftarPenjualanJasmed;
+  WidgetAkunJasmed({Key key, this.pTextDaftarPenjualanJasmed})
+      : super(key: key);
 
   @override
   _WidgetAkunJasmedState createState() => _WidgetAkunJasmedState();
@@ -11,37 +13,40 @@ class WidgetAkunJasmed extends StatefulWidget {
 
 class _WidgetAkunJasmedState extends State<WidgetAkunJasmed> {
   var numberFormatRp = new NumberFormat("#,##0", "id_ID");
-  Widget widgetListJasmed() {
+  Widget widgetListJasmed(pTextDaftarPenjualanJasmed) {
     if (listPenjualanJasmeds.length > 0) {
-      return ExpansionTile(title: Text('Daftar Penjualan Jasmed'), children: [
-        ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: listPenjualanJasmeds.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: Colors.black,
-                          width: 3.0,
+      return ExpansionTile(
+          title: Text('$pTextDaftarPenjualanJasmed'),
+          children: [
+            ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: listPenjualanJasmeds.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color: Colors.black,
+                              width: 3.0,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    child: ListTile(
-                      onTap: () {},
-                      leading: CircleAvatar(
-                        child: Text('${index + 1}'),
-                      ),
-                      title: Text('${listPenjualanJasmeds[index].namaPasien}'),
-                      subtitle: Text(
-                          '${listPenjualanJasmeds[index].tglResep} \nRp ${numberFormatRp.format(listPenjualanJasmeds[index].harga)}'),
-                    ),
-                  ));
-            }),
-      ]);
+                        child: ListTile(
+                          onTap: () {},
+                          leading: CircleAvatar(
+                            child: Text('${index + 1}'),
+                          ),
+                          title:
+                              Text('${listPenjualanJasmeds[index].namaPasien}'),
+                          subtitle: Text(
+                              '${listPenjualanJasmeds[index].tglResep} \nRp ${numberFormatRp.format(listPenjualanJasmeds[index].harga)}'),
+                        ),
+                      ));
+                }),
+          ]);
     } else
       return Container();
   }
@@ -68,7 +73,7 @@ class _WidgetAkunJasmedState extends State<WidgetAkunJasmed> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        widgetListJasmed(),
+        widgetListJasmed(widget.pTextDaftarPenjualanJasmed),
         widgetTextTotalPenjualanJasmed(),
       ],
     );

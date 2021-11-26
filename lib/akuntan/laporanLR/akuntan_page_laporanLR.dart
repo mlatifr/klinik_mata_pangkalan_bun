@@ -144,7 +144,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
     DateTime now = new DateTime.now();
     DateTime date = new DateTime(now.year, now.month, now.day);
     print(date);
-    controllerdate.text = date.toString().substring(0, 10);
+    controllerdate.text = date.toString().substring(0, 7);
     AkunanBacaDataPenjualanObat(controllerdate.text);
     AkunanBacaDataPenjualanjasmed(controllerdate.text);
     AkunanBacaDataPenjualanAdmin(controllerdate.text);
@@ -169,9 +169,11 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
           body: ListView(
             children: [
               widgetSelectTgl(),
-              WidgetAkunJasmed(),
+              WidgetAkunObat(textHeaderPenjualanObat: 'Penjualan Obat'),
               Divider(),
-              WidgetAkunObat(),
+              WidgetAkunJasmed(
+                pTextDaftarPenjualanJasmed: 'Pendapatan jasa medis',
+              ),
               Divider(),
               WidgetAkunAdmin(),
             ],

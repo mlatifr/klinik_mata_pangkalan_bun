@@ -3,7 +3,8 @@ import 'package:flutter_application_1/akuntan/page_nota/akuntan_fetch_penjualan_
 import 'package:intl/intl.dart';
 
 class WidgetAkunObat extends StatefulWidget {
-  const WidgetAkunObat({Key key}) : super(key: key);
+  var textHeaderPenjualanObat;
+  WidgetAkunObat({Key key, this.textHeaderPenjualanObat}) : super(key: key);
 
   @override
   _WidgetAkunObatState createState() => _WidgetAkunObatState();
@@ -11,9 +12,9 @@ class WidgetAkunObat extends StatefulWidget {
 
 class _WidgetAkunObatState extends State<WidgetAkunObat> {
   var numberFormatRp = new NumberFormat("#,##0", "id_ID");
-  Widget widgetListObat(plistPenjualanObats) {
+  Widget widgetListObat(plistPenjualanObats, textHeaderPenjualanObat) {
     if (plistPenjualanObats.length > 0) {
-      return ExpansionTile(title: Text('Daftar Penjualan Obat'), children: [
+      return ExpansionTile(title: Text('$textHeaderPenjualanObat'), children: [
         ListView.builder(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
@@ -82,7 +83,7 @@ class _WidgetAkunObatState extends State<WidgetAkunObat> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        widgetListObat(listPenjualanObats),
+        widgetListObat(listPenjualanObats, widget.textHeaderPenjualanObat),
         widgetTextTotalPenjualanObat(listPenjualanObats),
       ],
     );
