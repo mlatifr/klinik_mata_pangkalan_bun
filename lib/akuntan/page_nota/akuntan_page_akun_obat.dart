@@ -10,15 +10,14 @@ class WidgetAkunObat extends StatefulWidget {
 }
 
 class _WidgetAkunObatState extends State<WidgetAkunObat> {
-  
   var numberFormatRp = new NumberFormat("#,##0", "id_ID");
-  Widget widgetListObat() {
-    if (listPenjualanObats.length > 0) {
+  Widget widgetListObat(plistPenjualanObats) {
+    if (plistPenjualanObats.length > 0) {
       return ExpansionTile(title: Text('Daftar Penjualan Obat'), children: [
         ListView.builder(
             physics: NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            itemCount: listPenjualanObats.length,
+            itemCount: plistPenjualanObats.length,
             itemBuilder: (context, index) {
               return Padding(
                   padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -36,9 +35,9 @@ class _WidgetAkunObatState extends State<WidgetAkunObat> {
                       leading: CircleAvatar(
                         child: Text('${index + 1}'),
                       ),
-                      title: Text('${listPenjualanObats[index].nama}'),
+                      title: Text('${plistPenjualanObats[index].nama}'),
                       subtitle: Text(
-                          '${listPenjualanObats[index].tglResep.substring(0, 10)}\n${listPenjualanObats[index].jumlah} x ${numberFormatRp.format(int.parse(listPenjualanObats[index].harga))} |  Total:Rp ${numberFormatRp.format(listPenjualanObats[index].totalHarga)}'),
+                          '${plistPenjualanObats[index].tglResep.substring(0, 10)}\n${plistPenjualanObats[index].jumlah} x ${numberFormatRp.format(int.parse(plistPenjualanObats[index].harga))} |  Total:Rp ${numberFormatRp.format(plistPenjualanObats[index].totalHarga)}'),
                     ),
                   ));
             }),
@@ -53,12 +52,14 @@ class _WidgetAkunObatState extends State<WidgetAkunObat> {
     }
   }
 
-  Widget widgetTextTotalPenjualanObat() {
+  Widget widgetTextTotalPenjualanObat(
+    plistPenjualanObats,
+  ) {
     int total = 0;
-    if (listPenjualanObats.length > 0) {
-      print('ListPenjualanObat.length: ${listPenjualanObats.length}');
-      for (var i = 0; i < listPenjualanObats.length; i++) {
-        total += listPenjualanObats[i].totalHarga;
+    if (plistPenjualanObats.length > 0) {
+      print('ListPenjualanObat.length: ${plistPenjualanObats.length}');
+      for (var i = 0; i < plistPenjualanObats.length; i++) {
+        total += plistPenjualanObats[i].totalHarga;
       }
       print(total.toString());
       return Padding(
@@ -81,8 +82,8 @@ class _WidgetAkunObatState extends State<WidgetAkunObat> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        widgetListObat(),
-        widgetTextTotalPenjualanObat(),
+        widgetListObat(listPenjualanObats),
+        widgetTextTotalPenjualanObat(listPenjualanObats),
       ],
     );
   }

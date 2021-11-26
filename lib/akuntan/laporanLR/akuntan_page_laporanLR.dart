@@ -121,7 +121,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
                           lastDate: DateTime(2200))
                       .then((value) {
                     setState(() {
-                      controllerdate.text = value.toString().substring(0, 10);
+                      controllerdate.text = value.toString().substring(0, 7);
                       // baca data seluruh nota transaksi yg ada di klinik
                       AkunanBacaDataPenjualanObat(controllerdate.text);
                       AkunanBacaDataPenjualanjasmed(controllerdate.text);
@@ -158,7 +158,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
       home: Scaffold(
           appBar: AppBar(
             centerTitle: true,
-            title: Text("Nota Penjualan"),
+            title: Text("Laporan Laba Rugi"),
             leading: new IconButton(
               icon: new Icon(Icons.arrow_back),
               onPressed: () {
