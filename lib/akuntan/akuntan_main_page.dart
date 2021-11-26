@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/akuntan/laporanLR/akuntan_page_laporanLR.dart';
 import 'package:flutter_application_1/akuntan/page_input_penjurnalan/akuntan_page_input_penjurnalan.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_nota_penjualan.dart';
 import 'package:flutter_application_1/akuntan/akuntan_page_split_view.dart';
@@ -34,6 +35,13 @@ class _AkuntanMainPageState extends State<AkuntanMainPage> {
                 image: AssetImage('./asset/image/clinic_text.jpg'),
               ),
             ),
+          ),
+          ListTile(
+            title: Text('Laporan Laba Rugi'),
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => AkuntanVLaporanLR()));
+            },
           ),
           ListTile(
             title: Text('Daftar Nota Penjualan'),
