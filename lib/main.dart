@@ -6,6 +6,7 @@ import 'package:flutter_application_1/pasien/nomor_antrean_pasien.dart';
 import 'package:flutter_application_1/pasien/nota_pembayaran.dart';
 import 'package:flutter_application_1/pasien/riwayat_periksa.dart';
 import 'package:flutter_application_1/pasien/pendaftaran_pasien_baru/pendaftaran_pasien_baru.dart';
+import 'package:flutter_application_1/pemilik/pemilik_main_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'akuntan/akuntan_main_page.dart';
 import 'apoteker/apt_antrean_resep.dart';
@@ -81,6 +82,9 @@ void main() {
     } else if (result == '' && result != 'daftarBaru') {
       username = result;
       runApp(MaterialApp(home: LoginPage()));
+    } else if (result.contains('pemilik')) {
+      username = result;
+      runApp(MaterialApp(home: PemilikMainPage()));
     } else if (result.contains('admin')) {
       username = result;
       runApp(MaterialApp(home: AdminAntreanPasien()));
