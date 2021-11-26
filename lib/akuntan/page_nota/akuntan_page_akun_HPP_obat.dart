@@ -11,7 +11,7 @@ class WidgetAkunHPPObat extends StatefulWidget {
 
 class _WidgetAkunHPPObatState extends State<WidgetAkunHPPObat> {
   var numberFormatRp = new NumberFormat("#,##0", "id_ID");
-  Widget widgetListObat(
+  Widget widgetListHPPObat(
     plistPenjualanObats,
   ) {
     if (plistPenjualanObats.length > 0) {
@@ -54,21 +54,20 @@ class _WidgetAkunHPPObatState extends State<WidgetAkunHPPObat> {
     }
   }
 
-  Widget widgetTextTotalPenjualanObat(
+  Widget widgetTextTotalHPPObat(
     plistPenjualanObats,
   ) {
     int total = 0;
     if (plistPenjualanObats.length > 0) {
-      print('ListPenjualanObat.length: ${plistPenjualanObats.length}');
+      // print('ListPenjualanObat.length: ${plistPenjualanObats.length}');
       for (var i = 0; i < plistPenjualanObats.length; i++) {
         total += plistPenjualanObats[i].totalHarga;
       }
-      print(total.toString());
+      // print(total.toString());
       return Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListTile(
-            title: Text(
-                'Total Penjualan Obat Rp ${numberFormatRp.format(total)}')),
+            title: Text('Total HPP Obat Rp ${numberFormatRp.format(total)}')),
       );
     } else {
       return Column(
@@ -84,8 +83,8 @@ class _WidgetAkunHPPObatState extends State<WidgetAkunHPPObat> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        widgetListObat(listPenjualanObats),
-        widgetTextTotalPenjualanObat(listPenjualanObats),
+        widgetListHPPObat(listHppObats),
+        widgetTextTotalHPPObat(listHppObats),
       ],
     );
   }

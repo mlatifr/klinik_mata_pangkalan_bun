@@ -52,11 +52,11 @@ class _WidgetAkunAdminState extends State<WidgetAkunAdmin> {
   Widget widgetTextTotalPenjualanAdmin() {
     int total = 0;
     if (listPenjualanAdmins.length > 0) {
-      print('ListPenjualanJasmed.length: ${listPenjualanAdmins.length}');
+      //print('ListPenjualanJasmed.length: ${listPenjualanAdmins.length}');
       for (var i = 0; i < listPenjualanAdmins.length; i++) {
         total += listPenjualanAdmins[i].harga;
       }
-      print(total.toString());
+      //print(total.toString());
       return Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListTile(

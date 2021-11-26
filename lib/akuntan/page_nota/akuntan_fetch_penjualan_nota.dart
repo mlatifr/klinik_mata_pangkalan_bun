@@ -4,6 +4,46 @@ import 'dart:async';
 import 'package:flutter_application_1/main.dart';
 import 'package:http/http.dart' as http;
 
+//untuk akun HPP Obat
+List<AkuntanVHppObat> listHppObats = [];
+
+class AkuntanVHppObat {
+  var tglResep, resepId, obatId, nama, jumlah, harga, totalHarga;
+  AkuntanVHppObat({
+    this.tglResep,
+    this.resepId,
+    this.obatId,
+    this.nama,
+    this.jumlah,
+    this.harga,
+    this.totalHarga,
+  });
+  // untuk convert dari jSon
+  factory AkuntanVHppObat.fromJson(Map<String, dynamic> json) {
+    return new AkuntanVHppObat(
+        tglResep: json['tgl_resep'],
+        resepId: json['resep_id'],
+        obatId: json['obat_id'],
+        nama: json['nama'],
+        jumlah: json['jumlah'],
+        harga: json['harga'],
+        totalHarga: json['total_harga']);
+  }
+}
+
+Future<String> fetchDataVHppObat(pTglCatat) async {
+  final response = await http
+      .post(Uri.parse(apiUrl + "akuntan_v_pjualan_obat_hpp.php"), body: {
+    'tgl_resep_non_visit': pTglCatat.toString(),
+  });
+  if (response.statusCode == 200) {
+    //print('fetchDataVHppObat: ${response.body}');
+    return response.body;
+  } else {
+    throw Exception('Failed to read API');
+  }
+}
+
 //untuk akun admin
 List<AkuntanVPenjualanAdmin> listPenjualanAdmins = [];
 
@@ -26,7 +66,7 @@ Future<String> fetchDataVPenjualanAdmin(pTglCatat) async {
     'tgl_transaksi': pTglCatat.toString(),
   });
   if (response.statusCode == 200) {
-    print('fetchDataVPenjualanJasmed: ${response.body}');
+    ////print('fetchDataVPenjualanJasmed: ${response.body}');
     return response.body;
   } else {
     throw Exception('Failed to read API');
@@ -55,7 +95,7 @@ Future<String> fetchDataVPenjualanJasmed(pTglCatat) async {
     'tgl_transaksi': pTglCatat.toString(),
   });
   if (response.statusCode == 200) {
-    print('fetchDataVPenjualanJasmed: ${response.body}');
+    //print('fetchDataVPenjualanJasmed: ${response.body}');
     return response.body;
   } else {
     throw Exception('Failed to read API');
@@ -95,7 +135,7 @@ Future<String> fetchDataVPenjualanObat(pTglCatat) async {
     'tgl_resep_non_visit': pTglCatat.toString(),
   });
   if (response.statusCode == 200) {
-    print('fetchDataVPenjualanObat: ${response.body}');
+    //print('fetchDataVPenjualanObat: ${response.body}');
     return response.body;
   } else {
     throw Exception('Failed to read API');

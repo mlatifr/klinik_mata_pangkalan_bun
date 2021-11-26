@@ -54,11 +54,11 @@ class _WidgetAkunJasmedState extends State<WidgetAkunJasmed> {
   Widget widgetTextTotalPenjualanJasmed() {
     int total = 0;
     if (listPenjualanJasmeds.length > 0) {
-      print('ListPenjualanJasmed.length: ${listPenjualanJasmeds.length}');
+      //print('ListPenjualanJasmed.length: ${listPenjualanJasmeds.length}');
       for (var i = 0; i < listPenjualanJasmeds.length; i++) {
         total += listPenjualanJasmeds[i].harga;
       }
-      print(total.toString());
+      //print(total.toString());
       return Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListTile(

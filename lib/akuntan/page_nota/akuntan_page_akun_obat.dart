@@ -58,11 +58,11 @@ class _WidgetAkunObatState extends State<WidgetAkunObat> {
   ) {
     int total = 0;
     if (plistPenjualanObats.length > 0) {
-      print('ListPenjualanObat.length: ${plistPenjualanObats.length}');
+      //print('ListPenjualanObat.length: ${plistPenjualanObats.length}');
       for (var i = 0; i < plistPenjualanObats.length; i++) {
         total += plistPenjualanObats[i].totalHarga;
       }
-      print(total.toString());
+      //print(total.toString());
       return Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListTile(

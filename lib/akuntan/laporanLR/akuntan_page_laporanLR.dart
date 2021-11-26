@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_HPP_obat.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_admin.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_jasmed.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_obat.dart';
@@ -26,7 +27,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
       for (var i in json['data']) {
-        print(i);
+        //print(i);
         AkuntanVPenjualanAdmin pjlnAdminNota =
             AkuntanVPenjualanAdmin.fromJson(i);
         listPenjualanAdmins.add(pjlnAdminNota);
@@ -47,7 +48,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
       for (var i in json['data']) {
-        print(i);
+        //print(i);
         AkuntanVPenjualanJasmed pjlnJsmdNota =
             AkuntanVPenjualanJasmed.fromJson(i);
         listPenjualanJasmeds.add(pjlnJsmdNota);
@@ -68,12 +69,32 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
       for (var i in json['data']) {
-        print(i);
+        //print(i);
         AkuntanVPenjualanObat pjlnObtNota = AkuntanVPenjualanObat.fromJson(i);
         listPenjualanObats.add(pjlnObtNota);
       }
       setState(() {
         WidgetAkunObat();
+      });
+    });
+  }
+
+//baca data nota akun obat
+// ignore: non_constant_identifier_names
+  AkunanBacaDataHPPObat(tgl) {
+    listHppObats.clear();
+    Future<String> data = fetchDataVHppObat(tgl);
+    data.then((value) {
+      //Mengubah json menjadi Array
+      // ignore: unused_local_variable
+      Map json = jsonDecode(value);
+      for (var i in json['data']) {
+        //print(i);
+        AkuntanVHppObat pjlnObtNota = AkuntanVHppObat.fromJson(i);
+        listHppObats.add(pjlnObtNota);
+      }
+      setState(() {
+        WidgetAkunHPPObat();
       });
     });
   }
@@ -93,7 +114,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
                   // controllerdate.text = value.toString();
                   // controllerdate.selection = TextSelection.fromPosition(
                   //     TextPosition(offset: controllerdate.text.length));
-                  // print('TextFormField controllerdate $value');
+                  // //print('TextFormField controllerdate $value');
                 });
               },
               enabled: false,
@@ -126,7 +147,8 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
                       AkunanBacaDataPenjualanObat(controllerdate.text);
                       AkunanBacaDataPenjualanjasmed(controllerdate.text);
                       AkunanBacaDataPenjualanAdmin(controllerdate.text);
-                      print('showDatePicker : ${controllerdate.text}');
+                      AkunanBacaDataHPPObat(controllerdate.text);
+                      //print('showDatePicker : ${controllerdate.text}');
                     });
                   });
                 },
@@ -143,11 +165,12 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
   void initState() {
     DateTime now = new DateTime.now();
     DateTime date = new DateTime(now.year, now.month, now.day);
-    print(date);
+    //print(date);
     controllerdate.text = date.toString().substring(0, 7);
     AkunanBacaDataPenjualanObat(controllerdate.text);
     AkunanBacaDataPenjualanjasmed(controllerdate.text);
     AkunanBacaDataPenjualanAdmin(controllerdate.text);
+    AkunanBacaDataHPPObat(controllerdate.text);
     super.initState();
   }
 
@@ -170,6 +193,8 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
             children: [
               widgetSelectTgl(),
               WidgetAkunObat(textHeaderPenjualanObat: 'Penjualan Obat'),
+              Divider(),
+              WidgetAkunHPPObat(),
               Divider(),
               WidgetAkunJasmed(
                 pTextDaftarPenjualanJasmed: 'Pendapatan jasa medis',
