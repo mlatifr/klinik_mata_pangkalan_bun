@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_fetch_penjualan_nota.dart';
 import 'package:intl/intl.dart';
 
+int totalPenjualan = 0;
+
+
 class WidgetAkunObat extends StatefulWidget {
   var textHeaderPenjualanObat;
   WidgetAkunObat({Key key, this.textHeaderPenjualanObat}) : super(key: key);
@@ -56,18 +59,17 @@ class _WidgetAkunObatState extends State<WidgetAkunObat> {
   Widget widgetTextTotalPenjualanObat(
     plistPenjualanObats,
   ) {
-    int total = 0;
     if (plistPenjualanObats.length > 0) {
       //print('ListPenjualanObat.length: ${plistPenjualanObats.length}');
       for (var i = 0; i < plistPenjualanObats.length; i++) {
-        total += plistPenjualanObats[i].totalHarga;
+        totalPenjualan += plistPenjualanObats[i].totalHarga;
       }
       //print(total.toString());
       return Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListTile(
             title: Text(
-                'Total Penjualan Obat Rp ${numberFormatRp.format(total)}')),
+                'Total Penjualan Obat Rp ${numberFormatRp.format(totalPenjualan)}')),
       );
     } else {
       return Column(

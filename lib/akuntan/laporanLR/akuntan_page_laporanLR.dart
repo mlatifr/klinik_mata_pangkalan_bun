@@ -3,10 +3,14 @@ import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_HPP_ob
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_admin.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_jasmed.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_obat.dart';
+import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_obat.dart'
+    as akunObat;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_fetch_penjualan_nota.dart';
 import 'package:intl/intl.dart';
+
+import 'akuntan_page_laba_kotor.dart';
 
 class AkuntanVLaporanLR extends StatefulWidget {
   const AkuntanVLaporanLR({Key key}) : super(key: key);
@@ -195,6 +199,9 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
               WidgetAkunObat(textHeaderPenjualanObat: 'Penjualan Obat'),
               Divider(),
               WidgetAkunHPPObat(),
+              Divider(),
+              Text(akunObat.totalPenjualan.toString()),
+              // WidgetLabaKotor(),
               Divider(),
               WidgetAkunJasmed(
                 pTextDaftarPenjualanJasmed: 'Pendapatan jasa medis',
