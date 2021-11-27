@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_fetch_penjualan_nota.dart';
 import 'package:intl/intl.dart';
 
+int totalHPPObat = 0;
+
 class WidgetAkunHPPObat extends StatefulWidget {
   WidgetAkunHPPObat({Key key}) : super(key: key);
 
@@ -14,6 +16,7 @@ class _WidgetAkunHPPObatState extends State<WidgetAkunHPPObat> {
   Widget widgetListHPPObat(
     plistPenjualanObats,
   ) {
+    totalHPPObat = 0;
     if (plistPenjualanObats.length > 0) {
       return ExpansionTile(title: Text('Penjualan HPP obat'), children: [
         ListView.builder(
@@ -57,17 +60,17 @@ class _WidgetAkunHPPObatState extends State<WidgetAkunHPPObat> {
   Widget widgetTextTotalHPPObat(
     plistPenjualanObats,
   ) {
-    int total = 0;
     if (plistPenjualanObats.length > 0) {
       // print('ListPenjualanObat.length: ${plistPenjualanObats.length}');
       for (var i = 0; i < plistPenjualanObats.length; i++) {
-        total += plistPenjualanObats[i].totalHarga;
+        totalHPPObat += plistPenjualanObats[i].totalHarga;
       }
       // print(total.toString());
       return Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListTile(
-            title: Text('Total HPP Obat Rp ${numberFormatRp.format(total)}')),
+            title: Text(
+                'Total HPP Obat Rp ${numberFormatRp.format(totalHPPObat)}')),
       );
     } else {
       return Column(

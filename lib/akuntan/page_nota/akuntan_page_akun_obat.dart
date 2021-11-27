@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 
 int totalPenjualan = 0;
 
-
 class WidgetAkunObat extends StatefulWidget {
   var textHeaderPenjualanObat;
   WidgetAkunObat({Key key, this.textHeaderPenjualanObat}) : super(key: key);
@@ -16,6 +15,7 @@ class WidgetAkunObat extends StatefulWidget {
 class _WidgetAkunObatState extends State<WidgetAkunObat> {
   var numberFormatRp = new NumberFormat("#,##0", "id_ID");
   Widget widgetListObat(plistPenjualanObats, textHeaderPenjualanObat) {
+    totalPenjualan = 0;
     if (plistPenjualanObats.length > 0) {
       return ExpansionTile(title: Text('$textHeaderPenjualanObat'), children: [
         ListView.builder(
