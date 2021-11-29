@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/akuntan/page_input_penjurnalan/akuntan_page_input_penjurnalan.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_nota_penjualan.dart';
@@ -58,7 +57,6 @@ class _PemilikMainPageState extends State<PemilikMainPage> {
                       builder: (context) => VerticalSplitView(
                             window1: AkuntanVNotaPjln(),
                             window2: AkuntanInputPenjurnalan(),
-                            window3: AkuntanVNotaPjln(),
                           )));
             },
           ),

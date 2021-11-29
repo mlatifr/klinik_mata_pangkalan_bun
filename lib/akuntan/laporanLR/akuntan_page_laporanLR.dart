@@ -1,5 +1,7 @@
 import 'dart:convert';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_HPP_obat.dart';
+import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_HPP_obat.dart'
+    as akunHPPObat;
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_admin.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_jasmed.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_obat.dart';
@@ -67,6 +69,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
 // ignore: non_constant_identifier_names
   AkunanBacaDataPenjualanObat(tgl) {
     listPenjualanObats.clear();
+    print('listPenjualanObats: ${listPenjualanObats.length}');
     Future<String> data = fetchDataVPenjualanObat(tgl);
     data.then((value) {
       //Mengubah json menjadi Array
@@ -87,6 +90,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
 // ignore: non_constant_identifier_names
   AkunanBacaDataHPPObat(tgl) {
     listHppObats.clear();
+    // print('listHppObats: ${listHppObats.length}');
     Future<String> data = fetchDataVHppObat(tgl);
     data.then((value) {
       //Mengubah json menjadi Array
@@ -197,17 +201,21 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
             children: [
               widgetSelectTgl(),
               WidgetAkunObat(textHeaderPenjualanObat: 'Penjualan Obat'),
-              Divider(),
               WidgetAkunHPPObat(),
               Divider(),
-              Text(akunObat.totalPenjualan.toString()),
-              // WidgetLabaKotor(),
+              WidgetLabaKotor(),
               Divider(),
               WidgetAkunJasmed(
-                pTextDaftarPenjualanJasmed: 'Pendapatan jasa medis',
+                pTextDaftarPenjualanJasmed: 'Biaya komisi pegawai medis',
+              ),
+              WidgetAkunAdmin(
+                pTextTittle: "Biaya komisi pegawai admin",
+                pTextTotal: 'Total komisi admin ',
               ),
               Divider(),
-              WidgetAkunAdmin(),
+              Text("Pendapatan: "),
+              Divider(),
+              Text("Laba Bersih: "),
             ],
           )),
     );

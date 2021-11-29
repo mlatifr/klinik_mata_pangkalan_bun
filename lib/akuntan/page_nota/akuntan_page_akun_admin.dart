@@ -3,7 +3,9 @@ import 'package:flutter_application_1/akuntan/page_nota/akuntan_fetch_penjualan_
 import 'package:intl/intl.dart';
 
 class WidgetAkunAdmin extends StatefulWidget {
-  const WidgetAkunAdmin({Key key}) : super(key: key);
+  var pTextTittle, pTextTotal;
+  WidgetAkunAdmin({Key key, this.pTextTittle, this.pTextTotal})
+      : super(key: key);
 
   @override
   _WidgetAkunAdminState createState() => _WidgetAkunAdminState();
@@ -13,38 +15,35 @@ class _WidgetAkunAdminState extends State<WidgetAkunAdmin> {
   var numberFormatRp = new NumberFormat("#,##0", "id_ID");
   Widget widgetListAdmin() {
     if (listPenjualanAdmins.length > 0) {
-      return ExpansionTile(
-          title: Text('Daftar Penjualan Akun Admin'),
-          children: [
-            ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: listPenjualanJasmeds.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color: Colors.black,
-                              width: 3.0,
-                            ),
-                          ),
+      return ExpansionTile(title: Text('${widget.pTextTittle}'), children: [
+        ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            itemCount: listPenjualanJasmeds.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(
+                          color: Colors.black,
+                          width: 3.0,
                         ),
-                        child: ListTile(
-                          onTap: () {},
-                          leading: CircleAvatar(
-                            child: Text('${index + 1}'),
-                          ),
-                          title:
-                              Text('${listPenjualanAdmins[index].namaPasien}'),
-                          subtitle: Text(
-                              '${listPenjualanAdmins[index].tglTransaksi} \nRp ${numberFormatRp.format(listPenjualanAdmins[index].harga)}'),
-                        ),
-                      ));
-                }),
-          ]);
+                      ),
+                    ),
+                    child: ListTile(
+                      onTap: () {},
+                      leading: CircleAvatar(
+                        child: Text('${index + 1}'),
+                      ),
+                      title: Text('${listPenjualanAdmins[index].namaPasien}'),
+                      subtitle: Text(
+                          '${listPenjualanAdmins[index].tglTransaksi} \nRp ${numberFormatRp.format(listPenjualanAdmins[index].harga)}'),
+                    ),
+                  ));
+            }),
+      ]);
     } else
       return Container();
   }
@@ -60,8 +59,8 @@ class _WidgetAkunAdminState extends State<WidgetAkunAdmin> {
       return Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListTile(
-            title: Text(
-                'Total Penjualan Admin Rp ${numberFormatRp.format(total)}')),
+            title:
+                Text('${widget.pTextTotal}Rp ${numberFormatRp.format(total)}')),
       );
     } else
       return Container();

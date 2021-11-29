@@ -66,9 +66,8 @@ class _AkuntanMainPageState extends State<AkuntanMainPage> {
                   context,
                   MaterialPageRoute(
                       builder: (context) => VerticalSplitView(
-                            window1: AkuntanVNotaPjln(),
+                            window1: AkuntanVLaporanLR(),
                             window2: AkuntanInputPenjurnalan(),
-                            window3: AkuntanVNotaPjln(),
                           )));
             },
           ),

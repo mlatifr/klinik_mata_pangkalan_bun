@@ -16,6 +16,28 @@ class AkuntanVNotaPjln extends StatefulWidget {
 
 class _AkuntanVNotaPjlnState extends State<AkuntanVNotaPjln> {
   var numberFormatRp = new NumberFormat("#,##0", "id_ID");
+
+//baca data nota akun tindakan
+// ignore: non_constant_identifier_names
+  AkunanBacaDataPenjualanTindakan(tgl) {
+    listPenjualanTindakans.clear();
+    Future<String> data = fetchDataVPenjualanTindakan(tgl);
+    data.then((value) {
+      //Mengubah json menjadi Array
+      // ignore: unused_local_variable
+      Map json = jsonDecode(value);
+      for (var i in json['data']) {
+        print(i);
+        AkuntanVPenjualanTindakan pjlnTdkn =
+            AkuntanVPenjualanTindakan.fromJson(i);
+        listPenjualanTindakans.add(pjlnTdkn);
+      }
+      setState(() {
+        WidgetAkunJasmed();
+      });
+    });
+  }
+
 //baca data nota akun jasmed
 // ignore: non_constant_identifier_names
   AkunanBacaDataPenjualanAdmin(tgl) {
@@ -26,7 +48,7 @@ class _AkuntanVNotaPjlnState extends State<AkuntanVNotaPjln> {
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
       for (var i in json['data']) {
-        print(i);
+        // print(i);
         AkuntanVPenjualanAdmin pjlnAdminNota =
             AkuntanVPenjualanAdmin.fromJson(i);
         listPenjualanAdmins.add(pjlnAdminNota);
@@ -47,7 +69,7 @@ class _AkuntanVNotaPjlnState extends State<AkuntanVNotaPjln> {
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
       for (var i in json['data']) {
-        print(i);
+        //print(i);
         AkuntanVPenjualanJasmed pjlnJsmdNota =
             AkuntanVPenjualanJasmed.fromJson(i);
         listPenjualanJasmeds.add(pjlnJsmdNota);
@@ -68,7 +90,7 @@ class _AkuntanVNotaPjlnState extends State<AkuntanVNotaPjln> {
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
       for (var i in json['data']) {
-        print(i);
+        //print(i);
         AkuntanVPenjualanObat pjlnObtNota = AkuntanVPenjualanObat.fromJson(i);
         listPenjualanObats.add(pjlnObtNota);
       }
@@ -126,6 +148,7 @@ class _AkuntanVNotaPjlnState extends State<AkuntanVNotaPjln> {
                       AkunanBacaDataPenjualanObat(controllerdate.text);
                       AkunanBacaDataPenjualanjasmed(controllerdate.text);
                       AkunanBacaDataPenjualanAdmin(controllerdate.text);
+                      AkunanBacaDataPenjualanTindakan(controllerdate.text);
                       print('showDatePicker : ${controllerdate.text}');
                     });
                   });
@@ -148,6 +171,7 @@ class _AkuntanVNotaPjlnState extends State<AkuntanVNotaPjln> {
     AkunanBacaDataPenjualanObat(controllerdate.text);
     AkunanBacaDataPenjualanjasmed(controllerdate.text);
     AkunanBacaDataPenjualanAdmin(controllerdate.text);
+    AkunanBacaDataPenjualanTindakan(controllerdate.text);
     super.initState();
   }
 
@@ -177,7 +201,10 @@ class _AkuntanVNotaPjlnState extends State<AkuntanVNotaPjln> {
                 textHeaderPenjualanObat: 'Penjualan Obat',
               ),
               Divider(),
-              WidgetAkunAdmin(),
+              WidgetAkunAdmin(
+                pTextTittle: 'biaya admin',
+                pTextTotal: 'total biaya admin',
+              ),
             ],
           )),
     );

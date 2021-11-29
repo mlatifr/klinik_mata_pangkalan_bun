@@ -4,6 +4,37 @@ import 'dart:async';
 import 'package:flutter_application_1/main.dart';
 import 'package:http/http.dart' as http;
 
+//untuk akun tindakan
+List<AkuntanVPenjualanTindakan> listPenjualanTindakans = [];
+
+class AkuntanVPenjualanTindakan {
+  var namaPasien, tglTindakan, namaTindakan, harga;
+  AkuntanVPenjualanTindakan(
+      {this.namaPasien, this.tglTindakan, this.namaTindakan, this.harga});
+  // untuk convert dari jSon
+  factory AkuntanVPenjualanTindakan.fromJson(Map<String, dynamic> json) {
+    return new AkuntanVPenjualanTindakan(
+      namaPasien: json['nama_pasien'],
+      tglTindakan: json['tgl'],
+      namaTindakan: json['tindakan'],
+      harga: json['harga'],
+    );
+  }
+}
+
+Future<String> fetchDataVPenjualanTindakan(pTglCatat) async {
+  final response =
+      await http.post(Uri.parse(apiUrl + "akuntan_v_pjualan_tdkn.php"), body: {
+    'tgl_visit_detail': pTglCatat.toString(),
+  });
+  if (response.statusCode == 200) {
+    //print('fetchDataVPenjualanJasmed: ${response.body}');
+    return response.body;
+  } else {
+    throw Exception('Failed to read API');
+  }
+}
+
 //untuk akun HPP Obat
 List<AkuntanVHppObat> listHppObats = [];
 
