@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_fetch_penjualan_nota.dart';
 import 'package:intl/intl.dart';
 
+int totalKomisiAdmin = 0;
+
 class WidgetAkunAdmin extends StatefulWidget {
   var pTextTittle, pTextTotal;
   WidgetAkunAdmin({Key key, this.pTextTittle, this.pTextTotal})
@@ -49,18 +51,18 @@ class _WidgetAkunAdminState extends State<WidgetAkunAdmin> {
   }
 
   Widget widgetTextTotalPenjualanAdmin() {
-    int total = 0;
+    totalKomisiAdmin = 0;
     if (listPenjualanAdmins.length > 0) {
       //print('ListPenjualanJasmed.length: ${listPenjualanAdmins.length}');
       for (var i = 0; i < listPenjualanAdmins.length; i++) {
-        total += listPenjualanAdmins[i].harga;
+        totalKomisiAdmin += listPenjualanAdmins[i].harga;
       }
       //print(total.toString());
       return Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListTile(
             title:
-                Text('${widget.pTextTotal}Rp ${numberFormatRp.format(total)}')),
+                Text('${widget.pTextTotal}Rp ${numberFormatRp.format(totalKomisiAdmin)}')),
       );
     } else
       return Container();

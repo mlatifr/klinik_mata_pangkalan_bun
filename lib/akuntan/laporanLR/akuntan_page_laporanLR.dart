@@ -3,13 +3,21 @@ import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_HPP_ob
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_HPP_obat.dart'
     as akunHPPObat;
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_admin.dart';
+import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_admin.dart'
+    as akunAdmin;
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_jasmed.dart';
+import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_jasmed.dart'
+    as akunJasmed;
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_obat.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_obat.dart'
     as akunObat;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_fetch_penjualan_nota.dart';
+import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_tindakan.dart';
+import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_tindakan.dart'
+    as akunTindakanOperasi;
+
 import 'package:intl/intl.dart';
 
 import 'akuntan_page_laba_kotor.dart';
@@ -23,6 +31,32 @@ class AkuntanVLaporanLR extends StatefulWidget {
 
 class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
   var numberFormatRp = new NumberFormat("#,##0", "id_ID");
+
+//baca data nota akun tindakan
+// ignore: non_constant_identifier_names
+  AkunanBacaDataPenjualanTindakan(tgl) {
+    print('listPenjualanTindakans before: ${listPenjualanTindakans.length}');
+    if (listPenjualanTindakans.isNotEmpty) {
+      listPenjualanTindakans.clear();
+    }
+    print('listPenjualanTindakans after: ${listPenjualanTindakans.length}');
+    Future<String> data = fetchDataVPenjualanTindakan(tgl);
+    data.then((value) {
+      //Mengubah json menjadi Array
+      // ignore: unused_local_variable
+      Map json = jsonDecode(value);
+      for (var i in json['data']) {
+        print(i);
+        AkuntanVPenjualanTindakan pjlnTdkn =
+            AkuntanVPenjualanTindakan.fromJson(i);
+        listPenjualanTindakans.add(pjlnTdkn);
+      }
+      setState(() {
+        WidgetAkunTindakan();
+      });
+    });
+  }
+
 //baca data nota akun jasmed
 // ignore: non_constant_identifier_names
   AkunanBacaDataPenjualanAdmin(tgl) {
@@ -69,7 +103,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
 // ignore: non_constant_identifier_names
   AkunanBacaDataPenjualanObat(tgl) {
     listPenjualanObats.clear();
-    print('listPenjualanObats: ${listPenjualanObats.length}');
+    // print('listPenjualanObats: ${listPenjualanObats.length}');
     Future<String> data = fetchDataVPenjualanObat(tgl);
     data.then((value) {
       //Mengubah json menjadi Array
@@ -156,6 +190,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
                       AkunanBacaDataPenjualanjasmed(controllerdate.text);
                       AkunanBacaDataPenjualanAdmin(controllerdate.text);
                       AkunanBacaDataHPPObat(controllerdate.text);
+                      AkunanBacaDataPenjualanTindakan(controllerdate.text);
                       //print('showDatePicker : ${controllerdate.text}');
                     });
                   });
@@ -179,6 +214,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
     AkunanBacaDataPenjualanjasmed(controllerdate.text);
     AkunanBacaDataPenjualanAdmin(controllerdate.text);
     AkunanBacaDataHPPObat(controllerdate.text);
+    AkunanBacaDataPenjualanTindakan(controllerdate.text);
     super.initState();
   }
 
@@ -205,6 +241,10 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
               Divider(),
               WidgetLabaKotor(),
               Divider(),
+              WidgetAkunTindakan(
+                pTextDaftarPenjualanTindakna: 'Pendapatan Tindakan Operasi',
+              ),
+              Divider(),
               WidgetAkunJasmed(
                 pTextDaftarPenjualanJasmed: 'Biaya komisi pegawai medis',
               ),
@@ -213,9 +253,15 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
                 pTextTotal: 'Total komisi admin ',
               ),
               Divider(),
-              Text("Pendapatan: "),
-              Divider(),
-              Text("Laba Bersih: "),
+              // Text("Pendapatan: ${listPenjualanTindakans.length}"),
+
+              Text(
+                  "Laba Bersih:${akunObat.totalPenjualan - akunHPPObat.totalHPPObat + akunTindakanOperasi.totalTindakanOperasi - akunJasmed.totalBiayaKomisiJasmed - akunAdmin.totalKomisiAdmin} \n" +
+                      '${akunObat.totalPenjualan} | ' +
+                      '${akunHPPObat.totalHPPObat} |  ' +
+                      '${akunTindakanOperasi.totalTindakanOperasi} ' +
+                      '|${akunJasmed.totalBiayaKomisiJasmed} | ' +
+                      '${akunAdmin.totalKomisiAdmin} | '),
             ],
           )),
     );
