@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 
 int totalPenjualan = 0;
 
+// ignore: must_be_immutable
 class WidgetAkunObat extends StatefulWidget {
   var textHeaderPenjualanObat;
   WidgetAkunObat({Key key, this.textHeaderPenjualanObat}) : super(key: key);

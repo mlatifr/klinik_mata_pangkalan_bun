@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 
 int totalTindakanOperasi = 0;
 
+// ignore: must_be_immutable
 class WidgetAkunTindakan extends StatefulWidget {
   var pTextDaftarPenjualanTindakna;
   WidgetAkunTindakan({Key key, this.pTextDaftarPenjualanTindakna})

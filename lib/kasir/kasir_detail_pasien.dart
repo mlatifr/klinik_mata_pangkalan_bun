@@ -11,6 +11,7 @@ import 'kasir_send_nota_penjualan.dart';
 var numberFormatRpResep, numberFormatRpTindakan;
 var cekInitState = 1;
 
+// ignore: must_be_immutable
 class KasirDetailPasien extends StatefulWidget {
   var visitId, namaPasien, visitDate;
   KasirDetailPasien({Key key, this.visitId, this.namaPasien, this.visitDate})

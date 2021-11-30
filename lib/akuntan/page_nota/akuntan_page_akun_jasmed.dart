@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 
 int totalBiayaKomisiJasmed = 0;
 
+// ignore: must_be_immutable
 class WidgetAkunJasmed extends StatefulWidget {
   var pTextDaftarPenjualanJasmed;
   WidgetAkunJasmed({Key key, this.pTextDaftarPenjualanJasmed})

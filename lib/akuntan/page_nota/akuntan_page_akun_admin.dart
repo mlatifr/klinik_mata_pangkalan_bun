@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 
 int totalKomisiAdmin = 0;
 
+// ignore: must_be_immutable
 class WidgetAkunAdmin extends StatefulWidget {
   var pTextTittle, pTextTotal;
   WidgetAkunAdmin({Key key, this.pTextTittle, this.pTextTotal})

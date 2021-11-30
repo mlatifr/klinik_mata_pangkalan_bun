@@ -255,13 +255,17 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
               Divider(),
               // Text("Pendapatan: ${listPenjualanTindakans.length}"),
 
-              Text(
-                  "Laba Bersih:${akunObat.totalPenjualan - akunHPPObat.totalHPPObat + akunTindakanOperasi.totalTindakanOperasi - akunJasmed.totalBiayaKomisiJasmed - akunAdmin.totalKomisiAdmin} \n" +
-                      '${akunObat.totalPenjualan} | ' +
-                      '${akunHPPObat.totalHPPObat} |  ' +
-                      '${akunTindakanOperasi.totalTindakanOperasi} ' +
-                      '|${akunJasmed.totalBiayaKomisiJasmed} | ' +
-                      '${akunAdmin.totalKomisiAdmin} | '),
+              ListTile(
+                title: Text(
+                    "Laba Bersih: ${akunObat.totalPenjualan - akunHPPObat.totalHPPObat + akunTindakanOperasi.totalTindakanOperasi - akunJasmed.totalBiayaKomisiJasmed - akunAdmin.totalKomisiAdmin} \n"
+                    // +
+                    // '${akunObat.totalPenjualan} | ' +
+                    // '${akunHPPObat.totalHPPObat} |  ' +
+                    // '${akunTindakanOperasi.totalTindakanOperasi} ' +
+                    // '|${akunJasmed.totalBiayaKomisiJasmed} | ' +
+                    // '${akunAdmin.totalKomisiAdmin} | '
+                    ),
+              ),
             ],
           )),
     );
