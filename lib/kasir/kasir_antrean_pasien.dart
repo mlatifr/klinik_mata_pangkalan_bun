@@ -8,6 +8,8 @@ import 'package:flutter_application_1/kasir/kasir_detail_pasien.dart';
 import '../main.dart';
 import 'kasir_get_antrean.dart';
 
+Timer _timerForInter; // <- Put this line on top of _MyAppState class
+
 class KsrAntreanPasien extends StatefulWidget {
   const KsrAntreanPasien({Key key}) : super(key: key);
 
@@ -38,6 +40,7 @@ Widget widgetDrawer() {
         ListTile(
           title: Text('Logout'),
           onTap: () {
+            _timerForInter.cancel();
             doLogout();
           },
         ),
@@ -100,32 +103,31 @@ class _KsrAntreanPasienState extends State<KsrAntreanPasien> {
                 ),
               ),
             )),
-            // ElevatedButton(
-            //     onPressed: () {
-            //       showDatePicker(
-            //               context: context,
-            //               initialDate: DateTime.now(),
-            //               firstDate: DateTime(2000),
-            //               lastDate: DateTime(2200))
-            //           .then((value) {
-            //         setState(() {
-            //           controllerdate.text = value.toString().substring(0, 10);
-            //           print(value.toString());
-            //           KasirBacaDataVAntrean(controllerdate.text);
-            //         });
-            //       });
-            //     },
-            //     child: Icon(
-            //       Icons.calendar_today_sharp,
-            //       color: Colors.white,
-            //       size: 24.0,
-            //     ))
+            ElevatedButton(
+                onPressed: () {
+                  showDatePicker(
+                          context: context,
+                          initialDate: DateTime.now(),
+                          firstDate: DateTime(2000),
+                          lastDate: DateTime(2200))
+                      .then((value) {
+                    setState(() {
+                      controllerdate.text = value.toString().substring(0, 10);
+                      print(value.toString());
+                      KasirBacaDataVAntrean(controllerdate.text);
+                    });
+                  });
+                },
+                child: Icon(
+                  Icons.calendar_today_sharp,
+                  color: Colors.white,
+                  size: 24.0,
+                ))
           ],
         ));
   }
 
 // ignore: unused_field
-  Timer _timerForInter; // <- Put this line on top of _MyAppState class
   void functionTimerRefresh() {
     _timerForInter = Timer.periodic(Duration(seconds: 15), (result) {
       setState(() {
