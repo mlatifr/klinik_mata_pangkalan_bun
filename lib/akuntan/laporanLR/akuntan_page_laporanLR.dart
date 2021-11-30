@@ -218,6 +218,20 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
     super.initState();
   }
 
+  Widget WidgetLabaBersih() {
+    return ListTile(
+      title: Text(
+          "Laba Bersih: ${akunObat.totalPenjualan - akunHPPObat.totalHPPObat + akunTindakanOperasi.totalTindakanOperasi - akunJasmed.totalBiayaKomisiJasmed - akunAdmin.totalKomisiAdmin} \n"
+          // +
+          // '${akunObat.totalPenjualan} | ' +
+          // '${akunHPPObat.totalHPPObat} |  ' +
+          // '${akunTindakanOperasi.totalTindakanOperasi} ' +
+          // '|${akunJasmed.totalBiayaKomisiJasmed} | ' +
+          // '${akunAdmin.totalKomisiAdmin} | '
+          ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -254,18 +268,17 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
               ),
               Divider(),
               // Text("Pendapatan: ${listPenjualanTindakans.length}"),
-
-              ListTile(
-                title: Text(
-                    "Laba Bersih: ${akunObat.totalPenjualan - akunHPPObat.totalHPPObat + akunTindakanOperasi.totalTindakanOperasi - akunJasmed.totalBiayaKomisiJasmed - akunAdmin.totalKomisiAdmin} \n"
-                    // +
-                    // '${akunObat.totalPenjualan} | ' +
-                    // '${akunHPPObat.totalHPPObat} |  ' +
-                    // '${akunTindakanOperasi.totalTindakanOperasi} ' +
-                    // '|${akunJasmed.totalBiayaKomisiJasmed} | ' +
-                    // '${akunAdmin.totalKomisiAdmin} | '
-                    ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        WidgetLabaBersih();
+                      });
+                    },
+                    child: Text('Laba Bersih')),
               ),
+              WidgetLabaBersih()
             ],
           )),
     );
