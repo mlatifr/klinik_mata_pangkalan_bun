@@ -4,6 +4,35 @@ import 'dart:async';
 import 'package:flutter_application_1/main.dart';
 import 'package:http/http.dart' as http;
 
+//untuk akun kas
+List<AkuntanVAkunKas> listAkunKass = [];
+
+class AkuntanVAkunKas {
+  var namaPasien, tgl_transaksi, harga;
+  AkuntanVAkunKas({this.namaPasien, this.tgl_transaksi, this.harga});
+  // untuk convert dari jSon
+  factory AkuntanVAkunKas.fromJson(Map<String, dynamic> json) {
+    return new AkuntanVAkunKas(
+      namaPasien: json['nama'],
+      tgl_transaksi: json['tgl_transaksi'],
+      harga: json['total_harga'],
+    );
+  }
+}
+
+Future<String> fetchDataVAkunKas(pTglCatat) async {
+  final response =
+      await http.post(Uri.parse(apiUrl + "akuntan_v_kas.php"), body: {
+    'tgl_transaksi': pTglCatat.toString(),
+  });
+  if (response.statusCode == 200) {
+    print('fetchDataVAkunKas: ${response.body}');
+    return response.body;
+  } else {
+    throw Exception('Failed to read API');
+  }
+}
+
 //untuk akun tindakan
 List<AkuntanVPenjualanTindakan> listPenjualanTindakans = [];
 

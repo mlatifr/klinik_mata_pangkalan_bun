@@ -8,6 +8,7 @@ import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_admin.
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_jasmed.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_jasmed.dart'
     as akunJasmed;
+import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_kas.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_obat.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_obat.dart'
     as akunObat;
@@ -30,30 +31,29 @@ class AkuntanVNeraca extends StatefulWidget {
 class _AkuntanVNeracaState extends State<AkuntanVNeraca> {
   var numberFormatRp = new NumberFormat("#,##0", "id_ID");
 
-// //baca data nota akun tindakan
-// // ignore: non_constant_identifier_names
-//   AkunanBacaDataPenjualanTindakan(tgl) {
-//     print('listPenjualanTindakans before: ${listPenjualanTindakans.length}');
-//     if (listPenjualanTindakans.isNotEmpty) {
-//       listPenjualanTindakans.clear();
-//     }
-//     print('listPenjualanTindakans after: ${listPenjualanTindakans.length}');
-//     Future<String> data = fetchDataVPenjualanTindakan(tgl);
-//     data.then((value) {
-//       //Mengubah json menjadi Array
-//       // ignore: unused_local_variable
-//       Map json = jsonDecode(value);
-//       for (var i in json['data']) {
-//         print(i);
-//         AkuntanVPenjualanTindakan pjlnTdkn =
-//             AkuntanVPenjualanTindakan.fromJson(i);
-//         listPenjualanTindakans.add(pjlnTdkn);
-//       }
-//       setState(() {
-//         WidgetAkunTindakan();
-//       });
-//     });
-//   }
+//baca data nota akun tindakan
+// ignore: non_constant_identifier_names
+  AkuntanBacaDataAkunKas(tgl) {
+    // print('listAkunKass before: ${listAkunKass.length}');
+    if (listAkunKass.isNotEmpty) {
+      listAkunKass.clear();
+    }
+    // print('listAkunKass after: ${listAkunKass.length}');
+    Future<String> data = fetchDataVAkunKas(tgl);
+    data.then((value) {
+      //Mengubah json menjadi Array
+      // ignore: unused_local_variable
+      Map json = jsonDecode(value);
+      for (var i in json['data']) {
+        print(i);
+        AkuntanVAkunKas AkunKas = AkuntanVAkunKas.fromJson(i);
+        listAkunKass.add(AkunKas);
+      }
+      setState(() {
+        WidgetAkunTindakan();
+      });
+    });
+  }
 
 // //baca data nota akun jasmed
 // // ignore: non_constant_identifier_names
@@ -184,6 +184,7 @@ class _AkuntanVNeracaState extends State<AkuntanVNeraca> {
                     setState(() {
                       controllerdate.text = value.toString().substring(0, 7);
                       // baca data seluruh nota transaksi yg ada di klinik
+                      AkuntanBacaDataAkunKas(controllerdate.text);
                       // AkunanBacaDataPenjualanObat(controllerdate.text);
                       // AkunanBacaDataPenjualanjasmed(controllerdate.text);
                       // AkunanBacaDataPenjualanAdmin(controllerdate.text);
@@ -208,6 +209,7 @@ class _AkuntanVNeracaState extends State<AkuntanVNeraca> {
     DateTime date = new DateTime(now.year, now.month, now.day);
     //print(date);
     controllerdate.text = date.toString().substring(0, 7);
+    AkuntanBacaDataAkunKas(controllerdate.text);
     // AkunanBacaDataPenjualanObat(controllerdate.text);
     // AkunanBacaDataPenjualanjasmed(controllerdate.text);
     // AkunanBacaDataPenjualanAdmin(controllerdate.text);
@@ -242,8 +244,9 @@ class _AkuntanVNeracaState extends State<AkuntanVNeraca> {
             children: [
               widgetSelectTgl(),
               ListTile(
-                title: Text('Aset Lancar'),
+                title: Text('Aset Lancar_'),
               ),
+              WidgetAkunKas(pTextListKas: 'Akun kas'),
               ListTile(
                 title: Text('   Kas'),
               ),
