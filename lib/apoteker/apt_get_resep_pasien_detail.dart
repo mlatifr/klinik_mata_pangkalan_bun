@@ -9,6 +9,18 @@ import 'package:http/http.dart' as http;
 List<ApotekerrVListObat> aVLOs = [];
 List<ApotekerVKeranjangObatDokter> aVKODrs = [];
 List<ApotekerVKeranjangObat> aVKOs = [];
+List<ApotekerInputResepList> ListInputResep = [];
+
+class ApotekerInputResepList {
+  var rspAptkrId, obtId, obatNama, dosis, jumlah, visitId;
+  ApotekerInputResepList(
+      {this.rspAptkrId,
+      this.obtId,
+      this.obatNama,
+      this.dosis,
+      this.jumlah,
+      this.visitId});
+}
 
 class ApotekerVKeranjangObat {
   var stok, nama, dosis, jumlah;
