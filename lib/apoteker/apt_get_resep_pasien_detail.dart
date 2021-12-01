@@ -127,7 +127,7 @@ Future<String> fetchDataApotekerInputResepObat(
     "visit_id": pVisitId.toString(),
   });
   if (response.statusCode == 200) {
-    print('fetchDataApotekerInputResepObat: ${response.body}');
+    // print('fetchDataApotekerInputResepObat: ${response.body}');
     return response.body;
   } else {
     print('else fetchDataApotekerInputResepObat: ${response.body}');

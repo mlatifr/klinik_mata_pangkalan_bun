@@ -26,7 +26,7 @@ class _AptInputObatState extends State<AptInputObat> {
           ApotekerVKeranjangObat keranjangObatDokter =
               ApotekerVKeranjangObat.fromJson(i);
           aVKOs.add(keranjangObatDokter);
-          print('AVKOs[length]: ${aVKOs.length}');
+          // print('AVKOs[length]: ${aVKOs.length}');
         }
         setState(() {
           widgetKeranjangObatApotekerBody();
@@ -314,6 +314,9 @@ class _AptInputObatState extends State<AptInputObat> {
                                           jumlah: controllerJumlah.text,
                                           visitId: widget.visitId);
                                   ListInputResep.add(selectedObat);
+                                  setState(() {
+                                    widgetKeranjangObatApotekerBody();
+                                  });
                                   print(ListInputResep.length);
                                   // ApotekerInputDataResepObat(
                                   // aptkrRspId,
@@ -368,6 +371,7 @@ class _AptInputObatState extends State<AptInputObat> {
   }
 
   Widget widgetKeranjangObatApotekerBody() {
+    // print("widgetKeranjangObatApotekerBody: ${ListInputResep.length}");
     return Padding(
       padding: const EdgeInsets.all(8),
       child: ListView.builder(
@@ -509,6 +513,7 @@ class _AptInputObatState extends State<AptInputObat> {
     ApotekerBacaDataVKeranjangResepDokter(widget.visitId);
     controllerCariObat.clear();
     ApotekerBacaDataVListObat(controllerCariObat.text);
+    ListInputResep.clear();
     super.initState();
   }
 
@@ -564,7 +569,23 @@ class _AptInputObatState extends State<AptInputObat> {
                                     widgetListObats(),
                                   ])),
                           widgetKeranjangObatHeader(),
-                          widgetKeranjangObatApotekerBody()
+                          Text('Keranjang'),
+                          widgetKeranjangObatApotekerBody(),
+                          ElevatedButton(
+                              onPressed: () {
+                                for (var item in ListInputResep) {
+                                  fetchDataApotekerInputResepObat(
+                                          item.rspAptkrId,
+                                          item.obtId,
+                                          item.dosis,
+                                          item.jumlah,
+                                          item.visitId)
+                                      .then((value) {
+                                    print(value);
+                                  });
+                                }
+                              },
+                              child: Text('SIMPAN'))
                         ],
                       ),
                     ),
