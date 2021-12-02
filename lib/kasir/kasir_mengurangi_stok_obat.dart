@@ -5,14 +5,30 @@ import 'package:flutter_application_1/kasir/kasir_get_resep.dart';
 import 'package:flutter_application_1/main.dart';
 import 'package:http/http.dart' as http;
 
+class ClassStokObatBaru {
+  var obatId, stokObatBaru;
+  ClassStokObatBaru({this.obatId, this.stokObatBaru});
+}
+
+int stokLama;
 List ListStokObatBaru = [];
 Function CalculateStokObatBaru() {
+  ListStokObatBaru.clear();
   for (var item in kVKRs) {
-    int stokLama = item.stok;
-    ListStokObatBaru.add(stokLama - int.parse(item.jumlah));
+    stokLama = item.stok - int.parse(item.jumlah);
+    ClassStokObatBaru sb =
+        ClassStokObatBaru(obatId: item.obatId, stokObatBaru: stokLama);
+    ListStokObatBaru.add(sb);
   }
-  for (var item in ListStokObatBaru) {
-    print(item);
+  // for (var item in ListStokObatBaru) {
+  //   print(item.obatId.toString() + '|' + item.stokObatBaru.toString());
+  //   updateStokObat(item.obatId, item.stokObatBaru);
+  // }
+  for (var i = 0; i < ListStokObatBaru.length; i++) {
+    // print(
+    //     '${ListStokObatBaru[i].obatId} | ${ListStokObatBaru[i].stokObatBaru}');
+    updateStokObat(
+        ListStokObatBaru[i].obatId, ListStokObatBaru[i].stokObatBaru);
   }
 }
 
@@ -53,15 +69,18 @@ Function CalculateStokObatBaru() {
 //   }
 // }
 
-Future<String> fetchDataDokterVKeranjangResep(pVisitId) async {
-  print('final: $pVisitId');
-  final response = await http.post(Uri.parse(apiUrl + "kasir_v_resep.php"),
-      body: {"visit_id": pVisitId.toString()});
+Future<String> updateStokObat(pObatId, pObatStok) async {
+  print('$pObatId | $pObatStok');
+  final response = await http
+      .post(Uri.parse(apiUrl + "kasir_update_stok_obat.php"), body: {
+    "obat_id": pObatId.toString(),
+    "stok_obat_baru": pObatStok.toString()
+  });
   if (response.statusCode == 200) {
-    print('keranjang kasir_v_resep: ${response.body}');
+    print('updateStokObat : ${response.body}');
     return response.body;
   } else {
-    print('else kasir_v_resep: ${response.body}');
+    print('else updateStokObat: ${response.statusCode}');
     throw Exception('Failed to read API');
   }
 }
