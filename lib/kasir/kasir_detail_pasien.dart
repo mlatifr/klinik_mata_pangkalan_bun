@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/kasir/kasir_get_tindakan.dart';
+import 'package:flutter_application_1/kasir/kasir_widget_krjg_resep.dart';
 import 'package:flutter_application_1/main.dart';
 import 'kasir_get_resep.dart';
 import 'package:intl/intl.dart';
@@ -10,6 +11,9 @@ import 'kasir_send_nota_penjualan.dart';
 
 var numberFormatRpResep, numberFormatRpTindakan;
 var cekInitState = 1;
+
+int totalBiayaObat = 0;
+var hargaKaliObat = [];
 
 // ignore: must_be_immutable
 class KasirDetailPasien extends StatefulWidget {
@@ -46,7 +50,8 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
         kVKRs.add(kvt);
       }
       setState(() {
-        widgetKeranjangResep();
+        // widgetKeranjangResep();
+        WidgetKrjgRsp();
       });
     });
   }
@@ -70,102 +75,100 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
     });
   }
 
-  int totalBiayaObat = 0;
-  var hargaKaliObat = [];
-  Widget widgetKeranjangResep() {
-    hargaKaliObat.clear();
-    totalBiayaObat = 0;
-    if (kVKRs.length > 0) {
-      for (var i = 0; i < kVKRs.length; i++) {
-        hargaKaliObat
-            .add(int.parse(kVKRs[i].hargaJual) * int.parse(kVKRs[i].jumlah));
-        // totalBiayaObat = totalBiayaObat + hargaKaliObat[i];
-      }
-      for (var i = 0; i < hargaKaliObat.length; i++) {
-        // hargaKaliObat.add(KVKRs[i].hargaJual * KVKRs[i].jumlah);
-        totalBiayaObat = totalBiayaObat + hargaKaliObat[i];
-      }
-      return Column(
-        children: [
-          Table(
-              border: TableBorder
-                  .all(), // Allows to add a border decoration around your table
-              children: [
-                TableRow(children: [
-                  Text(
-                    'Nama',
-                    textAlign: TextAlign.center,
-                  ),
-                  Text(
-                    'Jumlah',
-                    textAlign: TextAlign.center,
-                  ),
-                  Text(
-                    'Harga Satuan',
-                    textAlign: TextAlign.center,
-                  ),
-                  Text(
-                    'Harga Total',
-                    textAlign: TextAlign.center,
-                  ),
-                ]),
-              ]),
-          ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: kVKRs.length,
-              itemBuilder: (context, index) {
-                return Table(
-                    border: TableBorder
-                        .all(), // Allows to add a border decoration around your table
-                    children: [
-                      TableRow(children: [
-                        Text(
-                          ' $index| ${kVKRs[index].namaObat}',
-                          textAlign: TextAlign.left,
-                        ),
-                        Text(
-                          '${kVKRs[index].jumlah}',
-                          textAlign: TextAlign.center,
-                        ),
-                        Text(
-                          '${numberFormatRpResep.format(int.parse(kVKRs[index].hargaJual))}',
-                          textAlign: TextAlign.center,
-                        ),
-                        Text(
-                          '${numberFormatRpResep.format(hargaKaliObat[index])}',
-                          textAlign: TextAlign.center,
-                        ),
-                      ]),
-                    ]);
-              }),
-          Table(
-              border: TableBorder
-                  .all(), // Allows to add a border decoration around your table
-              children: [
-                TableRow(children: [
-                  Text(
-                    'Total: ',
-                    textAlign: TextAlign.center,
-                  ),
-                  Text(
-                    '${numberFormatRpResep.format(totalBiayaObat)}',
-                    textAlign: TextAlign.center,
-                  ),
-                ]),
-              ]),
-          Divider(
-            color: Colors.black,
-            thickness: 2,
-          ),
-        ],
-      );
-    } else {
-      return Row(
-        children: [Text('Keranjang Tindakan: '), CircularProgressIndicator()],
-      );
-    }
-  }
+  // Widget widgetKeranjangResep() {
+  //   hargaKaliObat.clear();
+  //   totalBiayaObat = 0;
+  //   if (kVKRs.length > 0) {
+  //     for (var i = 0; i < kVKRs.length; i++) {
+  //       hargaKaliObat
+  //           .add(int.parse(kVKRs[i].hargaJual) * int.parse(kVKRs[i].jumlah));
+  //       // totalBiayaObat = totalBiayaObat + hargaKaliObat[i];
+  //     }
+  //     for (var i = 0; i < hargaKaliObat.length; i++) {
+  //       // hargaKaliObat.add(KVKRs[i].hargaJual * KVKRs[i].jumlah);
+  //       totalBiayaObat = totalBiayaObat + hargaKaliObat[i];
+  //     }
+  //     return Column(
+  //       children: [
+  //         Table(
+  //             border: TableBorder
+  //                 .all(), // Allows to add a border decoration around your table
+  //             children: [
+  //               TableRow(children: [
+  //                 Text(
+  //                   'Nama',
+  //                   textAlign: TextAlign.center,
+  //                 ),
+  //                 Text(
+  //                   'Jumlah',
+  //                   textAlign: TextAlign.center,
+  //                 ),
+  //                 Text(
+  //                   'Harga Satuan',
+  //                   textAlign: TextAlign.center,
+  //                 ),
+  //                 Text(
+  //                   'Harga Total',
+  //                   textAlign: TextAlign.center,
+  //                 ),
+  //               ]),
+  //             ]),
+  //         ListView.builder(
+  //             physics: NeverScrollableScrollPhysics(),
+  //             shrinkWrap: true,
+  //             itemCount: kVKRs.length,
+  //             itemBuilder: (context, index) {
+  //               return Table(
+  //                   border: TableBorder
+  //                       .all(), // Allows to add a border decoration around your table
+  //                   children: [
+  //                     TableRow(children: [
+  //                       Text(
+  //                         ' $index| ${kVKRs[index].namaObat}',
+  //                         textAlign: TextAlign.left,
+  //                       ),
+  //                       Text(
+  //                         '${kVKRs[index].jumlah}',
+  //                         textAlign: TextAlign.center,
+  //                       ),
+  //                       Text(
+  //                         '${numberFormatRpResep.format(int.parse(kVKRs[index].hargaJual))}',
+  //                         textAlign: TextAlign.center,
+  //                       ),
+  //                       Text(
+  //                         '${numberFormatRpResep.format(hargaKaliObat[index])}',
+  //                         textAlign: TextAlign.center,
+  //                       ),
+  //                     ]),
+  //                   ]);
+  //             }),
+  //         Table(
+  //             border: TableBorder
+  //                 .all(), // Allows to add a border decoration around your table
+  //             children: [
+  //               TableRow(children: [
+  //                 Text(
+  //                   'Total: ',
+  //                   textAlign: TextAlign.center,
+  //                 ),
+  //                 Text(
+  //                   '${numberFormatRpResep.format(totalBiayaObat)}',
+  //                   textAlign: TextAlign.center,
+  //                 ),
+  //               ]),
+  //             ]),
+  //         Divider(
+  //           color: Colors.black,
+  //           thickness: 2,
+  //         ),
+  //       ],
+  //     );
+  //   } else {
+  //     return Row(
+  //       children: [Text('Keranjang Tindakan: '), CircularProgressIndicator()],
+  //     );
+  //   }
+  // }
 
   TextEditingController controllerBiayaAdmin = TextEditingController(text: "0");
   TextEditingController controllerBiayaJasaMedis =
@@ -422,7 +425,10 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
                                   textAlign: TextAlign.center,
                                   style: TextStyle(),
                                 ),
-                                children: [widgetKeranjangResep()])),
+                                children: [
+                                  // widgetKeranjangResep(),
+                                  WidgetKrjgRsp()
+                                ])),
                         Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: widgetInputPembayaran()),
