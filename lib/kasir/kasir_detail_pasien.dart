@@ -14,6 +14,40 @@ var cekInitState = 1;
 
 int totalBiayaObat = 0;
 var hargaKaliObat = [];
+TextEditingController controllerBiayaAdmin = TextEditingController(text: "0");
+TextEditingController controllerBiayaJasaMedis =
+    TextEditingController(text: "0");
+var totalMedis, totalTdknRspAdmMdis;
+var totalAdmin = 0;
+
+int totalBiayaTindakan = 0;
+var refreshTextTotalPembayaran = false;
+Widget widgetTextTotalPembayaran() {
+  print('widgetTextTotalPembayaran: $totalBiayaObat');
+  if (refreshTextTotalPembayaran == true) {
+    if (controllerBiayaAdmin.text.isNotEmpty) {
+      totalAdmin = int.parse(controllerBiayaAdmin.text);
+    }
+    if (controllerBiayaJasaMedis.text.isNotEmpty) {
+      totalMedis = int.parse(controllerBiayaJasaMedis.text);
+    }
+    totalTdknRspAdmMdis =
+        totalBiayaTindakan + totalBiayaObat + totalAdmin + totalMedis;
+    if (totalAdmin != 0 && totalMedis != 0) {
+      return Text(
+        'Rp ${numberFormatRpResep.format(totalTdknRspAdmMdis)}',
+        textAlign: TextAlign.center,
+      );
+    } else {
+      return Text(
+        'Rp ${totalTdknRspAdmMdis}',
+        textAlign: TextAlign.center,
+      );
+    }
+  } else {
+    return Text('Total Pembayaran');
+  }
+}
 
 // ignore: must_be_immutable
 class KasirDetailPasien extends StatefulWidget {
@@ -50,12 +84,10 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
         kVKRs.add(kvt);
       }
       setState(() {
-        // widgetKeranjangResep();
-        WidgetKrjgRsp();
-      });
-    }).then((value) {
-      setState(() {
-        widgetTextTotalPembayaran();
+        widgetKeranjangResep();
+        // WidgetKrjgRsp();
+        // print('set state KasirBacaDataVResep');
+        // print('KasirBacaDataVResep totalBiayaObat: $totalBiayaObat');
       });
     });
   }
@@ -79,124 +111,97 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
     });
   }
 
-  // Widget widgetKeranjangResep() {
-  //   hargaKaliObat.clear();
-  //   totalBiayaObat = 0;
-  //   if (kVKRs.length > 0) {
-  //     for (var i = 0; i < kVKRs.length; i++) {
-  //       hargaKaliObat
-  //           .add(int.parse(kVKRs[i].hargaJual) * int.parse(kVKRs[i].jumlah));
-  //       // totalBiayaObat = totalBiayaObat + hargaKaliObat[i];
-  //     }
-  //     for (var i = 0; i < hargaKaliObat.length; i++) {
-  //       // hargaKaliObat.add(KVKRs[i].hargaJual * KVKRs[i].jumlah);
-  //       totalBiayaObat = totalBiayaObat + hargaKaliObat[i];
-  //     }
-  //     return Column(
-  //       children: [
-  //         Table(
-  //             border: TableBorder
-  //                 .all(), // Allows to add a border decoration around your table
-  //             children: [
-  //               TableRow(children: [
-  //                 Text(
-  //                   'Nama',
-  //                   textAlign: TextAlign.center,
-  //                 ),
-  //                 Text(
-  //                   'Jumlah',
-  //                   textAlign: TextAlign.center,
-  //                 ),
-  //                 Text(
-  //                   'Harga Satuan',
-  //                   textAlign: TextAlign.center,
-  //                 ),
-  //                 Text(
-  //                   'Harga Total',
-  //                   textAlign: TextAlign.center,
-  //                 ),
-  //               ]),
-  //             ]),
-  //         ListView.builder(
-  //             physics: NeverScrollableScrollPhysics(),
-  //             shrinkWrap: true,
-  //             itemCount: kVKRs.length,
-  //             itemBuilder: (context, index) {
-  //               return Table(
-  //                   border: TableBorder
-  //                       .all(), // Allows to add a border decoration around your table
-  //                   children: [
-  //                     TableRow(children: [
-  //                       Text(
-  //                         ' $index| ${kVKRs[index].namaObat}',
-  //                         textAlign: TextAlign.left,
-  //                       ),
-  //                       Text(
-  //                         '${kVKRs[index].jumlah}',
-  //                         textAlign: TextAlign.center,
-  //                       ),
-  //                       Text(
-  //                         '${numberFormatRpResep.format(int.parse(kVKRs[index].hargaJual))}',
-  //                         textAlign: TextAlign.center,
-  //                       ),
-  //                       Text(
-  //                         '${numberFormatRpResep.format(hargaKaliObat[index])}',
-  //                         textAlign: TextAlign.center,
-  //                       ),
-  //                     ]),
-  //                   ]);
-  //             }),
-  //         Table(
-  //             border: TableBorder
-  //                 .all(), // Allows to add a border decoration around your table
-  //             children: [
-  //               TableRow(children: [
-  //                 Text(
-  //                   'Total: ',
-  //                   textAlign: TextAlign.center,
-  //                 ),
-  //                 Text(
-  //                   '${numberFormatRpResep.format(totalBiayaObat)}',
-  //                   textAlign: TextAlign.center,
-  //                 ),
-  //               ]),
-  //             ]),
-  //         Divider(
-  //           color: Colors.black,
-  //           thickness: 2,
-  //         ),
-  //       ],
-  //     );
-  //   } else {
-  //     return Row(
-  //       children: [Text('Keranjang Tindakan: '), CircularProgressIndicator()],
-  //     );
-  //   }
-  // }
-
-  TextEditingController controllerBiayaAdmin = TextEditingController(text: "0");
-  TextEditingController controllerBiayaJasaMedis =
-      TextEditingController(text: "0");
-  var totalMedis, totalTdknRspAdmMdis;
-  var totalAdmin = 0;
-  Widget widgetTextTotalPembayaran() {
-    if (controllerBiayaAdmin.text.isNotEmpty) {
-      totalAdmin = int.parse(controllerBiayaAdmin.text);
-    }
-    if (controllerBiayaJasaMedis.text.isNotEmpty) {
-      totalMedis = int.parse(controllerBiayaJasaMedis.text);
-    }
-    totalTdknRspAdmMdis =
-        totalBiayaTindakan + totalBiayaObat + totalAdmin + totalMedis;
-    if (totalAdmin != 0 && totalMedis != 0) {
-      return Text(
-        'Rp ${numberFormatRpResep.format(totalTdknRspAdmMdis)}',
-        textAlign: TextAlign.center,
+  Widget widgetKeranjangResep() {
+    hargaKaliObat.clear();
+    totalBiayaObat = 0;
+    if (kVKRs.length > 0) {
+      for (var i = 0; i < kVKRs.length; i++) {
+        hargaKaliObat
+            .add(int.parse(kVKRs[i].hargaJual) * int.parse(kVKRs[i].jumlah));
+        // totalBiayaObat = totalBiayaObat + hargaKaliObat[i];
+      }
+      for (var i = 0; i < hargaKaliObat.length; i++) {
+        // hargaKaliObat.add(KVKRs[i].hargaJual * KVKRs[i].jumlah);
+        totalBiayaObat = totalBiayaObat + hargaKaliObat[i];
+      }
+      return Column(
+        children: [
+          Table(
+              border: TableBorder
+                  .all(), // Allows to add a border decoration around your table
+              children: [
+                TableRow(children: [
+                  Text(
+                    'Nama',
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    'Jumlah',
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    'Harga Satuan',
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    'Harga Total',
+                    textAlign: TextAlign.center,
+                  ),
+                ]),
+              ]),
+          ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: kVKRs.length,
+              itemBuilder: (context, index) {
+                return Table(
+                    border: TableBorder
+                        .all(), // Allows to add a border decoration around your table
+                    children: [
+                      TableRow(children: [
+                        Text(
+                          ' $index| ${kVKRs[index].namaObat}',
+                          textAlign: TextAlign.left,
+                        ),
+                        Text(
+                          '${kVKRs[index].jumlah}',
+                          textAlign: TextAlign.center,
+                        ),
+                        Text(
+                          '${numberFormatRpResep.format(int.parse(kVKRs[index].hargaJual))}',
+                          textAlign: TextAlign.center,
+                        ),
+                        Text(
+                          '${numberFormatRpResep.format(hargaKaliObat[index])}',
+                          textAlign: TextAlign.center,
+                        ),
+                      ]),
+                    ]);
+              }),
+          Table(
+              border: TableBorder
+                  .all(), // Allows to add a border decoration around your table
+              children: [
+                TableRow(children: [
+                  Text(
+                    'Total: ',
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    '${numberFormatRpResep.format(totalBiayaObat)}',
+                    textAlign: TextAlign.center,
+                  ),
+                ]),
+              ]),
+          Divider(
+            color: Colors.black,
+            thickness: 2,
+          ),
+        ],
       );
     } else {
-      return Text(
-        'Rp ${totalTdknRspAdmMdis}',
-        textAlign: TextAlign.center,
+      return Row(
+        children: [Text('Keranjang Tindakan: '), CircularProgressIndicator()],
       );
     }
   }
@@ -293,7 +298,6 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
     );
   }
 
-  int totalBiayaTindakan = 0;
   Widget widgetKeranjangTindakan() {
     totalBiayaTindakan = 0;
     if (kVKTs.length > 0) {
@@ -430,8 +434,8 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
                                   style: TextStyle(),
                                 ),
                                 children: [
-                                  // widgetKeranjangResep(),
-                                  WidgetKrjgRsp()
+                                  widgetKeranjangResep(),
+                                  // WidgetKrjgRsp()
                                 ])),
                         Padding(
                             padding: const EdgeInsets.all(8.0),

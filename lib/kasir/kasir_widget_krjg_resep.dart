@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/kasir/kasir_detail_pasien.dart';
+import 'package:flutter_application_1/kasir/kasir_detail_pasien.dart'
+    as KasirDetailPasien;
 import 'package:flutter_application_1/kasir/kasir_get_resep.dart';
 import 'package:flutter_application_1/kasir/kasir_mengurangi_stok_obat.dart';
 
@@ -24,7 +26,11 @@ class _WidgetKrjgRspState extends State<WidgetKrjgRsp> {
       for (var i = 0; i < hargaKaliObat.length; i++) {
         // hargaKaliObat.add(KVKRs[i].hargaJual * KVKRs[i].jumlah);
         totalBiayaObat = totalBiayaObat + hargaKaliObat[i];
+        refreshTextTotalPembayaran = true;
       }
+      setState(() {
+        print('WidgetKrjgRsp totalBiayaObat: $totalBiayaObat');
+      });
       return Column(
         children: [
           Table(
@@ -111,7 +117,7 @@ class _WidgetKrjgRspState extends State<WidgetKrjgRsp> {
       );
     } else {
       return Row(
-        children: [Text('Keranjang Tindakan: '), CircularProgressIndicator()],
+        children: [Text('Keranjang Obat: '), CircularProgressIndicator()],
       );
     }
   }
