@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/kasir/kasir_get_tindakan.dart';
+import 'package:flutter_application_1/kasir/kasir_mengurangi_stok_obat.dart';
 import 'package:flutter_application_1/kasir/kasir_widget_krjg_resep.dart';
 import 'package:flutter_application_1/main.dart';
 import 'kasir_get_resep.dart';
@@ -123,7 +124,11 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
       for (var i = 0; i < hargaKaliObat.length; i++) {
         // hargaKaliObat.add(KVKRs[i].hargaJual * KVKRs[i].jumlah);
         totalBiayaObat = totalBiayaObat + hargaKaliObat[i];
+        refreshTextTotalPembayaran = true;
       }
+      setState(() {
+        print('WidgetKrjgRsp totalBiayaObat: $totalBiayaObat');
+      });
       return Column(
         children: [
           Table(
@@ -168,6 +173,10 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
                           textAlign: TextAlign.center,
                         ),
                         Text(
+                          '${kVKRs[index].stok}',
+                          textAlign: TextAlign.center,
+                        ),
+                        Text(
                           '${numberFormatRpResep.format(int.parse(kVKRs[index].hargaJual))}',
                           textAlign: TextAlign.center,
                         ),
@@ -197,11 +206,16 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
             color: Colors.black,
             thickness: 2,
           ),
+          ElevatedButton(
+              onPressed: () {
+                CalculateStokObatBaru();
+              },
+              child: Text('Calculate'))
         ],
       );
     } else {
       return Row(
-        children: [Text('Keranjang Tindakan: '), CircularProgressIndicator()],
+        children: [Text('Keranjang Obat: '), CircularProgressIndicator()],
       );
     }
   }
