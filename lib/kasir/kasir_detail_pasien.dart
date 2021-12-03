@@ -53,6 +53,10 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
         // widgetKeranjangResep();
         WidgetKrjgRsp();
       });
+    }).then((value) {
+      setState(() {
+        widgetTextTotalPembayaran();
+      });
     });
   }
 
