@@ -191,10 +191,10 @@ class _NotaPembayaranPasienState extends State<NotaPembayaranPasien> {
                           '${kVKRs[index].jumlah}',
                           textAlign: TextAlign.center,
                         ),
-                        Text(
-                          '${kVKRs[index].stok}',
-                          textAlign: TextAlign.center,
-                        ),
+                        // Text(
+                        //   '${kVKRs[index].stok}',
+                        //   textAlign: TextAlign.center,
+                        // ),
                         Text(
                           '${numberFormatRpResep.format(int.parse(kVKRs[index].hargaJual))}',
                           textAlign: TextAlign.center,
