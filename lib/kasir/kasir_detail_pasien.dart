@@ -206,11 +206,6 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
             color: Colors.black,
             thickness: 2,
           ),
-          ElevatedButton(
-              onPressed: () {
-                CalculateStokObatBaru();
-              },
-              child: Text('Calculate'))
         ],
       );
     } else {
@@ -465,29 +460,32 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
                                       controllerBiayaJasaMedis.text,
                                       controllerBiayaAdmin.text,
                                       totalTdknRspAdmMdis)
-                                  .then((value) => showDialog<String>(
-                                        context: context,
-                                        builder: (BuildContext context) =>
-                                            AlertDialog(
-                                          title: Text(
-                                            '{$value}',
-                                            style: TextStyle(fontSize: 14),
-                                          ),
-                                          actions: <Widget>[
-                                            TextButton(
-                                                onPressed: () {
-                                                  setState(() {
-                                                    widgetTextTotalPembayaran();
-                                                  });
-                                                  Navigator.pop(
-                                                    context,
-                                                    'ok',
-                                                  );
-                                                },
-                                                child: Text('ok')),
-                                          ],
-                                        ),
-                                      ));
+                                  .then((value) {
+                                showDialog<String>(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      AlertDialog(
+                                    title: Text(
+                                      '{$value}',
+                                      style: TextStyle(fontSize: 14),
+                                    ),
+                                    actions: <Widget>[
+                                      TextButton(
+                                          onPressed: () {
+                                            setState(() {
+                                              widgetTextTotalPembayaran();
+                                            });
+                                            Navigator.pop(
+                                              context,
+                                              'ok',
+                                            );
+                                          },
+                                          child: Text('ok')),
+                                    ],
+                                  ),
+                                );
+                                CalculateStokObatBaru();
+                              });
                             },
                             child: Text('Bayar'),
                             style: TextButton.styleFrom(

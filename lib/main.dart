@@ -4,6 +4,7 @@ import 'package:flutter_application_1/admin_antrean/admin_antrean_pasien.dart';
 import 'package:flutter_application_1/login.dart';
 import 'package:flutter_application_1/pasien/nomor_antrean_pasien.dart';
 import 'package:flutter_application_1/pasien/nota_pembayaran.dart';
+import 'package:flutter_application_1/pasien/pasien_fetch_visit_id.dart';
 import 'package:flutter_application_1/pasien/riwayat_periksa.dart';
 import 'package:flutter_application_1/pasien/pendaftaran_pasien_baru/pendaftaran_pasien_baru.dart';
 import 'package:flutter_application_1/pemilik/pemilik_main_page.dart';
@@ -17,8 +18,8 @@ import 'dart:convert';
 
 import 'kasir/kasir_antrean_pasien.dart';
 
-DateTime now = new DateTime.now();
-DateTime date = new DateTime(now.year, now.month, now.day);
+DateTime now;
+DateTime date;
 // ignore: non_constant_identifier_names
 String username, useridMainDart = "";
 var keluhan = TextEditingController();
@@ -213,6 +214,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
+    DateTime now = new DateTime.now();
+    DateTime date = new DateTime(now.year, now.month, now.day);
     bacaDataAntrean();
     super.initState();
   }
@@ -257,11 +260,22 @@ class _MyHomePageState extends State<MyHomePage> {
           ListTile(
             title: Text('Nota Pembayaran'),
             onTap: () {
+              getUserId();
+              // print(
+              //     "userid: $useridMainDart | tgl_visit: ${date.toString().substring(0, 10)}");
               // Navigator.pop(context);
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => NotaPembayaranPasien()));
+              fetchDataVisitId(useridMainDart, '2021-11-24').then((value) {
+                Map json = jsonDecode(value);
+                visitIdPasien = json['visit_id'];
+                // print('visitIdPasien: $visitIdPasien');
+              }).then((value) {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => NotaPembayaranPasien(
+                              visitId: visitIdPasien,
+                            )));
+              });
             },
           ),
           ListTile(
