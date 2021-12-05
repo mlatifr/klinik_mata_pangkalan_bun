@@ -21,7 +21,7 @@ import 'kasir/kasir_antrean_pasien.dart';
 DateTime now = new DateTime.now();
 DateTime date = new DateTime(now.year, now.month, now.day);
 // ignore: non_constant_identifier_names
-String username, useridMainDart = "";
+String username, userIdMainDart = "";
 var keluhan = TextEditingController();
 // ignore: non_constant_identifier_names
 String statusAntrean, navigateToNomorAntrean;
@@ -32,15 +32,16 @@ String apiUrl = "https://localhost/tugas_akhir/";
 // String APIurl = "http://kmtpbun.ddnsking.com//tugas_akhir/";
 void getUserId() async {
   final prefs = await SharedPreferences.getInstance();
-  useridMainDart = prefs.getString("userid");
-  print('user id main: $useridMainDart');
+  userIdMainDart = prefs.getString("userid");
+  print('user id main: $userIdMainDart');
 }
 
 void doLogout() async {
   final prefs = await SharedPreferences.getInstance();
   prefs.remove("_username");
   prefs.remove("userid");
-  print('user id doLogout(): $useridMainDart');
+  print('user id doLogout(): $userIdMainDart');
+  userIdMainDart = '';
   main();
 }
 
@@ -148,7 +149,7 @@ class _MyHomePageState extends State<MyHomePage> {
         await http.post(Uri.parse(apiUrl + "pasien_input_keluhan.php"), body: {
       'keluhan': keluhan.text,
       'no_antrean': antreanTerakhir.toString(),
-      'user_klinik_id': useridMainDart.toString()
+      'user_klinik_id': userIdMainDart.toString()
     });
     if (response.statusCode == 200) {
       return response.body;
@@ -172,7 +173,7 @@ class _MyHomePageState extends State<MyHomePage> {
             context,
             MaterialPageRoute(
                 builder: (context) => AntreanPasien(
-                    userKlinikId: useridMainDart,
+                    userKlinikId: userIdMainDart,
                     tglVisit: date.toString().substring(0, 10),
                     antreanSekarang: antreanSekarang.toString())));
         setState(() {
@@ -214,6 +215,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
+    getUserId();
+    print('user id main init state $userIdMainDart');
     // DateTime nowVisitId = new DateTime.now();
     // DateTime dateVisitId = new DateTime(nowVisitId.year, nowVisitId.month, nowVisitId.day);
     bacaDataAntrean();
@@ -246,13 +249,13 @@ class _MyHomePageState extends State<MyHomePage> {
               getUserId();
               print('onTap');
               print(
-                  "userid: $useridMainDart | tgl_visit: ${date.toString().substring(0, 10)} | antrean_sekarang: $antreanSekarang");
+                  "userid: $userIdMainDart | tgl_visit: ${date.toString().substring(0, 10)} | antrean_sekarang: $antreanSekarang");
               // Navigator.pop(context);
               Navigator.push(
                   context,
                   MaterialPageRoute(
                       builder: (context) => AntreanPasien(
-                          userKlinikId: useridMainDart,
+                          userKlinikId: userIdMainDart,
                           tglVisit: date.toString().substring(0, 10),
                           antreanSekarang: antreanSekarang.toString())));
             },
@@ -260,21 +263,28 @@ class _MyHomePageState extends State<MyHomePage> {
           ListTile(
             title: Text('Nota Pembayaran'),
             onTap: () {
-              getUserId();
-             //perbaiki disini error masihan
-              fetchDataVisitId(useridMainDart, date.toString().substring(0, 10))
-                  .then((value) {
-                Map json = jsonDecode(value);
-                visitIdPasien = json['visit_id'];
-                print('visitIdPasien: $visitIdPasien | $date');
-              }).then((value) {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => NotaPembayaranPasien(
-                              visitId: visitIdPasien,
-                            )));
-              });
+              if (visitIdPasien == 0) {
+                getUserId();
+                //perbaiki disini error masihan kliru di userMain,Dart telat baca data
+                print('useridMainDart: main page $userIdMainDart');
+                fetchDataVisitId(
+                        userIdMainDart, date.toString().substring(0, 10))
+                    .then((value) {
+                  Map json = jsonDecode(value);
+                  visitIdPasien = json['visit_id'];
+                  // print('visitIdPasien: $visitIdPasien | $date');
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => NotaPembayaranPasien(
+                                visitId: visitIdPasien,
+                              )));
+
+                  print('visitIdPasien: $visitIdPasien after nol');
+                });
+              } else {
+                print(visitIdPasien);
+              }
             },
           ),
           ListTile(
@@ -357,7 +367,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       backgroundColor: Colors.blue,
                     ),
                     onPressed: () {
-                      print('userid: $useridMainDart');
+                      print('userid: $userIdMainDart');
                       getUserId();
                       bacaDataAntrean();
                       print("antrean_terakhir tombol simpan: $antreanTerakhir");

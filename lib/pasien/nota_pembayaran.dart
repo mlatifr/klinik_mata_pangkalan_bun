@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/kasir/kasir_get_resep.dart';
 import 'package:flutter_application_1/kasir/kasir_get_tindakan.dart';
+import 'package:flutter_application_1/pasien/pasien_fetch_visit_id.dart';
 import 'package:flutter_application_1/pasien/riwayat_periksa.dart';
 import 'package:intl/intl.dart';
 import '../main.dart';
@@ -234,7 +235,7 @@ class _NotaPembayaranPasienState extends State<NotaPembayaranPasien> {
     }
   }
 
-  kasirBacaDataVListTindakan(pVisitId) {
+  pasienBacaDataVListTindakan(pVisitId) {
     kVKTs.clear();
     Future<String> data = fetchDataKasirVKeranjangTindakan(pVisitId);
     data.then((value) {
@@ -254,7 +255,7 @@ class _NotaPembayaranPasienState extends State<NotaPembayaranPasien> {
   }
 
   // ignore: non_constant_identifier_names
-  KasirBacaDataVResep(pVisitId) {
+  pasienBacaDataVResep(pVisitId) {
     kVKRs.clear();
     Future<String> data = fetchDataDokterVKeranjangResep(pVisitId);
     data.then((value) {
@@ -270,8 +271,8 @@ class _NotaPembayaranPasienState extends State<NotaPembayaranPasien> {
       setState(() {
         widgetKeranjangResep();
         // WidgetKrjgRsp();
-        // print('set state KasirBacaDataVResep');
-        // print('KasirBacaDataVResep totalBiayaObat: $totalBiayaObat');
+        // print('set state pasienBacaDataVResep');
+        // print('pasienBacaDataVResep totalBiayaObat: $totalBiayaObat');
       });
     });
   }
@@ -279,8 +280,9 @@ class _NotaPembayaranPasienState extends State<NotaPembayaranPasien> {
   @override
   void initState() {
     getUserId();
-    kasirBacaDataVListTindakan(widget.visitId);
-    KasirBacaDataVResep(widget.visitId);
+    print('nota_pembayaran init state getUserId: $userIdMainDart ');
+    pasienBacaDataVListTindakan(widget.visitId);
+    pasienBacaDataVResep(widget.visitId);
     super.initState();
   }
 
@@ -291,10 +293,12 @@ class _NotaPembayaranPasienState extends State<NotaPembayaranPasien> {
       home: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text('Nota Pembayaran'),
+          title: Text('Nota Pembayaran Pasien'),
           leading: new IconButton(
             icon: new Icon(Icons.arrow_back),
             onPressed: () {
+              visitIdPasien = 0;
+              print('visitIdPasien $visitIdPasien notaPembayaran back');
               Navigator.pop(context);
             },
           ),
@@ -312,7 +316,7 @@ class _NotaPembayaranPasienState extends State<NotaPembayaranPasien> {
                         Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: Text(
-                              '${5}',
+                              'visit id: ${widget.visitId}',
                               style: TextStyle(fontSize: 22),
                             )),
                         Padding(

@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 
 var visitIdPasien;
 Future<String> fetchDataVisitId(pUserId, pTglCatat) async {
+  print('fetchDataVisitId: $pUserId | $pTglCatat');
   final response =
       await http.post(Uri.parse(apiUrl + "pasien_v_visit_id_now.php"), body: {
     'user_id': pUserId.toString(),

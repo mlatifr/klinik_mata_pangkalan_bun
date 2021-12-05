@@ -172,10 +172,10 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
                           '${kVKRs[index].jumlah}',
                           textAlign: TextAlign.center,
                         ),
-                        Text(
-                          '${kVKRs[index].stok}',
-                          textAlign: TextAlign.center,
-                        ),
+                        // Text(
+                        //   '${kVKRs[index].stok}',
+                        //   textAlign: TextAlign.center,
+                        // ),
                         Text(
                           '${numberFormatRpResep.format(int.parse(kVKRs[index].hargaJual))}',
                           textAlign: TextAlign.center,
@@ -454,7 +454,7 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
                           child: TextButton(
                             onPressed: () {
                               fetchDataKasirInputNotaJual(
-                                      useridMainDart,
+                                      userIdMainDart,
                                       widget.visitId,
                                       widget.visitDate,
                                       controllerBiayaJasaMedis.text,
