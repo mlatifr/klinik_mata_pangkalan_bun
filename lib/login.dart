@@ -117,6 +117,8 @@ class _LoginPageState extends State<LoginPage> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         body: ListView(
+          shrinkWrap: true,
+          physics: ScrollPhysics(),
           padding: EdgeInsets.all(20),
           children: <Widget>[
             Column(
