@@ -1,3 +1,5 @@
+// ignore_for_file: missing_return
+
 library flutter_application_1.kasir_mengurangi_stok_obat;
 
 import 'dart:async';

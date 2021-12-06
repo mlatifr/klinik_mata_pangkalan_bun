@@ -1,3 +1,5 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/kasir/kasir_detail_pasien.dart';
 import 'package:flutter_application_1/kasir/kasir_detail_pasien.dart'
