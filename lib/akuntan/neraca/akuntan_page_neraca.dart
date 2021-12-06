@@ -244,12 +244,13 @@ class _AkuntanVNeracaState extends State<AkuntanVNeraca> {
             children: [
               widgetSelectTgl(),
               ListTile(
-                title: Text('Aset Lancar_'),
+                title: Text('Aset Lancar'),
               ),
-              WidgetAkunKas(pTextListKas: 'Akun kas'),
+              WidgetAkunKas(pTextListKas: '   Kas'),
               ListTile(
-                title: Text('   Kas'),
+                title: Text('   Sediaan Barang Dagang'),
               ),
+              Divider(),
               ListTile(
                 title: Text('   piutang'),
               ),

@@ -88,7 +88,6 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
       for (var i in json['data']) {
-        //print(i);
         AkuntanVPenjualanJasmed pjlnJsmdNota =
             AkuntanVPenjualanJasmed.fromJson(i);
         listPenjualanJasmeds.add(pjlnJsmdNota);

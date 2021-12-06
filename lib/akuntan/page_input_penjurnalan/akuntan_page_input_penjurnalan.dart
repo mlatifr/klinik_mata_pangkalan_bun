@@ -139,7 +139,7 @@ class _AkuntanInputPenjurnalanState extends State<AkuntanInputPenjurnalan> {
     DateTime date = new DateTime(now.year, now.month, now.day);
     controllerdate.text = date.toString().substring(0, 10);
     getUserId();
-    fetchDataAkuntanInputBukaBukuPenjurnalan(useridMainDart).then((value) {
+    fetchDataAkuntanInputBukaBukuPenjurnalan(userIdMainDart).then((value) {
       //Mengubah json menjadi Array
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
