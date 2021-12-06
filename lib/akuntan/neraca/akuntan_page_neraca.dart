@@ -15,6 +15,7 @@ import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_obat.d
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_fetch_penjualan_nota.dart';
+import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_sediaan_brg.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_tindakan.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_tindakan.dart'
     as akunTindakanOperasi;
@@ -31,7 +32,7 @@ class AkuntanVNeraca extends StatefulWidget {
 class _AkuntanVNeracaState extends State<AkuntanVNeraca> {
   var numberFormatRp = new NumberFormat("#,##0", "id_ID");
 
-//baca data nota akun tindakan
+//baca data nota akun kas
 // ignore: non_constant_identifier_names
   AkuntanBacaDataAkunKas(tgl) {
     // print('listAkunKass before: ${listAkunKass.length}');
@@ -45,12 +46,37 @@ class _AkuntanVNeracaState extends State<AkuntanVNeraca> {
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
       for (var i in json['data']) {
-        print(i);
+        // print(i);
         AkuntanVAkunKas AkunKas = AkuntanVAkunKas.fromJson(i);
         listAkunKass.add(AkunKas);
       }
       setState(() {
         WidgetAkunTindakan();
+      });
+    });
+  }
+
+  //baca data nota akun sediaan barang
+// ignore: non_constant_identifier_names
+  AkuntanBacaDataAkunSediaanBrg() {
+    // print('listAkunKass before: ${listAkunKass.length}');
+    if (listAkunSediaanBrgs.isNotEmpty) {
+      listAkunSediaanBrgs.clear();
+    }
+    // print('listAkunKass after: ${listAkunKass.length}');
+    Future<String> data = fetchDataVAkunSediaanBrg();
+    data.then((value) {
+      //Mengubah json menjadi Array
+      // ignore: unused_local_variable
+      Map json = jsonDecode(value);
+      for (var i in json['data']) {
+        // print(i);
+        AkuntanVAkunSediaanBrg AkunSediaanBrg =
+            AkuntanVAkunSediaanBrg.fromJson(i);
+        listAkunSediaanBrgs.add(AkunSediaanBrg);
+      }
+      setState(() {
+        WidgetAkunSediaanBarang();
       });
     });
   }
@@ -210,6 +236,7 @@ class _AkuntanVNeracaState extends State<AkuntanVNeraca> {
     //print(date);
     controllerdate.text = date.toString().substring(0, 7);
     AkuntanBacaDataAkunKas(controllerdate.text);
+    AkuntanBacaDataAkunSediaanBrg();
     // AkunanBacaDataPenjualanObat(controllerdate.text);
     // AkunanBacaDataPenjualanjasmed(controllerdate.text);
     // AkunanBacaDataPenjualanAdmin(controllerdate.text);
@@ -247,15 +274,14 @@ class _AkuntanVNeracaState extends State<AkuntanVNeraca> {
                 title: Text('Aset Lancar'),
               ),
               WidgetAkunKas(pTextListKas: '   Kas'),
-              ListTile(
-                title: Text('   Sediaan Barang Dagang'),
-              ),
               Divider(),
+              WidgetAkunSediaanBarang(
+                  textHeaderPenjualanObat: 'Sediaan Barang Dagang'),
               ListTile(
-                title: Text('   piutang'),
+                title: Text('Kewajiban'),
               ),
               ListTile(
-                title: Text('   Sediaan brg dagangan'),
+                title: Text('   Hutang Usaha(obat)'),
               ),
               ListTile(
                 title: Text('Total Aset Lancar'),
