@@ -379,7 +379,13 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
   }
 
   Widget widgetKeranjangObatBodyPemilik() {
+    ListHargaJual.clear();
     // print("widgetKeranjangObatBodyPemilik: ${ListInputResep.length}");
+    for (var i = 0; i < ListKeranjangObat.length; i++) {
+      TextEditingController txtHrgJual = TextEditingController();
+      txtHrgJual.text = (i - i).toString();
+      ListHargaJual.add(txtHrgJual);
+    }
     return Padding(
       padding: const EdgeInsets.all(8),
       child: ListView.builder(
@@ -392,23 +398,32 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                     .all(), // Allows to add a border decoration around your table
                 children: [
                   TableRow(children: [
-                    Text(
-                      '${ListKeranjangObat[index].obatNama}',
-                      textAlign: TextAlign.center,
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        '${ListKeranjangObat[index].obatNama}',
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                    Text(
-                      '${ListKeranjangObat[index].jumlah_order}',
-                      textAlign: TextAlign.center,
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        '${ListKeranjangObat[index].jumlah_order}',
+                        textAlign: TextAlign.center,
+                      ),
                     ),
-                    Text(
-                      '${ListKeranjangObat[index].harga_beli}',
-                      textAlign: TextAlign.center,
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        '${ListKeranjangObat[index].harga_beli}',
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
                           enabled: true,
-                          // controller: controllerJumlah,
+                          controller: ListHargaJual[index],
                           keyboardType: TextInputType.number,
                           inputFormatters: <TextInputFormatter>[
                             FilteringTextInputFormatter.digitsOnly
@@ -574,7 +589,7 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
       home: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text('Input Resep'),
+          title: Text('Input Order Obat'),
           leading: new IconButton(
             icon: new Icon(Icons.arrow_back),
             onPressed: () {

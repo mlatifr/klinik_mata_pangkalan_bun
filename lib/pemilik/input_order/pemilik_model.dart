@@ -1,5 +1,7 @@
 library flutter_application_1.pemilik_model;
 
+import 'package:flutter/widgets.dart';
+
 // import 'dart:async';
 // // ignore: unused_import
 // import 'dart:convert';
@@ -10,6 +12,7 @@ library flutter_application_1.pemilik_model;
 // List<ApotekerVKeranjangObatDokter> aVKODrs = [];
 // List<ApotekerVKeranjangObat> aVKOs = [];
 List<PemilikInputResepList> ListKeranjangObat = [];
+List<TextEditingController> ListHargaJual = [];
 
 class PemilikInputResepList {
   var harga_beli, harga_jual, jumlah_order, obatNama;
