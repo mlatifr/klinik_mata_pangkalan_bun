@@ -9,79 +9,13 @@ library flutter_application_1.pemilik_model;
 // List<ApotekerrVListObat> aVLOs = [];
 // List<ApotekerVKeranjangObatDokter> aVKODrs = [];
 // List<ApotekerVKeranjangObat> aVKOs = [];
-List<PemilikInputResepList> ListInputOrder = [];
+List<PemilikInputResepList> ListKeranjangObat = [];
 
 class PemilikInputResepList {
-  var rspAptkrId, obtId, obatNama, dosis, jumlah, visitId;
+  var harga_beli, harga_jual, jumlah_order, obatNama;
   PemilikInputResepList(
-      {this.rspAptkrId,
-      this.obtId,
-      this.obatNama,
-      this.dosis,
-      this.jumlah,
-      this.visitId});
+      {this.harga_beli, this.harga_jual, this.obatNama, this.jumlah_order});
 }
-
-// class ApotekerVKeranjangObat {
-//   var stok, nama, dosis, jumlah;
-//   ApotekerVKeranjangObat({
-//     this.nama,
-//     this.jumlah,
-//     this.stok,
-//     this.dosis,
-//   });
-
-//   // untuk convert dari jSon
-//   factory ApotekerVKeranjangObat.fromJson(Map<String, dynamic> json) {
-//     return new ApotekerVKeranjangObat(
-//       nama: json['nama'],
-//       jumlah: json['jumlah'],
-//       stok: json['stok'],
-//       dosis: json['dosis'],
-//     );
-//   }
-// }
-
-// class ApotekerVKeranjangObatDokter {
-//   var resepDokterId, obatId, nama, dosis, jumlah;
-//   ApotekerVKeranjangObatDokter({
-//     this.resepDokterId,
-//     this.obatId,
-//     this.nama,
-//     this.dosis,
-//     this.jumlah,
-//   });
-
-//   // untuk convert dari jSon
-//   factory ApotekerVKeranjangObatDokter.fromJson(Map<String, dynamic> json) {
-//     return new ApotekerVKeranjangObatDokter(
-//       resepDokterId: json['resep_dokter_id'],
-//       obatId: json['obat_id'],
-//       nama: json['nama'],
-//       dosis: json['dosis'],
-//       jumlah: json['jumlah'],
-//     );
-//   }
-// }
-
-// class ApotekerrVListObat {
-//   var obatId, obatNama, obatStok;
-//   ApotekerrVListObat({
-//     this.obatId,
-//     this.obatNama,
-//     this.obatStok,
-//   });
-
-//   // untuk convert dari jSon
-//   factory ApotekerrVListObat.fromJson(Map<String, dynamic> json) {
-//     return new ApotekerrVListObat(
-//       obatId: json['id'],
-//       obatNama: json['nama'],
-//       obatStok: json['stok'],
-//     );
-//   }
-// }
-
 // Future<String> fetchDataApotekerInputRspVst(
 //     pVisitId, pUserIdApoteker, pTglPenulisanResep) async {
 //   // print(

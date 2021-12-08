@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/apoteker/apt_get_resep_pasien_detail.dart';
 import 'package:flutter_application_1/dokter/dr_get_list_obat.dart';
+import 'package:flutter_application_1/pemilik/input_order/pemilik_model.dart';
 
 class PemilikInputOrderObat extends StatefulWidget {
   final aptkrId, namaPasien, visitId;
@@ -311,19 +312,16 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                               padding: const EdgeInsets.all(8.0),
                               child: TextButton(
                                 onPressed: () {
-                                  ApotekerInputResepList selectedObat =
-                                      ApotekerInputResepList(
-                                          rspAptkrId: aptkrRspId,
-                                          obtId: aVLOs[index].obatId,
+                                  PemilikInputResepList selectedObat =
+                                      PemilikInputResepList(
                                           obatNama: aVLOs[index].obatNama,
-                                          dosis: controllerHargaBeli.text,
-                                          jumlah: controllerJumlah.text,
-                                          visitId: widget.visitId);
-                                  ListInputResep.add(selectedObat);
+                                          jumlah_order: controllerJumlah.text,
+                                          harga_beli: controllerHargaBeli.text);
+                                  ListKeranjangObat.add(selectedObat);
                                   setState(() {
                                     widgetKeranjangObatBodyPemilik();
                                   });
-                                  print(ListInputResep.length);
+                                  print(ListKeranjangObat.length);
                                   // ApotekerInputDataResepObat(
                                   // aptkrRspId,
                                   // aVLOs[index].obatId,
@@ -368,7 +366,11 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                 textAlign: TextAlign.center,
               ),
               Text(
-                'Dosis',
+                'Harga Beli',
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                'Harga Jual',
                 textAlign: TextAlign.center,
               ),
             ]),
@@ -383,7 +385,7 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
       child: ListView.builder(
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: ListInputResep.length,
+          itemCount: ListKeranjangObat.length,
           itemBuilder: (context, index) {
             return Table(
                 border: TableBorder
@@ -391,16 +393,52 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                 children: [
                   TableRow(children: [
                     Text(
-                      '${ListInputResep[index].obatNama}',
+                      '${ListKeranjangObat[index].obatNama}',
                       textAlign: TextAlign.center,
                     ),
                     Text(
-                      '${ListInputResep[index].jumlah}',
+                      '${ListKeranjangObat[index].jumlah_order}',
                       textAlign: TextAlign.center,
                     ),
                     Text(
-                      '${ListInputResep[index].dosis}',
+                      '${ListKeranjangObat[index].harga_beli}',
                       textAlign: TextAlign.center,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                          enabled: true,
+                          // controller: controllerJumlah,
+                          keyboardType: TextInputType.number,
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          // onChanged: (value) {
+                          //   setState(() {
+                          //     controllerJumlah.text =
+                          //         value.toString();
+                          //     controllerJumlah.selection =
+                          //         TextSelection.fromPosition(
+                          //             TextPosition(
+                          //                 offset: controllerJumlah
+                          //                     .text.length));
+                          //   });
+                          // },
+                          decoration: InputDecoration(
+                            fillColor: Colors.white,
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: BorderSide(
+                                color: Colors.blue,
+                              ),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10.0),
+                              borderSide: BorderSide(
+                                color: Colors.blue,
+                              ),
+                            ),
+                          )),
                     ),
                   ]),
                 ]);
@@ -568,9 +606,18 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                                   widgetCariObat(),
                                   widgetListObats(),
                                 ])),
-                        widgetKeranjangObatHeader(),
-                        Text('Keranjang'),
-                        widgetKeranjangObatBodyPemilik(),
+                        ExpansionTile(
+                          title: Text(
+                            'Keranjang Obat',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(),
+                          ),
+                          children: [
+                            widgetKeranjangObatHeader(),
+                            widgetKeranjangObatBodyPemilik(),
+                          ],
+                        ),
+
                         ElevatedButton(
                             onPressed: () {
                               //   for (var item in ListInputResep) {
