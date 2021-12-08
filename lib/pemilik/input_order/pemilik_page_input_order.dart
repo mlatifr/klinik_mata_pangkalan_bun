@@ -353,6 +353,12 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
     return Padding(
       padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
       child: Table(
+          columnWidths: {
+            0: FlexColumnWidth(2.5),
+            1: FlexColumnWidth(1.41),
+            2: FlexColumnWidth(2.5),
+            3: FlexColumnWidth(2.5),
+          },
           border: TableBorder
               .all(), // Allows to add a border decoration around your table
           children: [
@@ -362,15 +368,15 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                 textAlign: TextAlign.center,
               ),
               Text(
-                'Jumlah',
+                'Jmlh',
                 textAlign: TextAlign.center,
               ),
               Text(
-                'Harga Beli',
+                'Hg Beli',
                 textAlign: TextAlign.center,
               ),
               Text(
-                'Harga Jual',
+                'Hg Jual',
                 textAlign: TextAlign.center,
               ),
             ]),
@@ -394,6 +400,12 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
           itemCount: ListKeranjangObat.length,
           itemBuilder: (context, index) {
             return Table(
+                columnWidths: {
+                  0: FlexColumnWidth(2.5),
+                  1: FlexColumnWidth(1.41),
+                  2: FlexColumnWidth(2.5),
+                  3: FlexColumnWidth(2.5),
+                },
                 border: TableBorder
                     .all(), // Allows to add a border decoration around your table
                 children: [
@@ -428,31 +440,27 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                           inputFormatters: <TextInputFormatter>[
                             FilteringTextInputFormatter.digitsOnly
                           ],
-                          // onChanged: (value) {
-                          //   setState(() {
-                          //     controllerJumlah.text =
-                          //         value.toString();
-                          //     controllerJumlah.selection =
-                          //         TextSelection.fromPosition(
-                          //             TextPosition(
-                          //                 offset: controllerJumlah
-                          //                     .text.length));
-                          //   });
-                          // },
+                          onChanged: (value) {
+                            ListKeranjangObat[index].harga_jual =
+                                ListHargaJual[index].text;
+                            for (var item in ListKeranjangObat) {
+                              print(item.obatNama + '\n' + item.harga_jual);
+                            }
+                          },
                           decoration: InputDecoration(
                             fillColor: Colors.white,
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(
-                                color: Colors.blue,
-                              ),
-                            ),
-                            focusedBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(
-                                color: Colors.blue,
-                              ),
-                            ),
+                            // enabledBorder: OutlineInputBorder(
+                            //   borderRadius: BorderRadius.circular(10.0),
+                            //   borderSide: BorderSide(
+                            //     color: Colors.blue,
+                            //   ),
+                            // ),
+                            // focusedBorder: OutlineInputBorder(
+                            //   borderRadius: BorderRadius.circular(10.0),
+                            //   borderSide: BorderSide(
+                            //     color: Colors.blue,
+                            //   ),
+                            // ),
                           )),
                     ),
                   ]),
@@ -492,36 +500,36 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
   //   );
   // }
 
-  Widget widgetKeranjangObatDokterBody() {
-    return Padding(
-      padding: const EdgeInsets.all(8),
-      child: ListView.builder(
-          physics: NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: aVKODrs.length,
-          itemBuilder: (context, index) {
-            return Table(
-                border: TableBorder
-                    .all(), // Allows to add a border decoration around your table
-                children: [
-                  TableRow(children: [
-                    Text(
-                      '${aVKODrs[index].nama}',
-                      textAlign: TextAlign.center,
-                    ),
-                    Text(
-                      '${aVKODrs[index].jumlah}',
-                      textAlign: TextAlign.center,
-                    ),
-                    Text(
-                      '${aVKODrs[index].dosis}',
-                      textAlign: TextAlign.center,
-                    ),
-                  ]),
-                ]);
-          }),
-    );
-  }
+  // Widget widgetKeranjangObatDokterBody() {
+  //   return Padding(
+  //     padding: const EdgeInsets.all(8),
+  //     child: ListView.builder(
+  //         physics: NeverScrollableScrollPhysics(),
+  //         shrinkWrap: true,
+  //         itemCount: aVKODrs.length,
+  //         itemBuilder: (context, index) {
+  //           return Table(
+  //               border: TableBorder
+  //                   .all(), // Allows to add a border decoration around your table
+  //               children: [
+  //                 TableRow(children: [
+  //                   Text(
+  //                     '${aVKODrs[index].nama}',
+  //                     textAlign: TextAlign.center,
+  //                   ),
+  //                   Text(
+  //                     '${aVKODrs[index].jumlah}',
+  //                     textAlign: TextAlign.center,
+  //                   ),
+  //                   Text(
+  //                     '${aVKODrs[index].dosis}',
+  //                     textAlign: TextAlign.center,
+  //                   ),
+  //                 ]),
+  //               ]);
+  //         }),
+  //   );
+  // }
 
   var aptkrRspId;
   // ignore: non_constant_identifier_names
@@ -628,6 +636,70 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                             style: TextStyle(),
                           ),
                           children: [
+                            Container(
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    child: Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Text('Persentase Profit')),
+                                  ),
+                                  Expanded(
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: TextFormField(
+                                          enabled: true,
+                                          onChanged: (value) {
+                                            for (var i = 0;
+                                                i < ListHargaJual.length;
+                                                i++) {
+                                              //persamaan= h.beli + (h.beli * value/100)
+                                              var persen = int.parse(value);
+                                              var hBeli = int.parse(
+                                                  ListKeranjangObat[i]
+                                                      .harga_beli);
+                                              var rumus = hBeli +
+                                                  (hBeli * persen / 100);
+                                              ListHargaJual[i].text = (rumus)
+                                                  .toString()
+                                                  .substring(
+                                                      0,
+                                                      rumus.toString().length -
+                                                          2);
+                                              ListKeranjangObat[i].harga_jual =
+                                                  ListHargaJual[i].text;
+                                              print(ListKeranjangObat[i]
+                                                  .harga_jual);
+                                            }
+                                          },
+                                          keyboardType: TextInputType.number,
+                                          inputFormatters: <TextInputFormatter>[
+                                            FilteringTextInputFormatter
+                                                .digitsOnly
+                                          ],
+                                          decoration: InputDecoration(
+                                            labelText: '%',
+                                            fillColor: Colors.white,
+                                            enabledBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                              borderSide: BorderSide(
+                                                color: Colors.blue,
+                                              ),
+                                            ),
+                                            focusedBorder: OutlineInputBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(10.0),
+                                              borderSide: BorderSide(
+                                                color: Colors.blue,
+                                              ),
+                                            ),
+                                          )),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
                             widgetKeranjangObatHeader(),
                             widgetKeranjangObatBodyPemilik(),
                           ],
