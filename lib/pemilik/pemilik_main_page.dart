@@ -43,8 +43,11 @@ class _PemilikMainPageState extends State<PemilikMainPage> {
           ListTile(
             title: Text('Input Order'),
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => PemilikInputOrderObat()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          PemilikInputOrderObat(pmlkId: userIdMainDart)));
             },
           ),
           ListTile(
@@ -74,6 +77,7 @@ class _PemilikMainPageState extends State<PemilikMainPage> {
 
   @override
   void initState() {
+    getUserId();
     super.initState();
   }
 

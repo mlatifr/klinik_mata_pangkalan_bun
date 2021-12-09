@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/apoteker/apt_get_resep_pasien_detail.dart';
 import 'package:flutter_application_1/pemilik/input_order/pemilik_model.dart';
+import 'package:flutter_application_1/pemilik/pemilik_fetch/pemilik_send_input_order.dart';
+
+DateTime date;
 
 class PemilikInputOrderObat extends StatefulWidget {
-  final aptkrId, namaPasien, visitId;
+  final pmlkId, namaPasien, visitId;
 
   const PemilikInputOrderObat(
-      {Key key, this.aptkrId, this.namaPasien, this.visitId})
+      {Key key, this.pmlkId, this.namaPasien, this.visitId})
       : super(key: key);
 
   @override
@@ -671,6 +674,8 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
     // ApotekerBacaDataRspVst();
     // ApotekerBacaDataVKeranjangResepApoteker(widget.visitId);
     // ApotekerBacaDataVKeranjangResepDokter(widget.visitId);
+    DateTime now = new DateTime.now();
+    date = new DateTime(now.year, now.month, now.day);
     controllerCariObat.clear();
     PemilikBacaDataVListObat(controllerCariObat.text);
     ListInputResep.clear();
@@ -804,17 +809,22 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
 
                         ElevatedButton(
                             onPressed: () {
-                              //   for (var item in ListInputResep) {
-                              //     fetchDataApotekerInputResepObat(
-                              //             item.rspAptkrId,
-                              //             item.obtId,
-                              //             item.dosis,
-                              //             item.jumlah,
-                              //             item.visitId)
-                              //         .then((value) {
-                              //       print(value);
-                              //     });
-                              //   }
+                              // send data tgl and user pemesan to db
+                              // then simpan hasil id order ke aplikasi
+                              // then simpan list obat dg id_order
+                              print(
+                                  '${widget.pmlkId} | ${date.toString().substring(0, 10)}');
+                              fetchDataIdOrderId(widget.pmlkId,
+                                      date.toString().substring(0, 10))
+                                  .then((value) {
+                                Map json = jsonDecode(value);
+                                idOrder = json['order_obat_id'].toString();
+                                for (var i = 0;
+                                    i < ListKeranjangObat.length;
+                                    i++) {
+                                  //fetch send kirim data oabt
+                                }
+                              });
                             },
                             child: Text('SIMPAN'))
                       ],
