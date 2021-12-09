@@ -814,6 +814,7 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                               // then simpan list obat dg id_order
                               print(
                                   '${widget.pmlkId} | ${date.toString().substring(0, 10)}');
+                              idOrder = '';
                               fetchDataIdOrderId(widget.pmlkId,
                                       date.toString().substring(0, 10))
                                   .then((value) {
