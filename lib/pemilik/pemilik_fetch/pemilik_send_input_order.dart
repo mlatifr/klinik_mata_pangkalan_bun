@@ -21,30 +21,44 @@ Future<String> fetchDataIdOrderId(pIdUser, pTglOrder) async {
   }
 }
 
+//untuk akun sediaan barang
+List<KeranjangObatClass> listKeranjangObats = [];
 
-// //untuk akun sediaan barang
-// List<AkuntanVAkunSediaanBrg> listAkunSediaanBrgs = [];
+class KeranjangObatClass {
+  var order_obat_id, jumlah_order, nama, harga_beli, harga_jual;
+  KeranjangObatClass(
+      {this.order_obat_id,
+      this.jumlah_order,
+      this.nama,
+      this.harga_beli,
+      this.harga_jual});
+  // untuk convert dari jSon
+  factory KeranjangObatClass.fromJson(Map<String, dynamic> json) {
+    return new KeranjangObatClass(
+      order_obat_id: json['order_obat_id'],
+      jumlah_order: json['jumlah_order'],
+      nama: json['nama'],
+      harga_beli: json['harga_beli'],
+      harga_jual: json['harga_jual'],
+    );
+  }
+}
 
-// class AkuntanVAkunSediaanBrg {
-//   var namaObat, stok, harga;
-//   AkuntanVAkunSediaanBrg({this.namaObat, this.stok, this.harga});
-//   // untuk convert dari jSon
-//   factory AkuntanVAkunSediaanBrg.fromJson(Map<String, dynamic> json) {
-//     return new AkuntanVAkunSediaanBrg(
-//       namaObat: json['nama'],
-//       stok: json['stok'],
-//       harga: json['harga_beli'],
-//     );
-//   }
-// }
-
-// Future<String> fetchDataVAkunSediaanBrg() async {
-//   final response = await http
-//       .post(Uri.parse(apiUrl + "akuntan_v_sediaan_brg.php"), body: {});
-//   if (response.statusCode == 200) {
-//     print('fetchDataVAkunSediaanBrg: ${response.body}');
-//     return response.body;
-//   } else {
-//     throw Exception('Failed to read API');
-//   }
-// }
+Future<String> fetchDataPemilikSendKrjgObat(pOrder_obat_id, pJumlah_order,
+    pNama, pHarga_beli, pHarga_jual, pStatus_order) async {
+  final response = await http
+      .post(Uri.parse(apiUrl + "pemilik_input_order_item.php"), body: {
+    'order_obat_id': pOrder_obat_id.toString(),
+    'jumlah_order': pJumlah_order.toString(),
+    'nama': pNama.toString(),
+    'harga_beli': pHarga_beli.toString(),
+    'harga_jual': pHarga_jual.toString(),
+    'status_order': pStatus_order.toString()
+  });
+  if (response.statusCode == 200) {
+    print('fetchDataVAkunSediaanBrg: ${response.body}');
+    return response.body;
+  } else {
+    throw Exception('Failed to read API');
+  }
+}
