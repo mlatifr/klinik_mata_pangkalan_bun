@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/apoteker/apt_get_resep_pasien_detail.dart';
-import 'package:flutter_application_1/dokter/dr_get_list_obat.dart';
 import 'package:flutter_application_1/pemilik/input_order/pemilik_model.dart';
 
 class PemilikInputOrderObat extends StatefulWidget {
@@ -17,75 +16,75 @@ class PemilikInputOrderObat extends StatefulWidget {
 }
 
 class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
-// ignore: non_constant_identifier_names
-  ApotekerBacaDataVKeranjangResepApoteker(pVisitId) {
-    aVKOs.clear();
-    Future<String> data = fetchDataApotekerVKeranjangResepApotekerId(pVisitId);
-    data.then((value) {
-      Map json = jsonDecode(value);
-      if (json['result'].toString() == 'success') {
-        for (var i in json['data']) {
-          ApotekerVKeranjangObat keranjangObatDokter =
-              ApotekerVKeranjangObat.fromJson(i);
-          aVKOs.add(keranjangObatDokter);
-          // print('AVKOs[length]: ${aVKOs.length}');
-        }
-        setState(() {
-          widgetKeranjangObatBodyPemilik();
-        });
-      }
-    });
-  }
+// // ignore: non_constant_identifier_names
+//   ApotekerBacaDataVKeranjangResepApoteker(pVisitId) {
+//     aVKOs.clear();
+//     Future<String> data = fetchDataApotekerVKeranjangResepApotekerId(pVisitId);
+//     data.then((value) {
+//       Map json = jsonDecode(value);
+//       if (json['result'].toString() == 'success') {
+//         for (var i in json['data']) {
+//           ApotekerVKeranjangObat keranjangObatDokter =
+//               ApotekerVKeranjangObat.fromJson(i);
+//           aVKOs.add(keranjangObatDokter);
+//           // print('AVKOs[length]: ${aVKOs.length}');
+//         }
+//         setState(() {
+//           widgetKeranjangObatBodyPemilik();
+//         });
+//       }
+//     });
+//   }
 
-// ignore: non_constant_identifier_names
-  ApotekerInputDataResepObat(pRspAptkrId, pObtId, pDosis, pJumlah, pVisitId) {
-    aVKOs.clear();
-    Future<String> data = fetchDataApotekerInputResepObat(
-        pRspAptkrId, pObtId, pDosis, pJumlah, pVisitId);
-    data.then((value) {
-      Map json = jsonDecode(value);
-      if (json['result'].toString() == 'success') {
-        showDialog<String>(
-          context: context,
-          builder: (BuildContext context) => AlertDialog(
-            title: Text(
-              'Obat berhasil ditambah ke resep',
-              style: TextStyle(fontSize: 14),
-            ),
-            actions: <Widget>[
-              TextButton(
-                  onPressed: () {
-                    controllerJumlah.clear();
-                    controllerHargaBeli.clear();
-                    setState(() {
-                      widgetListObats();
-                    });
-                    Navigator.pop(
-                      context,
-                      'ok',
-                    );
-                  },
-                  child: Text('ok')),
-            ],
-          ),
-        );
-        for (var i in json['data']) {
-          ApotekerVKeranjangObat keranjangObatDokter =
-              ApotekerVKeranjangObat.fromJson(i);
-          aVKOs.add(keranjangObatDokter);
-          print('AVKOs[length]: ${aVKOs.length}');
-        }
-        setState(() {
-          ApotekerBacaDataVKeranjangResepApoteker(widget.visitId);
-          // widgetKeranjangObatBodyPemilik();
-        });
-      }
-    }).then((value) {
-      setState(() {
-        widgetKeranjangObatBodyPemilik();
-      });
-    });
-  }
+// // ignore: non_constant_identifier_names
+//   ApotekerInputDataResepObat(pRspAptkrId, pObtId, pDosis, pJumlah, pVisitId) {
+//     aVKOs.clear();
+//     Future<String> data = fetchDataApotekerInputResepObat(
+//         pRspAptkrId, pObtId, pDosis, pJumlah, pVisitId);
+//     data.then((value) {
+//       Map json = jsonDecode(value);
+//       if (json['result'].toString() == 'success') {
+//         showDialog<String>(
+//           context: context,
+//           builder: (BuildContext context) => AlertDialog(
+//             title: Text(
+//               'Obat berhasil ditambah ke resep',
+//               style: TextStyle(fontSize: 14),
+//             ),
+//             actions: <Widget>[
+//               TextButton(
+//                   onPressed: () {
+//                     controllerJumlah.clear();
+//                     controllerHargaBeli.clear();
+//                     setState(() {
+//                       widgetListObats();
+//                     });
+//                     Navigator.pop(
+//                       context,
+//                       'ok',
+//                     );
+//                   },
+//                   child: Text('ok')),
+//             ],
+//           ),
+//         );
+//         for (var i in json['data']) {
+//           ApotekerVKeranjangObat keranjangObatDokter =
+//               ApotekerVKeranjangObat.fromJson(i);
+//           aVKOs.add(keranjangObatDokter);
+//           print('AVKOs[length]: ${aVKOs.length}');
+//         }
+//         setState(() {
+//           ApotekerBacaDataVKeranjangResepApoteker(widget.visitId);
+//           // widgetKeranjangObatBodyPemilik();
+//         });
+//       }
+//     }).then((value) {
+//       setState(() {
+//         widgetKeranjangObatBodyPemilik();
+//       });
+//     });
+//   }
 
   // // ignore: non_constant_identifier_names
   // ApotekerBacaDataVKeranjangResepDokter(pVisitId) {
@@ -180,10 +179,121 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
     );
   }
 
+  TextEditingController controllerObatNama = TextEditingController();
   TextEditingController controllerJumlah = TextEditingController();
   TextEditingController controllerHargaBeli = TextEditingController();
   TextEditingController controllerCariObat = TextEditingController();
   int selected; //agar yg terbuka hanya bisa 1 ListTile
+
+  Widget widgetInputObatBaru() {
+    return ExpansionTile(
+      title: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Text(
+          'Obat Baru',
+          textAlign: TextAlign.center,
+        ),
+      ),
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextFormField(
+              enabled: true,
+              controller: controllerObatNama,
+              decoration: InputDecoration(
+                labelText: "Nama Obat",
+                fillColor: Colors.white,
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: BorderSide(
+                    color: Colors.blue,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: BorderSide(
+                    color: Colors.blue,
+                  ),
+                ),
+              )),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextFormField(
+              enabled: true,
+              controller: controllerJumlah,
+              keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly
+              ],
+              decoration: InputDecoration(
+                labelText: "Jumlah",
+                fillColor: Colors.white,
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: BorderSide(
+                    color: Colors.blue,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: BorderSide(
+                    color: Colors.blue,
+                  ),
+                ),
+              )),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextFormField(
+              enabled: true,
+              controller: controllerHargaBeli,
+              keyboardType: TextInputType.number,
+              inputFormatters: <TextInputFormatter>[
+                FilteringTextInputFormatter.digitsOnly
+              ],
+              decoration: InputDecoration(
+                labelText: "Harga Beli",
+                fillColor: Colors.white,
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: BorderSide(
+                    color: Colors.blue,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: BorderSide(
+                    color: Colors.blue,
+                  ),
+                ),
+              )),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: TextButton(
+            onPressed: () {
+              PemilikInputResepList selectedObat = PemilikInputResepList(
+                  obatNama: controllerObatNama.text,
+                  jumlah_order: controllerJumlah.text,
+                  harga_beli: controllerHargaBeli.text);
+              ListKeranjangObat.add(selectedObat);
+              setState(() {
+                widgetKeranjangObatBodyPemilik();
+              });
+            },
+            child: Text('tambah'),
+            style: TextButton.styleFrom(
+                primary: Colors.white,
+                backgroundColor: Colors.blue,
+                minimumSize: Size(MediaQuery.of(context).size.width,
+                    MediaQuery.of(context).size.height * 0.01)),
+          ),
+        ),
+      ],
+    );
+  }
+
   // ignore: missing_return
   Widget widgetListObats() {
     if (aVLOs.length > 0) {
@@ -206,6 +316,8 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                           initiallyExpanded: index ==
                               selected, //agar yg terbuka hanya bisa 1 ListTile
                           onExpansionChanged: ((newState) {
+                            controllerJumlah.text = "";
+                            controllerHargaBeli.text = "";
                             if (newState)
                               setState(() {
                                 selected = index;
@@ -233,17 +345,6 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                                         inputFormatters: <TextInputFormatter>[
                                           FilteringTextInputFormatter.digitsOnly
                                         ],
-                                        // onChanged: (value) {
-                                        //   setState(() {
-                                        //     controllerJumlah.text =
-                                        //         value.toString();
-                                        //     controllerJumlah.selection =
-                                        //         TextSelection.fromPosition(
-                                        //             TextPosition(
-                                        //                 offset: controllerJumlah
-                                        //                     .text.length));
-                                        //   });
-                                        // },
                                         decoration: InputDecoration(
                                           labelText: "Jumlah",
                                           fillColor: Colors.white,
@@ -270,18 +371,6 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                                     child: TextFormField(
                                         enabled: true,
                                         controller: controllerHargaBeli,
-                                        // onChanged: (value) {
-                                        //   // setState(() {
-                                        //   //   controllerHargaBeli.text =
-                                        //   //       value.toString();
-                                        //   //   controllerHargaBeli.selection =
-                                        //   //       TextSelection.fromPosition(
-                                        //   //           TextPosition(
-                                        //   //               offset:
-                                        //   //                   controllerHargaBeli
-                                        //   //                       .text.length));
-                                        //   // });
-                                        // },
                                         keyboardType: TextInputType.number,
                                         inputFormatters: <TextInputFormatter>[
                                           FilteringTextInputFormatter.digitsOnly
@@ -319,6 +408,8 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                                           harga_beli: controllerHargaBeli.text);
                                   ListKeranjangObat.add(selectedObat);
                                   setState(() {
+                                    controllerJumlah.text = "";
+                                    controllerHargaBeli.text = "";
                                     widgetKeranjangObatBodyPemilik();
                                   });
                                   print(ListKeranjangObat.length);
@@ -346,7 +437,8 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
               ],
             );
           });
-    }
+    } else
+      return Container();
   }
 
   Widget widgetKeranjangObatHeader() {
@@ -355,8 +447,8 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
       child: Table(
           columnWidths: {
             0: FlexColumnWidth(2.5),
-            1: FlexColumnWidth(1.41),
-            2: FlexColumnWidth(2.5),
+            1: FlexColumnWidth(1.5),
+            2: FlexColumnWidth(3),
             3: FlexColumnWidth(2.5),
           },
           border: TableBorder
@@ -402,9 +494,9 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
             return Table(
                 columnWidths: {
                   0: FlexColumnWidth(2.5),
-                  1: FlexColumnWidth(1.41),
-                  2: FlexColumnWidth(2.5),
-                  3: FlexColumnWidth(2.5),
+                  1: FlexColumnWidth(1),
+                  2: FlexColumnWidth(3),
+                  3: FlexColumnWidth(3),
                 },
                 border: TableBorder
                     .all(), // Allows to add a border decoration around your table
@@ -434,6 +526,7 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: TextFormField(
+                          style: TextStyle(fontSize: 14),
                           enabled: true,
                           controller: ListHargaJual[index],
                           keyboardType: TextInputType.number,
@@ -531,47 +624,47 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
   //   );
   // }
 
-  var aptkrRspId;
-  // ignore: non_constant_identifier_names
-  ApotekerBacaDataRspVst() {
-    aptkrRspId = '';
-    Future<String> data = fetchDataApotekerInputRspVst(
-      widget.visitId,
-      widget.aptkrId,
-      DateTime.now().toString().substring(0, 10),
-    );
-    data.then((value) {
-      //Mengubah json menjadi Array
-      // ignore: unused_local_variable
-      Map json = jsonDecode(value);
-      aptkrRspId = json['id_resep_apoteker'].toString();
-      print('ApotekerBacaDataRspVst(): $aptkrRspId');
-      // for (var i in json['data']) {
-      //   print(i);
-      //   ApotekerVAntrean dva = ApotekerVAntrean.fromJson(i);
-      // }
-      setState(() {});
-    });
-  }
+//   var aptkrRspId;
+//   // ignore: non_constant_identifier_names
+//   ApotekerBacaDataRspVst() {
+//     aptkrRspId = '';
+//     Future<String> data = fetchDataApotekerInputRspVst(
+//       widget.visitId,
+//       widget.aptkrId,
+//       DateTime.now().toString().substring(0, 10),
+//     );
+//     data.then((value) {
+//       //Mengubah json menjadi Array
+//       // ignore: unused_local_variable
+//       Map json = jsonDecode(value);
+//       aptkrRspId = json['id_resep_apoteker'].toString();
+//       print('ApotekerBacaDataRspVst(): $aptkrRspId');
+//       // for (var i in json['data']) {
+//       //   print(i);
+//       //   ApotekerVAntrean dva = ApotekerVAntrean.fromJson(i);
+//       // }
+//       setState(() {});
+//     });
+//   }
 
-// ignore: non_constant_identifier_names
-  ApotekerBacaInputResepObat(pRspAptkrId, pObtId, pDosis, pJumlah, pVisitId) {
-    // AptkrRspId = '';
-    Future<String> data = ApotekerBacaInputResepObat(
-        pRspAptkrId, pObtId, pDosis, pJumlah, pVisitId);
-    data.then((value) {
-      //Mengubah json menjadi Array
-      // ignore: unused_local_variable
-      Map json = jsonDecode(value);
-      // AptkrRspId = json['id_resep_apoteker'].toString();
-      // print('ApotekerBacaDataRspVst(): $AptkrRspId');
-      for (var i in json['data']) {
-        print(i);
-        // ApotekerVAntrean dva = ApotekerVAntrean.fromJson(i);
-      }
-      setState(() {});
-    });
-  }
+// // ignore: non_constant_identifier_names
+//   ApotekerBacaInputResepObat(pRspAptkrId, pObtId, pDosis, pJumlah, pVisitId) {
+//     // AptkrRspId = '';
+//     Future<String> data = ApotekerBacaInputResepObat(
+//         pRspAptkrId, pObtId, pDosis, pJumlah, pVisitId);
+//     data.then((value) {
+//       //Mengubah json menjadi Array
+//       // ignore: unused_local_variable
+//       Map json = jsonDecode(value);
+//       // AptkrRspId = json['id_resep_apoteker'].toString();
+//       // print('ApotekerBacaDataRspVst(): $AptkrRspId');
+//       for (var i in json['data']) {
+//         print(i);
+//         // ApotekerVAntrean dva = ApotekerVAntrean.fromJson(i);
+//       }
+//       setState(() {});
+//     });
+//   }
 
   @override
   void initState() {
@@ -602,6 +695,7 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
             icon: new Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.pop(context);
+              ListKeranjangObat.clear();
             },
           ),
         ),
@@ -617,13 +711,13 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                       children: [
                         // widgetKeranjangObatHeader(),
                         // widgetKeranjangObatDokterBody(),
+                        widgetInputObatBaru(),
                         Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: ExpansionTile(
                                 title: Text(
                                   'Input Obat',
                                   textAlign: TextAlign.center,
-                                  style: TextStyle(),
                                 ),
                                 children: [
                                   widgetCariObat(),
@@ -650,6 +744,9 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                                       child: TextFormField(
                                           enabled: true,
                                           onChanged: (value) {
+                                            if (value == "") {
+                                              value = 0.toString();
+                                            }
                                             for (var i = 0;
                                                 i < ListHargaJual.length;
                                                 i++) {
