@@ -238,10 +238,40 @@ class _AdminOrderInputKonfirmasiObatState
                                   listOrderObats[i].status_order = 'diterima';
                                   listOrderObats[i].jumlah_diterima =
                                       ListDiterima[i].text;
-                                  print('nama: ${listOrderObats[i].nama}\n' +
-                                      '| id_obat: ${listOrderObats[i].id_obat}\n' +
-                                      '|jumlah_diterima: ${listOrderObats[i].jumlah_diterima}\n' +
-                                      '|status_order: ${listOrderObats[i].status_order}|');
+                                  // print('nama: ${listOrderObats[i].nama}\n' +
+                                  //     '| id_obat: ${listOrderObats[i].id_obat}\n' +
+                                  //     '|jumlah_diterima: ${listOrderObats[i].jumlah_diterima}\n' +
+                                  //     '|status_order: ${listOrderObats[i].status_order}|');
+                                  fetchDataAdminUpdateOrderObat(
+                                          listOrderObats[i].jumlah_diterima,
+                                          listOrderObats[i].jumlah_diterima,
+                                          '2022-2-2',
+                                          listOrderObats[i].status_order,
+                                          listOrderObats[i].id_obat)
+                                      .then((value) {
+                                    Map json = jsonDecode(value);
+                                    if (json['data']
+                                        .toString()
+                                        .contains('success')) {
+                                      showDialog<String>(
+                                        context: context,
+                                        builder: (BuildContext context) =>
+                                            AlertDialog(
+                                          title: Text(
+                                            '$value',
+                                            style: TextStyle(fontSize: 14),
+                                          ),
+                                          actions: <Widget>[
+                                            TextButton(
+                                                onPressed: () {
+                                                  Navigator.pop(context);
+                                                },
+                                                child: Text('ok')),
+                                          ],
+                                        ),
+                                      );
+                                    }
+                                  });
                                 }
                               } else {
                                 showDialog<String>(

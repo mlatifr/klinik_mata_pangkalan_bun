@@ -5,29 +5,38 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/main.dart';
 import 'package:http/http.dart' as http;
 
-// //untuk akun sediaan barang
-// var idOrder = '';
+//untuk update stok order obat yang diterima
 
-// Future<String> fetchDataIdOrderId(pIdUser, pTglOrder) async {
-//   final response = await http
-//       .post(Uri.parse(apiUrl + "pemilik_input_tgl_order.php"), body: {
-//     'user_klinik_id': pIdUser.toString(),
-//     'tgl_order': pTglOrder.toString()
-//   });
-//   if (response.statusCode == 200) {
-//     print('fetchDataIdOrderId: ${response.body}');
-//     return response.body;
-//   } else {
-//     throw Exception('Failed to read API');
-//   }
-// }
+Future<String> fetchDataAdminUpdateOrderObat(
+    jumlah_diterima, stok, kadaluarsa, status_order, obat_id) async {
+  final response =
+      await http.post(Uri.parse(apiUrl + "admin_upd_obat_stok.php"), body: {
+    'jumlah_diterima': jumlah_diterima.toString(),
+    'stok': stok.toString(),
+    'kadaluarsa': kadaluarsa.toString(),
+    'status_order': status_order.toString(),
+    'obat_id': obat_id.toString()
+  });
+  if (response.statusCode == 200) {
+    print('fetchDataAdminUpdateOrderObat: ${response.body}');
+    return response.body;
+  } else {
+    throw Exception('Failed to read API');
+  }
+}
 
-//untuk akun sediaan barang
+//untuk v list order obat
 List<KeranjangOrderClass> listOrderObats = [];
 List<TextEditingController> ListDiterima = [];
 
 class KeranjangOrderClass {
-  var tgl_order, id_obat, jumlah_order, jumlah_diterima, nama, stok, status_order;
+  var tgl_order,
+      id_obat,
+      jumlah_order,
+      jumlah_diterima,
+      nama,
+      stok,
+      status_order;
   KeranjangOrderClass(
       {this.tgl_order,
       this.id_obat,
