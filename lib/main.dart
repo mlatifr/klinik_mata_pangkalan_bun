@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/admin_antrean/admin_antrean_pasien.dart';
+import 'package:flutter_application_1/admin_order_obat/admOrderObat_main_page.dart';
 import 'package:flutter_application_1/login.dart';
 import 'package:flutter_application_1/pasien/nomor_antrean_pasien.dart';
 import 'package:flutter_application_1/pasien/nota_pembayaran.dart';
@@ -87,9 +88,12 @@ void main() {
     } else if (result.contains('pemilik')) {
       username = result;
       runApp(MaterialApp(home: PemilikMainPage()));
-    } else if (result.contains('admin')) {
+    } else if (result.contains('admin_antrean')) {
       username = result;
       runApp(MaterialApp(home: AdminAntreanPasien()));
+    } else if (result.contains('admin_order')) {
+      username = result;
+      runApp(MaterialApp(home: AdmOrderObatMainPage()));
     } else if (result.contains('dokter')) {
       username = result;
       runApp(MaterialApp(home: DrAntreanPasien()));

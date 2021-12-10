@@ -1,0 +1,501 @@
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_application_1/apoteker/apt_get_resep_pasien_detail.dart';
+import 'package:flutter_application_1/pemilik/input_order/pemilik_model.dart';
+import 'package:flutter_application_1/pemilik/pemilik_fetch/pemilik_send_input_order.dart';
+
+DateTime date;
+
+class AdminOrderInputKonfirmasiObat extends StatefulWidget {
+  final adminId, namaPasien, visitId;
+
+  const AdminOrderInputKonfirmasiObat(
+      {Key key, this.adminId, this.namaPasien, this.visitId})
+      : super(key: key);
+
+  @override
+  _AdminOrderInputKonfirmasiObatState createState() =>
+      _AdminOrderInputKonfirmasiObatState();
+}
+
+class _AdminOrderInputKonfirmasiObatState
+    extends State<AdminOrderInputKonfirmasiObat> {
+  // ignore: non_constant_identifier_names
+  PemilikBacaDataVListObat(pNamaObat) {
+    aVLOs.clear();
+    Future<String> data = fetchDataApotekerVListObat(pNamaObat);
+    data.then((value) {
+      //Mengubah json menjadi Array
+      // ignore: unused_local_variable
+      Map json = jsonDecode(value);
+      for (var i in json['data']) {
+        ApotekerrVListObat avlo = ApotekerrVListObat.fromJson(i);
+        aVLOs.add(avlo);
+      }
+      setState(() {
+        widgetListObats();
+      });
+    });
+  }
+
+  Widget widgetCariObat() {
+    return Row(
+      children: [
+        Expanded(
+          flex: 12,
+          child: TextFormField(
+              controller: controllerCariObat,
+              decoration: InputDecoration(
+                labelText: "Resep",
+                fillColor: Colors.white,
+                prefixIcon: Padding(
+                  padding: EdgeInsets.only(top: 15),
+                  child: Icon(Icons.search),
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: BorderSide(
+                    color: Colors.blue,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                  borderSide: BorderSide(
+                    color: Colors.blue,
+                  ),
+                ),
+              )),
+        ),
+        Expanded(flex: 1, child: SizedBox()),
+        Expanded(
+          flex: 4,
+          child: TextButton(
+            onPressed: () {
+              PemilikBacaDataVListObat(controllerCariObat.text);
+            },
+            child: Text(
+              'Cari',
+            ),
+            style: TextButton.styleFrom(
+                primary: Colors.white,
+                backgroundColor: Colors.blue,
+                minimumSize: Size(MediaQuery.of(context).size.width,
+                    MediaQuery.of(context).size.height * 0.01)),
+          ),
+        ),
+      ],
+    );
+  }
+
+  TextEditingController controllerObatNama = TextEditingController();
+  TextEditingController controllerJumlah = TextEditingController();
+  TextEditingController controllerHargaBeli = TextEditingController();
+  TextEditingController controllerCariObat = TextEditingController();
+  int selected; //agar yg terbuka hanya bisa 1 ListTile
+
+  // ignore: missing_return
+  Widget widgetListObats() {
+    if (aVLOs.length > 0) {
+      return ListView.builder(
+          key: Key(
+              'builder ${selected.toString()}'), //agar yg terbuka hanya bisa 1 ListTile
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: aVLOs.length,
+          itemBuilder: (context, index) {
+            return Row(
+              children: [
+                Expanded(
+                  flex: 8,
+                  child: Column(
+                    children: [
+                      ExpansionTile(
+                          key: Key(index
+                              .toString()), //agar yg terbuka hanya bisa 1 ListTile
+                          initiallyExpanded: index ==
+                              selected, //agar yg terbuka hanya bisa 1 ListTile
+                          onExpansionChanged: ((newState) {
+                            controllerJumlah.text = "";
+                            controllerHargaBeli.text = "";
+                            if (newState)
+                              setState(() {
+                                selected = index;
+                              });
+                            else
+                              setState(() {
+                                selected = -1;
+                              });
+                          }),
+                          title: Text(
+                            '${aVLOs[index].obatNama} : ${aVLOs[index].obatStok}',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(),
+                          ),
+                          children: [
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: TextFormField(
+                                        enabled: true,
+                                        controller: controllerJumlah,
+                                        keyboardType: TextInputType.number,
+                                        inputFormatters: <TextInputFormatter>[
+                                          FilteringTextInputFormatter.digitsOnly
+                                        ],
+                                        decoration: InputDecoration(
+                                          labelText: "Jumlah",
+                                          fillColor: Colors.white,
+                                          enabledBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                            borderSide: BorderSide(
+                                              color: Colors.blue,
+                                            ),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                            borderSide: BorderSide(
+                                              color: Colors.blue,
+                                            ),
+                                          ),
+                                        )),
+                                  ),
+                                ),
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: TextFormField(
+                                        enabled: true,
+                                        controller: controllerHargaBeli,
+                                        keyboardType: TextInputType.number,
+                                        inputFormatters: <TextInputFormatter>[
+                                          FilteringTextInputFormatter.digitsOnly
+                                        ],
+                                        decoration: InputDecoration(
+                                          labelText: "Harga Beli",
+                                          fillColor: Colors.white,
+                                          enabledBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                            borderSide: BorderSide(
+                                              color: Colors.blue,
+                                            ),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                            borderSide: BorderSide(
+                                              color: Colors.blue,
+                                            ),
+                                          ),
+                                        )),
+                                  ),
+                                )
+                              ],
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: TextButton(
+                                onPressed: () {
+                                  PemilikInputResepList selectedObat =
+                                      PemilikInputResepList(
+                                          obatNama: aVLOs[index].obatNama,
+                                          jumlah_order: controllerJumlah.text,
+                                          harga_beli: controllerHargaBeli.text);
+                                  ListKeranjangObat.add(selectedObat);
+                                  setState(() {
+                                    controllerJumlah.text = "";
+                                    controllerHargaBeli.text = "";
+                                    widgetKeranjangObatBodyPemilik();
+                                  });
+                                  print(ListKeranjangObat.length);
+                                },
+                                child: Text('tambah'),
+                                style: TextButton.styleFrom(
+                                    primary: Colors.white,
+                                    backgroundColor: Colors.blue,
+                                    minimumSize: Size(
+                                        MediaQuery.of(context).size.width,
+                                        MediaQuery.of(context).size.height *
+                                            0.01)),
+                              ),
+                            ),
+                          ]),
+                    ],
+                  ),
+                ),
+              ],
+            );
+          });
+    } else
+      return Container();
+  }
+
+  Widget widgetKeranjangObatHeader() {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+      child: Table(
+          columnWidths: {
+            0: FlexColumnWidth(2.5),
+            1: FlexColumnWidth(1.5),
+            2: FlexColumnWidth(3),
+            3: FlexColumnWidth(2.5),
+          },
+          border: TableBorder
+              .all(), // Allows to add a border decoration around your table
+          children: [
+            TableRow(children: [
+              Text(
+                'Obat',
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                'Jmlh',
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                'Hg Beli',
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                'Hg Jual',
+                textAlign: TextAlign.center,
+              ),
+            ]),
+          ]),
+    );
+  }
+
+  Widget widgetKeranjangObatBodyPemilik() {
+    ListHargaJual.clear();
+    // print("widgetKeranjangObatBodyPemilik: ${ListInputResep.length}");
+    for (var i = 0; i < ListKeranjangObat.length; i++) {
+      TextEditingController txtHrgJual = TextEditingController();
+      txtHrgJual.text = (i - i).toString();
+      ListHargaJual.add(txtHrgJual);
+    }
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: ListView.builder(
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemCount: ListKeranjangObat.length,
+          itemBuilder: (context, index) {
+            return Table(
+                columnWidths: {
+                  0: FlexColumnWidth(2.5),
+                  1: FlexColumnWidth(1),
+                  2: FlexColumnWidth(3),
+                  3: FlexColumnWidth(3),
+                },
+                border: TableBorder
+                    .all(), // Allows to add a border decoration around your table
+                children: [
+                  TableRow(children: [
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        '${ListKeranjangObat[index].obatNama}',
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        '${ListKeranjangObat[index].jumlah_order}',
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        '${ListKeranjangObat[index].harga_beli}',
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: TextFormField(
+                          style: TextStyle(fontSize: 14),
+                          enabled: true,
+                          controller: ListHargaJual[index],
+                          keyboardType: TextInputType.number,
+                          inputFormatters: <TextInputFormatter>[
+                            FilteringTextInputFormatter.digitsOnly
+                          ],
+                          onChanged: (value) {
+                            ListKeranjangObat[index].harga_jual =
+                                ListHargaJual[index].text;
+                            for (var item in ListKeranjangObat) {
+                              print(item.obatNama + '\n' + item.harga_jual);
+                            }
+                          },
+                          decoration: InputDecoration(
+                            fillColor: Colors.white,
+                            // enabledBorder: OutlineInputBorder(
+                            //   borderRadius: BorderRadius.circular(10.0),
+                            //   borderSide: BorderSide(
+                            //     color: Colors.blue,
+                            //   ),
+                            // ),
+                            // focusedBorder: OutlineInputBorder(
+                            //   borderRadius: BorderRadius.circular(10.0),
+                            //   borderSide: BorderSide(
+                            //     color: Colors.blue,
+                            //   ),
+                            // ),
+                          )),
+                    ),
+                  ]),
+                ]);
+          }),
+    );
+  }
+
+  @override
+  void initState() {
+    DateTime now = new DateTime.now();
+    date = new DateTime(now.year, now.month, now.day);
+    controllerCariObat.clear();
+    PemilikBacaDataVListObat(controllerCariObat.text);
+    ListInputResep.clear();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // if (aVKODrs.length > 0) {
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      home: Scaffold(
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text('Input Order Obat'),
+          leading: new IconButton(
+            icon: new Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+              ListKeranjangObat.clear();
+            },
+          ),
+        ),
+        body: ListView(
+          children: <Widget>[
+            Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.all(25.0),
+                  child: Container(
+                    color: Colors.green[50],
+                    child: Column(
+                      children: [
+                        Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: ExpansionTile(
+                                title: Text(
+                                  'Input Obat',
+                                  textAlign: TextAlign.center,
+                                ),
+                                children: [
+                                  widgetCariObat(),
+                                  widgetListObats(),
+                                ])),
+                        ExpansionTile(
+                          title: Text(
+                            'Keranjang Obat',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(),
+                          ),
+                          children: [
+                            widgetKeranjangObatHeader(),
+                            widgetKeranjangObatBodyPemilik(),
+                          ],
+                        ),
+                        ElevatedButton(
+                            onPressed: () {
+                              if (ListKeranjangObat.isNotEmpty) {
+                                // send data tgl and user pemesan to db
+                                // then simpan hasil id order ke aplikasi
+                                // then simpan list obat dg id_order
+                                print(
+                                    '${widget.adminId} | ${date.toString().substring(0, 10)}');
+                                idOrder = '';
+                                fetchDataIdOrderId(widget.adminId,
+                                        date.toString().substring(0, 10))
+                                    .then((value) {
+                                  Map json = jsonDecode(value);
+                                  idOrder = json['order_obat_id'].toString();
+                                  for (var i = 0;
+                                      i < ListKeranjangObat.length;
+                                      i++) {
+                                    //fetch send kirim data krjg obat
+                                    fetchDataPemilikSendKrjgObat(
+                                            idOrder,
+                                            ListKeranjangObat[i].jumlah_order,
+                                            ListKeranjangObat[i].obatNama,
+                                            ListKeranjangObat[i].harga_beli,
+                                            ListKeranjangObat[i].harga_jual,
+                                            'pemesanan')
+                                        .then((value) => print(value));
+                                  }
+                                });
+                              } else {
+                                showDialog<String>(
+                                  context: context,
+                                  builder: (BuildContext context) =>
+                                      AlertDialog(
+                                    title: Text(
+                                      'Keranjang tidak Boleh Kosong',
+                                      style: TextStyle(fontSize: 14),
+                                    ),
+                                    actions: <Widget>[
+                                      TextButton(
+                                          onPressed: () {
+                                            Navigator.pop(context);
+                                          },
+                                          child: Text('ok')),
+                                    ],
+                                  ),
+                                );
+                              }
+                            },
+                            child: Text('SIMPAN'))
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+    // } else {
+    //   return MaterialApp(
+    //     debugShowCheckedModeBanner: false,
+    //     home: Scaffold(
+    //       appBar: AppBar(
+    //         centerTitle: true,
+    //         title: Text('Resep: ${widget.namaPasien}'),
+    //         leading: new IconButton(
+    //           icon: new Icon(Icons.arrow_back),
+    //           onPressed: () {
+    //             Navigator.pop(context);
+    //           },
+    //         ),
+    //       ),
+    //       body: Center(child: CircularProgressIndicator()),
+    //     ),
+    //   );
+    // }
+  }
+}
