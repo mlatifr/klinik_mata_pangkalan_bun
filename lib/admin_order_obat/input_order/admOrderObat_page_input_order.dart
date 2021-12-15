@@ -2,10 +2,9 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/admin_order_obat/admin_order_obat_fetch/admOrderObat_fetch.dart';
-import 'package:flutter_application_1/apoteker/apt_get_resep_pasien_detail.dart';
-import 'package:flutter_application_1/pemilik/input_order/pemilik_model.dart';
-import 'package:flutter_application_1/pemilik/pemilik_fetch/pemilik_send_input_order.dart';
-
+//untuk baris list obat pertama pakai query update (study case tgl kadaluarsa berbeda)
+//untuk list baris berikutnya, insert obat baru dengan id tertentu.
+// tampilan miripin pemilik order obat
 DateTime date;
 
 class AdminOrderInputKonfirmasiObat extends StatefulWidget {
@@ -40,6 +39,10 @@ class _AdminOrderInputKonfirmasiObatState
         TextEditingController txtDiterima = TextEditingController();
         txtDiterima.text = (listOrderObats[i].jumlah_order).toString();
         ListDiterima.add(txtDiterima);
+
+        TextEditingController txtKadaluarsa = TextEditingController();
+        txtKadaluarsa.text = (listOrderObats[i].kadaluarsa).toString();
+        ListKadaluarsa.add(txtKadaluarsa);
       }
       setState(() {});
     });
@@ -89,18 +92,11 @@ class _AdminOrderInputKonfirmasiObatState
                         textAlign: TextAlign.center,
                         style: TextStyle(),
                       ),
-                      //listOrderObats[index].jumlah_order.toString(),
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: TextFormField(
                             enabled: true,
                             controller: ListDiterima[index],
-                            // initialValue:
-                            //     listOrderObats[index].jumlah_order.toString(),
-                            // onChanged: (value) {
-                            //   listOrderObats[index].jumlah_diterima = value;
-                            //   print('${listOrderObats[index].jumlah_diterima}');
-                            // },
                             keyboardType: TextInputType.number,
                             inputFormatters: <TextInputFormatter>[
                               FilteringTextInputFormatter.digitsOnly
@@ -122,6 +118,66 @@ class _AdminOrderInputKonfirmasiObatState
                               ),
                             )),
                       ),
+                      Padding(
+                          padding: EdgeInsets.all(10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Expanded(
+                                  child: TextFormField(
+                                controller: ListKadaluarsa[index],
+                                onChanged: (value) {
+                                  setState(() {
+                                    ListKadaluarsa[index].text =
+                                        value.toString();
+                                    ListKadaluarsa[index].selection =
+                                        TextSelection.fromPosition(TextPosition(
+                                            offset: ListKadaluarsa[index]
+                                                .text
+                                                .length));
+                                    // print(value.toString());
+                                    // AdminBacaDataVOrderObat(value.substring(0, 10));
+                                  });
+                                },
+                                enabled: false,
+                                keyboardType: TextInputType.number,
+                                inputFormatters: <TextInputFormatter>[
+                                  FilteringTextInputFormatter.digitsOnly
+                                ],
+                                decoration: InputDecoration(
+                                  labelText: 'Kadaluarsa',
+                                  fillColor: Colors.white,
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(10.0),
+                                    borderSide: BorderSide(
+                                      color: Colors.blue,
+                                    ),
+                                  ),
+                                ),
+                              )),
+                              ElevatedButton(
+                                  onPressed: () {
+                                    showDatePicker(
+                                            context: context,
+                                            initialDate: DateTime.now(),
+                                            firstDate: DateTime(2000),
+                                            lastDate: DateTime(2200))
+                                        .then((value) {
+                                      setState(() {
+                                        ListKadaluarsa[index].text =
+                                            value.toString().substring(0, 10);
+                                        listOrderObats[index].kadaluarsa =
+                                            ListKadaluarsa[index].text;
+                                      });
+                                    });
+                                  },
+                                  child: Icon(
+                                    Icons.calendar_today_sharp,
+                                    color: Colors.white,
+                                    size: 24.0,
+                                  ))
+                            ],
+                          )),
                     ],
                   ),
                 ),
@@ -147,6 +203,7 @@ class _AdminOrderInputKonfirmasiObatState
             onPressed: () {
               Navigator.pop(context);
               listOrderObats.clear();
+              ListKadaluarsa.clear();
             },
           ),
         ),
@@ -178,7 +235,7 @@ class _AdminOrderInputKonfirmasiObatState
                             FilteringTextInputFormatter.digitsOnly
                           ],
                           decoration: InputDecoration(
-                            labelText: 'Tanggal Visit',
+                            labelText: 'Tanggal Order',
                             fillColor: Colors.white,
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10.0),

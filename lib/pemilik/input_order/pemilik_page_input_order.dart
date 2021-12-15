@@ -28,17 +28,16 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
       print(json);
-      if (json['result'].toString() == 'success') {
+      if (json['result'].toString().contains('success')) {
         for (var i in json['data']) {
           ApotekerrVListObat avlo = ApotekerrVListObat.fromJson(i);
           aVLOs.add(avlo);
         }
-      } else {
-        aVLOs.clear();
       }
       setState(() {
-        widgetListObats();
+        widgetListSuggestObats();
       });
+      print('PemilikBacaDataVListObat aVLOs.length: ${aVLOs.length} ');
     });
   }
 
@@ -114,9 +113,8 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
               controller: controllerObatNama,
               onChanged: (value) {
                 PemilikBacaDataVListObat(value);
-                if (aVLOs.length > 0) {
-                  suggestNamaObat = true;
-                }
+                print('aVLOs.length ${aVLOs.length}');
+                suggestNamaObat = true;
               },
               decoration: InputDecoration(
                 labelText: "Nama Obat",
@@ -211,6 +209,9 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                   ListHargaJual.add(txtHrgJual);
                 }
                 widgetKeranjangObatBodyPemilik();
+                controllerObatNama.text = '';
+                controllerJumlah.text = '';
+                controllerHargaBeli.text = '';
               });
             },
             child: Text('tambah'),
@@ -693,7 +694,8 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                                           ListKeranjangObat[i].harga_beli,
                                           ListKeranjangObat[i].harga_jual,
                                           'pemesanan')
-                                      .then((value) => print(value));
+                                      .then((value) =>
+                                          print('btn simpan $value'));
                                 }
                               });
                             } else {

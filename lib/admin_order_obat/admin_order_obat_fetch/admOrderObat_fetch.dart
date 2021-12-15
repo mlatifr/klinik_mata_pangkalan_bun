@@ -7,6 +7,7 @@ import 'package:http/http.dart' as http;
 
 //untuk update stok order obat yang diterima
 
+List<TextEditingController> ListKadaluarsa = [];
 Future<String> fetchDataAdminUpdateOrderObat(
     jumlah_diterima, stok, kadaluarsa, status_order, obat_id) async {
   final response =
@@ -36,7 +37,8 @@ class KeranjangOrderClass {
       jumlah_diterima,
       nama,
       stok,
-      status_order;
+      status_order,
+      kadaluarsa;
   KeranjangOrderClass(
       {this.tgl_order,
       this.id_obat,
@@ -44,7 +46,8 @@ class KeranjangOrderClass {
       this.jumlah_diterima,
       this.nama,
       this.stok,
-      this.status_order});
+      this.status_order,
+      this.kadaluarsa});
   // untuk convert dari jSon
   factory KeranjangOrderClass.fromJson(Map<String, dynamic> json) {
     return new KeranjangOrderClass(

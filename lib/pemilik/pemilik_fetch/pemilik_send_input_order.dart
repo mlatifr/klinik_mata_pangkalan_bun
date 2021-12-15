@@ -43,7 +43,7 @@ Future<String> fetchDataPemilikSendKrjgObat(pOrder_obat_id, pJumlah_order,
     'status_order': pStatus_order.toString()
   });
   if (response.statusCode == 200) {
-    print('fetchDataVAkunSediaanBrg: ${response.body}');
+    // print('fetchDataPemilikSendKrjgObat: ${response.body}');
     return response.body;
   } else {
     throw Exception('Failed to read API');
