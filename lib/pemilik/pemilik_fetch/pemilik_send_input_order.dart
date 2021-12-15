@@ -1,6 +1,7 @@
 library flutter_application_1.pemilik_send_input_order;
 
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:flutter_application_1/main.dart';
 import 'package:http/http.dart' as http;
 
@@ -21,27 +22,13 @@ Future<String> fetchDataIdOrderId(pIdUser, pTglOrder) async {
   }
 }
 
-//untuk akun sediaan barang
-List<KeranjangObatClass> listKeranjangObats = [];
+List<PemilikInputResepList> ListKeranjangObat = [];
+List<TextEditingController> ListHargaJual = [];
 
-class KeranjangObatClass {
-  var order_obat_id, jumlah_order, nama, harga_beli, harga_jual;
-  KeranjangObatClass(
-      {this.order_obat_id,
-      this.jumlah_order,
-      this.nama,
-      this.harga_beli,
-      this.harga_jual});
-  // untuk convert dari jSon
-  factory KeranjangObatClass.fromJson(Map<String, dynamic> json) {
-    return new KeranjangObatClass(
-      order_obat_id: json['order_obat_id'],
-      jumlah_order: json['jumlah_order'],
-      nama: json['nama'],
-      harga_beli: json['harga_beli'],
-      harga_jual: json['harga_jual'],
-    );
-  }
+class PemilikInputResepList {
+  var harga_beli, harga_jual, jumlah_order, obatNama;
+  PemilikInputResepList(
+      {this.harga_beli, this.harga_jual, this.obatNama, this.jumlah_order});
 }
 
 Future<String> fetchDataPemilikSendKrjgObat(pOrder_obat_id, pJumlah_order,
@@ -59,6 +46,20 @@ Future<String> fetchDataPemilikSendKrjgObat(pOrder_obat_id, pJumlah_order,
     print('fetchDataVAkunSediaanBrg: ${response.body}');
     return response.body;
   } else {
+    throw Exception('Failed to read API');
+  }
+}
+
+Future<String> fetchDataPemilikVListObat(pNamaObat) async {
+  // print('final: $pVisitId | $pTdkId | $pMtSisi');
+  final response = await http.post(
+      Uri.parse(apiUrl + "pemilik_v_list_obat.php"),
+      body: {'nama_obat': pNamaObat.toString()});
+  if (response.statusCode == 200) {
+    // print('200: ${response.body}');
+    return response.body;
+  } else {
+    // print('else: ${response.body}');
     throw Exception('Failed to read API');
   }
 }

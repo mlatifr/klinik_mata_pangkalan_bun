@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/apoteker/apt_get_resep_pasien_detail.dart';
-import 'package:flutter_application_1/pemilik/input_order/pemilik_model.dart';
 import 'package:flutter_application_1/pemilik/pemilik_fetch/pemilik_send_input_order.dart';
 
 DateTime date;
@@ -22,7 +22,7 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
   // ignore: non_constant_identifier_names
   PemilikBacaDataVListObat(pNamaObat) {
     aVLOs.clear();
-    Future<String> data = fetchDataApotekerVListObat(pNamaObat);
+    Future<String> data = fetchDataPemilikVListObat(pNamaObat);
     data.then((value) {
       //Mengubah json menjadi Array
       // ignore: unused_local_variable
@@ -97,7 +97,7 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
       title: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Text(
-          'Obat Baru',
+          'Input Order',
           textAlign: TextAlign.center,
         ),
       ),
@@ -107,6 +107,10 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
           child: TextFormField(
               enabled: true,
               controller: controllerObatNama,
+              onChanged: (value) {
+                PemilikBacaDataVListObat(value);
+                suggestNamaObat = true;
+              },
               decoration: InputDecoration(
                 labelText: "Nama Obat",
                 fillColor: Colors.white,
@@ -124,6 +128,9 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                 ),
               )),
         ),
+        //isi list view
+
+        widgetListSuggestObats(),
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: TextFormField(
@@ -133,6 +140,9 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
               inputFormatters: <TextInputFormatter>[
                 FilteringTextInputFormatter.digitsOnly
               ],
+              onTap: () {
+                suggestNamaObat = false;
+              },
               decoration: InputDecoration(
                 labelText: "Jumlah",
                 fillColor: Colors.white,
@@ -342,6 +352,46 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
       return Container();
   }
 
+  var suggestNamaObat = true;
+  // ignore: missing_return
+  Widget widgetListSuggestObats() {
+    if (suggestNamaObat == true && controllerObatNama.text.length > 0) {
+      return Padding(
+        padding: const EdgeInsets.only(right: 20.0, left: 20),
+        child: Column(
+          children: [
+            Text(
+              'Saran Obat:',
+            ),
+            ListView.builder(
+                key: Key(
+                    'builder ${selected.toString()}'), //agar yg terbuka hanya bisa 1 ListTile
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: aVLOs.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                      child: ListTile(
+                        title: Text('${aVLOs[index].obatNama}'),
+                        onTap: () {
+                          controllerObatNama.text = aVLOs[index].obatNama;
+                          suggestNamaObat = false;
+                          setState(() {
+                            widgetListSuggestObats();
+                          });
+                        },
+                      ),
+                      decoration: BoxDecoration(
+                          border:
+                              Border(left: BorderSide(), right: BorderSide())));
+                }),
+          ],
+        ),
+      );
+    } else
+      return Container();
+  }
+
   Widget widgetKeranjangObatHeader() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
@@ -370,6 +420,10 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
               ),
               Text(
                 'Hg Jual',
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                '',
                 textAlign: TextAlign.center,
               ),
             ]),
@@ -457,6 +511,18 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                             // ),
                           )),
                     ),
+                    TextButton(
+                      onPressed: () {
+                        ListKeranjangObat.removeAt(index);
+                        setState(() {
+                          widgetKeranjangObatBodyPemilik();
+                        });
+                      },
+                      child: Icon(
+                        Icons.delete,
+                        color: Colors.red,
+                      ),
+                    ),
                   ]),
                 ]);
           }),
@@ -470,6 +536,7 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
     controllerCariObat.clear();
     PemilikBacaDataVListObat(controllerCariObat.text);
     ListInputResep.clear();
+    suggestNamaObat = false;
     super.initState();
   }
 
@@ -499,153 +566,146 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
           children: <Widget>[
             Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.all(25.0),
-                  child: Container(
-                    color: Colors.green[50],
-                    child: Column(
-                      children: [
-                        widgetInputObatBaru(),
-                        Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: ExpansionTile(
-                                title: Text(
-                                  'Input Obat',
-                                  textAlign: TextAlign.center,
-                                ),
-                                children: [
-                                  widgetCariObat(),
-                                  widgetListObats(),
-                                ])),
-                        ExpansionTile(
-                          title: Text(
-                            'Keranjang Obat',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(),
-                          ),
-                          children: [
-                            Container(
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Text('Persentase Profit')),
-                                  ),
-                                  Expanded(
-                                    child: Padding(
-                                      padding: const EdgeInsets.all(8.0),
-                                      child: TextFormField(
-                                          enabled: true,
-                                          onChanged: (value) {
-                                            if (value == "") {
-                                              value = 0.toString();
-                                            }
-                                            for (var i = 0;
-                                                i < ListHargaJual.length;
-                                                i++) {
-                                              //persamaan= h.beli + (h.beli * value/100)
-                                              var persen = int.parse(value);
-                                              var hBeli = int.parse(
-                                                  ListKeranjangObat[i]
-                                                      .harga_beli);
-                                              var rumus = hBeli +
-                                                  (hBeli * persen / 100);
-                                              ListHargaJual[i].text = (rumus)
-                                                  .toString()
-                                                  .substring(
-                                                      0,
-                                                      rumus.toString().length -
-                                                          2);
-                                              ListKeranjangObat[i].harga_jual =
-                                                  ListHargaJual[i].text;
-                                              print(ListKeranjangObat[i]
-                                                  .harga_jual);
-                                            }
-                                          },
-                                          keyboardType: TextInputType.number,
-                                          inputFormatters: <TextInputFormatter>[
-                                            FilteringTextInputFormatter
-                                                .digitsOnly
-                                          ],
-                                          decoration: InputDecoration(
-                                            labelText: '%',
-                                            fillColor: Colors.white,
-                                            enabledBorder: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
-                                              borderSide: BorderSide(
-                                                color: Colors.blue,
-                                              ),
-                                            ),
-                                            focusedBorder: OutlineInputBorder(
-                                              borderRadius:
-                                                  BorderRadius.circular(10.0),
-                                              borderSide: BorderSide(
-                                                color: Colors.blue,
-                                              ),
-                                            ),
-                                          )),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            widgetKeranjangObatHeader(),
-                            widgetKeranjangObatBodyPemilik(),
-                          ],
+                Container(
+                  color: Colors.green[50],
+                  child: Column(
+                    children: [
+                      widgetInputObatBaru(),
+                      // ExpansionTile(
+                      //     title: Text(
+                      //       'Stok Obat',
+                      //       textAlign: TextAlign.center,
+                      //     ),
+                      //     children: [
+                      //       widgetCariObat(),
+                      //       widgetListObats(),
+                      //     ]),
+                      ExpansionTile(
+                        title: Text(
+                          'Keranjang Obat',
+                          textAlign: TextAlign.center,
+                          style: TextStyle(),
                         ),
-                        ElevatedButton(
-                            onPressed: () {
-                              if (ListKeranjangObat.isNotEmpty) {
-                                // send data tgl and user pemesan to db
-                                // then simpan hasil id order ke aplikasi
-                                // then simpan list obat dg id_order
-                                print(
-                                    '${widget.pmlkId} | ${date.toString().substring(0, 10)}');
-                                idOrder = '';
-                                fetchDataIdOrderId(widget.pmlkId,
-                                        date.toString().substring(0, 10))
-                                    .then((value) {
-                                  Map json = jsonDecode(value);
-                                  idOrder = json['order_obat_id'].toString();
-                                  for (var i = 0;
-                                      i < ListKeranjangObat.length;
-                                      i++) {
-                                    //fetch send kirim data krjg obat
-                                    fetchDataPemilikSendKrjgObat(
-                                            idOrder,
-                                            ListKeranjangObat[i].jumlah_order,
-                                            ListKeranjangObat[i].obatNama,
-                                            ListKeranjangObat[i].harga_beli,
-                                            ListKeranjangObat[i].harga_jual,
-                                            'pemesanan')
-                                        .then((value) => print(value));
-                                  }
-                                });
-                              } else {
-                                showDialog<String>(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      AlertDialog(
-                                    title: Text(
-                                      'Keranjang tidak Boleh Kosong',
-                                      style: TextStyle(fontSize: 14),
-                                    ),
-                                    actions: <Widget>[
-                                      TextButton(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: Text('ok')),
-                                    ],
+                        children: [
+                          Container(
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text('Persentase Profit')),
+                                ),
+                                Expanded(
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: TextFormField(
+                                        enabled: true,
+                                        onChanged: (value) {
+                                          if (value == "") {
+                                            value = 0.toString();
+                                          }
+                                          for (var i = 0;
+                                              i < ListHargaJual.length;
+                                              i++) {
+                                            //persamaan= h.beli + (h.beli * value/100)
+                                            var persen = int.parse(value);
+                                            var hBeli = int.parse(
+                                                ListKeranjangObat[i]
+                                                    .harga_beli);
+                                            var rumus =
+                                                hBeli + (hBeli * persen / 100);
+                                            ListHargaJual[i].text = (rumus)
+                                                .toString()
+                                                .substring(
+                                                    0,
+                                                    rumus.toString().length -
+                                                        2);
+                                            ListKeranjangObat[i].harga_jual =
+                                                ListHargaJual[i].text;
+                                            print(ListKeranjangObat[i]
+                                                .harga_jual);
+                                          }
+                                        },
+                                        keyboardType: TextInputType.number,
+                                        inputFormatters: <TextInputFormatter>[
+                                          FilteringTextInputFormatter.digitsOnly
+                                        ],
+                                        decoration: InputDecoration(
+                                          labelText: '%',
+                                          fillColor: Colors.white,
+                                          enabledBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                            borderSide: BorderSide(
+                                              color: Colors.blue,
+                                            ),
+                                          ),
+                                          focusedBorder: OutlineInputBorder(
+                                            borderRadius:
+                                                BorderRadius.circular(10.0),
+                                            borderSide: BorderSide(
+                                              color: Colors.blue,
+                                            ),
+                                          ),
+                                        )),
                                   ),
-                                );
-                              }
-                            },
-                            child: Text('SIMPAN'))
-                      ],
-                    ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          widgetKeranjangObatHeader(),
+                          widgetKeranjangObatBodyPemilik(),
+                        ],
+                      ),
+                      ElevatedButton(
+                          onPressed: () {
+                            if (ListKeranjangObat.isNotEmpty) {
+                              // send data tgl and user pemesan to db
+                              // then simpan hasil id order ke aplikasi
+                              // then simpan list obat dg id_order
+                              print(
+                                  '${widget.pmlkId} | ${date.toString().substring(0, 10)}');
+                              idOrder = '';
+                              fetchDataIdOrderId(widget.pmlkId,
+                                      date.toString().substring(0, 10))
+                                  .then((value) {
+                                Map json = jsonDecode(value);
+                                idOrder = json['order_obat_id'].toString();
+                                for (var i = 0;
+                                    i < ListKeranjangObat.length;
+                                    i++) {
+                                  //fetch send kirim data krjg obat
+                                  fetchDataPemilikSendKrjgObat(
+                                          idOrder,
+                                          ListKeranjangObat[i].jumlah_order,
+                                          ListKeranjangObat[i].obatNama,
+                                          ListKeranjangObat[i].harga_beli,
+                                          ListKeranjangObat[i].harga_jual,
+                                          'pemesanan')
+                                      .then((value) => print(value));
+                                }
+                              });
+                            } else {
+                              showDialog<String>(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: Text(
+                                    'Keranjang tidak Boleh Kosong',
+                                    style: TextStyle(fontSize: 14),
+                                  ),
+                                  actions: <Widget>[
+                                    TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text('ok')),
+                                  ],
+                                ),
+                              );
+                            }
+                          },
+                          child: Text('SIMPAN'))
+                    ],
                   ),
                 ),
               ],
