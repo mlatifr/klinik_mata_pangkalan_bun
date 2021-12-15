@@ -27,9 +27,14 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
       //Mengubah json menjadi Array
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
-      for (var i in json['data']) {
-        ApotekerrVListObat avlo = ApotekerrVListObat.fromJson(i);
-        aVLOs.add(avlo);
+      print(json);
+      if (json['result'].toString() == 'success') {
+        for (var i in json['data']) {
+          ApotekerrVListObat avlo = ApotekerrVListObat.fromJson(i);
+          aVLOs.add(avlo);
+        }
+      } else {
+        aVLOs.clear();
       }
       setState(() {
         widgetListObats();
@@ -109,7 +114,9 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
               controller: controllerObatNama,
               onChanged: (value) {
                 PemilikBacaDataVListObat(value);
-                suggestNamaObat = true;
+                if (aVLOs.length > 0) {
+                  suggestNamaObat = true;
+                }
               },
               decoration: InputDecoration(
                 labelText: "Nama Obat",
@@ -196,6 +203,13 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                   harga_beli: controllerHargaBeli.text);
               ListKeranjangObat.add(selectedObat);
               setState(() {
+                ListHargaJual.clear();
+                // print("widgetKeranjangObatBodyPemilik: ${ListInputResep.length}");
+                for (var i = 0; i < ListKeranjangObat.length; i++) {
+                  TextEditingController txtHrgJual = TextEditingController();
+                  txtHrgJual.text = (i - i).toString();
+                  ListHargaJual.add(txtHrgJual);
+                }
                 widgetKeranjangObatBodyPemilik();
               });
             },
@@ -432,13 +446,6 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
   }
 
   Widget widgetKeranjangObatBodyPemilik() {
-    ListHargaJual.clear();
-    // print("widgetKeranjangObatBodyPemilik: ${ListInputResep.length}");
-    for (var i = 0; i < ListKeranjangObat.length; i++) {
-      TextEditingController txtHrgJual = TextEditingController();
-      txtHrgJual.text = (i - i).toString();
-      ListHargaJual.add(txtHrgJual);
-    }
     return Padding(
       padding: const EdgeInsets.all(8),
       child: ListView.builder(
@@ -489,12 +496,17 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                             FilteringTextInputFormatter.digitsOnly
                           ],
                           onChanged: (value) {
-                            ListKeranjangObat[index].harga_jual =
-                                ListHargaJual[index].text;
-                            for (var item in ListKeranjangObat) {
-                              print(item.obatNama + '\n' + item.harga_jual);
-                            }
+                            print(
+                                'kerangjang value ${ListHargaJual[index].text}');
                           },
+
+                          // onChanged: (value) {
+                          //   ListKeranjangObat[index].harga_jual =
+                          //       ListHargaJual[index].text;
+                          //   for (var item in ListKeranjangObat) {
+                          //     print(item.obatNama + '\n' + item.harga_jual);
+                          //   }
+                          // },
                           decoration: InputDecoration(
                             fillColor: Colors.white,
                             // enabledBorder: OutlineInputBorder(
@@ -622,8 +634,7 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                                                         2);
                                             ListKeranjangObat[i].harga_jual =
                                                 ListHargaJual[i].text;
-                                            print(ListKeranjangObat[i]
-                                                .harga_jual);
+                                            print(ListHargaJual[i].text);
                                           }
                                         },
                                         keyboardType: TextInputType.number,
