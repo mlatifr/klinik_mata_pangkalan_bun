@@ -1,11 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/admin_order_obat/admOrderObat_main_page.dart';
 import 'package:flutter_application_1/admin_order_obat/admin_order_obat_fetch/admOrderObat_fetch.dart';
+import 'package:flutter_application_1/admin_order_obat/input_order/admOrderObat_page_list_obat.dart';
 
-//untuk baris list obat pertama pakai query update (study case tgl kadaluarsa berbeda)
-//untuk list baris berikutnya, insert obat baru dengan id tertentu.
-// tampilan miripin pemilik order obat
 DateTime date;
 
 class AdminOrderNotaOrder extends StatefulWidget {
@@ -32,34 +29,15 @@ class _AdminOrderNotaOrderState extends State<AdminOrderNotaOrder> {
         KeranjangOrderClass avlo = KeranjangOrderClass.fromJson(i);
         listOrderId.add(avlo);
       }
-      ListDiterima.clear();
-      // print("widgetKeranjangObatBodyPemilik: ${ListInputResep.length}");
-      for (var i = 0; i < listOrderId.length; i++) {
-        TextEditingController txtDiterima = TextEditingController();
-        txtDiterima.text = (listOrderId[i].jumlah_order).toString();
-        ListDiterima.add(txtDiterima);
-
-        TextEditingController txtKadaluarsa = TextEditingController();
-        txtKadaluarsa.text = (listOrderId[i].kadaluarsa).toString();
-        ListKadaluarsa.add(txtKadaluarsa);
-      }
-      setState(() {});
+      setState(() {
+        widgetListNotaOrder();
+      });
     });
   }
 
-  TextEditingController controllerObatNama = TextEditingController();
-  TextEditingController controllerJumlah = TextEditingController();
-  TextEditingController controllerHargaBeli = TextEditingController();
-  TextEditingController controllerCariObat = TextEditingController();
-  int selected; //agar yg terbuka hanya bisa 1 ListTile
-
   @override
   void initState() {
-    // DateTime now = new DateTime.now();
-    // date = new DateTime(now.year, now.month, now.day);
-    // controllerCariObat.clear();
     AdminBacaDataVOrderObat(widget.tglOrder);
-
     super.initState();
   }
 
@@ -72,8 +50,6 @@ class _AdminOrderNotaOrderState extends State<AdminOrderNotaOrder> {
   Widget widgetListNotaOrder() {
     if (listOrderId.length > 0) {
       return ListView.builder(
-          // key: Key(
-          //     'builder ${selected.toString()}'), //agar yg terbuka hanya bisa 1 ListTile
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount: listOrderId.length,
@@ -93,7 +69,9 @@ class _AdminOrderNotaOrderState extends State<AdminOrderNotaOrder> {
                   Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => AdmOrderObatMainPage()));
+                          builder: (context) => AdminOrderListObat(
+                                orderId: listOrderId[index].id_order,
+                              )));
                 });
           });
     } else
@@ -103,7 +81,6 @@ class _AdminOrderNotaOrderState extends State<AdminOrderNotaOrder> {
   var controllerdate = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    // if (aVKODrs.length > 0) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(

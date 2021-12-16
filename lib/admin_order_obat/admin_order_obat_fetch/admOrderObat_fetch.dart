@@ -29,6 +29,8 @@ Future<String> fetchDataAdminUpdateOrderObat(
 //untuk v list order obat
 List<KeranjangOrderClass> listOrderTgl = [];
 List<KeranjangOrderClass> listOrderId = [];
+List<KeranjangOrderClass> listObatOrder = [];
+List<KeranjangOrderClass> listObatKadaluarsa = [];
 List<TextEditingController> ListDiterima = [];
 
 class KeranjangOrderClass {
@@ -85,6 +87,20 @@ Future<String> fetchDataAdminVOrderNota(pTglOrder) async {
     'tgl_order': pTglOrder.toString(),
   });
   print('fetchDataAdminVOrderObat: ${response.body} | ${response.statusCode}');
+  if (response.statusCode == 200) {
+    return response.body;
+  } else {
+    throw Exception('Failed to read API');
+  }
+}
+
+Future<String> fetchDataAdminVListObat(pIdOrder) async {
+  print('fetchDataAdminVListObat $pIdOrder');
+  final response =
+      await http.post(Uri.parse(apiUrl + "admin_v_order_list_obat.php"), body: {
+    'order_id': pIdOrder.toString(),
+  });
+  print('fetchDataAdminVListObat: ${response.body} | ${response.statusCode}');
   if (response.statusCode == 200) {
     return response.body;
   } else {
