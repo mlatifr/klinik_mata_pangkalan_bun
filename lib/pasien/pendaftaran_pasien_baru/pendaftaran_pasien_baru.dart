@@ -600,7 +600,7 @@ class _PagePasienDaftarBaruState extends State<PagePasienDaftarBaru> {
             Row(
               children: [
                 Expanded(
-                  flex: 2,
+                  flex: 1,
                   child: TextFormField(
                       enabled: false,
                       decoration: InputDecoration(
@@ -623,7 +623,6 @@ class _PagePasienDaftarBaruState extends State<PagePasienDaftarBaru> {
                 Expanded(
                   flex: 2,
                   child: DropdownButton(
-                    itemHeight: 88.0,
                     hint: Text("Pekerjaan"),
                     value: _controllerPekerjaan.text,
                     items: listStatusPekerjaan.map((value) {
