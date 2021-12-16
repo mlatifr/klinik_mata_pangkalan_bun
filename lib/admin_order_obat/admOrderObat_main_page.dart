@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/admin_order_obat/input_order/admOrderObat_page_input_order.dart';
+import 'package:flutter_application_1/admin_order_obat/input_order/admOrderObat_page_tgl_order.dart';
 import '../main.dart';
 
 class AdmOrderObatMainPage extends StatefulWidget {
@@ -36,7 +36,7 @@ class _AdmOrderObatMainPageState extends State<AdmOrderObatMainPage> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => AdminOrderInputKonfirmasiObat(
+                      builder: (context) => AdminOrderTglOrder(
                           adminId: userIdMainDart)));
             },
           ),
