@@ -65,12 +65,9 @@ class ApotekerVKeranjangObatDokter {
 }
 
 class ApotekerrVListObat {
-  var obatId, obatNama, obatStok;
-  ApotekerrVListObat({
-    this.obatId,
-    this.obatNama,
-    this.obatStok,
-  });
+  var obatId, obatNama, obatStok, kadaluarsa;
+  ApotekerrVListObat(
+      {this.obatId, this.obatNama, this.obatStok, this.kadaluarsa});
 
   // untuk convert dari jSon
   factory ApotekerrVListObat.fromJson(Map<String, dynamic> json) {
@@ -78,6 +75,7 @@ class ApotekerrVListObat {
       obatId: json['id'],
       obatNama: json['nama'],
       obatStok: json['stok'],
+      kadaluarsa: json['kadaluarsa'],
     );
   }
 }

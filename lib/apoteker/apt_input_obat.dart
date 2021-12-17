@@ -178,6 +178,16 @@ class _AptInputObatState extends State<AptInputObat> {
     );
   }
 
+  Widget widgetTextKadaluarsa(index) {
+    print(aVLOs[index].kadaluarsa.runtimeType);
+    if (aVLOs[index].kadaluarsa != null) {
+      return Text(
+          'Kadaluarsa ${aVLOs[index].kadaluarsa.toString().substring(0, 10)}');
+    } else {
+      return Text('Kadaluarsa ${aVLOs[index].kadaluarsa}');
+    }
+  }
+
   TextEditingController controllerJumlah = TextEditingController();
   TextEditingController controllerDosis = TextEditingController();
   TextEditingController controllerCariObat = TextEditingController();
@@ -213,12 +223,18 @@ class _AptInputObatState extends State<AptInputObat> {
                                 selected = -1;
                               });
                           }),
-                          title: Text(
-                            '${aVLOs[index].obatNama} : ${aVLOs[index].obatStok}',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(),
+                          title: Column(
+                            children: [
+                              Text(
+                                '${aVLOs[index].obatNama}',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(),
+                              ),
+                              widgetTextKadaluarsa(index),
+                            ],
                           ),
                           children: [
+                            Text('Stok: ${aVLOs[index].obatStok}'),
                             Row(
                               children: [
                                 Expanded(
@@ -551,7 +567,7 @@ class _AptInputObatState extends State<AptInputObat> {
                           Padding(
                               padding: const EdgeInsets.all(8.0),
                               child: Text(
-                                '${widget.namaPasien}',
+                                'Resep Dokter:\n${widget.namaPasien}',
                                 style: TextStyle(fontSize: 22),
                               )),
                           widgetKeranjangObatHeader(),
