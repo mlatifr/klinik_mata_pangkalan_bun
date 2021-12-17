@@ -79,6 +79,8 @@ class _AdminOrderListObatState extends State<AdminOrderListObat> {
                                 obatId: listObatOrder[index].id_obat,
                                 obatNama: listObatOrder[index].nama,
                                 orderJumlah: listObatOrder[index].jumlah_order,
+                                hargaJual: listObatOrder[index].harga_jual,
+                                hargaBeli: listObatOrder[index].harga_beli,
                               )));
                 });
           });

@@ -6,10 +6,16 @@ import 'package:flutter_application_1/admin_order_obat/admin_order_obat_fetch/ad
 DateTime date;
 
 class AdminOrderInputObat extends StatefulWidget {
-  final orderId, obatId, obatNama, orderJumlah;
+  final orderId, obatId, obatNama, orderJumlah, hargaJual, hargaBeli;
 
   const AdminOrderInputObat(
-      {Key key, this.orderId, this.obatId, this.obatNama, this.orderJumlah})
+      {Key key,
+      this.orderId,
+      this.obatId,
+      this.obatNama,
+      this.orderJumlah,
+      this.hargaJual,
+      this.hargaBeli})
       : super(key: key);
 
   @override
@@ -187,19 +193,36 @@ class _AdminOrderInputObatState extends State<AdminOrderInputObat> {
           padding: const EdgeInsets.all(8.0),
           child: TextButton(
             onPressed: () {
-              KeranjangOrderClass krjg = KeranjangOrderClass();
-              krjg.id_obat = widget.obatId;
-              krjg.id_order = widget.orderId;
-              krjg.nama = widget.obatNama;
-              krjg.jumlah_diterima = controllerJumlah.text;
-              krjg.kadaluarsa = controllerdate.text;
-              krjg.status_order = 'diterima';
-              listObatKadaluarsa.add(krjg);
-              setState(() {
-                widgetKeranjangObatBody();
-              });
-              controllerdate.text = '';
-              controllerJumlah.text = '';
+              if (controllerdate.text.isNotEmpty &&
+                  controllerJumlah.text.isNotEmpty) {
+                KeranjangOrderClass krjg = KeranjangOrderClass();
+                krjg.id_obat = widget.obatId;
+                krjg.order_id = widget.orderId;
+                krjg.nama = widget.obatNama;
+                krjg.jumlah_diterima = controllerJumlah.text;
+                krjg.kadaluarsa = controllerdate.text;
+                krjg.status_order = 'diterima';
+                krjg.harga_jual = widget.hargaJual;
+                krjg.harga_beli = widget.hargaBeli;
+                krjg.jumlah_order = widget.orderJumlah;
+                listObatKadaluarsa.add(krjg);
+                setState(() {
+                  widgetKeranjangObatBody();
+                });
+                controllerdate.text = '';
+                controllerJumlah.text = '';
+                print('${krjg.id_obat}\n' +
+                    '${krjg.order_id}\n' +
+                    '${krjg.nama}\n' +
+                    '${krjg.jumlah_diterima}\n' +
+                    '${krjg.kadaluarsa}\n' +
+                    '${krjg.status_order}\n' +
+                    '${krjg.harga_jual}\n' +
+                    '${krjg.harga_beli}\n' +
+                    '${krjg.jumlah_order}\n');
+              } else {
+                print('jumlah dan tgl tidak boleh null');
+              }
             },
             child: Text('tambah'),
             style: TextButton.styleFrom(
@@ -354,7 +377,47 @@ class _AdminOrderInputObatState extends State<AdminOrderInputObat> {
                           widgetKeranjangObatBody(),
                         ],
                       ),
-                      ElevatedButton(onPressed: () {}, child: Text('SIMPAN'))
+                      ElevatedButton(
+                          onPressed: () {
+                            if (listObatKadaluarsa.length > 0) {
+                              //untuk index pertama jika ada, update info
+                              if (listObatKadaluarsa.length > 0) {
+                                fetchDataAdminUpdateOrderObat(
+                                        listObatKadaluarsa[0].jumlah_diterima,
+                                        listObatKadaluarsa[0].jumlah_diterima,
+                                        listObatKadaluarsa[0].kadaluarsa,
+                                        'diterima',
+                                        listObatKadaluarsa[0].id_obat)
+                                    .then((value) {
+                                  // untuk berikutnya, insert obat jika ada.
+                                  for (var i = 1;
+                                      i < listObatKadaluarsa.length;
+                                      i++) {
+                                    print('${listObatKadaluarsa[i].nama}|' +
+                                        '${listObatKadaluarsa[i].jumlah_diterima}|' +
+                                        '${listObatKadaluarsa[i].kadaluarsa}');
+                                    fetchDataAdminInputKadaluarsaObat(
+                                            listObatKadaluarsa[i].order_id,
+                                            listObatKadaluarsa[i].jumlah_order,
+                                            listObatKadaluarsa[i]
+                                                .jumlah_diterima,
+                                            listObatKadaluarsa[i].nama,
+                                            listObatKadaluarsa[i]
+                                                .jumlah_diterima,
+                                            listObatKadaluarsa[i].kadaluarsa,
+                                            listObatKadaluarsa[i].harga_jual,
+                                            listObatKadaluarsa[i].harga_beli,
+                                            'diterima')
+                                        .then((value) =>
+                                            print(value[i].toString()));
+                                  }
+                                });
+                              }
+                            } else {
+                              print('keranjang tidak boleh kosong');
+                            }
+                          },
+                          child: Text('SIMPAN'))
                     ],
                   ),
                 ),

@@ -58,7 +58,7 @@ class _AdminOrderNotaOrderState extends State<AdminOrderNotaOrder> {
                 title: Center(
                   child: Column(
                     children: [
-                      Text('Nota id: ${listOrderId[index].id_order}'),
+                      Text('Nota id: ${listOrderId[index].order_id}'),
                       Divider(
                         color: Colors.blue,
                       )
@@ -70,7 +70,7 @@ class _AdminOrderNotaOrderState extends State<AdminOrderNotaOrder> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => AdminOrderListObat(
-                                orderId: listOrderId[index].id_order,
+                                orderId: listOrderId[index].order_id,
                               )));
                 });
           });

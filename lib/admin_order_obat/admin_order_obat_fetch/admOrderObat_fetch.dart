@@ -5,6 +5,46 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/main.dart';
 import 'package:http/http.dart' as http;
 
+//untuk input obat kadaluarsa jika 1 order memiliki banyak tanggal Exp berbeda
+
+Future<String> fetchDataAdminInputKadaluarsaObat(
+    order_obat_id,
+    jumlah_order,
+    jumlah_diterima,
+    nama,
+    stok,
+    kadaluarsa,
+    harga_jual,
+    harga_beli,
+    status_order) async {
+  print('order_obat_id | $order_obat_id \n' +
+      'jumlah_order | $jumlah_order \n' +
+      'jumlah_diterima | $jumlah_diterima \n' +
+      'nama | $nama \n' +
+      'stok | $stok \n' +
+      'kadaluarsa | $kadaluarsa \n' +
+      'harga_jual | $harga_jual \n' +
+      'harga_beli | $harga_beli \n');
+  final response =
+      await http.post(Uri.parse(apiUrl + "admin_input_obat_stok.php"), body: {
+    'order_obat_id': order_obat_id.toString(),
+    'jumlah_order': jumlah_order.toString(),
+    'jumlah_diterima': jumlah_diterima.toString(),
+    'nama': nama.toString(),
+    'stok': stok.toString(),
+    'kadaluarsa': kadaluarsa.toString(),
+    'harga_jual': harga_jual.toString(),
+    'harga_beli': harga_beli.toString(),
+    'status_order': status_order.toString(),
+  });
+  // print('fetchDataAdminInputKadaluarsaObat: ${response.body}');
+  if (response.statusCode == 200) {
+    return response.body;
+  } else {
+    throw Exception('Failed to read API');
+  }
+}
+
 //untuk update stok order obat yang diterima
 
 List<TextEditingController> ListKadaluarsa = [];
@@ -19,7 +59,7 @@ Future<String> fetchDataAdminUpdateOrderObat(
     'obat_id': obat_id.toString()
   });
   if (response.statusCode == 200) {
-    print('fetchDataAdminUpdateOrderObat: ${response.body}');
+    // print('fetchDataAdminUpdateOrderObat: ${response.body}');
     return response.body;
   } else {
     throw Exception('Failed to read API');
@@ -34,36 +74,44 @@ List<KeranjangOrderClass> listObatKadaluarsa = [];
 List<TextEditingController> ListDiterima = [];
 
 class KeranjangOrderClass {
-  var id_order,
-      tgl_order,
+  var tgl_order,
       id_obat,
+      order_id,
       jumlah_order,
       jumlah_diterima,
       nama,
       stok,
-      status_order,
-      kadaluarsa;
+      kadaluarsa,
+      harga_jual,
+      harga_beli,
+      status_order;
   KeranjangOrderClass(
-      {this.id_order,
-      this.tgl_order,
+      {this.tgl_order,
       this.id_obat,
+      this.order_id,
       this.jumlah_order,
       this.jumlah_diterima,
       this.nama,
       this.stok,
-      this.status_order,
-      this.kadaluarsa});
+      this.kadaluarsa,
+      this.harga_jual,
+      this.harga_beli,
+      this.status_order});
   // untuk convert dari jSon
   factory KeranjangOrderClass.fromJson(Map<String, dynamic> json) {
     return new KeranjangOrderClass(
-        tgl_order: json['tgl_order'],
-        id_order: json['order_id'],
-        id_obat: json['id'],
-        jumlah_order: json['jumlah_order'],
-        jumlah_diterima: json['jumlah_diterima'],
-        nama: json['nama'],
-        stok: json['stok'],
-        status_order: json['status_order']);
+      tgl_order: json['tgl_order'],
+      id_obat: json['id_obat'],
+      order_id: json['order_id'],
+      jumlah_order: json['jumlah_order'],
+      jumlah_diterima: json['jumlah_diterima'],
+      nama: json['nama'],
+      stok: json['stok'],
+      kadaluarsa: json['kadaluarsa'],
+      harga_jual: json['harga_jual'],
+      harga_beli: json['harga_beli'],
+      status_order: json['status_order'],
+    );
   }
 }
 
