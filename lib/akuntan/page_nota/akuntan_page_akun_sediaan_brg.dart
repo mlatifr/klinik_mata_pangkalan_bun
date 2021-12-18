@@ -65,9 +65,11 @@ class _WidgetAkunSediaanBarangState extends State<WidgetAkunSediaanBarang> {
   ) {
     if (plistPenjualanObats.length > 0) {
       //print('ListPenjualanObat.length: ${plistPenjualanObats.length}');
+      //masih error disini
       for (var i = 0; i < plistPenjualanObats.length; i++) {
-        totalPenjualan += (plistPenjualanObats[i].stok *
-            int.parse(plistPenjualanObats[i].harga));
+        totalPenjualan = totalPenjualan +
+            (plistPenjualanObats[i].stok *
+                int.parse(plistPenjualanObats[i].harga));
       }
       //print(total.toString());
       return Padding(
