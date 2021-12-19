@@ -26,7 +26,7 @@ class DokterVKeranjangTindakan {
 }
 
 class DokterVListTindakan {
-  var visitId, idTindakan, namaTindakan, hargaTindakan;
+  var idTindakan, namaTindakan, hargaTindakan;
   DokterVListTindakan({
     this.idTindakan,
     this.namaTindakan,
@@ -47,6 +47,19 @@ Future<String> fetchDataDokterVListTindakan() async {
   final response = await http.post(
     Uri.parse(apiUrl + "dokter_v_list_tindakan.php"),
   );
+  if (response.statusCode == 200) {
+    return response.body;
+  } else {
+    throw Exception('Failed to read API');
+  }
+}
+
+Future<String> fetchDataDokterVCariListTindakan(pTindakan) async {
+  print(pTindakan);
+  final response = await http.post(
+      Uri.parse(apiUrl + "dokter_v_list_tindakan.php"),
+      body: {'tindakan_nama': pTindakan.toString()});
+  print(response.body);
   if (response.statusCode == 200) {
     return response.body;
   } else {

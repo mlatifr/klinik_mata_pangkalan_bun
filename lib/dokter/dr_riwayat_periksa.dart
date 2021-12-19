@@ -121,17 +121,25 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
         DokterVListTindakan dvlt = DokterVListTindakan.fromJson(i);
         dVLTs.add(dvlt);
       }
-      setState(() {
-        widgetListTindakanKiri();
-        widgetListTindakanKanan();
-        listValueCheckKiri.clear();
-        listValueCheckKanan.clear();
-        for (var i = 0; i < dVLTs.length; i++) {
-          listValueCheckKiri.add(false);
-          listValueCheckKanan.add(false);
-          // print('lValueCHeckLength ${listValueCheckKiri.length}');
-        }
-      });
+      setState(() {});
+    });
+  }
+
+  // ignore: non_constant_identifier_names
+  DokterBacaDataVCariListTindakan(pTindakan) {
+    dVLTs.clear();
+    Future<String> data = fetchDataDokterVCariListTindakan(pTindakan);
+    data.then((value) {
+      // print(value);
+      //Mengubah json menjadi Array
+      // ignore: unused_local_variable
+      Map json = jsonDecode(value);
+      for (var i in json['data']) {
+        // print('DokterBacaDataVListTindakan: ${i}');
+        DokterVListTindakan dvlt = DokterVListTindakan.fromJson(i);
+        dVLTs.add(dvlt);
+      }
+      setState(() {});
     });
   }
 
@@ -387,17 +395,9 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
         Expanded(
           flex: 12,
           child: TextFormField(
-              controller: controllerCariObat,
-              onChanged: (value) {
-                setState(() {
-                  controllerCariObat.text = value.toString();
-                  controllerCariObat.selection = TextSelection.fromPosition(
-                      TextPosition(offset: controllerCariObat.text.length));
-                  // print(value.toString());
-                });
-              },
+              controller: controllerCariTindakan,
               decoration: InputDecoration(
-                labelText: "Resep",
+                labelText: "Tindakan",
                 fillColor: Colors.white,
                 prefixIcon: Padding(
                   padding: EdgeInsets.only(top: 15),
@@ -422,7 +422,7 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
           flex: 4,
           child: TextButton(
             onPressed: () {
-              DokterBacaDataVListObat(controllerCariObat.text);
+              DokterBacaDataVCariListTindakan(controllerCariTindakan.text);
             },
             child: Text(
               'Cari',
@@ -438,16 +438,17 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
     );
   }
 
+  var sisiMataKiri, sisiMataKanan = '';
   int selectedTindakan; //agar yg terbuka hanya bisa 1 ListTile
   // ignore: missing_return
   Widget widgetLisTindakans() {
-    if (dVLOs.length > 0) {
+    if (dVLTs.length > 0) {
       return ListView.builder(
           key: Key(
               'builder ${selectedTindakan.toString()}'), //agar yg terbuka hanya bisa 1 ListTile
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: dVLOs.length,
+          itemCount: dVLTs.length,
           itemBuilder: (context, index) {
             return Row(
               children: [
@@ -471,152 +472,98 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
                               });
                           }),
                           title: Text(
-                            '${dVLOs[index].obatNama}',
+                            '${dVLTs[index].namaTindakan}',
                             textAlign: TextAlign.center,
                             style: TextStyle(),
                           ),
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Text(
-                                'STOK: ${dVLOs[index].obatStok}',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(),
-                              ),
+                            CheckboxListTile(
+                              title: Text('kiri'),
+                              value: listValueCheckKiri,
+                              onChanged: (bool value) {
+                                listValueCheckKiri = value;
+                                if (value == true) {
+                                  setState(() {
+                                    sisiMataKiri = 'kiri';
+                                  });
+                                } else {
+                                  setState(() {
+                                    sisiMataKiri = '';
+                                  });
+                                }
+                                // print('listValueCheckKiri : $sisiMataKiri');
+                              },
                             ),
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: TextFormField(
-                                        enabled: true,
-                                        controller: controllerJumlah,
-                                        keyboardType: TextInputType.number,
-                                        inputFormatters: <TextInputFormatter>[
-                                          FilteringTextInputFormatter.digitsOnly
-                                        ],
-                                        onChanged: (value) {
-                                          setState(() {
-                                            controllerJumlah.text =
-                                                value.toString();
-                                            controllerJumlah.selection =
-                                                TextSelection.fromPosition(
-                                                    TextPosition(
-                                                        offset: controllerJumlah
-                                                            .text.length));
-                                          });
-                                        },
-                                        decoration: InputDecoration(
-                                          labelText: "Jumlah",
-                                          fillColor: Colors.white,
-                                          enabledBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                            borderSide: BorderSide(
-                                              color: Colors.blue,
-                                            ),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                            borderSide: BorderSide(
-                                              color: Colors.blue,
-                                            ),
-                                          ),
-                                        )),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: TextFormField(
-                                        enabled: true,
-                                        controller: controllerDosis,
-                                        // keyboardType: TextInputType.number,
-                                        // inputFormatters: <TextInputFormatter>[
-                                        //   FilteringTextInputFormatter.digitsOnly
-                                        // ],
-                                        onChanged: (value) {
-                                          setState(() {
-                                            controllerDosis.text =
-                                                value.toString();
-                                            controllerDosis.selection =
-                                                TextSelection.fromPosition(
-                                                    TextPosition(
-                                                        offset: controllerDosis
-                                                            .text.length));
-                                            // print(value.toString());
-                                          });
-                                        },
-                                        decoration: InputDecoration(
-                                          labelText: "Dosis",
-                                          fillColor: Colors.white,
-                                          enabledBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                            borderSide: BorderSide(
-                                              color: Colors.blue,
-                                            ),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                            borderSide: BorderSide(
-                                              color: Colors.blue,
-                                            ),
-                                          ),
-                                        )),
-                                  ),
-                                )
-                              ],
+                            CheckboxListTile(
+                              title: Text('kanan'),
+                              value: listValueCheckKanan,
+                              onChanged: (bool value) {
+                                listValueCheckKanan = value;
+                                if (value == true) {
+                                  setState(() {
+                                    sisiMataKanan = 'kanan';
+                                  });
+                                } else {
+                                  setState(() {
+                                    sisiMataKanan = '';
+                                  });
+                                }
+                                // print('listValueCheckKanan : $sisiMataKanan');
+                              },
                             ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextButton(
-                                onPressed: () {
-                                  fetchDataDokterInputResepObat(
-                                          dVLOs[index].obatId,
-                                          controllerDosis.text,
-                                          controllerJumlah.text,
-                                          widget.visitId)
-                                      .then((value) => showDialog<String>(
-                                            context: context,
-                                            builder: (BuildContext context) =>
-                                                AlertDialog(
-                                              title: Text(
-                                                'Obat berhasil ditambah ke resep',
-                                                style: TextStyle(fontSize: 14),
-                                              ),
-                                              actions: <Widget>[
-                                                TextButton(
-                                                    onPressed: () {
-                                                      controllerJumlah.clear();
-                                                      controllerDosis.clear();
-                                                      setState(() {
-                                                        widgetListObats();
-                                                      });
-                                                      Navigator.pop(
-                                                        context,
-                                                        'ok',
-                                                      );
-                                                    },
-                                                    child: Text('ok')),
-                                              ],
-                                            ),
-                                          ));
-                                  DokterBacaDataVKeranjangObat(widget.visitId);
-                                },
-                                child: Text('tambah'),
-                                style: TextButton.styleFrom(
-                                    primary: Colors.white,
-                                    backgroundColor: Colors.blue,
-                                    minimumSize: Size(
-                                        MediaQuery.of(context).size.width,
-                                        MediaQuery.of(context).size.height *
-                                            0.01)),
-                              ),
-                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                // kalau pnly kiri/kanan > input 1x
+                                if (sisiMataKiri == 'kiri' &&
+                                    sisiMataKanan == '') {
+                                  DokterVKeranjangTindakan tdkn =
+                                      DokterVKeranjangTindakan();
+                                  tdkn.namaTindakan = dVLTs[index].namaTindakan;
+                                  tdkn.tindakanId = dVLTs[index].idTindakan;
+                                  tdkn.mataSisiTindakan = 'kiri';
+                                  dVKTs.add(tdkn);
+                                  print('kiri');
+                                }
+                                if (sisiMataKanan == 'kanan' &&
+                                    sisiMataKiri == '') {
+                                  DokterVKeranjangTindakan tdkn =
+                                      DokterVKeranjangTindakan();
+                                  tdkn.namaTindakan = dVLTs[index].namaTindakan;
+                                  tdkn.tindakanId = dVLTs[index].idTindakan;
+                                  tdkn.mataSisiTindakan = 'kanan';
+                                  dVKTs.add(tdkn);
+                                  print('kanan');
+                                }
+                                // kalau kanan dan kiri > input 2x
+                                if (sisiMataKanan == 'kanan' &&
+                                    sisiMataKiri == 'kiri') {
+                                  DokterVKeranjangTindakan tdkn =
+                                      DokterVKeranjangTindakan();
+                                  tdkn.namaTindakan = dVLTs[index].namaTindakan;
+                                  tdkn.tindakanId = dVLTs[index].idTindakan;
+                                  tdkn.mataSisiTindakan = 'kanan';
+                                  dVKTs.add(tdkn);
+                                  print('kanan');
+                                  DokterVKeranjangTindakan tdkns =
+                                      DokterVKeranjangTindakan();
+                                  tdkns.namaTindakan =
+                                      dVLTs[index].namaTindakan;
+                                  tdkns.tindakanId = dVLTs[index].idTindakan;
+                                  tdkns.mataSisiTindakan = 'kiri';
+                                  dVKTs.add(tdkns);
+                                  print('kiri');
+                                }
+                                setState(() {});
+                              },
+                              child: Text('Tambah'),
+                              style: TextButton.styleFrom(
+                                  primary: Colors.white,
+                                  backgroundColor: Colors.blue,
+                                  minimumSize: Size(
+                                      MediaQuery.of(context).size.width,
+                                      MediaQuery.of(context).size.height *
+                                          0.01)),
+                            )
                           ])
                     ],
                   ),
@@ -631,6 +578,7 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
   TextEditingController controllerDosis = TextEditingController();
   TextEditingController controllerKeluhan = TextEditingController();
   TextEditingController controllerCariObat = TextEditingController();
+  TextEditingController controllerCariTindakan = TextEditingController();
 
   @override
   void initState() {
@@ -658,97 +606,8 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
     super.dispose();
   }
 
-  var listValueCheckKiri = [false, true];
-  var listValueCheckKanan = [false, true];
-  // ignore: missing_return
-  Widget widgetListTindakanKiri() {
-    if (dVLTs != null) {
-      return Column(
-        children: [
-          Text(
-            'Mata Kiri:',
-            style: TextStyle(
-              decoration: TextDecoration.underline,
-            ),
-          ),
-          ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: dVLTs.length,
-              itemBuilder: (context, index) {
-                return CheckboxListTile(
-                  title: Text(
-                    '${index + 1} ${dVLTs[index].namaTindakan}',
-                    style: TextStyle(fontSize: 14),
-                  ),
-                  value: listValueCheckKiri[index],
-                  onChanged: (bool value) {
-                    setState(() {
-                      listValueCheckKiri[index] = value;
-                      if (value == true) {
-                        fetchDataDokterInputTindakan(
-                                widget.visitId, dVLTs[index].idTindakan, 'kiri')
-                            .then((value) => DokterBacaDataVKeranjangTindakan(
-                                widget.visitId));
-                      } else if (value == false) {
-                        fetchDataDokterInputTindakanBatal(
-                                widget.visitId, dVLTs[index].idTindakan, 'kiri')
-                            .then((value) => DokterBacaDataVKeranjangTindakan(
-                                widget.visitId));
-                      }
-                      // DokterBacaDataVKeranjangTindakan(widget.visitId);
-                    });
-                  },
-                );
-              }),
-        ],
-      );
-    }
-  }
-
-  Widget widgetListTindakanKanan() {
-    return Container(
-        color: Colors.yellow[50],
-        child: Column(
-          children: [
-            Text(
-              'Mata Kanan:',
-              style: TextStyle(
-                decoration: TextDecoration.underline,
-              ),
-            ),
-            ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: dVLTs.length,
-                itemBuilder: (context, index) {
-                  return CheckboxListTile(
-                    title: Text(
-                      '${index + 1} ${dVLTs[index].namaTindakan}',
-                      style: TextStyle(fontSize: 14),
-                    ),
-                    value: listValueCheckKanan[index],
-                    onChanged: (bool value) {
-                      setState(() {
-                        listValueCheckKanan[index] = value;
-                        if (value == true) {
-                          fetchDataDokterInputTindakan(widget.visitId,
-                                  dVLTs[index].idTindakan, 'kanan')
-                              .then((value) => DokterBacaDataVKeranjangTindakan(
-                                  widget.visitId));
-                        } else if (value == false) {
-                          fetchDataDokterInputTindakanBatal(widget.visitId,
-                                  dVLTs[index].idTindakan, 'kanan')
-                              .then((value) => DokterBacaDataVKeranjangTindakan(
-                                  widget.visitId));
-                        }
-                      });
-                    },
-                  );
-                }),
-          ],
-        ));
-  }
+  var listValueCheckKiri = false;
+  var listValueCheckKanan = false;
 
   Widget widgetKeranjangObatHeader() {
     return Padding(
@@ -823,6 +682,10 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
                     'Tindakan',
                     textAlign: TextAlign.center,
                   ),
+                  Text(
+                    '',
+                    textAlign: TextAlign.center,
+                  ),
                 ]),
               ]),
           ListView.builder(
@@ -843,6 +706,15 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
                           '${dVKTs[index].mataSisiTindakan}',
                           textAlign: TextAlign.center,
                         ),
+                        TextButton(
+                            onPressed: () {
+                              dVKTs.removeAt(index);
+                              setState(() {});
+                            },
+                            child: Icon(
+                              Icons.delete,
+                              color: Colors.red,
+                            ))
                       ]),
                     ]);
               }),
