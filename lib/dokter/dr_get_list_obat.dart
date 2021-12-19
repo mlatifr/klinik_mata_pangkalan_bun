@@ -8,8 +8,8 @@ List<DokterVListObat> dVLOs = [];
 List<DokterVKeranjangObat> dVLKOs = [];
 
 class DokterVKeranjangObat {
-  var obatNama, obatJumlah, obatDosis;
-  DokterVKeranjangObat({
+  var obatId,obatNama, obatJumlah, obatDosis;
+  DokterVKeranjangObat({this.obatId,
     this.obatNama,
     this.obatJumlah,
     this.obatDosis,
