@@ -726,9 +726,7 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
       );
     } else {
       return Row(
-        children: [
-          Text('Keranjang Tindakan: 0'),
-        ],
+        children: [Container()],
       );
     }
   }
@@ -808,6 +806,8 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
                                   ),
                                 )),
                           ),
+                          widgetKeranjangTindakan(),
+                          widgetKeranjangObatBody(),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: ExpansionTile(
@@ -819,7 +819,7 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
                                 children: [
                                   widgetCariTindakan(),
                                   widgetLisTindakans(),
-                                  widgetKeranjangTindakan(),
+                                  // widgetKeranjangTindakan(),
                                   // Row(
                                   //   children: [
                                   //     Expanded(
