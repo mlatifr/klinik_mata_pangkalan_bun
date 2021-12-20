@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/dokter/dr_get_list_tindakan.dart';
+import 'package:flutter_application_1/pemilik/pemilik_fetch/pemilik_send_input_order.dart';
 
 import 'dr_get_list_obat.dart';
 
@@ -566,7 +567,10 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
                                   dVKTs.add(tdkns);
                                   print('kiri');
                                 }
-                                setState(() {});
+                                setState(() {
+                                  listValueCheckKanan = false;
+                                  listValueCheckKiri = false;
+                                });
                               },
                               child: Text('Tambah'),
                               style: TextButton.styleFrom(
@@ -622,79 +626,82 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
   var listValueCheckKiri = false;
   var listValueCheckKanan = false;
   Widget widgetKeranjangObatBody() {
-    return Column(
-      children: [
-        Table(
-            columnWidths: {
-              0: FlexColumnWidth(2.5),
-              1: FlexColumnWidth(2.5),
-              2: FlexColumnWidth(2.5),
-              3: FlexColumnWidth(2.5),
-            },
-            border: TableBorder
-                .all(), // Allows to add a border decoration around your table
-            children: [
-              TableRow(children: [
-                Text(
-                  'Obat',
-                  textAlign: TextAlign.center,
-                ),
-                Text(
-                  'Jumlah',
-                  textAlign: TextAlign.center,
-                ),
-                Text(
-                  'Dosis',
-                  textAlign: TextAlign.center,
-                ),
-                Text(
-                  '',
-                  textAlign: TextAlign.center,
-                ),
+    if (dVLKOs.length > 0) {
+      return Column(
+        children: [
+          Table(
+              columnWidths: {
+                0: FlexColumnWidth(2.5),
+                1: FlexColumnWidth(2.5),
+                2: FlexColumnWidth(2.5),
+                3: FlexColumnWidth(2.5),
+              },
+              border: TableBorder
+                  .all(), // Allows to add a border decoration around your table
+              children: [
+                TableRow(children: [
+                  Text(
+                    'Obat',
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    'Jumlah',
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    'Dosis',
+                    textAlign: TextAlign.center,
+                  ),
+                  Text(
+                    '',
+                    textAlign: TextAlign.center,
+                  ),
+                ]),
               ]),
-            ]),
-        ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: dVLKOs.length,
-            itemBuilder: (context, index) {
-              return Table(
-                  columnWidths: {
-                    0: FlexColumnWidth(2.5),
-                    1: FlexColumnWidth(2.5),
-                    2: FlexColumnWidth(2.5),
-                    3: FlexColumnWidth(2.5),
-                  },
-                  border: TableBorder
-                      .all(), // Allows to add a border decoration around your table
-                  children: [
-                    TableRow(children: [
-                      Text(
-                        '${dVLKOs[index].obatNama}',
-                        textAlign: TextAlign.center,
-                      ),
-                      Text(
-                        '${dVLKOs[index].obatJumlah}',
-                        textAlign: TextAlign.center,
-                      ),
-                      Text(
-                        '${dVLKOs[index].obatDosis}',
-                        textAlign: TextAlign.center,
-                      ),
-                      TextButton(
-                          onPressed: () {
-                            dVLKOs.removeAt(index);
-                            setState(() {});
-                          },
-                          child: Icon(
-                            Icons.delete,
-                            color: Colors.red,
-                          ))
-                    ]),
-                  ]);
-            }),
-      ],
-    );
+          ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: dVLKOs.length,
+              itemBuilder: (context, index) {
+                return Table(
+                    columnWidths: {
+                      0: FlexColumnWidth(2.5),
+                      1: FlexColumnWidth(2.5),
+                      2: FlexColumnWidth(2.5),
+                      3: FlexColumnWidth(2.5),
+                    },
+                    border: TableBorder
+                        .all(), // Allows to add a border decoration around your table
+                    children: [
+                      TableRow(children: [
+                        Text(
+                          '${dVLKOs[index].obatNama}',
+                          textAlign: TextAlign.center,
+                        ),
+                        Text(
+                          '${dVLKOs[index].obatJumlah}',
+                          textAlign: TextAlign.center,
+                        ),
+                        Text(
+                          '${dVLKOs[index].obatDosis}',
+                          textAlign: TextAlign.center,
+                        ),
+                        TextButton(
+                            onPressed: () {
+                              dVLKOs.removeAt(index);
+                              setState(() {});
+                            },
+                            child: Icon(
+                              Icons.delete,
+                              color: Colors.red,
+                            ))
+                      ]),
+                    ]);
+              }),
+        ],
+      );
+    } else
+      return Container();
   }
 
   Widget widgetKeranjangTindakan() {
@@ -871,7 +878,88 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
                                 widgetListObats(),
                               ]),
                           ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              //kirim data tindakan
+                              for (var i = 0; i < dVKTs.length; i++) {
+                                // print('$i | input tindakan '
+                                //     'visitId ${widget.visitId} | '
+                                //     'tindakanId ${dVKTs[i].tindakanId} | '
+                                //     'mataSisiTindakan ${dVKTs[i].mataSisiTindakan}');
+                                fetchDataDokterInputTindakan(
+                                        widget.visitId,
+                                        dVKTs[i].tindakanId,
+                                        dVKTs[i].mataSisiTindakan)
+                                    .then((value) {
+                                  if (i == dVKTs.length - 1) {
+                                    print('last dVKTs $i');
+                                    showDialog<String>(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          AlertDialog(
+                                        title: Text(
+                                          'Input Tindakan Berhasil',
+                                          style: TextStyle(fontSize: 14),
+                                        ),
+                                        actions: <Widget>[
+                                          ElevatedButton(
+                                            onPressed: () =>
+                                                Navigator.pop(context),
+                                            child: Text(
+                                              'Ok',
+                                              // style: TextStyle(
+                                              //     fontSize: 14,
+                                              //     backgroundColor: Colors.blue,
+                                              //     color: Colors.white),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }
+                                });
+                              }
+
+                              for (var i = 0; i < dVLKOs.length; i++) {
+                                // print('$i | input obat: '
+                                //     'obatId ${dVLKOs[i].obatId} | '
+                                //     'obatDosis ${dVLKOs[i].obatDosis} | '
+                                //     'obatJumlah ${dVLKOs[i].obatJumlah} | '
+                                //     'visitId ${widget.visitId}');
+                                fetchDataDokterInputResepObat(
+                                        dVLKOs[i].obatId,
+                                        dVLKOs[i].obatDosis,
+                                        dVLKOs[i].obatJumlah,
+                                        widget.visitId)
+                                    .then((value) {
+                                  if (i == dVLKOs.length - 1) {
+                                    print('last dVLKOs $i');
+                                    showDialog<String>(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          AlertDialog(
+                                        title: Text(
+                                          'Input Obat Berhasil',
+                                          style: TextStyle(fontSize: 14),
+                                        ),
+                                        actions: <Widget>[
+                                          ElevatedButton(
+                                            onPressed: () =>
+                                                Navigator.pop(context),
+                                            child: Text(
+                                              'Ok',
+                                              // style: TextStyle(
+                                              //     fontSize: 14,
+                                              //     backgroundColor: Colors.blue,
+                                              //     color: Colors.white),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }
+                                });
+                              }
+                            },
                             child: Text('SIMPAN'),
                             style: TextButton.styleFrom(
                                 primary: Colors.white,
