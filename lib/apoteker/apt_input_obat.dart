@@ -361,61 +361,79 @@ class _AptInputObatState extends State<AptInputObat> {
     }
   }
 
-  Widget widgetKeranjangObatHeader() {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
-      child: Table(
-          border: TableBorder
-              .all(), // Allows to add a border decoration around your table
-          children: [
-            TableRow(children: [
-              Text(
-                'Obat',
-                textAlign: TextAlign.center,
-              ),
-              Text(
-                'Jumlah',
-                textAlign: TextAlign.center,
-              ),
-              Text(
-                'Dosis',
-                textAlign: TextAlign.center,
-              ),
-            ]),
-          ]),
-    );
-  }
-
   Widget widgetKeranjangObatApotekerBody() {
     // print("widgetKeranjangObatApotekerBody: ${ListInputResep.length}");
-    return Padding(
-      padding: const EdgeInsets.all(8),
-      child: ListView.builder(
-          physics: NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: ListInputResep.length,
-          itemBuilder: (context, index) {
-            return Table(
+    if (ListInputResep.length != 0) {
+      return Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
+            child: Table(
                 border: TableBorder
                     .all(), // Allows to add a border decoration around your table
                 children: [
                   TableRow(children: [
                     Text(
-                      '${ListInputResep[index].obatNama}',
+                      'Obat',
                       textAlign: TextAlign.center,
                     ),
                     Text(
-                      '${ListInputResep[index].jumlah}',
+                      'Jumlah',
                       textAlign: TextAlign.center,
                     ),
                     Text(
-                      '${ListInputResep[index].dosis}',
+                      'Dosis',
+                      textAlign: TextAlign.center,
+                    ),
+                    Text(
+                      '',
                       textAlign: TextAlign.center,
                     ),
                   ]),
-                ]);
-          }),
-    );
+                ]),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8),
+            child: ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: ListInputResep.length,
+                itemBuilder: (context, index) {
+                  return Table(
+                      border: TableBorder
+                          .all(), // Allows to add a border decoration around your table
+                      children: [
+                        TableRow(children: [
+                          Text(
+                            '${ListInputResep[index].obatNama}',
+                            textAlign: TextAlign.center,
+                          ),
+                          Text(
+                            '${ListInputResep[index].jumlah}',
+                            textAlign: TextAlign.center,
+                          ),
+                          Text(
+                            '${ListInputResep[index].dosis}',
+                            textAlign: TextAlign.center,
+                          ),
+                          TextButton(
+                              onPressed: () {
+                                ListInputResep.removeAt(index);
+                                setState(() {});
+                              },
+                              child: Icon(
+                                Icons.delete,
+                                color: Colors.red,
+                              ))
+                        ]),
+                      ]);
+                }),
+          ),
+        ],
+      );
+    } else {
+      return Container();
+    }
   }
 
   // Widget widgetKeranjangObatApotekerBody() {
@@ -570,7 +588,6 @@ class _AptInputObatState extends State<AptInputObat> {
                                 'Resep Dokter:\n${widget.namaPasien}',
                                 style: TextStyle(fontSize: 22),
                               )),
-                          widgetKeranjangObatHeader(),
                           widgetKeranjangObatDokterBody(),
                           Padding(
                               padding: const EdgeInsets.all(8.0),
@@ -584,24 +601,55 @@ class _AptInputObatState extends State<AptInputObat> {
                                     widgetCariObat(),
                                     widgetListObats(),
                                   ])),
-                          widgetKeranjangObatHeader(),
-                          Text('Keranjang'),
                           widgetKeranjangObatApotekerBody(),
-                          ElevatedButton(
-                              onPressed: () {
-                                for (var item in ListInputResep) {
-                                  fetchDataApotekerInputResepObat(
-                                          item.rspAptkrId,
-                                          item.obtId,
-                                          item.dosis,
-                                          item.jumlah,
-                                          item.visitId)
-                                      .then((value) {
-                                    print(value);
-                                  });
-                                }
-                              },
-                              child: Text('SIMPAN'))
+                          TextButton(
+                            onPressed: () {
+                              for (var i = 0; i < ListInputResep.length; i++) {
+                                fetchDataApotekerInputResepObat(
+                                        ListInputResep[i].rspAptkrId,
+                                        ListInputResep[i].obtId,
+                                        ListInputResep[i].dosis,
+                                        ListInputResep[i].jumlah,
+                                        ListInputResep[i].visitId)
+                                    .then((value) {
+                                  print(value);
+                                  if (i == ListInputResep.length - 1) {
+                                    print('last dVKTs $i');
+                                    showDialog<String>(
+                                      context: context,
+                                      builder: (BuildContext context) =>
+                                          AlertDialog(
+                                        title: Text(
+                                          'Input Obat Berhasil',
+                                          style: TextStyle(fontSize: 14),
+                                        ),
+                                        actions: <Widget>[
+                                          ElevatedButton(
+                                            onPressed: () =>
+                                                Navigator.pop(context),
+                                            child: Text(
+                                              'Ok',
+                                              // style: TextStyle(
+                                              //     fontSize: 14,
+                                              //     backgroundColor: Colors.blue,
+                                              //     color: Colors.white),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    );
+                                  }
+                                  Navigator.pop(context);
+                                });
+                              }
+                            },
+                            child: Text('SIMPAN'),
+                            style: TextButton.styleFrom(
+                                primary: Colors.white,
+                                backgroundColor: Colors.blue,
+                                minimumSize: Size(
+                                    MediaQuery.of(context).size.width, 10)),
+                          )
                         ],
                       ),
                     ),
