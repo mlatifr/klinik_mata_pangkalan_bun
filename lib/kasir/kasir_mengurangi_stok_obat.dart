@@ -3,9 +3,10 @@
 library flutter_application_1.kasir_mengurangi_stok_obat;
 
 import 'dart:async';
-import 'package:flutter_application_1/kasir/kasir_get_resep.dart';
 import 'package:flutter_application_1/main.dart';
 import 'package:http/http.dart' as http;
+
+import 'fetch_data/kasir_get_resep.dart';
 
 class ClassStokObatBaru {
   var obatId, stokObatBaru;

@@ -3,14 +3,14 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_application_1/kasir/kasir_get_tindakan.dart';
+import 'package:flutter_application_1/kasir/fetch_data/kasir_send_nota_penjualan.dart';
 import 'package:flutter_application_1/kasir/kasir_mengurangi_stok_obat.dart';
 import 'package:flutter_application_1/kasir/kasir_widget_krjg_resep.dart';
 import 'package:flutter_application_1/main.dart';
-import 'kasir_get_resep.dart';
 import 'package:intl/intl.dart';
 
-import 'kasir_send_nota_penjualan.dart';
+import 'fetch_data/kasir_get_resep.dart';
+import 'fetch_data/kasir_get_tindakan.dart';
 
 var numberFormatRpResep, numberFormatRpTindakan;
 var cekInitState = 1;
@@ -220,75 +220,75 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
   Widget widgetInputPembayaran() {
     return Column(
       children: [
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TextFormField(
-              enabled: true,
-              controller: controllerBiayaAdmin,
-              keyboardType: TextInputType.number,
-              inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.digitsOnly
-              ],
-              onChanged: (value) {
-                setState(() {
-                  // controllerBiayaAdmin.text = value.toString();
-                  // controllerBiayaAdmin.selection = TextSelection.fromPosition(
-                  //     TextPosition(offset: controllerBiayaAdmin.text.length));
-                  widgetTextTotalPembayaran();
-                });
-              },
-              decoration: InputDecoration(
-                labelText: "Biaya Admin",
-                fillColor: Colors.white,
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: BorderSide(
-                    color: Colors.blue,
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: BorderSide(
-                    color: Colors.blue,
-                  ),
-                ),
-              )),
-        ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TextFormField(
-              enabled: true,
-              controller: controllerBiayaJasaMedis,
-              keyboardType: TextInputType.number,
-              inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.digitsOnly
-              ],
-              onChanged: (value) {
-                setState(() {
-                  // controllerBiayaJasaMedis.text = value.toString();
-                  // controllerBiayaJasaMedis.selection =
-                  //     TextSelection.fromPosition(TextPosition(
-                  //         offset: controllerBiayaJasaMedis.text.length));
-                  widgetTextTotalPembayaran();
-                });
-              },
-              decoration: InputDecoration(
-                labelText: "Biaya Jasa Medis",
-                fillColor: Colors.white,
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: BorderSide(
-                    color: Colors.blue,
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: BorderSide(
-                    color: Colors.blue,
-                  ),
-                ),
-              )),
-        ),
+        // Padding(
+        //   padding: const EdgeInsets.all(8.0),
+        //   child: TextFormField(
+        //       enabled: true,
+        //       controller: controllerBiayaAdmin,
+        //       keyboardType: TextInputType.number,
+        //       inputFormatters: <TextInputFormatter>[
+        //         FilteringTextInputFormatter.digitsOnly
+        //       ],
+        //       onChanged: (value) {
+        //         setState(() {
+        //           // controllerBiayaAdmin.text = value.toString();
+        //           // controllerBiayaAdmin.selection = TextSelection.fromPosition(
+        //           //     TextPosition(offset: controllerBiayaAdmin.text.length));
+        //           widgetTextTotalPembayaran();
+        //         });
+        //       },
+        //       decoration: InputDecoration(
+        //         labelText: "Biaya Admin",
+        //         fillColor: Colors.white,
+        //         enabledBorder: OutlineInputBorder(
+        //           borderRadius: BorderRadius.circular(10.0),
+        //           borderSide: BorderSide(
+        //             color: Colors.blue,
+        //           ),
+        //         ),
+        //         focusedBorder: OutlineInputBorder(
+        //           borderRadius: BorderRadius.circular(10.0),
+        //           borderSide: BorderSide(
+        //             color: Colors.blue,
+        //           ),
+        //         ),
+        //       )),
+        // ),
+        // Padding(
+        //   padding: const EdgeInsets.all(8.0),
+        //   child: TextFormField(
+        //       enabled: true,
+        //       controller: controllerBiayaJasaMedis,
+        //       keyboardType: TextInputType.number,
+        //       inputFormatters: <TextInputFormatter>[
+        //         FilteringTextInputFormatter.digitsOnly
+        //       ],
+        //       onChanged: (value) {
+        //         setState(() {
+        //           // controllerBiayaJasaMedis.text = value.toString();
+        //           // controllerBiayaJasaMedis.selection =
+        //           //     TextSelection.fromPosition(TextPosition(
+        //           //         offset: controllerBiayaJasaMedis.text.length));
+        //           widgetTextTotalPembayaran();
+        //         });
+        //       },
+        //       decoration: InputDecoration(
+        //         labelText: "Biaya Jasa Medis",
+        //         fillColor: Colors.white,
+        //         enabledBorder: OutlineInputBorder(
+        //           borderRadius: BorderRadius.circular(10.0),
+        //           borderSide: BorderSide(
+        //             color: Colors.blue,
+        //           ),
+        //         ),
+        //         focusedBorder: OutlineInputBorder(
+        //           borderRadius: BorderRadius.circular(10.0),
+        //           borderSide: BorderSide(
+        //             color: Colors.blue,
+        //           ),
+        //         ),
+        //       )),
+        // ),
         Table(
             border: TableBorder
                 .all(), // Allows to add a border decoration around your table
@@ -453,41 +453,69 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
                             child: widgetInputPembayaran()),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
-                          child: TextButton(
+                          child: ElevatedButton(
                             onPressed: () {
-                              fetchDataKasirInputNotaJual(
-                                      userIdMainDart,
-                                      widget.visitId,
-                                      widget.visitDate,
-                                      controllerBiayaJasaMedis.text,
-                                      controllerBiayaAdmin.text,
-                                      totalTdknRspAdmMdis)
-                                  .then((value) {
-                                showDialog<String>(
-                                  context: context,
-                                  builder: (BuildContext context) =>
-                                      AlertDialog(
-                                    title: Text(
-                                      '{$value}',
-                                      style: TextStyle(fontSize: 14),
-                                    ),
-                                    actions: <Widget>[
-                                      TextButton(
-                                          onPressed: () {
-                                            setState(() {
-                                              widgetTextTotalPembayaran();
-                                            });
-                                            Navigator.pop(
-                                              context,
-                                              'ok',
-                                            );
-                                          },
-                                          child: Text('ok')),
-                                    ],
+                              showDialog<String>(
+                                context: context,
+                                builder: (BuildContext context) => AlertDialog(
+                                  title: Text(
+                                    'Apakah anda akan menyimpan pembayaran?',
+                                    style: TextStyle(fontSize: 14),
                                   ),
-                                );
-                                CalculateStokObatBaru();
-                              });
+                                  actions: <Widget>[
+                                    ElevatedButton(
+                                        onPressed: () {
+                                          fetchDataKasirInputNotaJual(
+                                                  userIdMainDart,
+                                                  widget.visitId,
+                                                  widget.visitDate,
+                                                  controllerBiayaJasaMedis.text,
+                                                  controllerBiayaAdmin.text,
+                                                  totalTdknRspAdmMdis)
+                                              .then((value) {
+                                            if (value.contains('success')) {
+                                              showDialog<String>(
+                                                context: context,
+                                                builder:
+                                                    (BuildContext context) =>
+                                                        AlertDialog(
+                                                  title: Text(
+                                                    '{$value}',
+                                                    style:
+                                                        TextStyle(fontSize: 14),
+                                                  ),
+                                                  actions: <Widget>[
+                                                    TextButton(
+                                                        onPressed: () {
+                                                          setState(() {
+                                                            widgetTextTotalPembayaran();
+                                                          });
+                                                          Navigator.pop(
+                                                            context,
+                                                            'ok',
+                                                          );
+                                                        },
+                                                        child: Text('ok')),
+                                                  ],
+                                                ),
+                                              );
+                                            }
+
+                                            CalculateStokObatBaru();
+                                          });
+                                        },
+                                        child: Text('Ya')),
+                                    ElevatedButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text('batal'),
+                                      style: ElevatedButton.styleFrom(
+                                          primary: Colors.red),
+                                    )
+                                  ],
+                                ),
+                              );
                             },
                             child: Text('Bayar'),
                             style: TextButton.styleFrom(

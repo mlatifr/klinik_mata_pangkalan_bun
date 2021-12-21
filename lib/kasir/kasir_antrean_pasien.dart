@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_application_1/kasir/kasir_detail_pasien.dart';
 
 import '../main.dart';
-import 'kasir_get_antrean.dart';
+import 'fetch_data/kasir_get_antrean.dart';
 
 Timer _timerForInter; // <- Put this line on top of _MyAppState class
 

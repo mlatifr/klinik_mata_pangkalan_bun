@@ -3,8 +3,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/kasir/kasir_get_resep.dart';
-import 'package:flutter_application_1/kasir/kasir_get_tindakan.dart';
+import 'package:flutter_application_1/kasir/fetch_data/kasir_get_resep.dart';
+import 'package:flutter_application_1/kasir/fetch_data/kasir_get_tindakan.dart';
 import 'package:flutter_application_1/pasien/pasien_fetch_visit_id.dart';
 import 'package:flutter_application_1/pasien/riwayat_periksa.dart';
 import 'package:intl/intl.dart';

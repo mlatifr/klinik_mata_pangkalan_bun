@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/kasir/kasir_detail_pasien.dart';
 import 'package:flutter_application_1/kasir/kasir_detail_pasien.dart'
     as KasirDetailPasien;
-import 'package:flutter_application_1/kasir/kasir_get_resep.dart';
 import 'package:flutter_application_1/kasir/kasir_mengurangi_stok_obat.dart';
+
+import 'fetch_data/kasir_get_resep.dart';
 
 class WidgetKrjgRsp extends StatefulWidget {
   const WidgetKrjgRsp({Key key}) : super(key: key);
