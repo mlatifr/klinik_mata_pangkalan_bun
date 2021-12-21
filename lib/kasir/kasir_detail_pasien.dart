@@ -393,6 +393,90 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
     }
   }
 
+  Widget widgetBayarYa() {
+    return ElevatedButton(
+        onPressed: () {
+          fetchDataKasirInputNotaJual(
+                  userIdMainDart,
+                  widget.visitId,
+                  widget.visitDate,
+                  controllerBiayaJasaMedis.text,
+                  controllerBiayaAdmin.text,
+                  totalTdknRspAdmMdis)
+              .then((value) {
+            if (value.contains('success')) {
+              showDialog<String>(
+                barrierDismissible: false,
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  title: Text(
+                    'pembayaran sukses',
+                    style: TextStyle(fontSize: 14),
+                  ),
+                  actions: <Widget>[
+                    ElevatedButton(
+                        onPressed: () {
+                          bayarButton = false;
+                          setState(() {
+                            widgetTextTotalPembayaran();
+                            widgetButtonBayar();
+                          });
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                        },
+                        child: Text('ok')),
+                  ],
+                ),
+              );
+            }
+            CalculateStokObatBaru();
+          });
+        },
+        child: Text('Ya'));
+  }
+
+  var bayarButton = true;
+  // ignore: missing_return
+  Widget widgetButtonBayar() {
+    print('bayar $bayarButton');
+    if (bayarButton == true) {
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ElevatedButton(
+          onPressed: () {
+            showDialog<String>(
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                title: Text(
+                  'Apakah anda akan menyimpan pembayaran?',
+                  style: TextStyle(fontSize: 14),
+                ),
+                actions: <Widget>[
+                  widgetBayarYa(),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('batal'),
+                    style: ElevatedButton.styleFrom(primary: Colors.red),
+                  )
+                ],
+              ),
+            );
+          },
+          child: Text('Bayar'),
+          style: TextButton.styleFrom(
+              primary: Colors.white,
+              backgroundColor: Colors.blue,
+              minimumSize: Size(MediaQuery.of(context).size.width,
+                  MediaQuery.of(context).size.height * 0.01)),
+        ),
+      );
+    } else {
+      Navigator.pop(context);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -403,9 +487,7 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
           title: Text('Detail Biaya'),
           leading: new IconButton(
             icon: new Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context);
-            },
+            onPressed: () {},
           ),
         ),
         body: ListView(
@@ -451,81 +533,7 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
                         Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: widgetInputPembayaran()),
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: ElevatedButton(
-                            onPressed: () {
-                              showDialog<String>(
-                                context: context,
-                                builder: (BuildContext context) => AlertDialog(
-                                  title: Text(
-                                    'Apakah anda akan menyimpan pembayaran?',
-                                    style: TextStyle(fontSize: 14),
-                                  ),
-                                  actions: <Widget>[
-                                    ElevatedButton(
-                                        onPressed: () {
-                                          fetchDataKasirInputNotaJual(
-                                                  userIdMainDart,
-                                                  widget.visitId,
-                                                  widget.visitDate,
-                                                  controllerBiayaJasaMedis.text,
-                                                  controllerBiayaAdmin.text,
-                                                  totalTdknRspAdmMdis)
-                                              .then((value) {
-                                            if (value.contains('success')) {
-                                              showDialog<String>(
-                                                context: context,
-                                                builder:
-                                                    (BuildContext context) =>
-                                                        AlertDialog(
-                                                  title: Text(
-                                                    '{$value}',
-                                                    style:
-                                                        TextStyle(fontSize: 14),
-                                                  ),
-                                                  actions: <Widget>[
-                                                    TextButton(
-                                                        onPressed: () {
-                                                          setState(() {
-                                                            widgetTextTotalPembayaran();
-                                                          });
-                                                          Navigator.pop(
-                                                            context,
-                                                            'ok',
-                                                          );
-                                                        },
-                                                        child: Text('ok')),
-                                                  ],
-                                                ),
-                                              );
-                                            }
-
-                                            CalculateStokObatBaru();
-                                          });
-                                        },
-                                        child: Text('Ya')),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text('batal'),
-                                      style: ElevatedButton.styleFrom(
-                                          primary: Colors.red),
-                                    )
-                                  ],
-                                ),
-                              );
-                            },
-                            child: Text('Bayar'),
-                            style: TextButton.styleFrom(
-                                primary: Colors.white,
-                                backgroundColor: Colors.blue,
-                                minimumSize: Size(
-                                    MediaQuery.of(context).size.width,
-                                    MediaQuery.of(context).size.height * 0.01)),
-                          ),
-                        ),
+                        widgetButtonBayar()
                       ],
                     ),
                   ),

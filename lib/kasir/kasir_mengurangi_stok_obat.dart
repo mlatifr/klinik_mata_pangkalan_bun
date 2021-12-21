@@ -35,43 +35,6 @@ Function CalculateStokObatBaru() {
   }
 }
 
-// class KasirVKeranjangResep {
-//   var resepId,
-//       userIdApoteker,
-//       tglResep,
-//       obatId,
-//       jumlah,
-//       dosis,
-//       namaObat,
-//       stok,
-//       hargaJual;
-//   KasirVKeranjangResep(
-//       {this.resepId,
-//       this.userIdApoteker,
-//       this.tglResep,
-//       this.obatId,
-//       this.jumlah,
-//       this.dosis,
-//       this.namaObat,
-//       this.stok,
-//       this.hargaJual});
-
-//   // untuk convert dari jSon
-//   factory KasirVKeranjangResep.fromJson(Map<String, dynamic> json) {
-//     return new KasirVKeranjangResep(
-//       resepId: json['resep_id'],
-//       userIdApoteker: json['user_id_apoteker'],
-//       tglResep: json['tgl_resep'],
-//       obatId: json['obat_id'],
-//       jumlah: json['jumlah'],
-//       dosis: json['dosis'],
-//       namaObat: json['nama'],
-//       stok: json['stok'],
-//       hargaJual: json['harga_jual'],
-//     );
-//   }
-// }
-
 Future<String> updateStokObat(pObatId, pObatStok) async {
   print('$pObatId | $pObatStok');
   final response = await http
