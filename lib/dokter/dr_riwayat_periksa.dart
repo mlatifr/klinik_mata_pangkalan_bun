@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/dokter/dr_get_list_tindakan.dart';
-import 'package:flutter_application_1/pemilik/pemilik_fetch/pemilik_send_input_order.dart';
 
 import 'dr_get_list_obat.dart';
 
