@@ -113,7 +113,12 @@ class _WidgetAkunObatNotaState extends State<WidgetAkunObatNota> {
       home: Scaffold(
           appBar: AppBar(
             centerTitle: true,
-            title: Text("Daftar Nota Obat"),
+            title: Center(
+              child: Text(
+                "Daftar Nota Obat\n       ${widget.tgl_transaksi}",
+                maxLines: 2,
+              ),
+            ),
             leading: new IconButton(
               icon: new Icon(Icons.arrow_back),
               onPressed: () {
@@ -122,12 +127,7 @@ class _WidgetAkunObatNotaState extends State<WidgetAkunObatNota> {
             ),
           ),
           body: ListView(
-            children: [
-              ListTile(
-                  title: Center(child: Text('${widget.tgl_transaksi}')),
-                  tileColor: Colors.blue.withOpacity(0.5)),
-              widgetListObatNota(listPenjualanObatNotas)
-            ],
+            children: [widgetListObatNota(listPenjualanObatNotas)],
           )),
     );
   }
