@@ -35,6 +35,34 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
 
 //baca data nota akun tindakan
 // ignore: non_constant_identifier_names
+  AkunanBacaDataListNota(tgl) {
+    print('listPenjualanTindakans before: ${listPenjualanTindakans.length}');
+    if (listPenjualanTindakans.isNotEmpty) {
+      listPenjualanTindakans.clear();
+    }
+    print('listPenjualanTindakans after: ${listPenjualanTindakans.length}');
+    Future<String> data = fetchDataVNotaPenjualan(tgl);
+    data.then((value) {
+      //Mengubah json menjadi Array
+      // ignore: unused_local_variable
+      Map json = jsonDecode(value);
+      for (var i in json['data']) {
+        print(i);
+        AkuntanVNotaPenjualan pjlnTdkn = AkuntanVNotaPenjualan.fromJson(i);
+        listNotaPenjualans.add(pjlnTdkn);
+      }
+      setState(() {
+        WidgetListNota(
+          listParameter: listNotaPenjualans,
+          textHeaderListNota: 'Daftar Nota',
+        );
+      });
+    });
+  }
+
+  //baca data nota akun tindakan
+
+// ignore: non_constant_identifier_names
   AkunanBacaDataPenjualanTindakan(tgl) {
     print('listPenjualanTindakans before: ${listPenjualanTindakans.length}');
     if (listPenjualanTindakans.isNotEmpty) {
@@ -186,6 +214,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
                       AkunanBacaDataPenjualanAdmin(controllerdate.text);
                       AkunanBacaDataHPPObat(controllerdate.text);
                       AkunanBacaDataPenjualanTindakan(controllerdate.text);
+                      AkunanBacaDataListNota(controllerdate.text);
                       //print('showDatePicker : ${controllerdate.text}');
                     });
                   });
@@ -210,6 +239,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
     AkunanBacaDataPenjualanAdmin(controllerdate.text);
     AkunanBacaDataHPPObat(controllerdate.text);
     AkunanBacaDataPenjualanTindakan(controllerdate.text);
+    AkunanBacaDataListNota(controllerdate.text);
     super.initState();
   }
 
@@ -245,10 +275,10 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
           body: ListView(
             children: [
               widgetSelectTgl(),
-              WidgetListNota(
-                listParameter: listNotaPenjualans,
-                textHeaderListNota: 'Daftar Nota',
-              ),
+              // WidgetListNota(
+              //   listParameter: listNotaPenjualans,
+              //   textHeaderListNota: 'Daftar Nota',
+              // ),
               WidgetAkunObat(textHeaderPenjualanObat: 'Penjualan Obat'),
               WidgetAkunHPPObat(),
               Divider(),
@@ -256,14 +286,6 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
               Divider(),
               WidgetAkunTindakan(
                 pTextDaftarPenjualanTindakna: 'Pendapatan Tindakan Operasi',
-              ),
-              Divider(),
-              WidgetAkunJasmed(
-                pTextDaftarPenjualanJasmed: 'Biaya komisi pegawai medis',
-              ),
-              WidgetAkunAdmin(
-                pTextTittle: "Biaya komisi pegawai admin",
-                pTextTotal: 'Total komisi admin ',
               ),
               Divider(),
               // Text("Pendapatan: ${listPenjualanTindakans.length}"),

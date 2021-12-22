@@ -4,6 +4,35 @@ import 'dart:async';
 import 'package:flutter_application_1/main.dart';
 import 'package:http/http.dart' as http;
 
+//untuk akun obat
+List<AkuntanVNotaPenjualan> listNotaPenjualans = [];
+
+class AkuntanVNotaPenjualan {
+  var no_nota, tgl_transaksi, total_harga, nama_kasir;
+  AkuntanVNotaPenjualan(
+      {this.no_nota, this.tgl_transaksi, this.total_harga, this.nama_kasir});
+  // untuk convert dari jSon
+  factory AkuntanVNotaPenjualan.fromJson(Map<String, dynamic> json) {
+    return new AkuntanVNotaPenjualan(
+        no_nota: json['no_nota'],
+        tgl_transaksi: json['tgl_transaksi'],
+        total_harga: json['total_harga'],
+        nama_kasir: json['nama_kasir']);
+  }
+}
+
+Future<String> fetchDataVNotaPenjualan(pTglCatat) async {
+  final response =
+      await http.post(Uri.parse(apiUrl + "akuntan_v_pjualan_nota.php"), body: {
+    'tgl_nota': pTglCatat.toString(),
+  });
+  if (response.statusCode == 200) {
+    return response.body;
+  } else {
+    throw Exception('Failed to read API');
+  }
+}
+
 //untuk akun sediaan barang
 List<AkuntanVAkunSediaanBrg> listAkunSediaanBrgs = [];
 
@@ -64,15 +93,15 @@ Future<String> fetchDataVAkunKas(pTglCatat) async {
 List<AkuntanVPenjualanTindakan> listPenjualanTindakans = [];
 
 class AkuntanVPenjualanTindakan {
-  var namaPasien, tglTindakan, namaTindakan, harga;
+  var namaPasien, tglTransaksi, namaTindakan, harga;
   AkuntanVPenjualanTindakan(
-      {this.namaPasien, this.tglTindakan, this.namaTindakan, this.harga});
+      {this.namaPasien, this.tglTransaksi, this.namaTindakan, this.harga});
   // untuk convert dari jSon
   factory AkuntanVPenjualanTindakan.fromJson(Map<String, dynamic> json) {
     return new AkuntanVPenjualanTindakan(
       namaPasien: json['nama_pasien'],
-      tglTindakan: json['tgl'],
-      namaTindakan: json['tindakan'],
+      tglTransaksi: json['tglTransaksi'],
+      namaTindakan: json['namaTindakan'],
       harga: json['harga'],
     );
   }
@@ -83,8 +112,8 @@ Future<String> fetchDataVPenjualanTindakan(pTglCatat) async {
       await http.post(Uri.parse(apiUrl + "akuntan_v_pjualan_tdkn.php"), body: {
     'tgl_visit_detail': pTglCatat.toString(),
   });
+  print('fetchDataVPenjualanTindakan: $pTglCatat ${response.statusCode}');
   if (response.statusCode == 200) {
-    //print('fetchDataVPenjualanJasmed: ${response.body}');
     return response.body;
   } else {
     throw Exception('Failed to read API');
@@ -222,7 +251,6 @@ Future<String> fetchDataVPenjualanObat(pTglCatat) async {
     'tgl_resep_non_visit': pTglCatat.toString(),
   });
   if (response.statusCode == 200) {
-    //print('fetchDataVPenjualanObat: ${response.body}');
     return response.body;
   } else {
     throw Exception('Failed to read API');

@@ -40,9 +40,10 @@ class _WidgetAkunObatState extends State<WidgetAkunObat> {
                       leading: CircleAvatar(
                         child: Text('${index + 1}'),
                       ),
-                      title: Text('${plistPenjualanObats[index].nama}'),
+                      title: Text(
+                          '${plistPenjualanObats[index].tglResep.substring(0, 10)}'),
                       subtitle: Text(
-                          '${plistPenjualanObats[index].tglResep.substring(0, 10)}\n${plistPenjualanObats[index].jumlah} x ${numberFormatRp.format(int.parse(plistPenjualanObats[index].harga))} |  Total:Rp ${numberFormatRp.format(plistPenjualanObats[index].totalHarga)}'),
+                          '${plistPenjualanObats[index].jumlah} x ${numberFormatRp.format(int.parse(plistPenjualanObats[index].harga))} |  Total:Rp ${numberFormatRp.format(plistPenjualanObats[index].totalHarga)}'),
                     ),
                   ));
             }),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/akuntan/laporanLR/akuntan_page_nota_detail.dart';
 import 'package:intl/intl.dart';
 
 int totalPenjualan = 0;
@@ -37,10 +36,7 @@ class _WidgetListNotaState extends State<WidgetListNota> {
                       ),
                     ),
                     child: ListTile(
-                      onTap: () {
-                        Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => AkuntanVNoNota()));
-                      },
+                      onTap: () {},
                       // leading: Text(
                       //     '${listNotaPenjualans[index].tgl_transaksi.toString().substring(0, 10)}'),
                       title: Center(

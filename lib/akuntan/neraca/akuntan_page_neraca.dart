@@ -239,11 +239,6 @@ class _AkuntanVNeracaState extends State<AkuntanVNeraca> {
     controllerdate.text = date.toString().substring(0, 7);
     AkuntanBacaDataAkunKas(controllerdate.text);
     AkuntanBacaDataAkunSediaanBrg();
-    // AkunanBacaDataPenjualanObat(controllerdate.text);
-    // AkunanBacaDataPenjualanjasmed(controllerdate.text);
-    // AkunanBacaDataPenjualanAdmin(controllerdate.text);
-    // AkunanBacaDataHPPObat(controllerdate.text);
-    // AkunanBacaDataPenjualanTindakan(controllerdate.text);
     super.initState();
   }
 
@@ -280,13 +275,7 @@ class _AkuntanVNeracaState extends State<AkuntanVNeraca> {
               WidgetAkunSediaanBarang(
                   textHeaderPenjualanObat: 'Sediaan Barang Dagang'),
               ListTile(
-                title: Text('Kewajiban'),
-              ),
-              ListTile(
-                title: Text('   Hutang Usaha(obat)'),
-              ),
-              ListTile(
-                title: Text('Total Aset Lancar'),
+                title: Text('Total Aset Lancar: Rp 17.991.000'),
               ),
             ],
           )),

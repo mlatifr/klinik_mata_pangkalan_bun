@@ -19,40 +19,44 @@ class _WidgetAkunTindakanState extends State<WidgetAkunTindakan> {
   Widget widgetListTindakan(pTextDaftarPenjualanTindakna) {
     totalTindakanOperasi = 0;
     if (listPenjualanTindakans.length > 0) {
-      return ExpansionTile(
-          title: Text('$pTextDaftarPenjualanTindakna'),
-          children: [
-            ListView.builder(
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemCount: listPenjualanTindakans.length,
-                itemBuilder: (context, index) {
-                  return Padding(
-                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                      child: Container(
-                        decoration: BoxDecoration(
-                          border: Border(
-                            bottom: BorderSide(
-                              color: Colors.black,
-                              width: 3.0,
+      return Column(
+        children: [
+          ExpansionTile(
+              title: Text('$pTextDaftarPenjualanTindakna'),
+              children: [
+                ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: listPenjualanTindakans.length,
+                    itemBuilder: (context, index) {
+                      return Padding(
+                          padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border(
+                                bottom: BorderSide(
+                                  color: Colors.black,
+                                  width: 3.0,
+                                ),
+                              ),
                             ),
-                          ),
-                        ),
-                        child: ListTile(
-                          onTap: () {},
-                          leading: CircleAvatar(
-                            child: Text('${index + 1}'),
-                          ),
-                          title: Text(
-                              '${listPenjualanTindakans[index].tglTindakan}'),
-                          subtitle: Text(
-                              '${listPenjualanTindakans[index].namaPasien} \n${listPenjualanTindakans[index].namaTindakan} \nRp ${numberFormatRp.format(listPenjualanTindakans[index].harga)}'),
-                        ),
-                      ));
-                }),
-          ]);
+                            child: ListTile(
+                              onTap: () {},
+                              title: Center(
+                                child: Text(
+                                    '${listPenjualanTindakans[index].tglTransaksi.toString().substring(0, 10)}'),
+                              ),
+                            ),
+                          ));
+                    }),
+              ]),
+          widgetTextTotalPenjualanJasmed(),
+        ],
+      );
     } else
-      return Container();
+      return Container(
+        child: Text('Tindakan'),
+      );
   }
 
   Widget widgetTextTotalPenjualanJasmed() {
@@ -66,7 +70,7 @@ class _WidgetAkunTindakanState extends State<WidgetAkunTindakan> {
         padding: const EdgeInsets.all(8.0),
         child: ListTile(
             title: Text(
-                'Total Penjualan Jasmed Rp ${numberFormatRp.format(totalTindakanOperasi)}')),
+                'Total Penjualan Tindakan Rp ${numberFormatRp.format(totalTindakanOperasi)}')),
       );
     } else
       return Container();
@@ -74,11 +78,6 @@ class _WidgetAkunTindakanState extends State<WidgetAkunTindakan> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        widgetListTindakan(widget.pTextDaftarPenjualanTindakna),
-        widgetTextTotalPenjualanJasmed(),
-      ],
-    );
+    return widgetListTindakan(widget.pTextDaftarPenjualanTindakna);
   }
 }
