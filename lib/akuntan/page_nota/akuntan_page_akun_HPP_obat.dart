@@ -18,35 +18,37 @@ class _WidgetAkunHPPObatState extends State<WidgetAkunHPPObat> {
   ) {
     totalHPPObat = 0;
     if (plistPenjualanObats.length > 0) {
-      return ExpansionTile(title: Text('Penjualan HPP obat'), children: [
-        ListView.builder(
-            physics: NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemCount: plistPenjualanObats.length,
-            itemBuilder: (context, index) {
-              return Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                  child: Container(
-                    decoration: BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(
-                          color: Colors.black,
-                          width: 3.0,
+      return Column(
+        children: [
+          ExpansionTile(title: Text('Penjualan HPP obat'), children: [
+            ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: plistPenjualanObats.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                      padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          border: Border(
+                            bottom: BorderSide(
+                              color: Colors.black,
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                    child: ListTile(
-                      onTap: () {},
-                      leading: CircleAvatar(
-                        child: Text('${index + 1}'),
-                      ),
-                      title: Text('${plistPenjualanObats[index].nama}'),
-                      subtitle: Text(
-                          '${plistPenjualanObats[index].tgl_transaksi.substring(0, 10)}\n${plistPenjualanObats[index].jumlah} x ${numberFormatRp.format(int.parse(plistPenjualanObats[index].harga))} |  Total:Rp ${numberFormatRp.format(plistPenjualanObats[index].totalHarga)}'),
-                    ),
-                  ));
-            }),
-      ]);
+                        child: ListTile(
+                          onTap: () {},
+                          title: Center(
+                            child: Text(
+                                '${plistPenjualanObats[index].tgl_transaksi.toString().substring(0, 10)}'),
+                          ),
+                        ),
+                      ));
+                }),
+          ]),
+          widgetTextTotalHPPObat(listHppObats),
+        ],
+      );
     } else {
       return Column(
         children: [
@@ -84,11 +86,6 @@ class _WidgetAkunHPPObatState extends State<WidgetAkunHPPObat> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        widgetListHPPObat(listHppObats),
-        widgetTextTotalHPPObat(listHppObats),
-      ],
-    );
+    return widgetListHPPObat(listHppObats);
   }
 }

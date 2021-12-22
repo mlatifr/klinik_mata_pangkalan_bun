@@ -124,9 +124,9 @@ Future<String> fetchDataVPenjualanTindakan(pTglCatat) async {
 List<AkuntanVHppObat> listHppObats = [];
 
 class AkuntanVHppObat {
-  var tglResep, resepId, obatId, nama, jumlah, harga, totalHarga;
+  var tgl_transaksi, resepId, obatId, nama, jumlah, harga, totalHarga;
   AkuntanVHppObat({
-    this.tglResep,
+    this.tgl_transaksi,
     this.resepId,
     this.obatId,
     this.nama,
@@ -137,7 +137,7 @@ class AkuntanVHppObat {
   // untuk convert dari jSon
   factory AkuntanVHppObat.fromJson(Map<String, dynamic> json) {
     return new AkuntanVHppObat(
-        tglResep: json['tgl_resep'],
+        tgl_transaksi: json['tgl_transaksi'],
         resepId: json['resep_id'],
         obatId: json['obat_id'],
         nama: json['nama'],

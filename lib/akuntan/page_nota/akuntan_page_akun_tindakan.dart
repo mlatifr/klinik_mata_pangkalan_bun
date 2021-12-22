@@ -36,7 +36,6 @@ class _WidgetAkunTindakanState extends State<WidgetAkunTindakan> {
                               border: Border(
                                 bottom: BorderSide(
                                   color: Colors.black,
-                                  width: 3.0,
                                 ),
                               ),
                             ),
