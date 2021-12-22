@@ -17,7 +17,6 @@ import 'package:flutter_application_1/akuntan/page_nota/akuntan_fetch_penjualan_
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_tindakan.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_tindakan.dart'
     as akunTindakanOperasi;
-import 'package:flutter_application_1/akuntan/page_nota/akuntan_widget_list_nota.dart';
 
 import 'package:intl/intl.dart';
 
@@ -140,7 +139,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
       });
     });
   }
-
+ 
   var controllerdate = TextEditingController();
   Widget widgetSelectTgl() {
     return Padding(
@@ -152,7 +151,8 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
                 child: TextFormField(
               controller: controllerdate,
               onChanged: (value) {
-                setState(() {});
+                setState(() {
+                });
               },
               enabled: false,
               keyboardType: TextInputType.number,
@@ -245,10 +245,6 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
           body: ListView(
             children: [
               widgetSelectTgl(),
-              WidgetListNota(
-                listParameter: listNotaPenjualans,
-                textHeaderListNota: 'Daftar Nota',
-              ),
               WidgetAkunObat(textHeaderPenjualanObat: 'Penjualan Obat'),
               WidgetAkunHPPObat(),
               Divider(),
