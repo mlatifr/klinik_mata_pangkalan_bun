@@ -53,7 +53,7 @@ Future<String> fetchDataVAkunSediaanBrg() async {
   final response = await http
       .post(Uri.parse(apiUrl + "akuntan_v_sediaan_brg.php"), body: {});
   if (response.statusCode == 200) {
-    print('fetchDataVAkunSediaanBrg: ${response.body}');
+    // print('fetchDataVAkunSediaanBrg: ${response.body}');
     return response.body;
   } else {
     throw Exception('Failed to read API');
@@ -112,7 +112,7 @@ Future<String> fetchDataVPenjualanTindakan(pTglCatat) async {
       await http.post(Uri.parse(apiUrl + "akuntan_v_pjualan_tdkn.php"), body: {
     'tgl_visit_detail': pTglCatat.toString(),
   });
-  print('fetchDataVPenjualanTindakan: $pTglCatat ${response.statusCode}');
+  // print('fetchDataVPenjualanTindakan: $pTglCatat ${response.statusCode}');
   if (response.statusCode == 200) {
     return response.body;
   } else {
@@ -222,35 +222,79 @@ Future<String> fetchDataVPenjualanJasmed(pTglCatat) async {
 List<AkuntanVPenjualanObat> listPenjualanObats = [];
 
 class AkuntanVPenjualanObat {
-  var tgl_transaksi, resepId, obatId, nama, jumlah, harga, totalHarga;
-  AkuntanVPenjualanObat({
-    this.tgl_transaksi,
-    this.resepId,
-    this.obatId,
-    this.nama,
-    this.jumlah,
-    this.harga,
-    this.totalHarga,
-  });
+  var tgl_transaksi,
+      resepId,
+      obatId,
+      nama,
+      jumlah,
+      harga,
+      totalHarga,
+      idNota,
+      user_kasir,
+      visit_id;
+  AkuntanVPenjualanObat(
+      {this.tgl_transaksi,
+      this.resepId,
+      this.obatId,
+      this.nama,
+      this.jumlah,
+      this.harga,
+      this.totalHarga,
+      this.idNota,
+      this.user_kasir,
+      this.visit_id});
   // untuk convert dari jSon
   factory AkuntanVPenjualanObat.fromJson(Map<String, dynamic> json) {
     return new AkuntanVPenjualanObat(
-        tgl_transaksi: json['tgl_transaksi'],
-        resepId: json['resep_id'],
-        obatId: json['obat_id'],
-        nama: json['nama'],
-        jumlah: json['jumlah'],
-        harga: json['harga'],
-        totalHarga: json['total_harga']);
+      tgl_transaksi: json['tgl_transaksi'],
+      resepId: json['resep_id'],
+      obatId: json['obat_id'],
+      nama: json['nama'],
+      jumlah: json['jumlah'],
+      harga: json['harga'],
+      totalHarga: json['total_harga'],
+      idNota: json['nota_id'],
+      user_kasir: json['user_kasir'],
+      visit_id: json['visit_id'],
+    );
   }
 }
 
 Future<String> fetchDataVPenjualanObat(pTglCatat) async {
   final response =
       await http.post(Uri.parse(apiUrl + "akuntan_v_pjualan_obat.php"), body: {
-    'tgl_resep_non_visit': pTglCatat.toString(),
+    'tgl_penjualan': pTglCatat.toString(),
   });
   print('fetchDataVPenjualanObat ${response.body}');
+  if (response.statusCode == 200) {
+    return response.body;
+  } else {
+    throw Exception('Failed to read API');
+  }
+}
+
+// detail nota penjualan obat
+List<AkuntanVPenjualanNotaObat> listPenjualanObatNotas = [];
+
+class AkuntanVPenjualanNotaObat {
+  var nota_id, user_kasir, visit_id;
+  AkuntanVPenjualanNotaObat({this.nota_id, this.user_kasir, this.visit_id});
+  // untuk convert dari jSon
+  factory AkuntanVPenjualanNotaObat.fromJson(Map<String, dynamic> json) {
+    return new AkuntanVPenjualanNotaObat(
+      nota_id: json['nota_id'],
+      user_kasir: json['user_kasir'],
+      visit_id: json['visit_id'],
+    );
+  }
+}
+
+Future<String> fetchDataVPenjualanObatNota(pTglCatat) async {
+  final response =
+      await http.post(Uri.parse(apiUrl + "akuntan_v_pjualan_obat.php"), body: {
+    'tgl_resep_nota': pTglCatat.toString(),
+  });
+  print('fetchDataVPenjualanObatNota ${response.body}');
   if (response.statusCode == 200) {
     return response.body;
   } else {

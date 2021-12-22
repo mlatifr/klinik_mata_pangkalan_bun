@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_fetch_penjualan_nota.dart';
 import 'package:intl/intl.dart';
 
+import 'akuntan_page_akun_obat_nota.dart';
+
 int totalPenjualan = 0;
 
 // ignore: must_be_immutable
@@ -36,7 +38,14 @@ class _WidgetAkunObatState extends State<WidgetAkunObat> {
                       ),
                     ),
                     child: ListTile(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => WidgetAkunObatNota(
+                                  tgl_transaksi: plistPenjualanObats[index]
+                                      .tgl_transaksi
+                                      .substring(0, 10),
+                                )));
+                      },
                       title: Center(
                         child: Text(
                             '${plistPenjualanObats[index].tgl_transaksi.substring(0, 10)}'),
