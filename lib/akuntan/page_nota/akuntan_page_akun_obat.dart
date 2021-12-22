@@ -31,19 +31,16 @@ class _WidgetAkunObatState extends State<WidgetAkunObat> {
                       border: Border(
                         bottom: BorderSide(
                           color: Colors.black,
-                          width: 3.0,
+                          // width: 3.0,
                         ),
                       ),
                     ),
                     child: ListTile(
                       onTap: () {},
-                      leading: CircleAvatar(
-                        child: Text('${index + 1}'),
+                      title: Center(
+                        child: Text(
+                            '${plistPenjualanObats[index].tgl_transaksi.substring(0, 10)}'),
                       ),
-                      title: Text(
-                          '${plistPenjualanObats[index].tglResep.substring(0, 10)}'),
-                      subtitle: Text(
-                          '${plistPenjualanObats[index].jumlah} x ${numberFormatRp.format(int.parse(plistPenjualanObats[index].harga))} |  Total:Rp ${numberFormatRp.format(plistPenjualanObats[index].totalHarga)}'),
                     ),
                   ));
             }),
@@ -51,8 +48,7 @@ class _WidgetAkunObatState extends State<WidgetAkunObat> {
     } else {
       return Column(
         children: [
-          CircularProgressIndicator(),
-          Text('data tidak ditemukan'),
+          Text('Penjualan Obat'),
         ],
       );
     }

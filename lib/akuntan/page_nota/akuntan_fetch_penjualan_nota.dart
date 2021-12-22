@@ -222,9 +222,9 @@ Future<String> fetchDataVPenjualanJasmed(pTglCatat) async {
 List<AkuntanVPenjualanObat> listPenjualanObats = [];
 
 class AkuntanVPenjualanObat {
-  var tglResep, resepId, obatId, nama, jumlah, harga, totalHarga;
+  var tgl_transaksi, resepId, obatId, nama, jumlah, harga, totalHarga;
   AkuntanVPenjualanObat({
-    this.tglResep,
+    this.tgl_transaksi,
     this.resepId,
     this.obatId,
     this.nama,
@@ -235,7 +235,7 @@ class AkuntanVPenjualanObat {
   // untuk convert dari jSon
   factory AkuntanVPenjualanObat.fromJson(Map<String, dynamic> json) {
     return new AkuntanVPenjualanObat(
-        tglResep: json['tgl_resep'],
+        tgl_transaksi: json['tgl_transaksi'],
         resepId: json['resep_id'],
         obatId: json['obat_id'],
         nama: json['nama'],
@@ -250,6 +250,7 @@ Future<String> fetchDataVPenjualanObat(pTglCatat) async {
       await http.post(Uri.parse(apiUrl + "akuntan_v_pjualan_obat.php"), body: {
     'tgl_resep_non_visit': pTglCatat.toString(),
   });
+  print('fetchDataVPenjualanObat ${response.body}');
   if (response.statusCode == 200) {
     return response.body;
   } else {

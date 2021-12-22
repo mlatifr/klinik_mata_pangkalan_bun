@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_HPP_obat.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_HPP_obat.dart'
     as akunHPPObat;
-import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_admin.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_admin.dart'
     as akunAdmin;
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_jasmed.dart';
@@ -18,9 +17,7 @@ import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_tindak
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_tindakan.dart'
     as akunTindakanOperasi;
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_widget_list_nota.dart';
-
 import 'package:intl/intl.dart';
-
 import 'akuntan_page_laba_kotor.dart';
 
 class AkuntanVLaporanLR extends StatefulWidget {
@@ -275,10 +272,6 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
           body: ListView(
             children: [
               widgetSelectTgl(),
-              // WidgetListNota(
-              //   listParameter: listNotaPenjualans,
-              //   textHeaderListNota: 'Daftar Nota',
-              // ),
               WidgetAkunObat(textHeaderPenjualanObat: 'Penjualan Obat'),
               WidgetAkunHPPObat(),
               Divider(),

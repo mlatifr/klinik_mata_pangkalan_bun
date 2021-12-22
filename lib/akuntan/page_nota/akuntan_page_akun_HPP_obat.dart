@@ -42,7 +42,7 @@ class _WidgetAkunHPPObatState extends State<WidgetAkunHPPObat> {
                       ),
                       title: Text('${plistPenjualanObats[index].nama}'),
                       subtitle: Text(
-                          '${plistPenjualanObats[index].tglResep.substring(0, 10)}\n${plistPenjualanObats[index].jumlah} x ${numberFormatRp.format(int.parse(plistPenjualanObats[index].harga))} |  Total:Rp ${numberFormatRp.format(plistPenjualanObats[index].totalHarga)}'),
+                          '${plistPenjualanObats[index].tgl_transaksi.substring(0, 10)}\n${plistPenjualanObats[index].jumlah} x ${numberFormatRp.format(int.parse(plistPenjualanObats[index].harga))} |  Total:Rp ${numberFormatRp.format(plistPenjualanObats[index].totalHarga)}'),
                     ),
                   ));
             }),
@@ -50,8 +50,8 @@ class _WidgetAkunHPPObatState extends State<WidgetAkunHPPObat> {
     } else {
       return Column(
         children: [
-          CircularProgressIndicator(),
-          Text('data tidak ditemukan'),
+          // CircularProgressIndicator(),
+          Text('HPP Penjualan Obat'),
         ],
       );
     }
