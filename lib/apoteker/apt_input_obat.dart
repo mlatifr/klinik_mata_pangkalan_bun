@@ -561,45 +561,74 @@ class _AptInputObatState extends State<AptInputObat> {
     if (btnSimpan == true) {
       return TextButton(
         onPressed: () {
-          for (var i = 0; i < ListInputResep.length; i++) {
-            fetchDataApotekerInputResepObat(
-                    ListInputResep[i].rspAptkrId,
-                    ListInputResep[i].obtId,
-                    ListInputResep[i].dosis,
-                    ListInputResep[i].jumlah,
-                    ListInputResep[i].visitId)
-                .then((value) {
-              print(value);
-              if (i == ListInputResep.length - 1) {
-                print('last dVKTs $i');
-                showDialog<String>(
-                  barrierDismissible: false,
-                  context: context,
-                  builder: (BuildContext context) => AlertDialog(
-                    title: Text(
-                      'Input Obat Berhasil',
-                      style: TextStyle(fontSize: 14),
-                    ),
-                    actions: <Widget>[
-                      ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            btnSimpan = false;
-                            print('btnSimpan  $btnSimpan');
-                            widgetButtonSimpan();
-                          });
-                          Navigator.pop(context);
-                        },
-                        child: Text(
-                          'Ok',
-                        ),
-                      ),
-                    ],
+          showDialog<String>(
+            barrierDismissible: false,
+            context: context,
+            builder: (BuildContext context) => AlertDialog(
+              title: Text(
+                'Apakah Anda yakin akan menyimpan?',
+                style: TextStyle(fontSize: 14),
+              ),
+              actions: <Widget>[
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: Text(
+                    'batal',
                   ),
-                );
-              }
-            });
-          }
+                  style: ElevatedButton.styleFrom(primary: Colors.red),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    for (var i = 0; i < ListInputResep.length; i++) {
+                      fetchDataApotekerInputResepObat(
+                              ListInputResep[i].rspAptkrId,
+                              ListInputResep[i].obtId,
+                              ListInputResep[i].dosis,
+                              ListInputResep[i].jumlah,
+                              ListInputResep[i].visitId)
+                          .then((value) {
+                        print(value);
+                        if (i == ListInputResep.length - 1) {
+                          print('last dVKTs $i');
+                          showDialog<String>(
+                            barrierDismissible: false,
+                            context: context,
+                            builder: (BuildContext context) => AlertDialog(
+                              title: Text(
+                                'Input Obat Berhasil',
+                                style: TextStyle(fontSize: 14),
+                              ),
+                              actions: <Widget>[
+                                ElevatedButton(
+                                  onPressed: () {
+                                    setState(() {
+                                      btnSimpan = false;
+                                      print('btnSimpan  $btnSimpan');
+                                      widgetButtonSimpan();
+                                    });
+                                    Navigator.pop(context);
+                                    Navigator.pop(context);
+                                  },
+                                  child: Text(
+                                    'Ok',
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+                      });
+                    }
+                  },
+                  child: Text(
+                    'Simpan',
+                  ),
+                ),
+              ],
+            ),
+          );
         },
         child: Text('SIMPAN'),
         style: TextButton.styleFrom(
