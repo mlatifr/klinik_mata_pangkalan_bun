@@ -556,6 +556,72 @@ class _AptInputObatState extends State<AptInputObat> {
     super.dispose();
   }
 
+  var btnSimpan = true;
+  Widget widgetButtonSimpan() {
+    if (btnSimpan == true) {
+      return TextButton(
+        onPressed: () {
+          for (var i = 0; i < ListInputResep.length; i++) {
+            fetchDataApotekerInputResepObat(
+                    ListInputResep[i].rspAptkrId,
+                    ListInputResep[i].obtId,
+                    ListInputResep[i].dosis,
+                    ListInputResep[i].jumlah,
+                    ListInputResep[i].visitId)
+                .then((value) {
+              print(value);
+              if (i == ListInputResep.length - 1) {
+                print('last dVKTs $i');
+                showDialog<String>(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    title: Text(
+                      'Input Obat Berhasil',
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    actions: <Widget>[
+                      ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            btnSimpan = false;
+                            print('btnSimpan  $btnSimpan');
+                            widgetButtonSimpan();
+                          });
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          'Ok',
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }
+            });
+          }
+        },
+        child: Text('SIMPAN'),
+        style: TextButton.styleFrom(
+            primary: Colors.white,
+            backgroundColor: Colors.blue,
+            minimumSize: Size(MediaQuery.of(context).size.width, 10)),
+      );
+    }
+    if (btnSimpan == false) {
+      return TextButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        child: Text('BACK'),
+        style: TextButton.styleFrom(
+            primary: Colors.white,
+            backgroundColor: Colors.blue,
+            minimumSize: Size(MediaQuery.of(context).size.width, 10)),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (aVKODrs.length > 0) {
@@ -602,54 +668,7 @@ class _AptInputObatState extends State<AptInputObat> {
                                     widgetListObats(),
                                   ])),
                           widgetKeranjangObatApotekerBody(),
-                          TextButton(
-                            onPressed: () {
-                              for (var i = 0; i < ListInputResep.length; i++) {
-                                fetchDataApotekerInputResepObat(
-                                        ListInputResep[i].rspAptkrId,
-                                        ListInputResep[i].obtId,
-                                        ListInputResep[i].dosis,
-                                        ListInputResep[i].jumlah,
-                                        ListInputResep[i].visitId)
-                                    .then((value) {
-                                  print(value);
-                                  if (i == ListInputResep.length - 1) {
-                                    print('last dVKTs $i');
-                                    showDialog<String>(
-                                      context: context,
-                                      builder: (BuildContext context) =>
-                                          AlertDialog(
-                                        title: Text(
-                                          'Input Obat Berhasil',
-                                          style: TextStyle(fontSize: 14),
-                                        ),
-                                        actions: <Widget>[
-                                          ElevatedButton(
-                                            onPressed: () =>
-                                                Navigator.pop(context),
-                                            child: Text(
-                                              'Ok',
-                                              // style: TextStyle(
-                                              //     fontSize: 14,
-                                              //     backgroundColor: Colors.blue,
-                                              //     color: Colors.white),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  }
-                                  Navigator.pop(context);
-                                });
-                              }
-                            },
-                            child: Text('SIMPAN'),
-                            style: TextButton.styleFrom(
-                                primary: Colors.white,
-                                backgroundColor: Colors.blue,
-                                minimumSize: Size(
-                                    MediaQuery.of(context).size.width, 10)),
-                          )
+                          widgetButtonSimpan()
                         ],
                       ),
                     ),
