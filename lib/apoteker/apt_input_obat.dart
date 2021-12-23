@@ -26,62 +26,11 @@ class _AptInputObatState extends State<AptInputObat> {
           ApotekerVKeranjangObat keranjangObatDokter =
               ApotekerVKeranjangObat.fromJson(i);
           aVKOs.add(keranjangObatDokter);
-          // print('AVKOs[length]: ${aVKOs.length}');
         }
         setState(() {
           widgetKeranjangObatApotekerBody();
         });
       }
-    });
-  }
-
-// ignore: non_constant_identifier_names
-  ApotekerInputDataResepObat(pRspAptkrId, pObtId, pDosis, pJumlah, pVisitId) {
-    aVKOs.clear();
-    Future<String> data = fetchDataApotekerInputResepObat(
-        pRspAptkrId, pObtId, pDosis, pJumlah, pVisitId);
-    data.then((value) {
-      Map json = jsonDecode(value);
-      if (json['result'].toString() == 'success') {
-        showDialog<String>(
-          context: context,
-          builder: (BuildContext context) => AlertDialog(
-            title: Text(
-              'Obat berhasil ditambah ke resep',
-              style: TextStyle(fontSize: 14),
-            ),
-            actions: <Widget>[
-              TextButton(
-                  onPressed: () {
-                    controllerJumlah.clear();
-                    controllerDosis.clear();
-                    setState(() {
-                      widgetListObats();
-                    });
-                    Navigator.pop(
-                      context,
-                      'ok',
-                    );
-                  },
-                  child: Text('ok')),
-            ],
-          ),
-        );
-        for (var i in json['data']) {
-          ApotekerVKeranjangObat keranjangObatDokter =
-              ApotekerVKeranjangObat.fromJson(i);
-          aVKOs.add(keranjangObatDokter);
-          print('AVKOs[length]: ${aVKOs.length}');
-        }
-        setState(() {
-          ApotekerBacaDataVKeranjangResepApoteker(widget.visitId);
-          // widgetKeranjangObatApotekerBody();
-        });
-      }
-    }).then((value) {
-      setState(() {
-        widgetKeranjangObatApotekerBody();
-      });
     });
   }
 
@@ -179,7 +128,6 @@ class _AptInputObatState extends State<AptInputObat> {
   }
 
   Widget widgetTextKadaluarsa(index) {
-    print(aVLOs[index].kadaluarsa.runtimeType);
     if (aVLOs[index].kadaluarsa != null) {
       return Text(
           'Kadaluarsa ${aVLOs[index].kadaluarsa.toString().substring(0, 10)}');
@@ -191,6 +139,7 @@ class _AptInputObatState extends State<AptInputObat> {
   TextEditingController controllerJumlah = TextEditingController();
   TextEditingController controllerDosis = TextEditingController();
   TextEditingController controllerCariObat = TextEditingController();
+  TextEditingController controllerNamaPembeli = TextEditingController();
   int selected; //agar yg terbuka hanya bisa 1 ListTile
   // ignore: missing_return
   Widget widgetListObats() {
@@ -321,25 +270,34 @@ class _AptInputObatState extends State<AptInputObat> {
                               padding: const EdgeInsets.all(8.0),
                               child: TextButton(
                                 onPressed: () {
-                                  ApotekerInputResepList selectedObat =
-                                      ApotekerInputResepList(
-                                          rspAptkrId: aptkrRspId,
-                                          obtId: aVLOs[index].obatId,
-                                          obatNama: aVLOs[index].obatNama,
-                                          dosis: controllerDosis.text,
-                                          jumlah: controllerJumlah.text,
-                                          visitId: widget.visitId);
-                                  ListInputResep.add(selectedObat);
+                                  if (widget.visitId != null) {
+                                    ApotekerInputResepList selectedObat =
+                                        ApotekerInputResepList(
+                                            rspAptkrId: aptkrRspId,
+                                            obtId: aVLOs[index].obatId,
+                                            obatNama: aVLOs[index].obatNama,
+                                            dosis: controllerDosis.text,
+                                            jumlah: controllerJumlah.text,
+                                            visitId: widget.visitId);
+                                    ListInputResep.add(selectedObat);
+                                  } else {
+                                    print(
+                                        'nama pembeli ${controllerNamaPembeli.text}');
+                                    ApotekerInputResepList selectedObat =
+                                        ApotekerInputResepList(
+                                            rspAptkrId: aptkrRspId,
+                                            obtId: aVLOs[index].obatId,
+                                            obatNama: aVLOs[index].obatNama,
+                                            dosis: controllerDosis.text,
+                                            jumlah: controllerJumlah.text,
+                                            namaPembeli:
+                                                controllerNamaPembeli.text);
+                                    ListInputResep.add(selectedObat);
+                                  }
+
                                   setState(() {
                                     widgetKeranjangObatApotekerBody();
                                   });
-                                  print(ListInputResep.length);
-                                  // ApotekerInputDataResepObat(
-                                  // aptkrRspId,
-                                  // aVLOs[index].obatId,
-                                  // controllerDosis.text,
-                                  // controllerJumlah.text,
-                                  // widget.visitId);
                                 },
                                 child: Text('tambah'),
                                 style: TextButton.styleFrom(
@@ -362,7 +320,6 @@ class _AptInputObatState extends State<AptInputObat> {
   }
 
   Widget widgetKeranjangObatApotekerBody() {
-    // print("widgetKeranjangObatApotekerBody: ${ListInputResep.length}");
     if (ListInputResep.length != 0) {
       return Column(
         children: [
@@ -436,37 +393,6 @@ class _AptInputObatState extends State<AptInputObat> {
     }
   }
 
-  // Widget widgetKeranjangObatApotekerBody() {
-  //   return Padding(
-  //     padding: const EdgeInsets.all(8),
-  //     child: ListView.builder(
-  //         physics: NeverScrollableScrollPhysics(),
-  //         shrinkWrap: true,
-  //         itemCount: aVKOs.length,
-  //         itemBuilder: (context, index) {
-  //           return Table(
-  //               border: TableBorder
-  //                   .all(), // Allows to add a border decoration around your table
-  //               children: [
-  //                 TableRow(children: [
-  //                   Text(
-  //                     '${aVKOs[index].nama}',
-  //                     textAlign: TextAlign.center,
-  //                   ),
-  //                   Text(
-  //                     '${aVKOs[index].jumlah}',
-  //                     textAlign: TextAlign.center,
-  //                   ),
-  //                   Text(
-  //                     '${aVKOs[index].dosis}',
-  //                     textAlign: TextAlign.center,
-  //                   ),
-  //                 ]),
-  //               ]);
-  //         }),
-  //   );
-  // }
-
   Widget widgetKeranjangObatDokterBody() {
     return Padding(
       padding: const EdgeInsets.all(8),
@@ -500,51 +426,57 @@ class _AptInputObatState extends State<AptInputObat> {
 
   var aptkrRspId;
   // ignore: non_constant_identifier_names
-  ApotekerBacaDataRspVst() {
+  ApotekerBacaDataInpuRsp() {
+    //untuk input pada table resep, sebelum input table resep_has_obat
     aptkrRspId = '';
-    Future<String> data = fetchDataApotekerInputRspVst(
-      widget.visitId,
-      widget.aptkrId,
-      DateTime.now().toString().substring(0, 10),
-    );
-    data.then((value) {
-      //Mengubah json menjadi Array
-      // ignore: unused_local_variable
-      Map json = jsonDecode(value);
-      aptkrRspId = json['id_resep_apoteker'].toString();
-      print('ApotekerBacaDataRspVst(): $aptkrRspId');
-      // for (var i in json['data']) {
-      //   print(i);
-      //   ApotekerVAntrean dva = ApotekerVAntrean.fromJson(i);
-      // }
-      setState(() {});
-    });
+    if (widget.visitId != null) {
+      Future<String> data = fetchDataApotekerInputRspVst(
+        widget.visitId,
+        widget.aptkrId,
+        DateTime.now().toString().substring(0, 10),
+      );
+      data.then((value) {
+        //Mengubah json menjadi Array
+        // ignore: unused_local_variable
+        Map json = jsonDecode(value);
+        aptkrRspId = json['id_resep_apoteker'].toString();
+        setState(() {});
+      });
+    } else {
+      Future<String> data = fetchDataApotekerInputRsp(
+        widget.aptkrId,
+        DateTime.now().toString().substring(0, 10),
+      );
+      data.then((value) {
+        //Mengubah json menjadi Array
+        // ignore: unused_local_variable
+        Map json = jsonDecode(value);
+        aptkrRspId = json['id_resep_apoteker'].toString();
+        setState(() {});
+      });
+    }
   }
 
 // ignore: non_constant_identifier_names
   ApotekerBacaInputResepObat(pRspAptkrId, pObtId, pDosis, pJumlah, pVisitId) {
-    // AptkrRspId = '';
     Future<String> data = ApotekerBacaInputResepObat(
         pRspAptkrId, pObtId, pDosis, pJumlah, pVisitId);
     data.then((value) {
       //Mengubah json menjadi Array
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
-      // AptkrRspId = json['id_resep_apoteker'].toString();
-      // print('ApotekerBacaDataRspVst(): $AptkrRspId');
-      for (var i in json['data']) {
-        print(i);
-        // ApotekerVAntrean dva = ApotekerVAntrean.fromJson(i);
-      }
       setState(() {});
     });
   }
 
   @override
   void initState() {
-    ApotekerBacaDataRspVst();
-    ApotekerBacaDataVKeranjangResepApoteker(widget.visitId);
-    ApotekerBacaDataVKeranjangResepDokter(widget.visitId);
+    ApotekerBacaDataInpuRsp();
+    if (widget.visitId.toString() != null) {
+      ApotekerBacaDataVKeranjangResepApoteker(widget.visitId);
+      ApotekerBacaDataVKeranjangResepDokter(widget.visitId);
+    }
+
     controllerCariObat.clear();
     ApotekerBacaDataVListObat(controllerCariObat.text);
     ListInputResep.clear();
@@ -587,12 +519,9 @@ class _AptInputObatState extends State<AptInputObat> {
                               ListInputResep[i].rspAptkrId,
                               ListInputResep[i].obtId,
                               ListInputResep[i].dosis,
-                              ListInputResep[i].jumlah,
-                              ListInputResep[i].visitId)
+                              ListInputResep[i].jumlah)
                           .then((value) {
-                        print(value);
                         if (i == ListInputResep.length - 1) {
-                          print('last dVKTs $i');
                           showDialog<String>(
                             barrierDismissible: false,
                             context: context,
@@ -606,7 +535,6 @@ class _AptInputObatState extends State<AptInputObat> {
                                   onPressed: () {
                                     setState(() {
                                       btnSimpan = false;
-                                      print('btnSimpan  $btnSimpan');
                                       widgetButtonSimpan();
                                     });
                                     Navigator.pop(context);
@@ -715,7 +643,7 @@ class _AptInputObatState extends State<AptInputObat> {
         home: Scaffold(
           appBar: AppBar(
             centerTitle: true,
-            title: Text('Resep: ${widget.namaPasien}'),
+            title: Text('Input Resep'),
             leading: new IconButton(
               icon: new Icon(Icons.arrow_back),
               onPressed: () {
@@ -723,7 +651,60 @@ class _AptInputObatState extends State<AptInputObat> {
               },
             ),
           ),
-          body: Center(child: CircularProgressIndicator()),
+          body: ListView(
+            children: <Widget>[
+              Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(25.0),
+                    child: Container(
+                      color: Colors.green[50],
+                      child: Column(
+                        children: [
+                          TextFormField(
+                              controller: controllerNamaPembeli,
+                              decoration: InputDecoration(
+                                labelText: "Nama Pembeli",
+                                fillColor: Colors.white,
+                                prefixIcon: Padding(
+                                  padding: EdgeInsets.only(top: 15),
+                                  child: Icon(Icons.person),
+                                ),
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: BorderSide(
+                                    color: Colors.blue,
+                                  ),
+                                ),
+                                focusedBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(10.0),
+                                  borderSide: BorderSide(
+                                    color: Colors.blue,
+                                  ),
+                                ),
+                              )),
+                          Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: ExpansionTile(
+                                  title: Text(
+                                    'Input Resep',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(),
+                                  ),
+                                  children: [
+                                    widgetCariObat(),
+                                    widgetListObats(),
+                                  ])),
+                          widgetKeranjangObatApotekerBody(),
+                          widgetButtonSimpan()
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       );
     }

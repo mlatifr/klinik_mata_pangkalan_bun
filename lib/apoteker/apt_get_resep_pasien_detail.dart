@@ -12,14 +12,15 @@ List<ApotekerVKeranjangObat> aVKOs = [];
 List<ApotekerInputResepList> ListInputResep = [];
 
 class ApotekerInputResepList {
-  var rspAptkrId, obtId, obatNama, dosis, jumlah, visitId;
+  var rspAptkrId, obtId, obatNama, dosis, jumlah, visitId, namaPembeli;
   ApotekerInputResepList(
       {this.rspAptkrId,
       this.obtId,
       this.obatNama,
       this.dosis,
       this.jumlah,
-      this.visitId});
+      this.visitId,
+      this.namaPembeli});
 }
 
 class ApotekerVKeranjangObat {
@@ -91,7 +92,26 @@ Future<String> fetchDataApotekerInputRspVst(
     'tgl_penulisan_resep': pTglPenulisanResep.toString()
   });
   if (response.statusCode == 200) {
-    print('fetchDataApotekerInputRspVst: ${response.body}');
+    // print('fetchDataApotekerInputRspVst: ${response.body}');
+    return response.body;
+  } else {
+    // print('else: ${response.body}');
+    throw Exception('Failed to read API');
+  }
+}
+
+Future<String> fetchDataApotekerInputRsp(
+    pUserIdApoteker, pTglPenulisanResep) async {
+  // print(
+  //     'fetchDataApotekerInputRspVst: $pVisit_id | $pUser_id_apoteker | $pTgl_penulisan_resep');
+  final response = await http
+      .post(Uri.parse(apiUrl + "apoteker_input_resep_visit.php"), body: {
+    'user_id_apoteker': pUserIdApoteker.toString(),
+    'tgl_penulisan_resep': pTglPenulisanResep.toString()
+    // nama pembeli
+  });
+  if (response.statusCode == 200) {
+    // print('fetchDataApotekerInputRspVst: ${response.body}');
     return response.body;
   } else {
     // print('else: ${response.body}');
@@ -114,7 +134,7 @@ Future<String> fetchDataApotekerVListObat(pNamaObat) async {
 }
 
 Future<String> fetchDataApotekerInputResepObat(
-    pRspAptkrId, pObtId, pDosis, pJumlah, pVisitId) async {
+    pRspAptkrId, pObtId, pDosis, pJumlah) async {
   // print('final: $pObtId | $pDosis | $pJumlah | $pVisitId');
   final response = await http
       .post(Uri.parse(apiUrl + "apoteker_input_resep_has_obat.php"), body: {
@@ -122,13 +142,13 @@ Future<String> fetchDataApotekerInputResepObat(
     "obat_id": pObtId.toString(),
     "dosis": pDosis.toString(),
     "jumlah": pJumlah.toString(),
-    "visit_id": pVisitId.toString(),
   });
+  print('fetchDataApotekerInputResepObat: ${response.body}');
   if (response.statusCode == 200) {
     // print('fetchDataApotekerInputResepObat: ${response.body}');
     return response.body;
   } else {
-    print('else fetchDataApotekerInputResepObat: ${response.body}');
+    // print('else fetchDataApotekerInputResepObat: ${response.body}');
     throw Exception('Failed to read API');
   }
 }

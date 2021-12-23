@@ -127,9 +127,16 @@ class _AptAntreanPasienState extends State<AptAntreanPasien> {
             ),
           ),
           ListTile(
-            title: Text('Cari Pasien'),
+            title: Text('Input Resep'),
             onTap: () {
-              Navigator.of(context).pop();
+              _timerForInter.cancel();
+              print('timer stop');
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => AptInputObat(
+                            aptkrId: userIdMainDart,
+                          ))).then((onGoBack));
             },
           ),
           ListTile(
