@@ -5,10 +5,15 @@ import 'package:flutter_application_1/dokter/dr_get_list_obat.dart';
 import 'apt_get_resep_pasien_detail.dart';
 
 class AptInputObat extends StatefulWidget {
-  final aptkrId, namaPasien, visitId, namaPembeli;
+  final aptkrId, namaPasien, visitId, namaPembeli, rspId;
 
   const AptInputObat(
-      {Key key, this.aptkrId, this.namaPasien, this.visitId, this.namaPembeli})
+      {Key key,
+      this.aptkrId,
+      this.namaPasien,
+      this.visitId,
+      this.namaPembeli,
+      this.rspId})
       : super(key: key);
 
   @override
@@ -282,17 +287,21 @@ class _AptInputObatState extends State<AptInputObat> {
                                             visitId: widget.visitId);
                                     ListInputResep.add(selectedObat);
                                   } else {
-                                    print(
-                                        'nama pembeli ${controllerNamaPembeli.text}');
                                     ApotekerInputResepList selectedObat =
                                         ApotekerInputResepList(
-                                            rspAptkrId: aptkrRspId,
+                                            rspAptkrId: widget.rspId,
                                             obtId: aVLOs[index].obatId,
                                             obatNama: aVLOs[index].obatNama,
                                             dosis: controllerDosis.text,
                                             jumlah: controllerJumlah.text,
                                             namaPembeli:
                                                 controllerNamaPembeli.text);
+                                    print('\nrspAptkrId ${selectedObat.rspAptkrId}\n' +
+                                        'obtId ${selectedObat.obtId}\n' +
+                                        'obatNama ${selectedObat.obatNama}\n' +
+                                        'dosis ${selectedObat.dosis}\n' +
+                                        'jumlah ${selectedObat.jumlah}\n' +
+                                        'namaPembeli ${selectedObat.namaPembeli}');
                                     ListInputResep.add(selectedObat);
                                   }
 

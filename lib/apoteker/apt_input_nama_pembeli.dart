@@ -32,26 +32,50 @@ class _AptInputNamaPembeliState extends State<AptInputNamaPembeli> {
     super.dispose();
   }
 
+  var aptkrRspId;
+  var btnSimpanEnable = true;
   // ignore: missing_return
   Widget widgetButtonSimpan() {
-    return TextButton(
-      onPressed: () {
-        fetchDataApotekerInputRsp(
-            widget.aptkrId, widget.tgl_resep, controllerNamaPembeli.text);
-        // Navigator.push(
-        //     context,
-        //     MaterialPageRoute(
-        //         builder: (context) => AptInputObat(
-        //               aptkrId: widget.aptkrId,
-        //               namaPembeli: controllerNamaPembeli.text,
-        //             )));
-      },
-      child: Text('SIMPAN'),
-      style: TextButton.styleFrom(
-          primary: Colors.white,
-          backgroundColor: Colors.blue,
-          minimumSize: Size(MediaQuery.of(context).size.width, 10)),
-    );
+    if (btnSimpanEnable == true) {
+      return TextButton(
+        onPressed: () {
+          fetchDataApotekerInputRsp(
+                  widget.aptkrId, widget.tgl_resep, controllerNamaPembeli.text)
+              .then((value) {
+            Map json = jsonDecode(value);
+            aptkrRspId = json['id_resep_apoteker'].toString();
+            btnSimpanEnable = false;
+            setState(() {
+              widgetButtonSimpan();
+            });
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => AptInputObat(
+                          aptkrId: widget.aptkrId,
+                          namaPembeli: controllerNamaPembeli.text,
+                          rspId: aptkrRspId,
+                        )));
+          });
+        },
+        child: Text('SIMPAN'),
+        style: TextButton.styleFrom(
+            primary: Colors.white,
+            backgroundColor: Colors.blue,
+            minimumSize: Size(MediaQuery.of(context).size.width, 10)),
+      );
+    } else {
+      return TextButton(
+        onPressed: () {
+          Navigator.pop(context);
+        },
+        child: Text('BACK'),
+        style: TextButton.styleFrom(
+            primary: Colors.white,
+            backgroundColor: Colors.blue,
+            minimumSize: Size(MediaQuery.of(context).size.width, 10)),
+      );
+    }
   }
 
   @override

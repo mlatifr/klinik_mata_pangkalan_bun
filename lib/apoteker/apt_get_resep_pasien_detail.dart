@@ -101,17 +101,17 @@ Future<String> fetchDataApotekerInputRspVst(
 }
 
 Future<String> fetchDataApotekerInputRsp(
-    pUserIdApoteker, pTglPenulisanResep,pNama_pembeli) async {
+    pUserIdApoteker, pTglPenulisanResep, pNama_pembeli) async {
   // print(
   //     'fetchDataApotekerInputRspVst: $pVisit_id | $pUser_id_apoteker | $pTgl_penulisan_resep');
   final response = await http
       .post(Uri.parse(apiUrl + "apoteker_input_resep_visit.php"), body: {
     'user_id_apoteker': pUserIdApoteker.toString(),
     'tgl_penulisan_resep': pTglPenulisanResep.toString(),
-    'nama_pembeli':pNama_pembeli.toString()
+    'nama_pembeli': pNama_pembeli.toString()
   });
   if (response.statusCode == 200) {
-    // print('fetchDataApotekerInputRspVst: ${response.body}');
+    print('fetchDataApotekerInputRspVst: ${response.body}');
     return response.body;
   } else {
     // print('else: ${response.body}');
