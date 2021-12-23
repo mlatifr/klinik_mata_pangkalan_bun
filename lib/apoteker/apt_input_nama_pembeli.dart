@@ -6,13 +6,11 @@ import 'apt_get_resep_pasien_detail.dart';
 import 'apt_input_obat.dart';
 
 class AptInputNamaPembeli extends StatefulWidget {
-  final aptkrId, namaPasien;
+  final aptkrId, namaPasien, tgl_resep;
 
-  const AptInputNamaPembeli({
-    Key key,
-    this.aptkrId,
-    this.namaPasien,
-  }) : super(key: key);
+  const AptInputNamaPembeli(
+      {Key key, this.aptkrId, this.namaPasien, this.tgl_resep})
+      : super(key: key);
 
   @override
   _AptInputNamaPembeliState createState() => _AptInputNamaPembeliState();
@@ -38,13 +36,15 @@ class _AptInputNamaPembeliState extends State<AptInputNamaPembeli> {
   Widget widgetButtonSimpan() {
     return TextButton(
       onPressed: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-                builder: (context) => AptInputObat(
-                      aptkrId: widget.aptkrId,
-                      namaPembeli: controllerNamaPembeli.text,
-                    )));
+        fetchDataApotekerInputRsp(
+            widget.aptkrId, widget.tgl_resep, controllerNamaPembeli.text);
+        // Navigator.push(
+        //     context,
+        //     MaterialPageRoute(
+        //         builder: (context) => AptInputObat(
+        //               aptkrId: widget.aptkrId,
+        //               namaPembeli: controllerNamaPembeli.text,
+        //             )));
       },
       child: Text('SIMPAN'),
       style: TextButton.styleFrom(
@@ -62,7 +62,9 @@ class _AptInputNamaPembeliState extends State<AptInputNamaPembeli> {
       home: Scaffold(
         appBar: AppBar(
           centerTitle: true,
-          title: Text('Input Resep'),
+          title: Column(
+            children: [Text('Input Resep'), Text('${widget.tgl_resep}')],
+          ),
           leading: new IconButton(
             icon: new Icon(Icons.arrow_back),
             onPressed: () {

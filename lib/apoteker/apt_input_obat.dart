@@ -426,37 +426,37 @@ class _AptInputObatState extends State<AptInputObat> {
   }
 
   var aptkrRspId;
-  // ignore: non_constant_identifier_names
-  ApotekerBacaDataInpuRsp() {
-    //untuk input pada table resep, sebelum input table resep_has_obat
-    aptkrRspId = '';
-    if (widget.visitId != null) {
-      Future<String> data = fetchDataApotekerInputRspVst(
-        widget.visitId,
-        widget.aptkrId,
-        DateTime.now().toString().substring(0, 10),
-      );
-      data.then((value) {
-        //Mengubah json menjadi Array
-        // ignore: unused_local_variable
-        Map json = jsonDecode(value);
-        aptkrRspId = json['id_resep_apoteker'].toString();
-        setState(() {});
-      });
-    } else {
-      Future<String> data = fetchDataApotekerInputRsp(
-        widget.aptkrId,
-        DateTime.now().toString().substring(0, 10),
-      );
-      data.then((value) {
-        //Mengubah json menjadi Array
-        // ignore: unused_local_variable
-        Map json = jsonDecode(value);
-        aptkrRspId = json['id_resep_apoteker'].toString();
-        setState(() {});
-      });
-    }
-  }
+  // // ignore: non_constant_identifier_names
+  // ApotekerBacaDataInpuRsp() {
+  //   //untuk input pada table resep, sebelum input table resep_has_obat
+  //   aptkrRspId = '';
+  //   if (widget.visitId != null) {
+  //     Future<String> data = fetchDataApotekerInputRspVst(
+  //       widget.visitId,
+  //       widget.aptkrId,
+  //       DateTime.now().toString().substring(0, 10),
+  //     );
+  //     data.then((value) {
+  //       //Mengubah json menjadi Array
+  //       // ignore: unused_local_variable
+  //       Map json = jsonDecode(value);
+  //       aptkrRspId = json['id_resep_apoteker'].toString();
+  //       setState(() {});
+  //     });
+  //   } else {
+  //     Future<String> data = fetchDataApotekerInputRsp(
+  //       widget.aptkrId,
+  //       DateTime.now().toString().substring(0, 10),
+  //     );
+  //     data.then((value) {
+  //       //Mengubah json menjadi Array
+  //       // ignore: unused_local_variable
+  //       Map json = jsonDecode(value);
+  //       aptkrRspId = json['id_resep_apoteker'].toString();
+  //       setState(() {});
+  //     });
+  //   }
+  // }
 
 // ignore: non_constant_identifier_names
   ApotekerBacaInputResepObat(pRspAptkrId, pObtId, pDosis, pJumlah, pVisitId) {
@@ -473,7 +473,7 @@ class _AptInputObatState extends State<AptInputObat> {
   @override
   void initState() {
     aVKODrs.clear();
-    ApotekerBacaDataInpuRsp();
+    // ApotekerBacaDataInpuRsp();
     if (widget.visitId != null) {
       ApotekerBacaDataVKeranjangResepApoteker(widget.visitId);
       ApotekerBacaDataVKeranjangResepDokter(widget.visitId);

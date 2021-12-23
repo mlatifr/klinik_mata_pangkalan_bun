@@ -137,6 +137,7 @@ class _AptAntreanPasienState extends State<AptAntreanPasien> {
                   MaterialPageRoute(
                       builder: (context) => AptInputNamaPembeli(
                             aptkrId: userIdMainDart,
+                            tgl_resep: controllerdate.text,
                           ))).then((onGoBack));
             },
           ),
