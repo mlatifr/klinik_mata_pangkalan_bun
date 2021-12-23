@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_application_1/apoteker/apt_input_nama_pembeli.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../main.dart';
 import 'dart:async';
@@ -134,7 +135,7 @@ class _AptAntreanPasienState extends State<AptAntreanPasien> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => AptInputObat(
+                      builder: (context) => AptInputNamaPembeli(
                             aptkrId: userIdMainDart,
                           ))).then((onGoBack));
             },

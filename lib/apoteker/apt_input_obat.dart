@@ -5,9 +5,10 @@ import 'package:flutter_application_1/dokter/dr_get_list_obat.dart';
 import 'apt_get_resep_pasien_detail.dart';
 
 class AptInputObat extends StatefulWidget {
-  final aptkrId, namaPasien, visitId;
+  final aptkrId, namaPasien, visitId, namaPembeli;
 
-  const AptInputObat({Key key, this.aptkrId, this.namaPasien, this.visitId})
+  const AptInputObat(
+      {Key key, this.aptkrId, this.namaPasien, this.visitId, this.namaPembeli})
       : super(key: key);
 
   @override
@@ -471,6 +472,7 @@ class _AptInputObatState extends State<AptInputObat> {
 
   @override
   void initState() {
+    aVKODrs.clear();
     ApotekerBacaDataInpuRsp();
     if (widget.visitId != null) {
       ApotekerBacaDataVKeranjangResepApoteker(widget.visitId);
@@ -663,9 +665,9 @@ class _AptInputObatState extends State<AptInputObat> {
                       child: Column(
                         children: [
                           TextFormField(
-                              controller: controllerNamaPembeli,
+                              enabled: false,
                               decoration: InputDecoration(
-                                labelText: "Nama Pembeli",
+                                labelText: "${widget.namaPembeli}",
                                 fillColor: Colors.white,
                                 prefixIcon: Padding(
                                   padding: EdgeInsets.only(top: 15),
