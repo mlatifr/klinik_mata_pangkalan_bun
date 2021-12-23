@@ -472,7 +472,7 @@ class _AptInputObatState extends State<AptInputObat> {
   @override
   void initState() {
     ApotekerBacaDataInpuRsp();
-    if (widget.visitId.toString() != null) {
+    if (widget.visitId != null) {
       ApotekerBacaDataVKeranjangResepApoteker(widget.visitId);
       ApotekerBacaDataVKeranjangResepDokter(widget.visitId);
     }
@@ -581,6 +581,7 @@ class _AptInputObatState extends State<AptInputObat> {
   }
 
   @override
+  // ignore: missing_return
   Widget build(BuildContext context) {
     if (aVKODrs.length > 0) {
       return MaterialApp(
@@ -637,7 +638,7 @@ class _AptInputObatState extends State<AptInputObat> {
           ),
         ),
       );
-    } else {
+    } else if (widget.visitId == null && aVLOs.length > 0) {
       return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
@@ -704,6 +705,25 @@ class _AptInputObatState extends State<AptInputObat> {
                 ],
               ),
             ],
+          ),
+        ),
+      );
+    } else {
+      return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        home: Scaffold(
+          appBar: AppBar(
+            centerTitle: true,
+            title: Text('Input Resep'),
+            leading: new IconButton(
+              icon: new Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+          ),
+          body: ListView(
+            children: <Widget>[],
           ),
         ),
       );
