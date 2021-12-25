@@ -1,27 +1,24 @@
 import 'dart:async';
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_application_1/kasir/kasir_detail_pasien.dart';
-
-import '../main.dart';
-import 'fetch_data/kasir_get_antrean.dart';
-import 'fetch_data/kasir_get_resep.dart';
-import 'pembeli_non_visit/kasir_pembeli_non_vst.dart';
+import 'package:flutter_application_1/kasir/fetch_data/kasir_get_resep.dart';
+import '../../main.dart';
 
 Timer _timerForInter; // <- Put this line on top of _MyAppState class
 
-class KsrAntreanPasien extends StatefulWidget {
-  const KsrAntreanPasien({Key key}) : super(key: key);
+// ignore: must_be_immutable
+class KsrPmbliNonVst extends StatefulWidget {
+  var kasirId;
+  KsrPmbliNonVst({Key key, this.kasirId}) : super(key: key);
 
   @override
-  _KsrAntreanPasienState createState() => _KsrAntreanPasienState();
+  _KsrPmbliNonVstState createState() => _KsrPmbliNonVstState();
 }
 
 var controllerdate = TextEditingController();
 
-class _KsrAntreanPasienState extends State<KsrAntreanPasien> {
+class _KsrPmbliNonVstState extends State<KsrPmbliNonVst> {
   Widget widgetDrawer() {
     return Drawer(
       child: ListView(
@@ -43,18 +40,6 @@ class _KsrAntreanPasienState extends State<KsrAntreanPasien> {
             ),
           ),
           ListTile(
-            title: Text('pembeli non visit'),
-            onTap: () {
-              _timerForInter.cancel();
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => KsrPmbliNonVst(
-                            kasirId: '2',
-                          ))).then((onGoBack));
-            },
-          ),
-          ListTile(
             title: Text('Logout'),
             onTap: () {
               _timerForInter.cancel();
@@ -66,22 +51,22 @@ class _KsrAntreanPasienState extends State<KsrAntreanPasien> {
     );
   }
 
-  // ignore: non_constant_identifier_names
-  KasirBacaDataVAntrean(pDate) {
-    kVAs.clear();
-    Future<String> data = fetchDataKasirVAntreanPasien(pDate);
-    data.then((value) {
-      //Mengubah json menjadi Array
-      // ignore: unused_local_variable
-      Map json = jsonDecode(value);
-      for (var i in json['data']) {
-        // //print(i);
-        KasirVAntrean kva = KasirVAntrean.fromJson(i);
-        kVAs.add(kva);
-      }
-      setState(() {});
-    });
-  }
+  // // ignore: non_constant_identifier_names
+  // KasirBacaDataVAntrean(pDate) {
+  //   kVAs.clear();
+  //   Future<String> data = fetchDataKasirVAntreanPasien(pDate);
+  //   data.then((value) {
+  //     //Mengubah json menjadi Array
+  //     // ignore: unused_local_variable
+  //     Map json = jsonDecode(value);
+  //     for (var i in json['data']) {
+  //       //print(i);
+  //       KasirVAntrean kva = KasirVAntrean.fromJson(i);
+  //       kVAs.add(kva);
+  //     }
+  //     setState(() {});
+  //   });
+  // }
 
   Widget widgetSelectTgl() {
     return Padding(
@@ -128,7 +113,7 @@ class _KsrAntreanPasienState extends State<KsrAntreanPasien> {
                     setState(() {
                       controllerdate.text = value.toString().substring(0, 10);
                       //print(value.toString());
-                      KasirBacaDataVAntrean(controllerdate.text);
+                      KasirBacaDataVAntreanNonVisit(controllerdate.text);
                     });
                   });
                 },
@@ -145,8 +130,25 @@ class _KsrAntreanPasienState extends State<KsrAntreanPasien> {
   void functionTimerRefresh() {
     _timerForInter = Timer.periodic(Duration(seconds: 15), (result) {
       setState(() {
-        KasirBacaDataVAntrean(controllerdate.text);
+        // KasirBacaDataVAntrean(controllerdate.text);
       });
+    });
+  }
+
+  // ignore: non_constant_identifier_names
+  KasirBacaDataVAntreanNonVisit(pDate) {
+    kasir_list_tgl_rsp_non_visit.clear();
+    Future<String> data = fetchDataKasirVKrjgTglNonVisit(pDate);
+    data.then((value) {
+      //Mengubah json menjadi Array
+      // ignore: unused_local_variable
+      Map json = jsonDecode(value);
+      for (var i in json['data']) {
+        // print('KasirBacaDataVAntreanNonVisit $i');
+        KasirVKrjgTglNonVisit kva = KasirVKrjgTglNonVisit.fromJson(i);
+        kasir_list_tgl_rsp_non_visit.add(kva);
+      }
+      setState(() {});
     });
   }
 
@@ -156,8 +158,10 @@ class _KsrAntreanPasienState extends State<KsrAntreanPasien> {
     DateTime date = new DateTime(now.year, now.month, now.day);
     //print(date);
     controllerdate.text = date.toString().substring(0, 10);
-    KasirBacaDataVAntrean(controllerdate.text);
-    kVAs = [];
+
+    KasirBacaDataVAntreanNonVisit(controllerdate.text);
+    // KasirBacaDataVAntrean(controllerdate.text);
+    // kVAs = [];
     functionTimerRefresh();
     super.initState();
   }
@@ -165,42 +169,61 @@ class _KsrAntreanPasienState extends State<KsrAntreanPasien> {
   onGoBack(dynamic value) {
     //print('timer start');
     setState(() {
-      KasirBacaDataVAntrean(controllerdate.text);
-      widgetLsTile();
+      // KasirBacaDataVAntrean(controllerdate.text);
+      // widgetLsTile();
     });
   }
 
   Widget widgetLsTile() {
-    if (kVAs.length > 0) {
+    if (kasir_list_tgl_rsp_non_visit.length > 0) {
       return Expanded(
         child: ListView.builder(
-            itemCount: kVAs.length,
+            itemCount: kasir_list_tgl_rsp_non_visit.length,
             itemBuilder: (context, index) {
               return Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                  child: ListTile(
-                    onTap: () {
-                      _timerForInter.cancel();
-                      //print('timer stop');
-                      Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => KasirDetailPasien(
-                                      namaPasien: kVAs[index].userName,
-                                      visitId: kVAs[index].visitId,
-                                      visitDate: controllerdate.text
-                                          .toString()
-                                          .substring(0, 10))))
-                          .then((onGoBack))
-                          .then((value) => functionTimerRefresh());
-                    },
-                    leading: CircleAvatar(
-                      child: Text('${index + 1}'),
+                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
+                child: Container(
+                    child: ListTile(
+                      onTap: () {
+                        _timerForInter.cancel();
+                        // //print('timer stop');
+                        // Navigator.push(
+                        //         context,
+                        //         MaterialPageRoute(
+                        //             builder: (context) => KasirDetailPasien(
+                        //                 namaPasien: kVAs[index].userName,
+                        //                 visitId: kVAs[index].visitId,
+                        //                 visitDate: controllerdate.text
+                        //                     .toString()
+                        //                     .substring(0, 10))))
+                        //     .then((onGoBack))
+                        //     .then((value) => functionTimerRefresh());
+                      },
+                      leading: Column(
+                        children: [
+                          Expanded(
+                            flex: 4,
+                            child: CircleAvatar(
+                              child: Text(
+                                  '${kasir_list_tgl_rsp_non_visit[index].resep_apoteker_id}'),
+                            ),
+                          ),
+                          Expanded(flex: 2, child: Text('id resep'))
+                        ],
+                      ),
+                      title: Center(
+                        child: Text(
+                            '${kasir_list_tgl_rsp_non_visit[index].nama_pembeli}'),
+                      ),
+                      // subtitle: Center(
+                      //   child: Text(
+                      //       'id resep ${kasir_krjg_rsp_apt_non_vst[index].resep_apoteker_id}'),
+                      // ),
+                      // trailing: widgetStatusAntrean(index)
                     ),
-                    title: Text('${kVAs[index].userName}'),
-                    subtitle: Text('sub judul'),
-                    // trailing: widgetStatusAntrean(index)
-                  ));
+                    decoration:
+                        BoxDecoration(border: Border(bottom: BorderSide()))),
+              );
             }),
       );
     } else {
@@ -220,9 +243,14 @@ class _KsrAntreanPasienState extends State<KsrAntreanPasien> {
       home: Scaffold(
           appBar: AppBar(
             centerTitle: true,
-            title: Text("Antrean Pasien"),
+            title: Text("Daftar Pembelian"),
+            leading: new IconButton(
+              icon: new Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
           ),
-          drawer: widgetDrawer(),
           body: Column(
             children: [
               widgetSelectTgl(),

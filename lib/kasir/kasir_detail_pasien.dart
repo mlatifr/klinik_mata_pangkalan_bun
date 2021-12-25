@@ -75,7 +75,7 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
   // ignore: non_constant_identifier_names
   KasirBacaDataVResep(pVisitId) {
     kVKRs.clear();
-    Future<String> data = fetchDataDokterVKeranjangResep(pVisitId);
+    Future<String> data = fetchDataKasirVKeranjangResep(pVisitId);
     data.then((value) {
       numberFormatRpResep = new NumberFormat("#,##0", "id_ID");
       //Mengubah json menjadi Array
@@ -104,7 +104,7 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
       for (var i in json['data']) {
-        print('fetchDataDokterVKeranjangTindakan: ${i.toString()}');
+        // print('fetchDataDokterVKeranjangTindakan: ${i.toString()}');
         KasirVKeranjangTindakan kvt = KasirVKeranjangTindakan.fromJson(i);
         kVKTs.add(kvt);
       }
@@ -402,7 +402,8 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
                   widget.visitDate,
                   controllerBiayaJasaMedis.text,
                   controllerBiayaAdmin.text,
-                  totalTdknRspAdmMdis)
+                  totalTdknRspAdmMdis,
+                  '')
               .then((value) {
             if (value.contains('success')) {
               showDialog<String>(
@@ -438,7 +439,7 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
   var bayarButton = true;
   // ignore: missing_return
   Widget widgetButtonBayar() {
-    print('bayar $bayarButton');
+    // print('bayar $bayarButton');
     if (bayarButton == true) {
       return Padding(
         padding: const EdgeInsets.all(8.0),
@@ -487,7 +488,9 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
           title: Text('Detail Biaya'),
           leading: new IconButton(
             icon: new Icon(Icons.arrow_back),
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
         ),
         body: ListView(

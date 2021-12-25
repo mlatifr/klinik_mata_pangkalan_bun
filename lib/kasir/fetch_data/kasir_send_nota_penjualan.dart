@@ -20,7 +20,7 @@ class KasirInputNotaJual {
 }
 
 Future<String> fetchDataKasirInputNotaJual(pUserId, pVisitId, pTglTransaksi,
-    pJasaMedis, pBiayaAdmin, pTotalHarga) async {
+    pJasaMedis, pBiayaAdmin, pTotalHarga, pResepApotekerId) async {
   final response =
       await http.post(Uri.parse(apiUrl + "kasir_input_nota_jual.php"), body: {
     "user_id": pUserId.toString(),
@@ -29,6 +29,8 @@ Future<String> fetchDataKasirInputNotaJual(pUserId, pVisitId, pTglTransaksi,
     "jasa_medis": pJasaMedis.toString(),
     "biaya_admin": pBiayaAdmin.toString(),
     "total_harga": pTotalHarga.toString(),
+    "resep_apoteker_id": pResepApotekerId.toString(),
+    
   });
   if (response.statusCode == 200) {
     print('kasir_input_nota_jual tindakan:  \n'
