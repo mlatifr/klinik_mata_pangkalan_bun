@@ -1,7 +1,5 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_application_1/dokter/dr_get_list_obat.dart';
 import 'apt_get_resep_pasien_detail.dart';
 import 'apt_input_obat.dart';
 

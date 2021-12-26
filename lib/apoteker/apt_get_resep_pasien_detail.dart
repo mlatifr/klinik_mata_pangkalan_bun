@@ -160,7 +160,7 @@ Future<String> fetchDataApotekerKeranjangObatDokter(pVisitId) async {
     "visit_id": pVisitId.toString(),
   });
   if (response.statusCode == 200) {
-    print('200: ${response.body}');
+    print('fetchDataApotekerKeranjangObatDokter: ${response.body}');
     return response.body;
   } else {
     // print('else: ${response.body}');
@@ -168,18 +168,18 @@ Future<String> fetchDataApotekerKeranjangObatDokter(pVisitId) async {
   }
 }
 
-Future<String> fetchDataApotekerVKeranjangResepApotekerId(pVisitId) async {
-  // print('final:$pVisitId');
-  final response = await http.post(
-      Uri.parse(apiUrl + "apoteker_v_keranjang_resep_obat_apoteker.php"),
-      body: {
-        "visit_id": pVisitId.toString(),
-      });
-  if (response.statusCode == 200) {
-    print('apoteker_v_keranjang_resep_obat 200: ${response.body}');
-    return response.body;
-  } else {
-    // print('else: ${response.body}');
-    throw Exception('Failed to read API');
-  }
-}
+// Future<String> fetchDataApotekerVKeranjangResepApotekerId(pVisitId) async {
+//   // print('final:$pVisitId');
+//   final response = await http.post(
+//       Uri.parse(apiUrl + "apoteker_v_keranjang_resep_obat_apoteker.php"),
+//       body: {
+//         "visit_id": pVisitId.toString(),
+//       });
+//   if (response.statusCode == 200) {
+//     // print('apoteker_v_keranjang_resep_obat 200: ${response.body}');
+//     return response.body;
+//   } else {
+//     // print('else: ${response.body}');
+//     throw Exception('Failed to read API');
+//   }
+// }
