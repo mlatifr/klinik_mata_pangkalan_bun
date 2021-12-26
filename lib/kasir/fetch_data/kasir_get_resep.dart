@@ -97,13 +97,13 @@ Future<String> fetchDataKasirVTglNonVisit(tgl_penulisan_resep) async {
 List<KasirVKrjgObatNonVisit> kasir_krjg_obt_non_visit = [];
 
 class KasirVKrjgObatNonVisit {
-  var resep_apoteker_id, tgl_penulisan_resep, nama_pembeli, jumlah, harga_jual;
+  var resep_apoteker_id, tgl_penulisan_resep, nama_pembeli, jumlah, harga_jual,nama_obat;
   KasirVKrjgObatNonVisit(
       {this.resep_apoteker_id,
       this.tgl_penulisan_resep,
       this.nama_pembeli,
       this.jumlah,
-      this.harga_jual});
+      this.harga_jual,this.nama_obat});
 
   // untuk convert dari jSon
   factory KasirVKrjgObatNonVisit.fromJson(Map<String, dynamic> json) {
@@ -112,16 +112,16 @@ class KasirVKrjgObatNonVisit {
       tgl_penulisan_resep: json['tgl_penulisan_resep'],
       nama_pembeli: json['nama_pembeli'],
       jumlah: json['jumlah'],
-      harga_jual: json['harga_jual'],
+      harga_jual: json['harga_jual'], nama_obat: json['nama'],
     );
   }
 }
 
 Future<String> fetchDataKasirVKeranjangResepNonVisit(resep_apoteker_id) async {
-  print('fetchDataKasirVKeranjangResepNonVisit: $resep_apoteker_id');
+  // print('fetchDataKasirVKeranjangResepNonVisit: $resep_apoteker_id');
   final response = await http.post(Uri.parse(apiUrl + "kasir_v_antrean.php"),
       body: {"resep_id_non_visit": resep_apoteker_id.toString()});
-  print('fetchDataKasirVKeranjangResepNonVisit: ${response.statusCode}');
+  // print('fetchDataKasirVKeranjangResepNonVisit: ${response.statusCode}');
   if (response.statusCode == 200) {
     print('fetchDataKasirVKeranjangResepNonVisit: ${response.body}');
     return response.body;

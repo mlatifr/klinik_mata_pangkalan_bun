@@ -5,8 +5,7 @@ import 'package:flutter_application_1/kasir/fetch_data/kasir_get_resep.dart';
 import 'package:flutter_application_1/main.dart';
 import 'package:intl/intl.dart';
 
-import '../kasir_widget_krjg_resep.dart';
-
+// ignore: must_be_immutable
 class KasirVDetailPembelianNonVisit extends StatefulWidget {
   var resep_id;
   KasirVDetailPembelianNonVisit({Key key, this.resep_id}) : super(key: key);
@@ -33,8 +32,8 @@ class _KasirVDetailPembelianNonVisitState
     totalBiayaObat = 0;
     if (kasir_krjg_obt_non_visit.length > 0) {
       for (var i = 0; i < kasir_krjg_obt_non_visit.length; i++) {
-        hargaKaliObat
-            .add(int.parse(kVKRs[i].hargaJual) * int.parse(kVKRs[i].jumlah));
+        hargaKaliObat.add(int.parse(kasir_krjg_obt_non_visit[i].harga_jual) *
+            int.parse(kasir_krjg_obt_non_visit[i].jumlah));
         // totalBiayaObat = totalBiayaObat + hargaKaliObat[i];
       }
       for (var i = 0; i < hargaKaliObat.length; i++) {
@@ -81,7 +80,7 @@ class _KasirVDetailPembelianNonVisitState
                     children: [
                       TableRow(children: [
                         Text(
-                          ' $index| ${kasir_krjg_obt_non_visit[index].nama_pembeli}',
+                          '${kasir_krjg_obt_non_visit[index].nama_obat}',
                           textAlign: TextAlign.left,
                         ),
                         Text(
