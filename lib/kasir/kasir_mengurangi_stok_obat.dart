@@ -35,6 +35,26 @@ Function CalculateStokObatBaru() {
   }
 }
 
+Function CalculateStokObatBaruNonVisit() {
+  ListStokObatBaru.clear();
+  for (var item in kasir_krjg_obt_non_visit) {
+    stokLama = item.stok_obat - int.parse(item.jumlah);
+    ClassStokObatBaru sb =
+        ClassStokObatBaru(obatId: item.obat_id, stokObatBaru: stokLama);
+    ListStokObatBaru.add(sb);
+  }
+  // for (var item in ListStokObatBaru) {
+  //   print(item.obatId.toString() + '|' + item.stokObatBaru.toString());
+  //   updateStokObat(item.obatId, item.stokObatBaru);
+  // }
+  for (var i = 0; i < ListStokObatBaru.length; i++) {
+    // print(
+    //     '${ListStokObatBaru[i].obatId} | ${ListStokObatBaru[i].stokObatBaru}');
+    updateStokObat(
+        ListStokObatBaru[i].obatId, ListStokObatBaru[i].stokObatBaru);
+  }
+}
+
 Future<String> updateStokObat(pObatId, pObatStok) async {
   print('$pObatId | $pObatStok');
   final response = await http

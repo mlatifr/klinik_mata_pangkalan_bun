@@ -5,6 +5,7 @@ import 'package:flutter_application_1/kasir/fetch_data/kasir_get_resep.dart';
 import 'package:flutter_application_1/main.dart';
 import 'package:intl/intl.dart';
 
+import '../kasir_mengurangi_stok_obat.dart';
 import 'kasir_input_nota_penjualan_non_visit.dart';
 
 // ignore: must_be_immutable
@@ -130,9 +131,10 @@ class _KasirVDetailPembelianNonVisitState
 
   var numberFormatRpResep;
   // ignore: non_constant_identifier_names
-  KasirBacaDataVResepNonVisit(resep_id) {
+  KasirBacaDataVResepNonVisit(resep_apoteker_id) {
     kasir_krjg_obt_non_visit.clear();
-    Future<String> data = fetchDataKasirVKeranjangResepNonVisit(resep_id);
+    Future<String> data =
+        fetchDataKasirVKeranjangResepNonVisit(resep_apoteker_id);
     data.then((value) {
       numberFormatRpResep = new NumberFormat("#,##0", "id_ID");
       //Mengubah json menjadi Array
@@ -186,7 +188,7 @@ class _KasirVDetailPembelianNonVisitState
                 ),
               );
             }
-            // CalculateStokObatBaru();
+            CalculateStokObatBaruNonVisit();
           });
         },
         child: Text('Ya'));
