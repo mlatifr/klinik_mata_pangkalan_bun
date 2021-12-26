@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/kasir/fetch_data/kasir_get_resep.dart';
+import 'package:flutter_application_1/kasir/pembeli_non_visit/kasir_detail_pembeli_non_visit.dart';
 import '../../main.dart';
 
 Timer _timerForInter; // <- Put this line on top of _MyAppState class
@@ -138,7 +139,7 @@ class _KsrPmbliNonVstState extends State<KsrPmbliNonVst> {
   // ignore: non_constant_identifier_names
   KasirBacaDataVAntreanNonVisit(pDate) {
     kasir_list_tgl_rsp_non_visit.clear();
-    Future<String> data = fetchDataKasirVKrjgTglNonVisit(pDate);
+    Future<String> data = fetchDataKasirVTglNonVisit(pDate);
     data.then((value) {
       //Mengubah json menjadi Array
       // ignore: unused_local_variable
@@ -187,17 +188,17 @@ class _KsrPmbliNonVstState extends State<KsrPmbliNonVst> {
                       onTap: () {
                         _timerForInter.cancel();
                         // //print('timer stop');
-                        // Navigator.push(
-                        //         context,
-                        //         MaterialPageRoute(
-                        //             builder: (context) => KasirDetailPasien(
-                        //                 namaPasien: kVAs[index].userName,
-                        //                 visitId: kVAs[index].visitId,
-                        //                 visitDate: controllerdate.text
-                        //                     .toString()
-                        //                     .substring(0, 10))))
-                        //     .then((onGoBack))
-                        //     .then((value) => functionTimerRefresh());
+                        Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        KasirVDetailPembelianNonVisit(
+                                            resep_id:
+                                                kasir_list_tgl_rsp_non_visit[
+                                                        index]
+                                                    .resep_apoteker_id)))
+                            .then((onGoBack))
+                            .then((value) => functionTimerRefresh());
                       },
                       leading: Column(
                         children: [
@@ -215,10 +216,10 @@ class _KsrPmbliNonVstState extends State<KsrPmbliNonVst> {
                         child: Text(
                             '${kasir_list_tgl_rsp_non_visit[index].nama_pembeli}'),
                       ),
-                      // subtitle: Center(
-                      //   child: Text(
-                      //       'id resep ${kasir_krjg_rsp_apt_non_vst[index].resep_apoteker_id}'),
-                      // ),
+                      subtitle: Center(
+                        child: Text(
+                            '${kasir_list_tgl_rsp_non_visit[index].tgl_penulisan_resep.toString().substring(0, 10)}'),
+                      ),
                       // trailing: widgetStatusAntrean(index)
                     ),
                     decoration:

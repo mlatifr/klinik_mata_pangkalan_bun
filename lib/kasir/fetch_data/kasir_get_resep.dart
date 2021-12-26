@@ -78,8 +78,7 @@ class KasirVKrjgTglNonVisit {
   }
 }
 
-Future<String> fetchDataKasirVKrjgTglNonVisit(
-    tgl_penulisan_resep) async {
+Future<String> fetchDataKasirVTglNonVisit(tgl_penulisan_resep) async {
   // print('fetchDataKasirVKeranjangResepNonVisit: $tgl_penulisan_resep');
   final response = await http.post(Uri.parse(apiUrl + "kasir_v_antrean.php"),
       body: {"tgl_penulisan_resep": tgl_penulisan_resep.toString()});
@@ -95,34 +94,36 @@ Future<String> fetchDataKasirVKrjgTglNonVisit(
 
 // kasir lihat detail obat yg dibeli (resep) apoteker untuk pembeli yg tidak visit dokter
 
-List<KasirVKrjgObatNonVisit> kasir_krjg_obt_non_visit= [];
+List<KasirVKrjgObatNonVisit> kasir_krjg_obt_non_visit = [];
 
 class KasirVKrjgObatNonVisit {
-  var resep_apoteker_id, tgl_penulisan_resep, nama_pembeli;
-  KasirVKrjgObatNonVisit({
-    this.resep_apoteker_id,
-    this.tgl_penulisan_resep,
-    this.nama_pembeli,
-  });
+  var resep_apoteker_id, tgl_penulisan_resep, nama_pembeli, jumlah, harga_jual;
+  KasirVKrjgObatNonVisit(
+      {this.resep_apoteker_id,
+      this.tgl_penulisan_resep,
+      this.nama_pembeli,
+      this.jumlah,
+      this.harga_jual});
 
   // untuk convert dari jSon
   factory KasirVKrjgObatNonVisit.fromJson(Map<String, dynamic> json) {
     return new KasirVKrjgObatNonVisit(
-      resep_apoteker_id: json['resep_apoteker_id'],
+      resep_apoteker_id: json['resep_id'],
       tgl_penulisan_resep: json['tgl_penulisan_resep'],
       nama_pembeli: json['nama_pembeli'],
+      jumlah: json['jumlah'],
+      harga_jual: json['harga_jual'],
     );
   }
 }
 
-Future<String> fetchDataKasirVKeranjangResepNonVisit(
-    tgl_penulisan_resep) async {
-  // print('fetchDataKasirVKeranjangResepNonVisit: $tgl_penulisan_resep');
+Future<String> fetchDataKasirVKeranjangResepNonVisit(resep_apoteker_id) async {
+  print('fetchDataKasirVKeranjangResepNonVisit: $resep_apoteker_id');
   final response = await http.post(Uri.parse(apiUrl + "kasir_v_antrean.php"),
-      body: {"tgl_penulisan_resep": tgl_penulisan_resep.toString()});
-  // print('tgl_penulisan_resep: ${response.statusCode}');
+      body: {"resep_id_non_visit": resep_apoteker_id.toString()});
+  print('fetchDataKasirVKeranjangResepNonVisit: ${response.statusCode}');
   if (response.statusCode == 200) {
-    print('tgl_penulisan_resep: ${response.body}');
+    print('fetchDataKasirVKeranjangResepNonVisit: ${response.body}');
     return response.body;
   } else {
     // print('else tgl_penulisan_resep: ${response.body}');
