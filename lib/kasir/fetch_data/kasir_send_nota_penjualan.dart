@@ -33,17 +33,17 @@ Future<String> fetchDataKasirInputNotaJual(pUserId, pVisitId, pTglTransaksi,
     
   });
   if (response.statusCode == 200) {
-    print('kasir_input_nota_jual tindakan:  \n'
-        '$pUserId \n'
-        '$pVisitId \n'
-        '$pTglTransaksi \n'
-        '$pJasaMedis \n'
-        '$pBiayaAdmin \n'
-        '$pTotalHarga \n'
-        '${response.body}');
+    // print('kasir_input_nota_jual tindakan:  \n'
+    //     '$pUserId \n'
+    //     '$pVisitId \n'
+    //     '$pTglTransaksi \n'
+    //     '$pJasaMedis \n'
+    //     '$pBiayaAdmin \n'
+    //     '$pTotalHarga \n'
+    //     '${response.body}');
     return response.body;
   } else {
-    print('kasir_input_nota_jual else: ${response.body}');
+    // print('kasir_input_nota_jual else: ${response.body}');
     throw Exception('Failed to read API');
   }
 }

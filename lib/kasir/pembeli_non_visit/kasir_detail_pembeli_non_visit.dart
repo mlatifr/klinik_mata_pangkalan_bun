@@ -5,6 +5,8 @@ import 'package:flutter_application_1/kasir/fetch_data/kasir_get_resep.dart';
 import 'package:flutter_application_1/main.dart';
 import 'package:intl/intl.dart';
 
+import 'kasir_input_nota_penjualan_non_visit.dart';
+
 // ignore: must_be_immutable
 class KasirVDetailPembelianNonVisit extends StatefulWidget {
   var resep_id;
@@ -150,6 +152,92 @@ class _KasirVDetailPembelianNonVisitState
     });
   }
 
+  Widget widgetBayarYa() {
+    return ElevatedButton(
+        onPressed: () {
+          fetchDataKasirInputNotaJualNonVisit(
+            userIdMainDart,
+            widget.resep_id,
+            kasir_krjg_obt_non_visit[0].tgl_penulisan_resep,
+            totalBiayaObat,
+          ).then((value) {
+            if (value.contains('success')) {
+              showDialog<String>(
+                barrierDismissible: false,
+                context: context,
+                builder: (BuildContext context) => AlertDialog(
+                  title: Text(
+                    'pembayaran sukses',
+                    style: TextStyle(fontSize: 14),
+                  ),
+                  actions: <Widget>[
+                    ElevatedButton(
+                        onPressed: () {
+                          bayarButton = false;
+                          setState(() {
+                            // widgetTextTotalPembayaran();
+                            widgetButtonBayar();
+                          });
+                          Navigator.pop(context);
+                          Navigator.pop(context);
+                        },
+                        child: Text('ok')),
+                  ],
+                ),
+              );
+            }
+            // CalculateStokObatBaru();
+          });
+        },
+        child: Text('Ya'));
+  }
+
+  var bayarButton = true;
+  // ignore: missing_return
+  Widget widgetButtonBayar() {
+    // print('bayar $bayarButton');
+    if (bayarButton == true) {
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ElevatedButton(
+          onPressed: () {
+            showDialog<String>(
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                title: Text(
+                  'Apakah anda akan menyimpan pembayaran?',
+                  style: TextStyle(fontSize: 14),
+                ),
+                actions: <Widget>[
+                  widgetBayarYa(),
+                  ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
+                    child: Text('batal'),
+                    style: ElevatedButton.styleFrom(primary: Colors.red),
+                  )
+                ],
+              ),
+            );
+          },
+          child: Text('Bayar'),
+          style: TextButton.styleFrom(
+              primary: Colors.white,
+              backgroundColor: Colors.blue,
+              minimumSize: Size(MediaQuery.of(context).size.width,
+                  MediaQuery.of(context).size.height * 0.01)),
+        ),
+      );
+    } else {
+      return ElevatedButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Text('back'));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -190,7 +278,7 @@ class _KasirVDetailPembelianNonVisitState
                         // Padding(
                         //     padding: const EdgeInsets.all(8.0),
                         //     child: widgetInputPembayaran()),
-                        // widgetButtonBayar()
+                        widgetButtonBayar()
                       ],
                     ),
                   ),
