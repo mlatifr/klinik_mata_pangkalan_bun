@@ -189,7 +189,7 @@ class _DrAntreanPasienState extends State<DrAntreanPasien> {
                                       namaPasien: '${DVAs[index].userName}',
                                       visitId: '${DVAs[index].visitId}',
                                       keluhan: '${DVAs[index].keluhan}',
-                                    )));
+                                    ))).then((value) => onGoBack(value));
                       },
                       leading: CircleAvatar(
                         child: Text('${index + 1}'),

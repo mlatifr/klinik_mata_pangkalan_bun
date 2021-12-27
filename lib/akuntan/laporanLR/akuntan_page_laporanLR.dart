@@ -4,7 +4,6 @@ import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_HPP_ob
     as akunHPPObat;
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_admin.dart'
     as akunAdmin;
-import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_jasmed.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_jasmed.dart'
     as akunJasmed;
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_obat.dart';
@@ -12,6 +11,8 @@ import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_obat.d
     as akunObat;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_application_1/akuntan/page_nota/akuntan_fetch_penjualan_nota.dart'
+    as fetchPenjualan;
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_fetch_penjualan_nota.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_tindakan.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_tindakan.dart'
@@ -83,53 +84,54 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
     });
   }
 
-//baca data nota akun jasmed
-// ignore: non_constant_identifier_names
-  AkunanBacaDataPenjualanAdmin(tgl) {
-    listPenjualanAdmins.clear();
-    Future<String> data = fetchDataVPenjualanAdmin(tgl);
-    data.then((value) {
-      //Mengubah json menjadi Array
-      // ignore: unused_local_variable
-      Map json = jsonDecode(value);
-      for (var i in json['data']) {
-        //print(i);
-        AkuntanVPenjualanAdmin pjlnAdminNota =
-            AkuntanVPenjualanAdmin.fromJson(i);
-        listPenjualanAdmins.add(pjlnAdminNota);
-      }
-      setState(() {
-        WidgetAkunJasmed();
-      });
-    });
-  }
+// //baca data nota akun jasmed
+// // ignore: non_constant_identifier_names
+//   AkunanBacaDataPenjualanAdmin(tgl) {
+//     listPenjualanAdmins.clear();
+//     Future<String> data = fetchDataVPenjualanAdmin(tgl);
+//     data.then((value) {
+//       //Mengubah json menjadi Array
+//       // ignore: unused_local_variable
+//       Map json = jsonDecode(value);
+//       for (var i in json['data']) {
+//         //print(i);
+//         AkuntanVPenjualanAdmin pjlnAdminNota =
+//             AkuntanVPenjualanAdmin.fromJson(i);
+//         listPenjualanAdmins.add(pjlnAdminNota);
+//       }
+//       setState(() {
+//         WidgetAkunJasmed();
+//       });
+//     });
+//   }
 
-//baca data nota akun jasmed
-// ignore: non_constant_identifier_names
-  AkunanBacaDataPenjualanjasmed(tgl) {
-    listPenjualanJasmeds.clear();
-    Future<String> data = fetchDataVPenjualanJasmed(tgl);
-    data.then((value) {
-      //Mengubah json menjadi Array
-      // ignore: unused_local_variable
-      Map json = jsonDecode(value);
-      for (var i in json['data']) {
-        AkuntanVPenjualanJasmed pjlnJsmdNota =
-            AkuntanVPenjualanJasmed.fromJson(i);
-        listPenjualanJasmeds.add(pjlnJsmdNota);
-      }
-      setState(() {
-        WidgetAkunJasmed();
-      });
-    });
-  }
+// //baca data nota akun jasmed
+// // ignore: non_constant_identifier_names
+//   AkunanBacaDataPenjualanjasmed(tgl) {
+//     listPenjualanJasmeds.clear();
+//     Future<String> data = fetchDataVPenjualanJasmed(tgl);
+//     data.then((value) {
+//       //Mengubah json menjadi Array
+//       // ignore: unused_local_variable
+//       Map json = jsonDecode(value);
+//       for (var i in json['data']) {
+//         AkuntanVPenjualanJasmed pjlnJsmdNota =
+//             AkuntanVPenjualanJasmed.fromJson(i);
+//         listPenjualanJasmeds.add(pjlnJsmdNota);
+//       }
+//       setState(() {
+//         WidgetAkunJasmed();
+//       });
+//     });
+//   }
 
 //baca data nota akun obat
 // ignore: non_constant_identifier_names
   AkunanBacaDataPenjualanObat(tgl) {
-    listPenjualanObats.clear();
+    listPjlnTglObats.clear();
     // print('listPenjualanObats: ${listPenjualanObats.length}');
-    Future<String> data = fetchDataVPenjualanObat(tgl);
+    //harus ada resep apoteker id di kasir
+    Future<String> data = fetchDataVPjlnTglObat(tgl);
     data.then((value) {
       //Mengubah json menjadi Array
       // ignore: unused_local_variable
@@ -137,10 +139,26 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
       for (var i in json['data']) {
         //print(i);
         AkuntanVPenjualanObat pjlnObtNota = AkuntanVPenjualanObat.fromJson(i);
-        listPenjualanObats.add(pjlnObtNota);
+        listPjlnTglObats.add(pjlnObtNota);
       }
       setState(() {
         WidgetAkunObat();
+      });
+    }).then((value) {
+      Future<String> data2 = fetchDataVPjlnObatTotal(tgl);
+      data2.then((value2) {
+        Map json = jsonDecode(value2);
+        for (var i in json['data']) {
+          AkuntanVPenjualanNotaObatTotal ttl =
+              AkuntanVPenjualanNotaObatTotal.fromJson(i);
+          fetchPenjualan.totalPenjualan = ttl.text_total_pejualan;
+
+          print('fetchDataVPjlnObatTotal ${fetchPenjualan.totalPenjualan}');
+        }
+
+        setState(() {
+          WidgetAkunObat();
+        });
       });
     });
   }
@@ -207,8 +225,8 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
                       controllerdate.text = value.toString().substring(0, 7);
                       // baca data seluruh nota transaksi yg ada di klinik
                       AkunanBacaDataPenjualanObat(controllerdate.text);
-                      AkunanBacaDataPenjualanjasmed(controllerdate.text);
-                      AkunanBacaDataPenjualanAdmin(controllerdate.text);
+                      // AkunanBacaDataPenjualanjasmed(controllerdate.text);
+                      // AkunanBacaDataPenjualanAdmin(controllerdate.text);
                       AkunanBacaDataHPPObat(controllerdate.text);
                       AkunanBacaDataPenjualanTindakan(controllerdate.text);
                       AkunanBacaDataListNota(controllerdate.text);
@@ -232,25 +250,19 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
     //print(date);
     controllerdate.text = date.toString().substring(0, 7);
     AkunanBacaDataPenjualanObat(controllerdate.text);
-    AkunanBacaDataPenjualanjasmed(controllerdate.text);
-    AkunanBacaDataPenjualanAdmin(controllerdate.text);
     AkunanBacaDataHPPObat(controllerdate.text);
     AkunanBacaDataPenjualanTindakan(controllerdate.text);
     AkunanBacaDataListNota(controllerdate.text);
+    // AkunanBacaDataPenjualanjasmed(controllerdate.text);
+    // AkunanBacaDataPenjualanAdmin(controllerdate.text);
+
     super.initState();
   }
 
   Widget WidgetLabaBersih() {
     return ListTile(
       title: Text(
-          "Laba Bersih: ${akunObat.totalPenjualan - akunHPPObat.totalHPPObat + akunTindakanOperasi.totalTindakanOperasi - akunJasmed.totalBiayaKomisiJasmed - akunAdmin.totalKomisiAdmin} \n"
-          // +
-          // '${akunObat.totalPenjualan} | ' +
-          // '${akunHPPObat.totalHPPObat} |  ' +
-          // '${akunTindakanOperasi.totalTindakanOperasi} ' +
-          // '|${akunJasmed.totalBiayaKomisiJasmed} | ' +
-          // '${akunAdmin.totalKomisiAdmin} | '
-          ),
+          "Laba Bersih: ${fetchPenjualan.totalPenjualan - akunHPPObat.totalHPPObat + akunTindakanOperasi.totalTindakanOperasi - akunJasmed.totalBiayaKomisiJasmed - akunAdmin.totalKomisiAdmin} \n"),
     );
   }
 
@@ -272,7 +284,10 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
           body: ListView(
             children: [
               widgetSelectTgl(),
-              WidgetAkunObat(textHeaderPenjualanObat: 'Penjualan Obat'),
+              WidgetAkunObat(
+                  textHeaderPenjualanObat: 'Penjualan Obat',
+                  totalPenjualan: fetchPenjualan.totalPenjualan),
+
               WidgetAkunHPPObat(),
               Divider(),
               WidgetLabaKotor(),

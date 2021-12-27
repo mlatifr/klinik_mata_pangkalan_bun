@@ -83,8 +83,8 @@ class _AkuntanVNotaPjlnState extends State<AkuntanVNotaPjln> {
 //baca data nota akun obat
 // ignore: non_constant_identifier_names
   AkunanBacaDataPenjualanObat(tgl) {
-    listPenjualanObats.clear();
-    Future<String> data = fetchDataVPenjualanObat(tgl);
+    listPjlnTglObats.clear();
+    Future<String> data = fetchDataVPjlnTglObat(tgl);
     data.then((value) {
       //Mengubah json menjadi Array
       // ignore: unused_local_variable
@@ -92,7 +92,7 @@ class _AkuntanVNotaPjlnState extends State<AkuntanVNotaPjln> {
       for (var i in json['data']) {
         //print(i);
         AkuntanVPenjualanObat pjlnObtNota = AkuntanVPenjualanObat.fromJson(i);
-        listPenjualanObats.add(pjlnObtNota);
+        listPjlnTglObats.add(pjlnObtNota);
       }
       setState(() {
         WidgetAkunObat();

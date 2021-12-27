@@ -219,7 +219,7 @@ Future<String> fetchDataVPenjualanJasmed(pTglCatat) async {
 }
 
 //untuk akun obat
-List<AkuntanVPenjualanObat> listPenjualanObats = [];
+List<AkuntanVPenjualanObat> listPjlnTglObats = [];
 
 class AkuntanVPenjualanObat {
   var tgl_transaksi,
@@ -251,7 +251,7 @@ class AkuntanVPenjualanObat {
       obatId: json['obat_id'],
       nama: json['nama'],
       jumlah: json['jumlah'],
-      harga: json['harga'],
+      harga: json['harga_jual'],
       totalHarga: json['total_harga'],
       idNota: json['nota_id'],
       user_kasir: json['user_kasir'],
@@ -260,10 +260,24 @@ class AkuntanVPenjualanObat {
   }
 }
 
-Future<String> fetchDataVPenjualanObat(pTglCatat) async {
+Future<String> fetchDataVPjlnTglObat(pTglCatat) async {
   final response =
       await http.post(Uri.parse(apiUrl + "akuntan_v_pjualan_obat.php"), body: {
     'tgl_penjualan': pTglCatat.toString(),
+  });
+  print('fetchDataVPenjualanObat ${response.body}');
+  if (response.statusCode == 200) {
+    return response.body;
+  } else {
+    throw Exception('Failed to read API');
+  }
+}
+
+int totalPenjualan = 0;
+Future<String> fetchDataVPjlnObatTotal(pTglCatat) async {
+  final response =
+      await http.post(Uri.parse(apiUrl + "akuntan_v_pjualan_obat.php"), body: {
+    'tgl_penjualan_total': pTglCatat.toString(),
   });
   print('fetchDataVPenjualanObat ${response.body}');
   if (response.statusCode == 200) {
@@ -277,14 +291,27 @@ Future<String> fetchDataVPenjualanObat(pTglCatat) async {
 List<AkuntanVPenjualanNotaObat> listPenjualanObatNotas = [];
 
 class AkuntanVPenjualanNotaObat {
-  var nota_id, user_kasir, visit_id;
-  AkuntanVPenjualanNotaObat({this.nota_id, this.user_kasir, this.visit_id});
+  var nota_id, user_kasir, visit_id, tgl_nota;
+  AkuntanVPenjualanNotaObat(
+      {this.nota_id, this.user_kasir, this.visit_id, this.tgl_nota});
   // untuk convert dari jSon
   factory AkuntanVPenjualanNotaObat.fromJson(Map<String, dynamic> json) {
     return new AkuntanVPenjualanNotaObat(
       nota_id: json['nota_id'],
       user_kasir: json['user_kasir'],
       visit_id: json['visit_id'],
+      tgl_nota: json['tgl_nota'],
+    );
+  }
+}
+
+class AkuntanVPenjualanNotaObatTotal {
+  var text_total_pejualan;
+  AkuntanVPenjualanNotaObatTotal({this.text_total_pejualan});
+  // untuk convert dari jSon
+  factory AkuntanVPenjualanNotaObatTotal.fromJson(Map<String, dynamic> json) {
+    return new AkuntanVPenjualanNotaObatTotal(
+      text_total_pejualan: json['total_penjualan_obat'],
     );
   }
 }
@@ -292,7 +319,7 @@ class AkuntanVPenjualanNotaObat {
 Future<String> fetchDataVPenjualanObatNota(pTglCatat) async {
   final response =
       await http.post(Uri.parse(apiUrl + "akuntan_v_pjualan_obat.php"), body: {
-    'tgl_resep_nota': pTglCatat.toString(),
+    'tgl_resep_nota_visist': pTglCatat.toString(),
   });
   print('fetchDataVPenjualanObatNota ${response.body}');
   if (response.statusCode == 200) {

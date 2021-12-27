@@ -22,6 +22,8 @@ import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_tindak
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_tindakan.dart'
     as akunTindakanOperasi;
 
+import 'package:flutter_application_1/akuntan/page_nota/akuntan_fetch_penjualan_nota.dart'
+    as fetchPenjualan;
 import 'package:intl/intl.dart';
 
 class AkuntanVNeraca extends StatefulWidget {
@@ -245,7 +247,7 @@ class _AkuntanVNeracaState extends State<AkuntanVNeraca> {
   Widget WidgetLabaBersih() {
     return ListTile(
       title: Text(
-          "Laba Bersih: ${akunObat.totalPenjualan - akunHPPObat.totalHPPObat + akunTindakanOperasi.totalTindakanOperasi - akunJasmed.totalBiayaKomisiJasmed - akunAdmin.totalKomisiAdmin} \n"),
+          "Laba Bersih: ${fetchPenjualan.totalPenjualan - akunHPPObat.totalHPPObat + akunTindakanOperasi.totalTindakanOperasi - akunJasmed.totalBiayaKomisiJasmed - akunAdmin.totalKomisiAdmin} \n"),
     );
   }
 

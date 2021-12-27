@@ -259,7 +259,7 @@ class _NotaPembayaranPasienState extends State<NotaPembayaranPasien> {
   // ignore: non_constant_identifier_names
   pasienBacaDataVResep(pVisitId) {
     kVKRs.clear();
-    Future<String> data = fetchDataDokterVKeranjangResep(pVisitId);
+    Future<String> data = fetchDataKasirVKeranjangResep(pVisitId);
     data.then((value) {
       numberFormatRpResep = new NumberFormat("#,##0", "id_ID");
       //Mengubah json menjadi Array

@@ -1,24 +1,24 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_obat_nota_detail.dart';
 import 'package:intl/intl.dart';
 import 'akuntan_fetch_penjualan_nota.dart';
 
 int totalPenjualan = 0;
 
 // ignore: must_be_immutable
-class WidgetAkunObatNota extends StatefulWidget {
-  var tgl_transaksi;
-  WidgetAkunObatNota({Key key, this.tgl_transaksi}) : super(key: key);
+class WidgetAkunObatNotaDetail extends StatefulWidget {
+  var nota_id;
+  WidgetAkunObatNotaDetail({Key key, this.nota_id}) : super(key: key);
 
   @override
-  _WidgetAkunObatNotaState createState() => _WidgetAkunObatNotaState();
+  _WidgetAkunObatNotaDetailState createState() =>
+      _WidgetAkunObatNotaDetailState();
 }
 
-class _WidgetAkunObatNotaState extends State<WidgetAkunObatNota> {
+class _WidgetAkunObatNotaDetailState extends State<WidgetAkunObatNotaDetail> {
   //baca data nota akun obat
 // ignore: non_constant_identifier_names
-  AkunanBacaDataDaftarNotaObat(tgl) {
+  AkunanBacaDataPenjualanObatDetail(tgl) {
     listPenjualanObatNotas.clear();
     // print('listPenjualanObatNotas: ${listPenjualanObatNotas.length}');
     Future<String> data = fetchDataVPenjualanObatNota(tgl);
@@ -59,12 +59,7 @@ class _WidgetAkunObatNotaState extends State<WidgetAkunObatNota> {
                     ),
                   ),
                   child: ListTile(
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => WidgetAkunObatNotaDetail(
-                              nota_id:
-                                  plistPenjualanObatNotas[index].nota_id)));
-                    },
+                    onTap: () {},
                     title: Center(
                       child: Text(
                           'Nota ${plistPenjualanObatNotas[index].nota_id}'),
@@ -75,7 +70,7 @@ class _WidgetAkunObatNotaState extends State<WidgetAkunObatNota> {
     } else {
       return Column(
         children: [
-          ListTile(title: Center(child: Text('${widget.tgl_transaksi}'))),
+          ListTile(title: Center(child: Text('${widget.nota_id}'))),
         ],
       );
     }
@@ -108,7 +103,7 @@ class _WidgetAkunObatNotaState extends State<WidgetAkunObatNota> {
 
   @override
   void initState() {
-    AkunanBacaDataDaftarNotaObat(widget.tgl_transaksi);
+    AkunanBacaDataPenjualanObatDetail(widget.nota_id);
     super.initState();
   }
 
@@ -121,7 +116,7 @@ class _WidgetAkunObatNotaState extends State<WidgetAkunObatNota> {
             centerTitle: true,
             title: Center(
               child: Text(
-                "Daftar Nota Obat\n       ${widget.tgl_transaksi}",
+                "Detail Nota Obat :${widget.nota_id}",
                 maxLines: 2,
               ),
             ),

@@ -14,6 +14,8 @@ import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_obat.d
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_fetch_penjualan_nota.dart';
+import 'package:flutter_application_1/akuntan/page_nota/akuntan_fetch_penjualan_nota.dart'
+    as fetchPenjualan;
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_tindakan.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_tindakan.dart'
     as akunTindakanOperasi;
@@ -101,9 +103,9 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
 //baca data nota akun obat
 // ignore: non_constant_identifier_names
   AkunanBacaDataPenjualanObat(tgl) {
-    listPenjualanObats.clear();
+    listPjlnTglObats.clear();
     // print('listPenjualanObats: ${listPenjualanObats.length}');
-    Future<String> data = fetchDataVPenjualanObat(tgl);
+    Future<String> data = fetchDataVPjlnTglObat(tgl);
     data.then((value) {
       //Mengubah json menjadi Array
       // ignore: unused_local_variable
@@ -111,7 +113,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
       for (var i in json['data']) {
         //print(i);
         AkuntanVPenjualanObat pjlnObtNota = AkuntanVPenjualanObat.fromJson(i);
-        listPenjualanObats.add(pjlnObtNota);
+        listPjlnTglObats.add(pjlnObtNota);
       }
       setState(() {
         WidgetAkunObat();
@@ -139,7 +141,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
       });
     });
   }
- 
+
   var controllerdate = TextEditingController();
   Widget widgetSelectTgl() {
     return Padding(
@@ -151,8 +153,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
                 child: TextFormField(
               controller: controllerdate,
               onChanged: (value) {
-                setState(() {
-                });
+                setState(() {});
               },
               enabled: false,
               keyboardType: TextInputType.number,
@@ -216,7 +217,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
   Widget WidgetLabaBersih() {
     return ListTile(
       title: Text(
-          "Laba Bersih: ${akunObat.totalPenjualan - akunHPPObat.totalHPPObat + akunTindakanOperasi.totalTindakanOperasi - akunJasmed.totalBiayaKomisiJasmed - akunAdmin.totalKomisiAdmin} \n"
+          "Laba Bersih: ${fetchPenjualan.totalPenjualan - akunHPPObat.totalHPPObat + akunTindakanOperasi.totalTindakanOperasi - akunJasmed.totalBiayaKomisiJasmed - akunAdmin.totalKomisiAdmin} \n"
           // +
           // '${akunObat.totalPenjualan} | ' +
           // '${akunHPPObat.totalHPPObat} |  ' +

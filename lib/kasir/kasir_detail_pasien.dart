@@ -403,7 +403,7 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
                   controllerBiayaJasaMedis.text,
                   controllerBiayaAdmin.text,
                   totalTdknRspAdmMdis,
-                  '')
+                  kVKRs[0].resepId)
               .then((value) {
             if (value.contains('success')) {
               showDialog<String>(
@@ -445,6 +445,7 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
         padding: const EdgeInsets.all(8.0),
         child: ElevatedButton(
           onPressed: () {
+            print('kVKRs[0].resepId ${kVKRs[0].resepId}');
             showDialog<String>(
               context: context,
               builder: (BuildContext context) => AlertDialog(

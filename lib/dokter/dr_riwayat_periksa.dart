@@ -504,7 +504,7 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
                                     sisiMataKiri = '';
                                   });
                                 }
-                                // print('listValueCheckKiri : $sisiMataKiri');
+                                print('listValueCheckKiri : $sisiMataKiri');
                               },
                             ),
                             CheckboxListTile(
@@ -521,14 +521,14 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
                                     sisiMataKanan = '';
                                   });
                                 }
-                                // print('listValueCheckKanan : $sisiMataKanan');
+                                print('listValueCheckKanan : $sisiMataKanan');
                               },
                             ),
                             ElevatedButton(
                               onPressed: () {
                                 // kalau pnly kiri/kanan > input 1x
                                 if (sisiMataKiri == 'kiri' &&
-                                    sisiMataKanan == '') {
+                                    sisiMataKanan != 'kanan') {
                                   DokterVKeranjangTindakan tdkn =
                                       DokterVKeranjangTindakan();
                                   tdkn.namaTindakan = dVLTs[index].namaTindakan;
@@ -536,9 +536,8 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
                                   tdkn.mataSisiTindakan = 'kiri';
                                   dVKTs.add(tdkn);
                                   print('kiri');
-                                }
-                                if (sisiMataKanan == 'kanan' &&
-                                    sisiMataKiri == '') {
+                                } else if (sisiMataKanan == 'kanan' &&
+                                    sisiMataKiri != 'kiri') {
                                   DokterVKeranjangTindakan tdkn =
                                       DokterVKeranjangTindakan();
                                   tdkn.namaTindakan = dVLTs[index].namaTindakan;
@@ -548,7 +547,7 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
                                   print('kanan');
                                 }
                                 // kalau kanan dan kiri > input 2x
-                                if (sisiMataKanan == 'kanan' &&
+                                else if (sisiMataKanan == 'kanan' &&
                                     sisiMataKiri == 'kiri') {
                                   DokterVKeranjangTindakan tdkn =
                                       DokterVKeranjangTindakan();
@@ -569,6 +568,8 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
                                 setState(() {
                                   listValueCheckKanan = false;
                                   listValueCheckKiri = false;
+                                  sisiMataKiri = '';
+                                  sisiMataKanan = '';
                                 });
                               },
                               child: Text('Tambah'),
@@ -605,14 +606,14 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
     DokterBacaDataVListTindakan();
     DokterBacaDataVListObat('');
     DokterBacaDataVKeranjangObat(widget.visitId);
-    for (var index = 0; index < dVKTs.length; index++) {
-      fetchDataDokterInputTindakanBatal(
-              widget.visitId, dVKTs[index].tindakanId, 'kiri')
-          .then((value) => DokterBacaDataVKeranjangTindakan(widget.visitId));
-      fetchDataDokterInputTindakanBatal(
-              widget.visitId, dVKTs[index].tindakanId, 'kanan')
-          .then((value) => DokterBacaDataVKeranjangTindakan(widget.visitId));
-    }
+    // for (var index = 0; index < dVKTs.length; index++) {
+    //   fetchDataDokterInputTindakanBatal(
+    //           widget.visitId, dVKTs[index].tindakanId, 'kiri')
+    //       .then((value) => DokterBacaDataVKeranjangTindakan(widget.visitId));
+    //   fetchDataDokterInputTindakanBatal(
+    //           widget.visitId, dVKTs[index].tindakanId, 'kanan')
+    //       .then((value) => DokterBacaDataVKeranjangTindakan(widget.visitId));
+    // }
     super.initState();
   }
 

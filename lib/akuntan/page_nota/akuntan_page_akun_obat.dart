@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/akuntan/page_nota/akuntan_fetch_penjualan_nota.dart';
+import 'package:flutter_application_1/akuntan/page_nota/akuntan_fetch_penjualan_nota.dart'
+    as fetchPenjualan;
 import 'package:intl/intl.dart';
-
+import 'akuntan_fetch_penjualan_nota.dart';
 import 'akuntan_page_akun_obat_nota.dart';
-
-int totalPenjualan = 0;
 
 // ignore: must_be_immutable
 class WidgetAkunObat extends StatefulWidget {
-  var textHeaderPenjualanObat;
-  WidgetAkunObat({Key key, this.textHeaderPenjualanObat}) : super(key: key);
+  var textHeaderPenjualanObat, totalPenjualan;
+  WidgetAkunObat({Key key, this.textHeaderPenjualanObat, this.totalPenjualan})
+      : super(key: key);
 
   @override
   _WidgetAkunObatState createState() => _WidgetAkunObatState();
@@ -18,7 +18,7 @@ class WidgetAkunObat extends StatefulWidget {
 class _WidgetAkunObatState extends State<WidgetAkunObat> {
   var numberFormatRp = new NumberFormat("#,##0", "id_ID");
   Widget widgetListObat(plistPenjualanObats, textHeaderPenjualanObat) {
-    totalPenjualan = 0;
+    fetchPenjualan.totalPenjualan = 0;
     if (plistPenjualanObats.length > 0) {
       return ExpansionTile(title: Text('$textHeaderPenjualanObat'), children: [
         ListView.builder(
@@ -63,37 +63,21 @@ class _WidgetAkunObatState extends State<WidgetAkunObat> {
     }
   }
 
-  Widget widgetTextTotalPenjualanObat(
-    plistPenjualanObats,
-  ) {
-    if (plistPenjualanObats.length > 0) {
-      //print('ListPenjualanObat.length: ${plistPenjualanObats.length}');
-      for (var i = 0; i < plistPenjualanObats.length; i++) {
-        totalPenjualan += plistPenjualanObats[i].totalHarga;
-      }
-      //print(total.toString());
-      return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListTile(
-            title: Text(
-                'Total Penjualan Obat Rp ${numberFormatRp.format(totalPenjualan)}')),
-      );
-    } else {
-      return Column(
-        children: [
-          // CircularProgressIndicator(),
-          // Text('data tidak ditemukan'),
-        ],
-      );
-    }
+  Widget widgetTextTotalPenjualanObat(totalPenjualan) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ListTile(
+          title: Text(
+              'Total Penjualan Obat Rp ${numberFormatRp.format(totalPenjualan)}')),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        widgetListObat(listPenjualanObats, widget.textHeaderPenjualanObat),
-        widgetTextTotalPenjualanObat(listPenjualanObats),
+        widgetListObat(listPjlnTglObats, widget.textHeaderPenjualanObat),
+        widgetTextTotalPenjualanObat(widget.totalPenjualan),
       ],
     );
   }

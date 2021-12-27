@@ -5,6 +5,9 @@ import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_HPP_ob
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_obat.dart'
     as akunObat;
 
+import 'package:flutter_application_1/akuntan/page_nota/akuntan_fetch_penjualan_nota.dart'
+    as fetchPenjualan;
+
 class WidgetLabaKotor extends StatefulWidget {
   WidgetLabaKotor({
     Key key,
@@ -30,7 +33,8 @@ class _WidgetLabaKotorState extends State<WidgetLabaKotor> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        widgetTextLabarKotor(akunObat.totalPenjualan, akunHPPObat.totalHPPObat),
+        widgetTextLabarKotor(
+            fetchPenjualan.totalPenjualan, akunHPPObat.totalHPPObat),
       ],
     );
   }
