@@ -279,7 +279,7 @@ Future<String> fetchDataVPjlnObatTotal(pTglCatat) async {
       await http.post(Uri.parse(apiUrl + "akuntan_v_pjualan_obat.php"), body: {
     'tgl_penjualan_total': pTglCatat.toString(),
   });
-  print('fetchDataVPenjualanObat ${response.body}');
+  // print('fetchDataVPenjualanObat ${response.body}');
   if (response.statusCode == 200) {
     return response.body;
   } else {

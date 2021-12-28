@@ -48,7 +48,7 @@ class _WidgetAkunObatState extends State<WidgetAkunObat> {
                       },
                       title: Center(
                         child: Text(
-                            '${plistPenjualanObats[index].tgl_transaksi.substring(0, 10)}'),
+                            '${plistPenjualanObats[index].tgl_transaksi.substring(0, 10)} | Rp ${plistPenjualanObats[index].totalHarga}'),
                       ),
                     ),
                   ));
@@ -68,7 +68,7 @@ class _WidgetAkunObatState extends State<WidgetAkunObat> {
       padding: const EdgeInsets.all(8.0),
       child: ListTile(
           title: Text(
-              'Total Penjualan Obat Rp ${numberFormatRp.format(totalPenjualan)}')),
+              'Total Penjualan Obat Rp ${numberFormatRp.format(totalPenjualan)}\n')),
     );
   }
 
