@@ -118,7 +118,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
         listPjlnTglObats.add(pjlnObtNota);
       }
       setState(() {
-        WidgetAkunObat();
+        WidgetTglPnjlnObat();
       });
     });
   }
@@ -248,7 +248,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
           body: ListView(
             children: [
               widgetSelectTgl(),
-              WidgetAkunObat(textHeaderPenjualanObat: 'Penjualan Obat'),
+              WidgetTglPnjlnObat(textHeaderPenjualanObat: 'Penjualan Obat'),
               WidgetAkunHPPObat(),
               Divider(),
               WidgetLabaKotor(),

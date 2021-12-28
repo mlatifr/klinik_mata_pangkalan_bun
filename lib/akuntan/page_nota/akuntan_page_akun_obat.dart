@@ -6,16 +6,16 @@ import 'akuntan_fetch_penjualan_nota.dart';
 import 'akuntan_page_akun_obat_nota.dart';
 
 // ignore: must_be_immutable
-class WidgetAkunObat extends StatefulWidget {
+class WidgetTglPnjlnObat extends StatefulWidget {
   var textHeaderPenjualanObat, totalPenjualan;
-  WidgetAkunObat({Key key, this.textHeaderPenjualanObat, this.totalPenjualan})
+  WidgetTglPnjlnObat({Key key, this.textHeaderPenjualanObat, this.totalPenjualan})
       : super(key: key);
 
   @override
-  _WidgetAkunObatState createState() => _WidgetAkunObatState();
+  _WidgetTglPnjlnObatState createState() => _WidgetTglPnjlnObatState();
 }
 
-class _WidgetAkunObatState extends State<WidgetAkunObat> {
+class _WidgetTglPnjlnObatState extends State<WidgetTglPnjlnObat> {
   var numberFormatRp = new NumberFormat("#,##0", "id_ID");
   Widget widgetListObat(plistPenjualanObats, textHeaderPenjualanObat) {
     fetchPenjualan.totalPenjualan = 0;
@@ -40,7 +40,7 @@ class _WidgetAkunObatState extends State<WidgetAkunObat> {
                     child: ListTile(
                       onTap: () {
                         Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => WidgetAkunObatNota(
+                            builder: (context) => WidgetAkunNotaPjnlObat(
                                   tgl_transaksi: plistPenjualanObats[index]
                                       .tgl_transaksi
                                       .substring(0, 10),

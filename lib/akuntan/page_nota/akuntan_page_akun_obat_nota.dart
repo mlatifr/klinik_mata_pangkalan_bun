@@ -7,21 +7,21 @@ import 'akuntan_fetch_penjualan_nota.dart';
 int totalPenjualan = 0;
 
 // ignore: must_be_immutable
-class WidgetAkunObatNota extends StatefulWidget {
+class WidgetAkunNotaPjnlObat extends StatefulWidget {
   var tgl_transaksi;
-  WidgetAkunObatNota({Key key, this.tgl_transaksi}) : super(key: key);
+  WidgetAkunNotaPjnlObat({Key key, this.tgl_transaksi}) : super(key: key);
 
   @override
-  _WidgetAkunObatNotaState createState() => _WidgetAkunObatNotaState();
+  _WidgetAkunNotaPjnlObatState createState() => _WidgetAkunNotaPjnlObatState();
 }
 
-class _WidgetAkunObatNotaState extends State<WidgetAkunObatNota> {
+class _WidgetAkunNotaPjnlObatState extends State<WidgetAkunNotaPjnlObat> {
   //baca data nota akun obat
 // ignore: non_constant_identifier_names
   AkunanBacaDataDaftarNotaObat(tgl) {
-    listPenjualanObatNotas.clear();
+    listNotaPjnlObat.clear();
     // print('listPenjualanObatNotas: ${listPenjualanObatNotas.length}');
-    Future<String> data = fetchDataVPenjualanObatNota(tgl);
+    Future<String> data = fetchDataVPenjualanListNotaObat(tgl);
     data.then((value) {
       //Mengubah json menjadi Array
       // ignore: unused_local_variable
@@ -30,22 +30,22 @@ class _WidgetAkunObatNotaState extends State<WidgetAkunObatNota> {
         //print(i);
         AkuntanVPenjualanNotaObat pjlnObtNota =
             AkuntanVPenjualanNotaObat.fromJson(i);
-        listPenjualanObatNotas.add(pjlnObtNota);
+        listNotaPjnlObat.add(pjlnObtNota);
       }
       setState(() {
-        widgetListObatNota(listPenjualanObatNotas);
+        widgetListObatNota();
+        print('listNotaPjnlObat.length ${listNotaPjnlObat.length}');
       });
     });
   }
 
   var numberFormatRp = new NumberFormat("#,##0", "id_ID");
-  Widget widgetListObatNota(plistPenjualanObatNotas) {
-    totalPenjualan = 0;
-    if (plistPenjualanObatNotas.length > 0) {
+  Widget widgetListObatNota() {
+    if (listNotaPjnlObat.length > 0) {
       return ListView.builder(
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: plistPenjualanObatNotas.length,
+          itemCount: listNotaPjnlObat.length,
           itemBuilder: (context, index) {
             return Padding(
                 padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -61,13 +61,11 @@ class _WidgetAkunObatNotaState extends State<WidgetAkunObatNota> {
                   child: ListTile(
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => WidgetAkunObatNotaDetail(
-                              nota_id:
-                                  plistPenjualanObatNotas[index].nota_id)));
+                          builder: (context) => WidgetDetailNotaObat(
+                              nota_id: listNotaPjnlObat[index].nota_id)));
                     },
                     title: Center(
-                      child: Text(
-                          'Nota ${plistPenjualanObatNotas[index].nota_id}'),
+                      child: Text('Nota ${listNotaPjnlObat[index].nota_id}'),
                     ),
                   ),
                 ));
@@ -76,31 +74,6 @@ class _WidgetAkunObatNotaState extends State<WidgetAkunObatNota> {
       return Column(
         children: [
           ListTile(title: Center(child: Text('${widget.tgl_transaksi}'))),
-        ],
-      );
-    }
-  }
-
-  Widget widgetTextTotalPenjualanObat(
-    plistPenjualanObatNotas,
-  ) {
-    if (plistPenjualanObatNotas.length > 0) {
-      //print('ListPenjualanObat.length: ${plistPenjualanObatNotas.length}');
-      for (var i = 0; i < plistPenjualanObatNotas.length; i++) {
-        totalPenjualan += plistPenjualanObatNotas[i].totalHarga;
-      }
-      //print(total.toString());
-      return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListTile(
-            title: Text(
-                'Total Penjualan Obat Rp ${numberFormatRp.format(totalPenjualan)}')),
-      );
-    } else {
-      return Column(
-        children: [
-          // CircularProgressIndicator(),
-          // Text('data tidak ditemukan'),
         ],
       );
     }
@@ -133,7 +106,7 @@ class _WidgetAkunObatNotaState extends State<WidgetAkunObatNota> {
             ),
           ),
           body: ListView(
-            children: [widgetListObatNota(listPenjualanObatNotas)],
+            children: [widgetListObatNota()],
           )),
     );
   }

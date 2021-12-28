@@ -95,7 +95,7 @@ class _AkuntanVNotaPjlnState extends State<AkuntanVNotaPjln> {
         listPjlnTglObats.add(pjlnObtNota);
       }
       setState(() {
-        WidgetAkunObat();
+        WidgetTglPnjlnObat();
       });
     });
   }
@@ -197,7 +197,7 @@ class _AkuntanVNotaPjlnState extends State<AkuntanVNotaPjln> {
                 pTextDaftarPenjualanJasmed: 'Penjualan jasa medis',
               ),
               Divider(),
-              WidgetAkunObat(
+              WidgetTglPnjlnObat(
                 textHeaderPenjualanObat: 'Penjualan Obat',
               ),
               Divider(),

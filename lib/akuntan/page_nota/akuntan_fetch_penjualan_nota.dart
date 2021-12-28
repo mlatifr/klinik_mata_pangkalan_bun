@@ -287,8 +287,8 @@ Future<String> fetchDataVPjlnObatTotal(pTglCatat) async {
   }
 }
 
-// detail nota penjualan obat
-List<AkuntanVPenjualanNotaObat> listPenjualanObatNotas = [];
+// daftar nota penjualan obat
+List<AkuntanVPenjualanNotaObat> listNotaPjnlObat = [];
 
 class AkuntanVPenjualanNotaObat {
   var nota_id, user_kasir, visit_id, tgl_nota;
@@ -297,7 +297,7 @@ class AkuntanVPenjualanNotaObat {
   // untuk convert dari jSon
   factory AkuntanVPenjualanNotaObat.fromJson(Map<String, dynamic> json) {
     return new AkuntanVPenjualanNotaObat(
-      nota_id: json['nota_id'],
+      nota_id: json['no_nota'],
       user_kasir: json['user_kasir'],
       visit_id: json['visit_id'],
       tgl_nota: json['tgl_nota'],
@@ -316,12 +316,43 @@ class AkuntanVPenjualanNotaObatTotal {
   }
 }
 
-Future<String> fetchDataVPenjualanObatNota(pTglCatat) async {
+Future<String> fetchDataVPenjualanListNotaObat(pTglCatat) async {
   final response =
-      await http.post(Uri.parse(apiUrl + "akuntan_v_pjualan_obat.php"), body: {
-    'tgl_resep_nota_visist': pTglCatat.toString(),
+      await http.post(Uri.parse(apiUrl + "akuntan_v_pjualan_nota.php"), body: {
+    'tgl_nota': pTglCatat.toString(),
   });
   print('fetchDataVPenjualanObatNota ${response.body}');
+  if (response.statusCode == 200) {
+    return response.body;
+  } else {
+    throw Exception('Failed to read API');
+  }
+}
+
+// detail nota penjualan obat
+List<AkuntanVDetailNotaObat> listDetailNotaPjnlObat = [];
+
+class AkuntanVDetailNotaObat {
+  var nama, jumlah_terjual, harga_jual, total_harga;
+  AkuntanVDetailNotaObat(
+      {this.nama, this.jumlah_terjual, this.harga_jual, this.total_harga});
+  // untuk convert dari jSon
+  factory AkuntanVDetailNotaObat.fromJson(Map<String, dynamic> json) {
+    return new AkuntanVDetailNotaObat(
+      nama: json['nama'],
+      jumlah_terjual: json['jumlah_terjual'],
+      harga_jual: json['harga_jual'],
+      total_harga: json['total_harga'],
+    );
+  }
+}
+
+Future<String> fetchDataVPjlnDetailNota(pTglCatat) async {
+  final response = await http
+      .post(Uri.parse(apiUrl + "akuntan_v_pjualan_nota_detail.php"), body: {
+    'nota_id': pTglCatat.toString(),
+  });
+  print('fetchDataVPjlnDetailNota ${response.body}');
   if (response.statusCode == 200) {
     return response.body;
   } else {

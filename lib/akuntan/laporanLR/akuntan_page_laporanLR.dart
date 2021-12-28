@@ -144,7 +144,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
         listPjlnTglObats.add(pjlnObtNota);
       }
       setState(() {
-        WidgetAkunObat();
+        WidgetTglPnjlnObat();
       });
     }).then((value) {
       Future<String> data2 = fetchDataVPjlnObatTotal(tgl);
@@ -159,7 +159,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
         }
 
         setState(() {
-          WidgetAkunObat();
+          WidgetTglPnjlnObat();
         });
       });
     });
@@ -286,7 +286,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
           body: ListView(
             children: [
               widgetSelectTgl(),
-              WidgetAkunObat(
+              WidgetTglPnjlnObat(
                   textHeaderPenjualanObat: 'Penjualan Obat',
                   totalPenjualan: fetchPenjualan.totalPenjualan),
 

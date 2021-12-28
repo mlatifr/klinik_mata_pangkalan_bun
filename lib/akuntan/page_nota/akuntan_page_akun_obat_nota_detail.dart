@@ -6,100 +6,35 @@ import 'akuntan_fetch_penjualan_nota.dart';
 int totalPenjualan = 0;
 
 // ignore: must_be_immutable
-class WidgetAkunObatNotaDetail extends StatefulWidget {
+class WidgetDetailNotaObat extends StatefulWidget {
   var nota_id;
-  WidgetAkunObatNotaDetail({Key key, this.nota_id}) : super(key: key);
+  WidgetDetailNotaObat({Key key, this.nota_id}) : super(key: key);
 
   @override
-  _WidgetAkunObatNotaDetailState createState() =>
-      _WidgetAkunObatNotaDetailState();
+  _WidgetDetailNotaObatState createState() => _WidgetDetailNotaObatState();
 }
 
-class _WidgetAkunObatNotaDetailState extends State<WidgetAkunObatNotaDetail> {
+class _WidgetDetailNotaObatState extends State<WidgetDetailNotaObat> {
   //baca data nota akun obat
 // ignore: non_constant_identifier_names
-  AkunanBacaDataPenjualanObatDetail(tgl) {
-    listPenjualanObatNotas.clear();
+  AkunanBacaDataPenjualanObatDetail(nota_id) {
+    listDetailNotaPjnlObat.clear();
     // print('listPenjualanObatNotas: ${listPenjualanObatNotas.length}');
-    Future<String> data = fetchDataVPenjualanObatNota(tgl);
+    Future<String> data = fetchDataVPjlnDetailNota(nota_id);
     data.then((value) {
       //Mengubah json menjadi Array
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
       for (var i in json['data']) {
         //print(i);
-        AkuntanVPenjualanNotaObat pjlnObtNota =
-            AkuntanVPenjualanNotaObat.fromJson(i);
-        listPenjualanObatNotas.add(pjlnObtNota);
+        AkuntanVDetailNotaObat pjlnObtNota = AkuntanVDetailNotaObat.fromJson(i);
+        listDetailNotaPjnlObat.add(pjlnObtNota);
       }
-      setState(() {
-        widgetListObatNota(listPenjualanObatNotas);
-      });
+      setState(() {});
     });
   }
 
   var numberFormatRp = new NumberFormat("#,##0", "id_ID");
-  Widget widgetListObatNota(plistPenjualanObatNotas) {
-    totalPenjualan = 0;
-    if (plistPenjualanObatNotas.length > 0) {
-      return ListView.builder(
-          physics: NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: plistPenjualanObatNotas.length,
-          itemBuilder: (context, index) {
-            return Padding(
-                padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color: Colors.black,
-                        // width: 3.0,
-                      ),
-                    ),
-                  ),
-                  child: ListTile(
-                    onTap: () {},
-                    title: Center(
-                      child: Text(
-                          'Nota ${plistPenjualanObatNotas[index].nota_id}'),
-                    ),
-                  ),
-                ));
-          });
-    } else {
-      return Column(
-        children: [
-          ListTile(title: Center(child: Text('${widget.nota_id}'))),
-        ],
-      );
-    }
-  }
-
-  Widget widgetTextTotalPenjualanObat(
-    plistPenjualanObatNotas,
-  ) {
-    if (plistPenjualanObatNotas.length > 0) {
-      //print('ListPenjualanObat.length: ${plistPenjualanObatNotas.length}');
-      for (var i = 0; i < plistPenjualanObatNotas.length; i++) {
-        totalPenjualan += plistPenjualanObatNotas[i].totalHarga;
-      }
-      //print(total.toString());
-      return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListTile(
-            title: Text(
-                'Total Penjualan Obat Rp ${numberFormatRp.format(totalPenjualan)}')),
-      );
-    } else {
-      return Column(
-        children: [
-          // CircularProgressIndicator(),
-          // Text('data tidak ditemukan'),
-        ],
-      );
-    }
-  }
 
   @override
   void initState() {
@@ -127,8 +62,64 @@ class _WidgetAkunObatNotaDetailState extends State<WidgetAkunObatNotaDetail> {
               },
             ),
           ),
-          body: ListView(
-            children: [widgetListObatNota(listPenjualanObatNotas)],
+          body: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: ListView(
+              children: [
+                Table(
+                    border: TableBorder
+                        .all(), // Allows to add a border decoration around your table
+                    children: [
+                      TableRow(children: [
+                        Text(
+                          'Nama',
+                          textAlign: TextAlign.center,
+                        ),
+                        Text(
+                          'Jumlah',
+                          textAlign: TextAlign.center,
+                        ),
+                        Text(
+                          'Harga',
+                          textAlign: TextAlign.center,
+                        ),
+                        Text(
+                          'Total',
+                          textAlign: TextAlign.center,
+                        ),
+                      ]),
+                    ]),
+                ListView.builder(
+                    physics: NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemCount: listDetailNotaPjnlObat.length,
+                    itemBuilder: (context, index) {
+                      return Table(
+                          border: TableBorder
+                              .all(), // Allows to add a border decoration around your table
+                          children: [
+                            TableRow(children: [
+                              Text(
+                                '${listDetailNotaPjnlObat[index].nama}',
+                                textAlign: TextAlign.center,
+                              ),
+                              Text(
+                                '${listDetailNotaPjnlObat[index].jumlah_terjual}',
+                                textAlign: TextAlign.center,
+                              ),
+                              Text(
+                                '${numberFormatRp.format(int.parse(listDetailNotaPjnlObat[index].harga_jual))}',
+                                textAlign: TextAlign.center,
+                              ),
+                              Text(
+                                '${numberFormatRp.format(listDetailNotaPjnlObat[index].total_harga)}',
+                                textAlign: TextAlign.center,
+                              ),
+                            ]),
+                          ]);
+                    }),
+              ],
+            ),
           )),
     );
   }
