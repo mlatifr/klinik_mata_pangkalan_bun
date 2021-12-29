@@ -1,26 +1,27 @@
 // ignore_for_file: unused_import
 
 import 'dart:convert';
-import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_HPP_obat.dart';
-import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_HPP_obat.dart'
+import 'package:flutter_application_1/akuntan/laporanLR/HPP/akuntan_page_akun_HPP_obat.dart';
+import 'package:flutter_application_1/akuntan/laporanLR/HPP/akuntan_page_akun_HPP_obat.dart'
     as akunHPPObat;
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_admin.dart'
     as akunAdmin;
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_jasmed.dart'
     as akunJasmed;
-import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_obat.dart';
-import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_obat.dart'
+import 'package:flutter_application_1/akuntan/laporanLR/penjualan_obat/akuntan_page_akun_obat.dart';
+import 'package:flutter_application_1/akuntan/laporanLR/penjualan_obat/akuntan_page_akun_obat.dart'
     as akunObat;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_application_1/akuntan/page_nota/akuntan_fetch_penjualan_nota.dart'
+import 'package:flutter_application_1/akuntan/akuntan_fetch_penjualan_nota.dart'
     as fetchPenjualan;
-import 'package:flutter_application_1/akuntan/page_nota/akuntan_fetch_penjualan_nota.dart';
+import 'package:flutter_application_1/akuntan/akuntan_fetch_penjualan_nota.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_tindakan.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_tindakan.dart'
     as akunTindakanOperasi;
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_widget_list_nota.dart';
 import 'package:intl/intl.dart';
+import 'HPP/fetch.dart';
 import 'akuntan_page_laba_kotor.dart';
 
 class AkuntanVLaporanLR extends StatefulWidget {
@@ -155,7 +156,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
               AkuntanVPenjualanNotaObatTotal.fromJson(i);
           fetchPenjualan.totalPenjualan = ttl.text_total_pejualan;
 
-          print('fetchDataVPjlnObatTotal ${fetchPenjualan.totalPenjualan}');
+          // print('fetchDataVPjlnObatTotal ${fetchPenjualan.totalPenjualan}');
         }
 
         setState(() {
@@ -255,18 +256,19 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
     AkunanBacaDataHPPObat(controllerdate.text);
     AkunanBacaDataPenjualanTindakan(controllerdate.text);
     AkunanBacaDataListNota(controllerdate.text);
+
     // AkunanBacaDataPenjualanjasmed(controllerdate.text);
     // AkunanBacaDataPenjualanAdmin(controllerdate.text);
 
     super.initState();
   }
 
-  Widget WidgetLabaBersih() {
-    return ListTile(
-      title: Text(
-          "Laba Bersih: ${fetchPenjualan.totalPenjualan - akunHPPObat.totalHPPObat + akunTindakanOperasi.totalTindakanOperasi - akunJasmed.totalBiayaKomisiJasmed - akunAdmin.totalKomisiAdmin} \n"),
-    );
-  }
+  // Widget WidgetLabaBersih() {
+  //   return ListTile(
+  //     title: Text(
+  //         "Laba Bersih: ${fetchPenjualan.totalPenjualan - akunHPPObat.totalHPPObat + akunTindakanOperasi.totalTindakanOperasi - akunJasmed.totalBiayaKomisiJasmed - akunAdmin.totalKomisiAdmin} \n"),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -290,7 +292,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
                   textHeaderPenjualanObat: 'Penjualan Obat',
                   totalPenjualan: fetchPenjualan.totalPenjualan),
 
-              WidgetAkunHPPObat(),
+              WidgetAkunHPPObat(tgl_hpp: controllerdate.text),
               Divider(),
               WidgetLabaKotor(),
               Divider(),
@@ -304,12 +306,12 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
                 child: ElevatedButton(
                     onPressed: () {
                       setState(() {
-                        WidgetLabaBersih();
+                        // WidgetLabaBersih();
                       });
                     },
                     child: Text('Laba Bersih')),
               ),
-              WidgetLabaBersih()
+              // WidgetLabaBersih()
             ],
           )),
     );

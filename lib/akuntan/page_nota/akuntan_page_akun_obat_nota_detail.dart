@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-import 'akuntan_fetch_penjualan_nota.dart';
+import '../akuntan_fetch_penjualan_nota.dart';
 
 int totalPenjualan = 0;
 

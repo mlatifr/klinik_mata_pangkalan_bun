@@ -1,11 +1,15 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/akuntan/page_nota/akuntan_fetch_penjualan_nota.dart';
+import 'package:flutter_application_1/akuntan/akuntan_fetch_penjualan_nota.dart';
+import 'package:flutter_application_1/akuntan/laporanLR/HPP/fetch.dart';
 import 'package:intl/intl.dart';
 
-int totalHPPObat = 0;
+// int totalHPPObat = 0;
 
 class WidgetAkunHPPObat extends StatefulWidget {
-  WidgetAkunHPPObat({Key key}) : super(key: key);
+  var tgl_hpp;
+  WidgetAkunHPPObat({Key key, this.tgl_hpp}) : super(key: key);
 
   @override
   _WidgetAkunHPPObatState createState() => _WidgetAkunHPPObatState();
@@ -16,7 +20,7 @@ class _WidgetAkunHPPObatState extends State<WidgetAkunHPPObat> {
   Widget widgetListHPPObat(
     plistPenjualanObats,
   ) {
-    totalHPPObat = 0;
+    // totalHPPObat = 0;
     if (plistPenjualanObats.length > 0) {
       return Column(
         children: [
@@ -46,7 +50,7 @@ class _WidgetAkunHPPObatState extends State<WidgetAkunHPPObat> {
                       ));
                 }),
           ]),
-          widgetTextTotalHPPObat(listHppObats),
+          widgetTextTotalHPPObat(),
         ],
       );
     } else {
@@ -59,29 +63,25 @@ class _WidgetAkunHPPObatState extends State<WidgetAkunHPPObat> {
     }
   }
 
-  Widget widgetTextTotalHPPObat(
-    plistPenjualanObats,
-  ) {
-    if (plistPenjualanObats.length > 0) {
-      // print('ListPenjualanObat.length: ${plistPenjualanObats.length}');
-      for (var i = 0; i < plistPenjualanObats.length; i++) {
-        totalHPPObat += plistPenjualanObats[i].totalHarga;
-      }
-      // print(total.toString());
-      return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListTile(
-            title: Text(
-                'Total HPP Obat Rp ${numberFormatRp.format(totalHPPObat)}')),
-      );
-    } else {
-      return Column(
-        children: [
-          // CircularProgressIndicator(),
-          // Text('data tidak ditemukan'),
-        ],
-      );
-    }
+  @override
+  void initState() {
+    fetchDataVTotalHppObat(widget.tgl_hpp).then((value) {
+      //Mengubah json menjadi Array
+      // ignore: unused_local_variable
+      Map json = jsonDecode(value);
+      for (var i in json['data']) {}
+      setState(() {});
+    });
+    super.initState();
+  }
+
+  Widget widgetTextTotalHPPObat() {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: ListTile(
+          title:
+              Text('Total HPP Obat Rp ${numberFormatRp.format(800)}')),
+    );
   }
 
   @override

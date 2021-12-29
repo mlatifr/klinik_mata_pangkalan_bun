@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_obat_nota_detail.dart';
 import 'package:intl/intl.dart';
-import 'akuntan_fetch_penjualan_nota.dart';
+import '../../akuntan_fetch_penjualan_nota.dart';
 
 int totalPenjualan = 0;
 
@@ -94,8 +94,9 @@ class _WidgetAkunNotaPjnlObatState extends State<WidgetAkunNotaPjnlObat> {
             centerTitle: true,
             title: Center(
               child: Text(
-                "Daftar Nota Obat\n       ${widget.tgl_transaksi}",
+                "Daftar Nota Obat\n${widget.tgl_transaksi}",
                 maxLines: 2,
+                textAlign: TextAlign.center,
               ),
             ),
             leading: new IconButton(

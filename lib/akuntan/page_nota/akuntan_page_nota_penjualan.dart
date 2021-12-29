@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_admin.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_jasmed.dart';
-import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_obat.dart';
+import 'package:flutter_application_1/akuntan/laporanLR/penjualan_obat/akuntan_page_akun_obat.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_application_1/akuntan/page_nota/akuntan_fetch_penjualan_nota.dart';
+import 'package:flutter_application_1/akuntan/akuntan_fetch_penjualan_nota.dart';
 import 'package:intl/intl.dart';
 
 class AkuntanVNotaPjln extends StatefulWidget {

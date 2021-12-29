@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/akuntan/page_nota/akuntan_fetch_penjualan_nota.dart'
+import 'package:flutter_application_1/akuntan/akuntan_fetch_penjualan_nota.dart'
     as fetchPenjualan;
 import 'package:intl/intl.dart';
-import 'akuntan_fetch_penjualan_nota.dart';
+import '../../akuntan_fetch_penjualan_nota.dart';
 import 'akuntan_page_akun_obat_nota.dart';
 
 // ignore: must_be_immutable

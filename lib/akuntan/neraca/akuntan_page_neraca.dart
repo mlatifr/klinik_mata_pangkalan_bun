@@ -1,8 +1,8 @@
 // ignore_for_file: unused_import
 
 import 'dart:convert';
-import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_HPP_obat.dart';
-import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_HPP_obat.dart'
+import 'package:flutter_application_1/akuntan/laporanLR/HPP/akuntan_page_akun_HPP_obat.dart';
+import 'package:flutter_application_1/akuntan/laporanLR/HPP/akuntan_page_akun_HPP_obat.dart'
     as akunHPPObat;
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_admin.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_admin.dart'
@@ -11,18 +11,18 @@ import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_jasmed
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_jasmed.dart'
     as akunJasmed;
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_kas.dart';
-import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_obat.dart';
-import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_obat.dart'
+import 'package:flutter_application_1/akuntan/laporanLR/penjualan_obat/akuntan_page_akun_obat.dart';
+import 'package:flutter_application_1/akuntan/laporanLR/penjualan_obat/akuntan_page_akun_obat.dart'
     as akunObat;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_application_1/akuntan/page_nota/akuntan_fetch_penjualan_nota.dart';
+import 'package:flutter_application_1/akuntan/akuntan_fetch_penjualan_nota.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_sediaan_brg.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_tindakan.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_tindakan.dart'
     as akunTindakanOperasi;
 
-import 'package:flutter_application_1/akuntan/page_nota/akuntan_fetch_penjualan_nota.dart'
+import 'package:flutter_application_1/akuntan/akuntan_fetch_penjualan_nota.dart'
     as fetchPenjualan;
 import 'package:intl/intl.dart';
 
@@ -242,13 +242,6 @@ class _AkuntanVNeracaState extends State<AkuntanVNeraca> {
     AkuntanBacaDataAkunKas(controllerdate.text);
     AkuntanBacaDataAkunSediaanBrg();
     super.initState();
-  }
-
-  Widget WidgetLabaBersih() {
-    return ListTile(
-      title: Text(
-          "Laba Bersih: ${fetchPenjualan.totalPenjualan - akunHPPObat.totalHPPObat + akunTindakanOperasi.totalTindakanOperasi - akunJasmed.totalBiayaKomisiJasmed - akunAdmin.totalKomisiAdmin} \n"),
-    );
   }
 
   @override

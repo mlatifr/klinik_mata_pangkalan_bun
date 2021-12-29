@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/akuntan/page_nota/akuntan_fetch_penjualan_nota.dart';
+import 'package:flutter_application_1/akuntan/akuntan_fetch_penjualan_nota.dart';
 import 'package:intl/intl.dart';
 
 int totalBiayaKomisiJasmed = 0;

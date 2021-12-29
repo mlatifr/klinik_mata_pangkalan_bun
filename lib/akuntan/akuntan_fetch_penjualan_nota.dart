@@ -120,45 +120,7 @@ Future<String> fetchDataVPenjualanTindakan(pTglCatat) async {
   }
 }
 
-//untuk akun HPP Obat
-List<AkuntanVHppObat> listHppObats = [];
 
-class AkuntanVHppObat {
-  var tgl_transaksi, resepId, obatId, nama, jumlah, harga, totalHarga;
-  AkuntanVHppObat({
-    this.tgl_transaksi,
-    this.resepId,
-    this.obatId,
-    this.nama,
-    this.jumlah,
-    this.harga,
-    this.totalHarga,
-  });
-  // untuk convert dari jSon
-  factory AkuntanVHppObat.fromJson(Map<String, dynamic> json) {
-    return new AkuntanVHppObat(
-        tgl_transaksi: json['tgl_transaksi'],
-        resepId: json['resep_id'],
-        obatId: json['obat_id'],
-        nama: json['nama'],
-        jumlah: json['jumlah'],
-        harga: json['harga'],
-        totalHarga: json['total_harga']);
-  }
-}
-
-Future<String> fetchDataVHppObat(pTglCatat) async {
-  final response = await http
-      .post(Uri.parse(apiUrl + "akuntan_v_pjualan_obat_hpp.php"), body: {
-    'tgl_resep_non_visit': pTglCatat.toString(),
-  });
-  if (response.statusCode == 200) {
-    //print('fetchDataVHppObat: ${response.body}');
-    return response.body;
-  } else {
-    throw Exception('Failed to read API');
-  }
-}
 
 //untuk akun admin
 List<AkuntanVPenjualanAdmin> listPenjualanAdmins = [];
@@ -265,7 +227,7 @@ Future<String> fetchDataVPjlnTglObat(pTglCatat) async {
       await http.post(Uri.parse(apiUrl + "akuntan_v_pjualan_obat.php"), body: {
     'tgl_penjualan': pTglCatat.toString(),
   });
-  print('fetchDataVPenjualanObat ${response.body}');
+  // print('fetchDataVPenjualanObat ${response.body}');
   if (response.statusCode == 200) {
     return response.body;
   } else {
@@ -317,11 +279,12 @@ class AkuntanVPenjualanNotaObatTotal {
 }
 
 Future<String> fetchDataVPenjualanListNotaObat(pTglCatat) async {
+  // print('pTglCatat $pTglCatat');
   final response =
       await http.post(Uri.parse(apiUrl + "akuntan_v_pjualan_nota.php"), body: {
     'tgl_nota': pTglCatat.toString(),
   });
-  print('fetchDataVPenjualanObatNota ${response.body}');
+  // print('fetchDataVPenjualanObatNota ${response.body}');
   if (response.statusCode == 200) {
     return response.body;
   } else {
