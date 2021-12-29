@@ -43,6 +43,17 @@ Future<String> fetchDataVHppObat(pTglCatat) async {
   }
 }
 
+class AkuntanVTotalHppObat{
+  var hpp_total;
+  AkuntanVTotalHppObat({this.hpp_total});
+  // untuk convert dari jSon
+  factory AkuntanVTotalHppObat.fromJson(Map<String, dynamic> json) {
+    return new AkuntanVTotalHppObat(
+      hpp_total: json['hpp_total'],
+    );
+  }
+}
+
 Future<String> fetchDataVTotalHppObat(pTglCatat) async {
   print('pTglCatat $pTglCatat');
   final response = await http

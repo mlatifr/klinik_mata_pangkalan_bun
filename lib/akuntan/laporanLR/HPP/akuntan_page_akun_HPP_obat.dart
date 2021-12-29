@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/akuntan/akuntan_fetch_penjualan_nota.dart';
 import 'package:flutter_application_1/akuntan/laporanLR/HPP/fetch.dart';
 import 'package:intl/intl.dart';
 
@@ -17,6 +16,7 @@ class WidgetAkunHPPObat extends StatefulWidget {
 
 class _WidgetAkunHPPObatState extends State<WidgetAkunHPPObat> {
   var numberFormatRp = new NumberFormat("#,##0", "id_ID");
+  var TextHppObat = 0;
   Widget widgetListHPPObat(
     plistPenjualanObats,
   ) {
@@ -69,8 +69,14 @@ class _WidgetAkunHPPObatState extends State<WidgetAkunHPPObat> {
       //Mengubah json menjadi Array
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
-      for (var i in json['data']) {}
-      setState(() {});
+      for (var i in json['data']) {
+        AkuntanVTotalHppObat hpp = AkuntanVTotalHppObat.fromJson(i);
+        TextHppObat = hpp.hpp_total;
+        print('TextHppObat $TextHppObat');
+      }
+      setState(() {
+        widgetTextTotalHPPObat();
+      });
     });
     super.initState();
   }
@@ -80,7 +86,7 @@ class _WidgetAkunHPPObatState extends State<WidgetAkunHPPObat> {
       padding: const EdgeInsets.all(8.0),
       child: ListTile(
           title:
-              Text('Total HPP Obat Rp ${numberFormatRp.format(800)}')),
+              Text('Total HPP Obat Rp ${numberFormatRp.format(TextHppObat)}')),
     );
   }
 
