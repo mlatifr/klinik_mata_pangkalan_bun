@@ -8,7 +8,8 @@ import 'akuntan_page_akun_obat_nota.dart';
 // ignore: must_be_immutable
 class WidgetTglPnjlnObat extends StatefulWidget {
   var textHeaderPenjualanObat, totalPenjualan;
-  WidgetTglPnjlnObat({Key key, this.textHeaderPenjualanObat, this.totalPenjualan})
+  WidgetTglPnjlnObat(
+      {Key key, this.textHeaderPenjualanObat, this.totalPenjualan})
       : super(key: key);
 
   @override
@@ -48,7 +49,8 @@ class _WidgetTglPnjlnObatState extends State<WidgetTglPnjlnObat> {
                       },
                       title: Center(
                         child: Text(
-                            '${plistPenjualanObats[index].tgl_transaksi.substring(0, 10)} | Rp ${plistPenjualanObats[index].totalHarga}'),
+                            '${plistPenjualanObats[index].tgl_transaksi.substring(0, 10)} ' +
+                                '| Rp ${numberFormatRp.format(plistPenjualanObats[index].totalHarga)}'),
                       ),
                     ),
                   ));

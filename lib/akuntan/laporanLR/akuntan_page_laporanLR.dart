@@ -21,8 +21,8 @@ import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_tindak
     as akunTindakanOperasi;
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_widget_list_nota.dart';
 import 'package:intl/intl.dart';
-import 'HPP/fetch.dart';
-import 'akuntan_page_laba_kotor.dart';
+import 'HPP/fetch_hpp_obat.dart';
+import 'laba_kotor/akuntan_page_laba_kotor.dart';
 
 class AkuntanVLaporanLR extends StatefulWidget {
   const AkuntanVLaporanLR({Key key}) : super(key: key);
@@ -37,18 +37,18 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
 //baca data nota akun tindakan
 // ignore: non_constant_identifier_names
   AkunanBacaDataListNota(tgl) {
-    print('listPenjualanTindakans before: ${listPenjualanTindakans.length}');
+    //print('listPenjualanTindakans before: ${listPenjualanTindakans.length}');
     if (listPenjualanTindakans.isNotEmpty) {
       listPenjualanTindakans.clear();
     }
-    print('listPenjualanTindakans after: ${listPenjualanTindakans.length}');
+    //print('listPenjualanTindakans after: ${listPenjualanTindakans.length}');
     Future<String> data = fetchDataVNotaPenjualan(tgl);
     data.then((value) {
       //Mengubah json menjadi Array
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
       for (var i in json['data']) {
-        print(i);
+        //print(i);
         AkuntanVNotaPenjualan pjlnTdkn = AkuntanVNotaPenjualan.fromJson(i);
         listNotaPenjualans.add(pjlnTdkn);
       }
@@ -65,18 +65,18 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
 
 // ignore: non_constant_identifier_names
   AkunanBacaDataPenjualanTindakan(tgl) {
-    print('listPenjualanTindakans before: ${listPenjualanTindakans.length}');
+    //print('listPenjualanTindakans before: ${listPenjualanTindakans.length}');
     if (listPenjualanTindakans.isNotEmpty) {
       listPenjualanTindakans.clear();
     }
-    print('listPenjualanTindakans after: ${listPenjualanTindakans.length}');
+    //print('listPenjualanTindakans after: ${listPenjualanTindakans.length}');
     Future<String> data = fetchDataVPenjualanTindakan(tgl);
     data.then((value) {
       //Mengubah json menjadi Array
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
       for (var i in json['data']) {
-        print(i);
+        //print(i);
         AkuntanVPenjualanTindakan pjlnTdkn =
             AkuntanVPenjualanTindakan.fromJson(i);
         listPenjualanTindakans.add(pjlnTdkn);
@@ -97,7 +97,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
 //       // ignore: unused_local_variable
 //       Map json = jsonDecode(value);
 //       for (var i in json['data']) {
-//         //print(i);
+//         ////print(i);
 //         AkuntanVPenjualanAdmin pjlnAdminNota =
 //             AkuntanVPenjualanAdmin.fromJson(i);
 //         listPenjualanAdmins.add(pjlnAdminNota);
@@ -132,7 +132,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
 // ignore: non_constant_identifier_names
   AkunanBacaDataPenjualanObat(tgl) {
     listPjlnTglObats.clear();
-    // print('listPenjualanObats: ${listPenjualanObats.length}');
+    // //print('listPenjualanObats: ${listPenjualanObats.length}');
     //harus ada resep apoteker id di kasir
     Future<String> data = fetchDataVPjlnTglObat(tgl);
     data.then((value) {
@@ -140,7 +140,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
       for (var i in json['data']) {
-        //print(i);
+        ////print(i);
         AkuntanVPenjualanObat pjlnObtNota = AkuntanVPenjualanObat.fromJson(i);
         listPjlnTglObats.add(pjlnObtNota);
       }
@@ -156,7 +156,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
               AkuntanVPenjualanNotaObatTotal.fromJson(i);
           fetchPenjualan.totalPenjualan = ttl.text_total_pejualan;
 
-          // print('fetchDataVPjlnObatTotal ${fetchPenjualan.totalPenjualan}');
+          // //print('fetchDataVPjlnObatTotal ${fetchPenjualan.totalPenjualan}');
         }
 
         setState(() {
@@ -170,14 +170,14 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
 // ignore: non_constant_identifier_names
   AkunanBacaDataHPPObat(tgl) {
     listHppObats.clear();
-    // print('listHppObats: ${listHppObats.length}');
+    // //print('listHppObats: ${listHppObats.length}');
     Future<String> data = fetchDataVHppObat(tgl);
     data.then((value) {
       //Mengubah json menjadi Array
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
       for (var i in json['data']) {
-        //print(i);
+        ////print(i);
         AkuntanVHppObat pjlnObtNota = AkuntanVHppObat.fromJson(i);
         listHppObats.add(pjlnObtNota);
       }
@@ -233,7 +233,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
                       AkunanBacaDataHPPObat(controllerdate.text);
                       AkunanBacaDataPenjualanTindakan(controllerdate.text);
                       AkunanBacaDataListNota(controllerdate.text);
-                      //print('showDatePicker : ${controllerdate.text}');
+                      ////print('showDatePicker : ${controllerdate.text}');
                     });
                   });
                 },
@@ -250,7 +250,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
   void initState() {
     DateTime now = new DateTime.now();
     DateTime date = new DateTime(now.year, now.month, now.day);
-    //print(date);
+    ////print(date);
     controllerdate.text = date.toString().substring(0, 7);
     AkunanBacaDataPenjualanObat(controllerdate.text);
     AkunanBacaDataHPPObat(controllerdate.text);
@@ -294,7 +294,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
 
               WidgetAkunHPPObat(tgl_hpp: controllerdate.text),
               Divider(),
-              WidgetLabaKotor(),
+              WidgetLabaKotor(tgl_laba_kotor: controllerdate.text),
               Divider(),
               WidgetAkunTindakan(
                 pTextDaftarPenjualanTindakna: 'Pendapatan Tindakan Operasi',

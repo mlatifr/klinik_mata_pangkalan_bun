@@ -1,32 +1,22 @@
-library flutter_application_1.fetch_hpp;
+library flutter_application_1.fetch_hpp_obat;
 
 import 'dart:async';
 import 'package:flutter_application_1/main.dart';
 import 'package:http/http.dart' as http;
+
 //untuk akun HPP Obat
 List<AkuntanVHppObat> listHppObats = [];
 
 class AkuntanVHppObat {
-  var tgl_transaksi, resepId, obatId, nama, jumlah, harga, totalHarga;
+  var tgl_transaksi, totalHarga;
   AkuntanVHppObat({
     this.tgl_transaksi,
-    this.resepId,
-    this.obatId,
-    this.nama,
-    this.jumlah,
-    this.harga,
     this.totalHarga,
   });
   // untuk convert dari jSon
   factory AkuntanVHppObat.fromJson(Map<String, dynamic> json) {
     return new AkuntanVHppObat(
-        tgl_transaksi: json['tgl_transaksi'],
-        resepId: json['resep_id'],
-        obatId: json['obat_id'],
-        nama: json['nama'],
-        jumlah: json['jumlah'],
-        harga: json['harga'],
-        totalHarga: json['total_harga']);
+        tgl_transaksi: json['tgl_transaksi'], totalHarga: json['total_harga']);
   }
 }
 
@@ -43,7 +33,7 @@ Future<String> fetchDataVHppObat(pTglCatat) async {
   }
 }
 
-class AkuntanVTotalHppObat{
+class AkuntanVTotalHppObat {
   var hpp_total;
   AkuntanVTotalHppObat({this.hpp_total});
   // untuk convert dari jSon

@@ -1,11 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/akuntan/laporanLR/HPP/fetch.dart';
+import 'package:flutter_application_1/akuntan/laporanLR/HPP/fetch_hpp_obat.dart';
 import 'package:intl/intl.dart';
 
 // int totalHPPObat = 0;
 
+// ignore: must_be_immutable
 class WidgetAkunHPPObat extends StatefulWidget {
   var tgl_hpp;
   WidgetAkunHPPObat({Key key, this.tgl_hpp}) : super(key: key);
@@ -17,18 +18,16 @@ class WidgetAkunHPPObat extends StatefulWidget {
 class _WidgetAkunHPPObatState extends State<WidgetAkunHPPObat> {
   var numberFormatRp = new NumberFormat("#,##0", "id_ID");
   var TextHppObat = 0;
-  Widget widgetListHPPObat(
-    plistPenjualanObats,
-  ) {
+  Widget widgetListHPPObat() {
     // totalHPPObat = 0;
-    if (plistPenjualanObats.length > 0) {
+    if (listHppObats.length > 0) {
       return Column(
         children: [
           ExpansionTile(title: Text('Penjualan HPP obat'), children: [
             ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: plistPenjualanObats.length,
+                itemCount: listHppObats.length,
                 itemBuilder: (context, index) {
                   return Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -44,7 +43,8 @@ class _WidgetAkunHPPObatState extends State<WidgetAkunHPPObat> {
                           onTap: () {},
                           title: Center(
                             child: Text(
-                                '${plistPenjualanObats[index].tgl_transaksi.toString().substring(0, 10)}'),
+                                '${listHppObats[index].tgl_transaksi.toString().substring(0, 10)}' +
+                                    ' | Rp ${numberFormatRp.format(listHppObats[index].totalHarga)}'),
                           ),
                         ),
                       ));
@@ -92,6 +92,6 @@ class _WidgetAkunHPPObatState extends State<WidgetAkunHPPObat> {
 
   @override
   Widget build(BuildContext context) {
-    return widgetListHPPObat(listHppObats);
+    return widgetListHPPObat();
   }
 }
