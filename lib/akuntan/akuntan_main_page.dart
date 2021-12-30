@@ -37,13 +37,13 @@ class _AkuntanMainPageState extends State<AkuntanMainPage> {
               ),
             ),
           ),
-          ListTile(
-            title: Text('Neraca'),
-            onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => AkuntanVNeraca()));
-            },
-          ),
+          // ListTile(
+          //   title: Text('Neraca'),
+          //   onTap: () {
+          //     Navigator.of(context).push(
+          //         MaterialPageRoute(builder: (context) => AkuntanVNeraca()));
+          //   },
+          // ),
           ListTile(
             title: Text('Laporan Laba Rugi'),
             onTap: () {
@@ -51,13 +51,13 @@ class _AkuntanMainPageState extends State<AkuntanMainPage> {
                   MaterialPageRoute(builder: (context) => AkuntanVLaporanLR()));
             },
           ),
-          ListTile(
-            title: Text('Daftar Nota Penjualan'),
-            onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => AkuntanVNotaPjln()));
-            },
-          ),
+          // ListTile(
+          //   title: Text('Daftar Nota Penjualan'),
+          //   onTap: () {
+          //     Navigator.of(context).push(
+          //         MaterialPageRoute(builder: (context) => AkuntanVNotaPjln()));
+          //   },
+          // ),
           ListTile(
             title: Text('Input Penjurnalan'),
             onTap: () {

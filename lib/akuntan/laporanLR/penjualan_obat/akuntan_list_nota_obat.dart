@@ -1,21 +1,22 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_obat_nota_detail.dart';
+import 'package:flutter_application_1/akuntan/laporanLR/penjualan_obat/akuntan_page_akun_obat_nota_detail.dart';
 import 'package:intl/intl.dart';
 import '../../akuntan_fetch_penjualan_nota.dart';
+import 'akuntan_fetch_penjualan_obat.dart';
 
 int totalPenjualan = 0;
 
 // ignore: must_be_immutable
-class WidgetAkunNotaPjnlObat extends StatefulWidget {
+class WidgetListNotaPjlnObat extends StatefulWidget {
   var tgl_transaksi;
-  WidgetAkunNotaPjnlObat({Key key, this.tgl_transaksi}) : super(key: key);
+  WidgetListNotaPjlnObat({Key key, this.tgl_transaksi}) : super(key: key);
 
   @override
-  _WidgetAkunNotaPjnlObatState createState() => _WidgetAkunNotaPjnlObatState();
+  _WidgetListNotaPjlnObatState createState() => _WidgetListNotaPjlnObatState();
 }
 
-class _WidgetAkunNotaPjnlObatState extends State<WidgetAkunNotaPjnlObat> {
+class _WidgetListNotaPjlnObatState extends State<WidgetListNotaPjlnObat> {
   //baca data nota akun obat
 // ignore: non_constant_identifier_names
   AkunanBacaDataDaftarNotaObat(tgl) {

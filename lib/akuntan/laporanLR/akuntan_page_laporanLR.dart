@@ -8,8 +8,8 @@ import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_admin.
     as akunAdmin;
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_jasmed.dart'
     as akunJasmed;
-import 'package:flutter_application_1/akuntan/laporanLR/penjualan_obat/akuntan_page_akun_obat.dart';
-import 'package:flutter_application_1/akuntan/laporanLR/penjualan_obat/akuntan_page_akun_obat.dart'
+import 'package:flutter_application_1/akuntan/laporanLR/penjualan_obat/akuntan_widget_penjualan_obat.dart';
+import 'package:flutter_application_1/akuntan/laporanLR/penjualan_obat/akuntan_widget_penjualan_obat.dart'
     as akunObat;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -36,56 +36,56 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
 
 //baca data nota akun tindakan
 // ignore: non_constant_identifier_names
-  AkunanBacaDataListNota(tgl) {
-    //print('listPenjualanTindakans before: ${listPenjualanTindakans.length}');
-    if (listPenjualanTindakans.isNotEmpty) {
-      listPenjualanTindakans.clear();
-    }
-    //print('listPenjualanTindakans after: ${listPenjualanTindakans.length}');
-    Future<String> data = fetchDataVNotaPenjualan(tgl);
-    data.then((value) {
-      //Mengubah json menjadi Array
-      // ignore: unused_local_variable
-      Map json = jsonDecode(value);
-      for (var i in json['data']) {
-        //print(i);
-        AkuntanVNotaPenjualan pjlnTdkn = AkuntanVNotaPenjualan.fromJson(i);
-        listNotaPenjualans.add(pjlnTdkn);
-      }
-      setState(() {
-        WidgetListNota(
-          listParameter: listNotaPenjualans,
-          textHeaderListNota: 'Daftar Nota',
-        );
-      });
-    });
-  }
+  // AkunanBacaDataListNota(tgl) {
+  //   //print('listPenjualanTindakans before: ${listPenjualanTindakans.length}');
+  //   if (listPenjualanTindakans.isNotEmpty) {
+  //     listPenjualanTindakans.clear();
+  //   }
+  //   //print('listPenjualanTindakans after: ${listPenjualanTindakans.length}');
+  //   Future<String> data = fetchDataVNotaPenjualan(tgl);
+  //   data.then((value) {
+  //     //Mengubah json menjadi Array
+  //     // ignore: unused_local_variable
+  //     Map json = jsonDecode(value);
+  //     for (var i in json['data']) {
+  //       //print(i);
+  //       AkuntanVNotaPenjualan pjlnTdkn = AkuntanVNotaPenjualan.fromJson(i);
+  //       listNotaPenjualans.add(pjlnTdkn);
+  //     }
+  //     setState(() {
+  //       WidgetListNota(
+  //         listParameter: listNotaPenjualans,
+  //         textHeaderListNota: 'Daftar Nota',
+  //       );
+  //     });
+  //   });
+  // }
 
   //baca data nota akun tindakan
 
 // ignore: non_constant_identifier_names
-  AkunanBacaDataPenjualanTindakan(tgl) {
-    //print('listPenjualanTindakans before: ${listPenjualanTindakans.length}');
-    if (listPenjualanTindakans.isNotEmpty) {
-      listPenjualanTindakans.clear();
-    }
-    //print('listPenjualanTindakans after: ${listPenjualanTindakans.length}');
-    Future<String> data = fetchDataVPenjualanTindakan(tgl);
-    data.then((value) {
-      //Mengubah json menjadi Array
-      // ignore: unused_local_variable
-      Map json = jsonDecode(value);
-      for (var i in json['data']) {
-        //print(i);
-        AkuntanVPenjualanTindakan pjlnTdkn =
-            AkuntanVPenjualanTindakan.fromJson(i);
-        listPenjualanTindakans.add(pjlnTdkn);
-      }
-      setState(() {
-        WidgetAkunTindakan();
-      });
-    });
-  }
+  // AkunanBacaDataPenjualanTindakan(tgl) {
+  //   //print('listPenjualanTindakans before: ${listPenjualanTindakans.length}');
+  //   if (listPenjualanTindakans.isNotEmpty) {
+  //     listPenjualanTindakans.clear();
+  //   }
+  //   //print('listPenjualanTindakans after: ${listPenjualanTindakans.length}');
+  //   Future<String> data = fetchDataVPenjualanTindakan(tgl);
+  //   data.then((value) {
+  //     //Mengubah json menjadi Array
+  //     // ignore: unused_local_variable
+  //     Map json = jsonDecode(value);
+  //     for (var i in json['data']) {
+  //       //print(i);
+  //       AkuntanVPenjualanTindakan pjlnTdkn =
+  //           AkuntanVPenjualanTindakan.fromJson(i);
+  //       listPenjualanTindakans.add(pjlnTdkn);
+  //     }
+  //     setState(() {
+  //       WidgetAkunTindakan();
+  //     });
+  //   });
+  // }
 
 // //baca data nota akun jasmed
 // // ignore: non_constant_identifier_names
@@ -127,44 +127,6 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
 //       });
 //     });
 //   }
-
-//baca data nota akun obat
-// ignore: non_constant_identifier_names
-  AkunanBacaDataPenjualanObat(tgl) {
-    listPjlnTglObats.clear();
-    // //print('listPenjualanObats: ${listPenjualanObats.length}');
-    //harus ada resep apoteker id di kasir
-    Future<String> data = fetchDataVPjlnTglObat(tgl);
-    data.then((value) {
-      //Mengubah json menjadi Array
-      // ignore: unused_local_variable
-      Map json = jsonDecode(value);
-      for (var i in json['data']) {
-        ////print(i);
-        AkuntanVPenjualanObat pjlnObtNota = AkuntanVPenjualanObat.fromJson(i);
-        listPjlnTglObats.add(pjlnObtNota);
-      }
-      setState(() {
-        WidgetTglPnjlnObat();
-      });
-    }).then((value) {
-      Future<String> data2 = fetchDataVPjlnObatTotal(tgl);
-      data2.then((value2) {
-        Map json = jsonDecode(value2);
-        for (var i in json['data']) {
-          AkuntanVPenjualanNotaObatTotal ttl =
-              AkuntanVPenjualanNotaObatTotal.fromJson(i);
-          fetchPenjualan.totalPenjualan = ttl.text_total_pejualan;
-
-          // //print('fetchDataVPjlnObatTotal ${fetchPenjualan.totalPenjualan}');
-        }
-
-        setState(() {
-          WidgetTglPnjlnObat();
-        });
-      });
-    });
-  }
 
 //baca data nota akun obat
 // ignore: non_constant_identifier_names
@@ -227,12 +189,11 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
                     setState(() {
                       controllerdate.text = value.toString().substring(0, 7);
                       // baca data seluruh nota transaksi yg ada di klinik
-                      AkunanBacaDataPenjualanObat(controllerdate.text);
                       // AkunanBacaDataPenjualanjasmed(controllerdate.text);
                       // AkunanBacaDataPenjualanAdmin(controllerdate.text);
                       AkunanBacaDataHPPObat(controllerdate.text);
-                      AkunanBacaDataPenjualanTindakan(controllerdate.text);
-                      AkunanBacaDataListNota(controllerdate.text);
+                      // AkunanBacaDataPenjualanTindakan(controllerdate.text);
+                      // AkunanBacaDataListNota(controllerdate.text);
                       ////print('showDatePicker : ${controllerdate.text}');
                     });
                   });
@@ -252,10 +213,9 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
     DateTime date = new DateTime(now.year, now.month, now.day);
     ////print(date);
     controllerdate.text = date.toString().substring(0, 7);
-    AkunanBacaDataPenjualanObat(controllerdate.text);
     AkunanBacaDataHPPObat(controllerdate.text);
-    AkunanBacaDataPenjualanTindakan(controllerdate.text);
-    AkunanBacaDataListNota(controllerdate.text);
+    // AkunanBacaDataPenjualanTindakan(controllerdate.text);
+    // AkunanBacaDataListNota(controllerdate.text);
 
     // AkunanBacaDataPenjualanjasmed(controllerdate.text);
     // AkunanBacaDataPenjualanAdmin(controllerdate.text);
@@ -289,16 +249,16 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
             children: [
               widgetSelectTgl(),
               WidgetTglPnjlnObat(
-                  textHeaderPenjualanObat: 'Penjualan Obat',
-                  totalPenjualan: fetchPenjualan.totalPenjualan),
+                tgl_penjualanObat: controllerdate.text,
+              ),
 
               WidgetAkunHPPObat(tgl_hpp: controllerdate.text),
               Divider(),
               WidgetLabaKotor(tgl_laba_kotor: controllerdate.text),
               Divider(),
-              WidgetAkunTindakan(
-                pTextDaftarPenjualanTindakna: 'Pendapatan Tindakan Operasi',
-              ),
+              // WidgetAkunTindakan(
+              //   pTextDaftarPenjualanTindakna: 'Pendapatan Tindakan Operasi',
+              // ),
               Divider(),
               // Text("Pendapatan: ${listPenjualanTindakans.length}"),
               Padding(

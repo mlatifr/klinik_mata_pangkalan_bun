@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/akuntan/laporanLR/HPP/fetch_hpp_obat.dart';
 import 'package:intl/intl.dart';
 
+import 'akuntan_list_nota_hpp.dart';
+
 // int totalHPPObat = 0;
 
 // ignore: must_be_immutable
@@ -40,7 +42,10 @@ class _WidgetAkunHPPObatState extends State<WidgetAkunHPPObat> {
                           ),
                         ),
                         child: ListTile(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => WidgetListNotaHpp()));
+                          },
                           title: Center(
                             child: Text(
                                 '${listHppObats[index].tgl_transaksi.toString().substring(0, 10)}' +

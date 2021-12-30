@@ -50,18 +50,18 @@ class _PemilikMainPageState extends State<PemilikMainPage> {
                           PemilikInputOrderObat(pmlkId: userIdMainDart)));
             },
           ),
-          ListTile(
-            title: Text('Split View'),
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => VerticalSplitView(
-                            window1: AkuntanVNotaPjln(),
-                            window2: AkuntanInputPenjurnalan(),
-                          )));
-            },
-          ),
+          // ListTile(
+          //   title: Text('Split View'),
+          //   onTap: () {
+          //     Navigator.push(
+          //         context,
+          //         MaterialPageRoute(
+          //             builder: (context) => VerticalSplitView(
+          //                   window1: AkuntanVNotaPjln(),
+          //                   window2: AkuntanInputPenjurnalan(),
+          //                 )));
+          //   },
+          // ),
           ListTile(
             title: Text('Logout'),
             onTap: () {
