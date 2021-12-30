@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/akuntan/page_input_penjurnalan/akuntan_page_input_penjurnalan.dart';
-import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_nota_penjualan.dart';
-import 'package:flutter_application_1/akuntan/akuntan_page_split_view.dart';
 import 'package:flutter_application_1/pemilik/input_order/pemilik_page_input_order.dart';
 import '../main.dart';
 

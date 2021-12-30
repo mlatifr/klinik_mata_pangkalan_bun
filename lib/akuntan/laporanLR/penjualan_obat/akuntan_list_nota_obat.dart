@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/akuntan/laporanLR/penjualan_obat/akuntan_page_akun_obat_nota_detail.dart';
 import 'package:intl/intl.dart';
-import '../../akuntan_fetch_penjualan_nota.dart';
 import 'akuntan_fetch_penjualan_obat.dart';
 
 int totalPenjualan = 0;

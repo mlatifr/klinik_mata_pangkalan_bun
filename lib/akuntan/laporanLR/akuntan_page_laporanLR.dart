@@ -16,8 +16,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_application_1/akuntan/akuntan_fetch_penjualan_nota.dart'
     as fetchPenjualan;
 import 'package:flutter_application_1/akuntan/akuntan_fetch_penjualan_nota.dart';
-import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_tindakan.dart';
-import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_tindakan.dart'
+import 'package:flutter_application_1/akuntan/laporanLR/tindakan/akuntan_page_akun_tindakan.dart';
+import 'package:flutter_application_1/akuntan/laporanLR/tindakan/akuntan_page_akun_tindakan.dart'
     as akunTindakanOperasi;
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_widget_list_nota.dart';
 import 'package:intl/intl.dart';
@@ -33,103 +33,6 @@ class AkuntanVLaporanLR extends StatefulWidget {
 
 class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
   var numberFormatRp = new NumberFormat("#,##0", "id_ID");
-
-//baca data nota akun tindakan
-// ignore: non_constant_identifier_names
-  // AkunanBacaDataListNota(tgl) {
-  //   //print('listPenjualanTindakans before: ${listPenjualanTindakans.length}');
-  //   if (listPenjualanTindakans.isNotEmpty) {
-  //     listPenjualanTindakans.clear();
-  //   }
-  //   //print('listPenjualanTindakans after: ${listPenjualanTindakans.length}');
-  //   Future<String> data = fetchDataVNotaPenjualan(tgl);
-  //   data.then((value) {
-  //     //Mengubah json menjadi Array
-  //     // ignore: unused_local_variable
-  //     Map json = jsonDecode(value);
-  //     for (var i in json['data']) {
-  //       //print(i);
-  //       AkuntanVNotaPenjualan pjlnTdkn = AkuntanVNotaPenjualan.fromJson(i);
-  //       listNotaPenjualans.add(pjlnTdkn);
-  //     }
-  //     setState(() {
-  //       WidgetListNota(
-  //         listParameter: listNotaPenjualans,
-  //         textHeaderListNota: 'Daftar Nota',
-  //       );
-  //     });
-  //   });
-  // }
-
-  //baca data nota akun tindakan
-
-// ignore: non_constant_identifier_names
-  // AkunanBacaDataPenjualanTindakan(tgl) {
-  //   //print('listPenjualanTindakans before: ${listPenjualanTindakans.length}');
-  //   if (listPenjualanTindakans.isNotEmpty) {
-  //     listPenjualanTindakans.clear();
-  //   }
-  //   //print('listPenjualanTindakans after: ${listPenjualanTindakans.length}');
-  //   Future<String> data = fetchDataVPenjualanTindakan(tgl);
-  //   data.then((value) {
-  //     //Mengubah json menjadi Array
-  //     // ignore: unused_local_variable
-  //     Map json = jsonDecode(value);
-  //     for (var i in json['data']) {
-  //       //print(i);
-  //       AkuntanVPenjualanTindakan pjlnTdkn =
-  //           AkuntanVPenjualanTindakan.fromJson(i);
-  //       listPenjualanTindakans.add(pjlnTdkn);
-  //     }
-  //     setState(() {
-  //       WidgetAkunTindakan();
-  //     });
-  //   });
-  // }
-
-// //baca data nota akun jasmed
-// // ignore: non_constant_identifier_names
-//   AkunanBacaDataPenjualanAdmin(tgl) {
-//     listPenjualanAdmins.clear();
-//     Future<String> data = fetchDataVPenjualanAdmin(tgl);
-//     data.then((value) {
-//       //Mengubah json menjadi Array
-//       // ignore: unused_local_variable
-//       Map json = jsonDecode(value);
-//       for (var i in json['data']) {
-//         ////print(i);
-//         AkuntanVPenjualanAdmin pjlnAdminNota =
-//             AkuntanVPenjualanAdmin.fromJson(i);
-//         listPenjualanAdmins.add(pjlnAdminNota);
-//       }
-//       setState(() {
-//         WidgetAkunJasmed();
-//       });
-//     });
-//   }
-
-// //baca data nota akun jasmed
-// // ignore: non_constant_identifier_names
-//   AkunanBacaDataPenjualanjasmed(tgl) {
-//     listPenjualanJasmeds.clear();
-//     Future<String> data = fetchDataVPenjualanJasmed(tgl);
-//     data.then((value) {
-//       //Mengubah json menjadi Array
-//       // ignore: unused_local_variable
-//       Map json = jsonDecode(value);
-//       for (var i in json['data']) {
-//         AkuntanVPenjualanJasmed pjlnJsmdNota =
-//             AkuntanVPenjualanJasmed.fromJson(i);
-//         listPenjualanJasmeds.add(pjlnJsmdNota);
-//       }
-//       setState(() {
-//         WidgetAkunJasmed();
-//       });
-//     });
-//   }
-
-//baca data nota akun obat
-
   var controllerdate = TextEditingController();
   Widget widgetSelectTgl() {
     return Padding(
@@ -169,13 +72,6 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
                       .then((value) {
                     setState(() {
                       controllerdate.text = value.toString().substring(0, 7);
-                      // baca data seluruh nota transaksi yg ada di klinik
-                      // AkunanBacaDataPenjualanjasmed(controllerdate.text);
-                      // AkunanBacaDataPenjualanAdmin(controllerdate.text);
-                      // AkunanBacaDataHPPObat(controllerdate.text);
-                      // AkunanBacaDataPenjualanTindakan(controllerdate.text);
-                      // AkunanBacaDataListNota(controllerdate.text);
-                      ////print('showDatePicker : ${controllerdate.text}');
                     });
                   });
                 },
@@ -192,24 +88,9 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
   void initState() {
     DateTime now = new DateTime.now();
     DateTime date = new DateTime(now.year, now.month, now.day);
-    ////print(date);
     controllerdate.text = date.toString().substring(0, 7);
-    // AkunanBacaDataHPPObat(controllerdate.text);
-    // AkunanBacaDataPenjualanTindakan(controllerdate.text);
-    // AkunanBacaDataListNota(controllerdate.text);
-
-    // AkunanBacaDataPenjualanjasmed(controllerdate.text);
-    // AkunanBacaDataPenjualanAdmin(controllerdate.text);
-
     super.initState();
   }
-
-  // Widget WidgetLabaBersih() {
-  //   return ListTile(
-  //     title: Text(
-  //         "Laba Bersih: ${fetchPenjualan.totalPenjualan - akunHPPObat.totalHPPObat + akunTindakanOperasi.totalTindakanOperasi - akunJasmed.totalBiayaKomisiJasmed - akunAdmin.totalKomisiAdmin} \n"),
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -237,9 +118,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
               Divider(),
               WidgetLabaKotor(tgl_laba_kotor: controllerdate.text),
               Divider(),
-              // WidgetAkunTindakan(
-              //   pTextDaftarPenjualanTindakna: 'Pendapatan Tindakan Operasi',
-              // ),
+              widgetListTglTindakan(),
               Divider(),
               // Text("Pendapatan: ${listPenjualanTindakans.length}"),
               Padding(

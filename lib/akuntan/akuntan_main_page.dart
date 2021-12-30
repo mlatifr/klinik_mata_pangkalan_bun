@@ -2,9 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/akuntan/laporanLR/akuntan_page_laporanLR.dart';
-import 'package:flutter_application_1/akuntan/neraca/akuntan_page_neraca.dart';
 import 'package:flutter_application_1/akuntan/page_input_penjurnalan/akuntan_page_input_penjurnalan.dart';
-import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_nota_penjualan.dart';
 import 'package:flutter_application_1/akuntan/akuntan_page_split_view.dart';
 import '../main.dart';
 import 'page_input_penjurnalan/akuntan_get_daftar_akun.dart';
