@@ -4,6 +4,8 @@ import 'package:flutter_application_1/akuntan/laporanLR/HPP/fetch_hpp_obat.dart'
 import 'package:flutter_application_1/akuntan/laporanLR/penjualan_obat/akuntan_fetch_penjualan_obat.dart';
 import 'package:intl/intl.dart';
 
+import 'akuntan_detail_hpp.dart';
+
 int totalPenjualan = 0;
 
 // ignore: must_be_immutable
@@ -19,7 +21,7 @@ class _WidgetListNotaHppState extends State<WidgetListNotaHpp> {
   //baca data nota akun obat
 // ignore: non_constant_identifier_names
   AkunanBacaDataDaftarNotaHpp(tgl) {
-    listNotaHppObats.clear();
+    listDetailNotaHppObat.clear();
     // print('listPenjualanObatNotas: ${listPenjualanObatNotas.length}');
     Future<String> data = fetchDataVListNotaHppObat(tgl);
     data.then((value) {
@@ -59,9 +61,9 @@ class _WidgetListNotaHppState extends State<WidgetListNotaHpp> {
                   ),
                   child: ListTile(
                     onTap: () {
-                      //   Navigator.of(context).push(MaterialPageRoute(
-                      //       builder: (context) => WidgetDetailNotaObat(
-                      //           nota_id: listNotaPjnlObat[index].nota_id)));
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => WidgetDetailNotaHpp(
+                              nota_id: listNotaHppObats[index].no_nota)));
                     },
                     title: Center(
                       child: Text('Nota ${listNotaHppObats[index].no_nota}' +
