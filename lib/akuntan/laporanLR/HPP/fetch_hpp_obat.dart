@@ -4,29 +4,58 @@ import 'dart:async';
 import 'package:flutter_application_1/main.dart';
 import 'package:http/http.dart' as http;
 
+//untuk List Nota HPP Obat
+List<AkuntanVListNotaHpp> listNotaHppObats = [];
+
+class AkuntanVListNotaHpp {
+  var no_nota, total_harga;
+  AkuntanVListNotaHpp({
+    this.no_nota,
+    this.total_harga,
+  });
+  // untuk convert dari jSon
+  factory AkuntanVListNotaHpp.fromJson(Map<String, dynamic> json) {
+    return new AkuntanVListNotaHpp(
+        no_nota: json['no_nota'], total_harga: json['total']);
+  }
+}
+
+Future<String> fetchDataVListNotaHppObat(pTglCatat) async {
+  final response = await http
+      .post(Uri.parse(apiUrl + "akuntan_v_pjualan_obat_hpp.php"), body: {
+    'tgl_list_nota_hpp': pTglCatat.toString(),
+  });
+  if (response.statusCode == 200) {
+    print('fetchDataVHppObat: ${response.body}');
+    return response.body;
+  } else {
+    throw Exception('Failed to read API');
+  }
+}
+
 //untuk akun HPP Obat
 List<AkuntanVHppObat> listHppObats = [];
 
 class AkuntanVHppObat {
-  var tgl_transaksi, totalHarga;
+  var tgl_resep, total_harga;
   AkuntanVHppObat({
-    this.tgl_transaksi,
-    this.totalHarga,
+    this.tgl_resep,
+    this.total_harga,
   });
   // untuk convert dari jSon
   factory AkuntanVHppObat.fromJson(Map<String, dynamic> json) {
     return new AkuntanVHppObat(
-        tgl_transaksi: json['tgl_transaksi'], totalHarga: json['total_harga']);
+        tgl_resep: json['tgl_resep'], total_harga: json['total_harga']);
   }
 }
 
 Future<String> fetchDataVHppObat(pTglCatat) async {
   final response = await http
       .post(Uri.parse(apiUrl + "akuntan_v_pjualan_obat_hpp.php"), body: {
-    'tgl_hpp_obat': pTglCatat.toString(),
+    'tgl_list': pTglCatat.toString(),
   });
   if (response.statusCode == 200) {
-    //print('fetchDataVHppObat: ${response.body}');
+    // print('fetchDataVHppObat: ${response.body}');
     return response.body;
   } else {
     throw Exception('Failed to read API');
@@ -39,7 +68,7 @@ class AkuntanVTotalHppObat {
   // untuk convert dari jSon
   factory AkuntanVTotalHppObat.fromJson(Map<String, dynamic> json) {
     return new AkuntanVTotalHppObat(
-      hpp_total: json['hpp_total'],
+      hpp_total: json['total_harga'],
     );
   }
 }
@@ -51,7 +80,7 @@ Future<String> fetchDataVTotalHppObat(pTglCatat) async {
     'tgl_total_hpp_obat': pTglCatat.toString(),
   });
   if (response.statusCode == 200) {
-    //print('fetchDataVHppObat: ${response.body}');
+    print('fetchDataVTotalHppObat: ${response.body}');
     return response.body;
   } else {
     throw Exception('Failed to read API');

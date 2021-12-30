@@ -1,9 +1,8 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/akuntan/laporanLR/HPP/fetch_hpp_obat.dart';
 import 'package:flutter_application_1/akuntan/laporanLR/penjualan_obat/akuntan_fetch_penjualan_obat.dart';
-import 'package:flutter_application_1/akuntan/laporanLR/penjualan_obat/akuntan_page_akun_obat_nota_detail.dart';
 import 'package:intl/intl.dart';
-import '../../akuntan_fetch_penjualan_nota.dart';
 
 int totalPenjualan = 0;
 
@@ -20,33 +19,32 @@ class _WidgetListNotaHppState extends State<WidgetListNotaHpp> {
   //baca data nota akun obat
 // ignore: non_constant_identifier_names
   AkunanBacaDataDaftarNotaHpp(tgl) {
-    listNotaPjnlObat.clear();
+    listNotaHppObats.clear();
     // print('listPenjualanObatNotas: ${listPenjualanObatNotas.length}');
-    Future<String> data = fetchDataVPenjualanListNotaObat(tgl);
+    Future<String> data = fetchDataVListNotaHppObat(tgl);
     data.then((value) {
       //Mengubah json menjadi Array
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
       for (var i in json['data']) {
         //print(i);
-        AkuntanVPenjualanNotaObat pjlnObtNota =
-            AkuntanVPenjualanNotaObat.fromJson(i);
-        listNotaPjnlObat.add(pjlnObtNota);
+        AkuntanVListNotaHpp notaHPP = AkuntanVListNotaHpp.fromJson(i);
+        listNotaHppObats.add(notaHPP);
       }
       setState(() {
         widgetListObatNota();
-        print('listNotaPjnlObat.length ${listNotaPjnlObat.length}');
+        // print('listNotaPjnlObat.length ${listHppObats.length}');
       });
     });
   }
 
   var numberFormatRp = new NumberFormat("#,##0", "id_ID");
   Widget widgetListObatNota() {
-    if (listNotaPjnlObat.length > 0) {
+    if (listNotaHppObats.length > 0) {
       return ListView.builder(
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: listNotaPjnlObat.length,
+          itemCount: listNotaHppObats.length,
           itemBuilder: (context, index) {
             return Padding(
                 padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -66,7 +64,8 @@ class _WidgetListNotaHppState extends State<WidgetListNotaHpp> {
                       //           nota_id: listNotaPjnlObat[index].nota_id)));
                     },
                     title: Center(
-                      child: Text('Nota ${listNotaPjnlObat[index].nota_id}'),
+                      child: Text('Nota ${listNotaHppObats[index].no_nota}' +
+                          ' | Rp ${numberFormatRp.format(listNotaHppObats[index].total_harga)}'),
                     ),
                   ),
                 ));

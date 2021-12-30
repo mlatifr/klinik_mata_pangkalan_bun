@@ -44,12 +44,17 @@ class _WidgetAkunHPPObatState extends State<WidgetAkunHPPObat> {
                         child: ListTile(
                           onTap: () {
                             Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => WidgetListNotaHpp()));
+                                builder: (context) => WidgetListNotaHpp(
+                                      tgl_transaksi: listHppObats[index]
+                                          .tgl_resep
+                                          .toString()
+                                          .substring(0, 10),
+                                    )));
                           },
                           title: Center(
                             child: Text(
-                                '${listHppObats[index].tgl_transaksi.toString().substring(0, 10)}' +
-                                    ' | Rp ${numberFormatRp.format(listHppObats[index].totalHarga)}'),
+                                '${listHppObats[index].tgl_resep.toString().substring(0, 10)}' +
+                                    ' | Rp ${numberFormatRp.format(listHppObats[index].total_harga)}'),
                           ),
                         ),
                       ));
@@ -68,8 +73,31 @@ class _WidgetAkunHPPObatState extends State<WidgetAkunHPPObat> {
     }
   }
 
+// ignore: non_constant_identifier_names
+  AkunanBacaDataHPPObat(tgl) {
+    // print('tgl $tgl');
+    listHppObats.clear();
+    // //print('listHppObats: ${listHppObats.length}');
+    Future<String> data = fetchDataVHppObat(tgl);
+    data.then((value) {
+      //Mengubah json menjadi Array
+      // ignore: unused_local_variable
+      Map json = jsonDecode(value);
+      for (var i in json['data']) {
+        // print(i);
+        AkuntanVHppObat pjlnObtNota = AkuntanVHppObat.fromJson(i);
+        listHppObats.add(pjlnObtNota);
+      }
+      setState(() {
+        // print('listHppObats[0].tgl_transaksi ${listHppObats[0].tgl_resep}');
+        widgetListHPPObat();
+      });
+    });
+  }
+
   @override
   void initState() {
+    AkunanBacaDataHPPObat(widget.tgl_hpp);
     fetchDataVTotalHppObat(widget.tgl_hpp).then((value) {
       //Mengubah json menjadi Array
       // ignore: unused_local_variable
@@ -77,22 +105,30 @@ class _WidgetAkunHPPObatState extends State<WidgetAkunHPPObat> {
       for (var i in json['data']) {
         AkuntanVTotalHppObat hpp = AkuntanVTotalHppObat.fromJson(i);
         TextHppObat = hpp.hpp_total;
-        print('TextHppObat $TextHppObat');
+        // print('TextHppObat $TextHppObat');
       }
       setState(() {
-        widgetTextTotalHPPObat();
+        widgetListHPPObat();
       });
     });
     super.initState();
   }
 
   Widget widgetTextTotalHPPObat() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ListTile(
-          title:
-              Text('Total HPP Obat Rp ${numberFormatRp.format(TextHppObat)}')),
-    );
+    if (TextHppObat != null) {
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListTile(
+            title: Text(
+                'Total HPP Obat Rp ${numberFormatRp.format(TextHppObat)}')),
+      );
+    } else {
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListTile(
+            title: Text('Total HPP Obat Rp ${numberFormatRp.format(0)}')),
+      );
+    }
   }
 
   @override

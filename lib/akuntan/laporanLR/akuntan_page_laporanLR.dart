@@ -129,25 +129,6 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
 //   }
 
 //baca data nota akun obat
-// ignore: non_constant_identifier_names
-  AkunanBacaDataHPPObat(tgl) {
-    listHppObats.clear();
-    // //print('listHppObats: ${listHppObats.length}');
-    Future<String> data = fetchDataVHppObat(tgl);
-    data.then((value) {
-      //Mengubah json menjadi Array
-      // ignore: unused_local_variable
-      Map json = jsonDecode(value);
-      for (var i in json['data']) {
-        ////print(i);
-        AkuntanVHppObat pjlnObtNota = AkuntanVHppObat.fromJson(i);
-        listHppObats.add(pjlnObtNota);
-      }
-      setState(() {
-        WidgetAkunHPPObat();
-      });
-    });
-  }
 
   var controllerdate = TextEditingController();
   Widget widgetSelectTgl() {
@@ -191,7 +172,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
                       // baca data seluruh nota transaksi yg ada di klinik
                       // AkunanBacaDataPenjualanjasmed(controllerdate.text);
                       // AkunanBacaDataPenjualanAdmin(controllerdate.text);
-                      AkunanBacaDataHPPObat(controllerdate.text);
+                      // AkunanBacaDataHPPObat(controllerdate.text);
                       // AkunanBacaDataPenjualanTindakan(controllerdate.text);
                       // AkunanBacaDataListNota(controllerdate.text);
                       ////print('showDatePicker : ${controllerdate.text}');
@@ -213,7 +194,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
     DateTime date = new DateTime(now.year, now.month, now.day);
     ////print(date);
     controllerdate.text = date.toString().substring(0, 7);
-    AkunanBacaDataHPPObat(controllerdate.text);
+    // AkunanBacaDataHPPObat(controllerdate.text);
     // AkunanBacaDataPenjualanTindakan(controllerdate.text);
     // AkunanBacaDataListNota(controllerdate.text);
 
