@@ -61,17 +61,17 @@ class _WidgetDetailNotaTindakanState extends State<WidgetDetailNotaTindakan> {
                       textAlign: TextAlign.center,
                     ),
                     Text(
-                      'Jumlah',
+                      'mt_sisi',
                       textAlign: TextAlign.center,
                     ),
                     Text(
                       'Harga',
                       textAlign: TextAlign.center,
                     ),
-                    Text(
-                      'Total',
-                      textAlign: TextAlign.center,
-                    ),
+                    // Text(
+                    //   'Total',
+                    //   textAlign: TextAlign.center,
+                    // ),
                   ]),
                 ]),
             ListView.builder(
@@ -89,19 +89,19 @@ class _WidgetDetailNotaTindakanState extends State<WidgetDetailNotaTindakan> {
                             textAlign: TextAlign.center,
                           ),
                           Text(
-                            '${listDetailNotaTindakan[index].jumlah}',
+                            '${listDetailNotaTindakan[index].mt_sisi}',
                             textAlign: TextAlign.center,
                           ),
                           Text(
-                            '${numberFormatRp.format(int.parse(listDetailNotaTindakan[index].harga_beli))}',
+                            '${numberFormatRp.format((listDetailNotaTindakan[index].harga_beli))}',
                             // '${numberFormatRp.format(int.parse(listDetailNotaPjnlObat[index].harga_jual))}',
                             textAlign: TextAlign.center,
                           ),
-                          Text(
-                            '${numberFormatRp.format(listDetailNotaTindakan[index].total_harga)}',
-                            // '${numberFormatRp.format(listDetailNotaPjnlObat[index].total_harga)}',
-                            textAlign: TextAlign.center,
-                          ),
+                          // Text(
+                          //   '${numberFormatRp.format(listDetailNotaTindakan[index].total_harga)}',
+                          //   // '${numberFormatRp.format(listDetailNotaPjnlObat[index].total_harga)}',
+                          //   textAlign: TextAlign.center,
+                          // ),
                         ]),
                       ]);
                 }),

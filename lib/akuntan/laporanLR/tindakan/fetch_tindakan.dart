@@ -8,16 +8,14 @@ import 'package:http/http.dart' as http;
 List<DetailNotaTindakan> listDetailNotaTindakan = [];
 
 class DetailNotaTindakan {
-  var nama, jumlah, harga_beli, total_harga;
-  DetailNotaTindakan(
-      {this.nama, this.jumlah, this.harga_beli, this.total_harga});
+  var nama, mt_sisi, harga_beli;
+  DetailNotaTindakan({this.nama, this.mt_sisi, this.harga_beli});
   // untuk convert dari jSon
   factory DetailNotaTindakan.fromJson(Map<String, dynamic> json) {
     return new DetailNotaTindakan(
       nama: json['nama'],
-      jumlah: json['jumlah'],
-      harga_beli: json['harga_beli'],
-      total_harga: json['total_harga'],
+      mt_sisi: json['mt_sisi'],
+      harga_beli: json['harga'],
     );
   }
 }
@@ -26,10 +24,10 @@ Future<String> fetchDataVListDetailNotaTindakan(nota_id) async {
   print('pTglCatat $nota_id');
   final response =
       await http.post(Uri.parse(apiUrl + "akuntan_v_pjualan_tdkn.php"), body: {
-    'nota_id': nota_id.toString(),
+    'no_nota': nota_id.toString(),
   });
+  print('fetchDataVListDetailNotaTindakan: ${response.body}');
   if (response.statusCode == 200) {
-    print('fetchDataVListDetailNotaHpp: ${response.body}');
     return response.body;
   } else {
     throw Exception('Failed to read API');
