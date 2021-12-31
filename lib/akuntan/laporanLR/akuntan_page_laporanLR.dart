@@ -77,10 +77,8 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
                       .then((value) {
                     controllerdateLR.text = value.toString().substring(0, 7);
                     // akunObat.globalBacaDataObat(controllerdateLR.text);
-                    setState(() {
-                      akunObat.globalObat
-                          .AkuntanBacaDataPenjualanObat(controllerdateLR.text);
-                    });
+                    akunObat.globalObat
+                        .AkuntanBacaDataPenjualanObat(controllerdateLR.text);
                   });
                 },
                 child: Icon(

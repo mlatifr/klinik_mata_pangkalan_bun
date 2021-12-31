@@ -57,7 +57,8 @@ class _WidgetTglPnjlnObatState extends State<WidgetTglPnjlnObat> {
           widgetListObat();
           widgetTextTotalPenjualanObat();
           globalLabaRugi.widgetListView();
-          ;
+          print(
+              'globalLabaRugi.controllerdateLR ${globalLabaRugi.controllerdateLR}');
         });
       });
     });
@@ -105,7 +106,7 @@ class _WidgetTglPnjlnObatState extends State<WidgetTglPnjlnObat> {
     } else {
       return Column(
         children: [
-          Text('Penjualan Obat'),
+          Text('Penjualan Obat null'),
         ],
       );
     }
