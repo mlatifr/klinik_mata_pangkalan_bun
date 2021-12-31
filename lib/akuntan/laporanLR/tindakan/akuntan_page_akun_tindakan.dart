@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/akuntan/laporanLR/HPP/fetch_hpp_obat.dart';
+import 'package:flutter_application_1/akuntan/laporanLR/tindakan/akuntan_list_nota_tindakan.dart';
 import 'package:flutter_application_1/akuntan/laporanLR/tindakan/fetch_tindakan.dart';
 import 'package:intl/intl.dart';
 
@@ -39,13 +39,13 @@ class _widgetListTglTindakanState extends State<widgetListTglTindakan> {
                         ),
                         child: ListTile(
                           onTap: () {
-                            // Navigator.of(context).push(MaterialPageRoute(
-                            //     builder: (context) => WidgetListNotaHpp(
-                            //           tgl_transaksi: listHppObats[index]
-                            //               .tgl_resep
-                            //               .toString()
-                            //               .substring(0, 10),
-                            //         )));
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => WidgetListNotaTindakan(
+                                      tgl_transaksi: listTglTindakan[index]
+                                          .tgl_transaksi
+                                          .toString()
+                                          .substring(0, 10),
+                                    )));
                           },
                           title: Center(
                               child: Text(
