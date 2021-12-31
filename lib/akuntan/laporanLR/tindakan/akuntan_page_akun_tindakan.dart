@@ -1,12 +1,13 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/akuntan/laporanLR/HPP/fetch_hpp_obat.dart';
+import 'package:flutter_application_1/akuntan/laporanLR/tindakan/fetch_tindakan.dart';
 import 'package:intl/intl.dart';
 
 // ignore: must_be_immutable
 class widgetListTglTindakan extends StatefulWidget {
-  var tgl_hpp;
-  widgetListTglTindakan({Key key, this.tgl_hpp}) : super(key: key);
+  var tgl_nota_tindakna;
+  widgetListTglTindakan({Key key, this.tgl_nota_tindakna}) : super(key: key);
 
   @override
   _widgetListTglTindakanState createState() => _widgetListTglTindakanState();
@@ -14,17 +15,17 @@ class widgetListTglTindakan extends StatefulWidget {
 
 class _widgetListTglTindakanState extends State<widgetListTglTindakan> {
   var numberFormatRp = new NumberFormat("#,##0", "id_ID");
-  var TextHppObat = 0;
-  Widget widgetListHPPObat() {
+  var TextTindakanTotal = 0;
+  Widget widgetListTindakan() {
     // totalHPPObat = 0;
-    if (listHppObats.length > 0) {
+    if (listTglTindakan.length > 0) {
       return Column(
         children: [
           ExpansionTile(title: Text('Tindakan'), children: [
             ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: 5,
+                itemCount: listTglTindakan.length,
                 itemBuilder: (context, index) {
                   return Padding(
                       padding: const EdgeInsets.fromLTRB(10, 0, 10, 0),
@@ -46,15 +47,14 @@ class _widgetListTglTindakanState extends State<widgetListTglTindakan> {
                             //               .substring(0, 10),
                             //         )));
                           },
-                          title: Center(child: Text('tindakan $index')
-                              // '${listHppObats[index].tgl_resep.toString().substring(0, 10)}' +
-                              //     ' | Rp ${numberFormatRp.format(listHppObats[index].total_harga)}'),
-                              ),
+                          title: Center(
+                              child: Text(
+                                  '${listTglTindakan[index].tgl_transaksi.toString().substring(0, 10)} ' +
+                                      ' | Rp ${numberFormatRp.format(int.parse(listTglTindakan[index].harga))}')),
                         ),
                       ));
                 }),
           ]),
-          widgetTextTotalHPPObat(),
         ],
       );
     } else {
@@ -68,53 +68,54 @@ class _widgetListTglTindakanState extends State<widgetListTglTindakan> {
   }
 
 // ignore: non_constant_identifier_names
-  AkunanBacaDataHPPObat(tgl) {
+  AkunanBacaDataTindakan(tgl) {
     // print('tgl $tgl');
-    listHppObats.clear();
+    listTglTindakan.clear();
     // //print('listHppObats: ${listHppObats.length}');
-    Future<String> data = fetchDataVHppObat(tgl);
+    Future<String> data = fetchDataVListTglTindakan(tgl);
     data.then((value) {
       //Mengubah json menjadi Array
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
       for (var i in json['data']) {
         // print(i);
-        AkuntanVHppObat pjlnObtNota = AkuntanVHppObat.fromJson(i);
-        listHppObats.add(pjlnObtNota);
+        ListTglTindakan pjlnObtNota = ListTglTindakan.fromJson(i);
+        listTglTindakan.add(pjlnObtNota);
       }
       setState(() {
         // print('listHppObats[0].tgl_transaksi ${listHppObats[0].tgl_resep}');
-        widgetListHPPObat();
+        widgetListTindakan();
       });
     });
   }
 
   @override
   void initState() {
-    AkunanBacaDataHPPObat(widget.tgl_hpp);
-    fetchDataVTotalHppObat(widget.tgl_hpp).then((value) {
+    AkunanBacaDataTindakan(widget.tgl_nota_tindakna);
+    fetchDataVTotalTindakan(widget.tgl_nota_tindakna).then((value) {
       //Mengubah json menjadi Array
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
       for (var i in json['data']) {
-        AkuntanVTotalHppObat hpp = AkuntanVTotalHppObat.fromJson(i);
-        TextHppObat = hpp.hpp_total;
-        // print('TextHppObat $TextHppObat');
+        AkuntanVTotalTindakan tdkn = AkuntanVTotalTindakan.fromJson(i);
+        TextTindakanTotal = int.parse(tdkn.total_tindakan);
+        // print('TextTindakanTotal $TextTindakanTotal');
       }
       setState(() {
-        widgetListHPPObat();
+        widgetListTindakan();
+        widgetTextTotalTindakan();
       });
     });
     super.initState();
   }
 
-  Widget widgetTextTotalHPPObat() {
-    if (TextHppObat != null) {
+  Widget widgetTextTotalTindakan() {
+    if (TextTindakanTotal != null) {
       return Padding(
         padding: const EdgeInsets.all(8.0),
         child: ListTile(
             title: Text(
-                'Total HPP Obat Rp ${numberFormatRp.format(TextHppObat)}')),
+                'Total tindakan Rp ${numberFormatRp.format(TextTindakanTotal)}')),
       );
     } else {
       return Padding(
@@ -127,6 +128,11 @@ class _widgetListTglTindakanState extends State<widgetListTglTindakan> {
 
   @override
   Widget build(BuildContext context) {
-    return widgetListHPPObat();
+    return Column(
+      children: [
+        widgetListTindakan(),
+        widgetTextTotalTindakan(),
+      ],
+    );
   }
 }

@@ -118,7 +118,9 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
               Divider(),
               WidgetLabaKotor(tgl_laba_kotor: controllerdate.text),
               Divider(),
-              widgetListTglTindakan(),
+              widgetListTglTindakan(
+                tgl_nota_tindakna: controllerdate.text,
+              ),
               Divider(),
               // Text("Pendapatan: ${listPenjualanTindakans.length}"),
               Padding(
