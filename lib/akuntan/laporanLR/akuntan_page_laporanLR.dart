@@ -1,9 +1,11 @@
 // ignore_for_file: unused_import
 
+import 'dart:async';
 import 'dart:convert';
 import 'package:flutter_application_1/akuntan/laporanLR/HPP/akuntan_page_akun_HPP_obat.dart';
 import 'package:flutter_application_1/akuntan/laporanLR/HPP/akuntan_page_akun_HPP_obat.dart'
     as akunHPPObat;
+import 'package:flutter_application_1/akuntan/laporanLR/penjualan_obat/stream_test.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_admin.dart'
     as akunAdmin;
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_jasmed.dart'
@@ -31,9 +33,12 @@ class AkuntanVLaporanLR extends StatefulWidget {
   _AkuntanVLaporanLRState createState() => _AkuntanVLaporanLRState();
 }
 
+_AkuntanVLaporanLRState globalLabaRugi = _AkuntanVLaporanLRState();
+
 class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
+  var controllerdateLR = TextEditingController();
+
   var numberFormatRp = new NumberFormat("#,##0", "id_ID");
-  var controllerdate = TextEditingController();
   Widget widgetSelectTgl() {
     return Padding(
         padding: EdgeInsets.all(10),
@@ -42,7 +47,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
           children: [
             Expanded(
                 child: TextFormField(
-              controller: controllerdate,
+              controller: controllerdateLR,
               onChanged: (value) {
                 setState(() {});
               },
@@ -70,8 +75,11 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
                           firstDate: DateTime(2000),
                           lastDate: DateTime(2200))
                       .then((value) {
+                    controllerdateLR.text = value.toString().substring(0, 7);
+                    // akunObat.globalBacaDataObat(controllerdateLR.text);
                     setState(() {
-                      controllerdate.text = value.toString().substring(0, 7);
+                      akunObat.globalObat
+                          .AkuntanBacaDataPenjualanObat(controllerdateLR.text);
                     });
                   });
                 },
@@ -88,50 +96,60 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
   void initState() {
     DateTime now = new DateTime.now();
     DateTime date = new DateTime(now.year, now.month, now.day);
-    controllerdate.text = date.toString().substring(0, 7);
+    controllerdateLR.text = date.toString().substring(0, 7);
     super.initState();
-  }
-
-  refresh() {
-    setState(() {});
   }
 
   Widget widgetListView() {
     return ListView(
       children: [
         widgetSelectTgl(),
+        WidgetStream(stream: _controller.stream),
         WidgetTglPnjlnObat(
-          tgl_penjualanObat: controllerdate.text,
-          notifyParent: refresh,
+          tgl_transaksi: controllerdateLR.text,
         ),
-        WidgetAkunHPPObat(tgl_hpp: controllerdate.text),
+        WidgetAkunHPPObat(tgl_hpp: controllerdateLR.text),
         Divider(),
-        WidgetLabaKotor(tgl_laba_kotor: controllerdate.text),
+        WidgetLabaKotor(tgl_laba_kotor: controllerdateLR.text),
         Divider(),
         widgetListTglTindakan(
-          tgl_nota_tindakan: controllerdate.text,
+          tgl_nota_tindakan: controllerdateLR.text,
         ),
         Divider(),
       ],
     );
   }
 
+  StreamController<int> _controller = StreamController<int>();
+
+  int _seconds = 1;
+  void _addPressed() {
+    //somehow call _updateSeconds()
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-          appBar: AppBar(
-            centerTitle: true,
-            title: Text("Laporan Laba Rugi"),
-            leading: new IconButton(
-              icon: new Icon(Icons.arrow_back),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
+        appBar: AppBar(
+          centerTitle: true,
+          title: Text("Laporan Laba Rugi"),
+          leading: new IconButton(
+            icon: new Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            },
           ),
-          body: widgetListView()),
+        ),
+        body: widgetListView(),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            _addPressed();
+          },
+          tooltip: 'Increment',
+          child: Icon(Icons.add),
+        ),
+      ),
     );
   }
 }
