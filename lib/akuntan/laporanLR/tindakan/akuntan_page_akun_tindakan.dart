@@ -6,8 +6,8 @@ import 'package:intl/intl.dart';
 
 // ignore: must_be_immutable
 class widgetListTglTindakan extends StatefulWidget {
-  var tgl_nota_tindakna;
-  widgetListTglTindakan({Key key, this.tgl_nota_tindakna}) : super(key: key);
+  var tgl_nota_tindakan;
+  widgetListTglTindakan({Key key, this.tgl_nota_tindakan}) : super(key: key);
 
   @override
   _widgetListTglTindakanState createState() => _widgetListTglTindakanState();
@@ -91,8 +91,8 @@ class _widgetListTglTindakanState extends State<widgetListTglTindakan> {
 
   @override
   void initState() {
-    AkunanBacaDataTindakan(widget.tgl_nota_tindakna);
-    fetchDataVTotalTindakan(widget.tgl_nota_tindakna).then((value) {
+    AkunanBacaDataTindakan(widget.tgl_nota_tindakan);
+    fetchDataVTotalTindakan(widget.tgl_nota_tindakan).then((value) {
       //Mengubah json menjadi Array
       // ignore: unused_local_variable
       Map json = jsonDecode(value);

@@ -92,6 +92,30 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
     super.initState();
   }
 
+  refresh() {
+    setState(() {});
+  }
+
+  Widget widgetListView() {
+    return ListView(
+      children: [
+        widgetSelectTgl(),
+        WidgetTglPnjlnObat(
+          tgl_penjualanObat: controllerdate.text,
+          notifyParent: refresh,
+        ),
+        WidgetAkunHPPObat(tgl_hpp: controllerdate.text),
+        Divider(),
+        WidgetLabaKotor(tgl_laba_kotor: controllerdate.text),
+        Divider(),
+        widgetListTglTindakan(
+          tgl_nota_tindakan: controllerdate.text,
+        ),
+        Divider(),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -107,35 +131,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
               },
             ),
           ),
-          body: ListView(
-            children: [
-              widgetSelectTgl(),
-              WidgetTglPnjlnObat(
-                tgl_penjualanObat: controllerdate.text,
-              ),
-
-              WidgetAkunHPPObat(tgl_hpp: controllerdate.text),
-              Divider(),
-              WidgetLabaKotor(tgl_laba_kotor: controllerdate.text),
-              Divider(),
-              widgetListTglTindakan(
-                tgl_nota_tindakna: controllerdate.text,
-              ),
-              Divider(),
-              // Text("Pendapatan: ${listPenjualanTindakans.length}"),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: ElevatedButton(
-                    onPressed: () {
-                      setState(() {
-                        // WidgetLabaBersih();
-                      });
-                    },
-                    child: Text('Laba Bersih')),
-              ),
-              // WidgetLabaBersih()
-            ],
-          )),
+          body: widgetListView()),
     );
   }
 }

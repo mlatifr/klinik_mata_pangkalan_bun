@@ -7,8 +7,10 @@ import 'akuntan_list_nota_obat.dart';
 
 // ignore: must_be_immutable
 class WidgetTglPnjlnObat extends StatefulWidget {
+  final Function() notifyParent;
   var tgl_penjualanObat;
-  WidgetTglPnjlnObat({Key key, this.tgl_penjualanObat}) : super(key: key);
+  WidgetTglPnjlnObat({Key key, this.tgl_penjualanObat, this.notifyParent})
+      : super(key: key);
 
   @override
   _WidgetTglPnjlnObatState createState() => _WidgetTglPnjlnObatState();
@@ -104,9 +106,7 @@ class _WidgetTglPnjlnObatState extends State<WidgetTglPnjlnObat> {
 
           // //print('fetchDataVPjlnObatTotal ${fetchPenjualan.totalPenjualan}');
         }
-
         setState(() {
-          WidgetTglPnjlnObat();
           widgetTextTotalPenjualanObat();
         });
       });
@@ -117,6 +117,7 @@ class _WidgetTglPnjlnObatState extends State<WidgetTglPnjlnObat> {
 
   @override
   void initState() {
+    print('set state pjln obat ${widget.tgl_penjualanObat}');
     AkunanBacaDataPenjualanObat(widget.tgl_penjualanObat);
     super.initState();
   }
