@@ -98,11 +98,22 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
     super.initState();
   }
 
+  StreamController<int> _controller = StreamController<int>();
+
+  int _seconds = 1;
   Widget widgetListView() {
     return ListView(
       children: [
-        widgetSelectTgl(),
+        IconButton(
+          icon: Icon(Icons.remove_circle),
+          onPressed: () {
+            _controller.add(_seconds++);
+            print('proses 1');
+          },
+          iconSize: 150.0,
+        ),
         WidgetStream(stream: _controller.stream),
+        widgetSelectTgl(),
         WidgetTglPnjlnObat(
           tgl_transaksi: controllerdateLR.text,
         ),
@@ -118,12 +129,6 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
     );
   }
 
-  StreamController<int> _controller = StreamController<int>();
-
-  int _seconds = 1;
-  void _addPressed() {
-    //somehow call _updateSeconds()
-  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -140,13 +145,6 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
           ),
         ),
         body: widgetListView(),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () {
-            _addPressed();
-          },
-          tooltip: 'Increment',
-          child: Icon(Icons.add),
-        ),
       ),
     );
   }
