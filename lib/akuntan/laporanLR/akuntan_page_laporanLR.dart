@@ -77,8 +77,8 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
                       .then((value) {
                     controllerdateLR.text = value.toString().substring(0, 7);
                     // akunObat.globalBacaDataObat(controllerdateLR.text);
-                    akunObat.globalObat
-                        .AkuntanBacaDataPenjualanObat(controllerdateLR.text);
+                    _controllerTgl.add(controllerdateLR.text);
+                    print(_controllerTgl);
                   });
                 },
                 child: Icon(
@@ -99,6 +99,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
   }
 
   StreamController<int> _controller = StreamController<int>();
+  StreamController<String> _controllerTgl = StreamController<String>();
 
   int _seconds = 1;
   Widget widgetListView() {
@@ -116,6 +117,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
         widgetSelectTgl(),
         WidgetTglPnjlnObat(
           tgl_transaksi: controllerdateLR.text,
+          stream: _controllerTgl.stream,
         ),
         WidgetAkunHPPObat(tgl_hpp: controllerdateLR.text),
         Divider(),

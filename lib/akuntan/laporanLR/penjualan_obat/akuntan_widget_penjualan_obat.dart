@@ -11,7 +11,9 @@ import 'akuntan_list_nota_obat.dart';
 // ignore: must_be_immutable
 class WidgetTglPnjlnObat extends StatefulWidget {
   var tgl_transaksi;
-  WidgetTglPnjlnObat({Key key, this.tgl_transaksi}) : super(key: key);
+  final Stream<String> stream;
+  WidgetTglPnjlnObat({Key key, this.tgl_transaksi, this.stream})
+      : super(key: key);
 
   @override
   _WidgetTglPnjlnObatState createState() => _WidgetTglPnjlnObatState();
@@ -126,8 +128,10 @@ class _WidgetTglPnjlnObatState extends State<WidgetTglPnjlnObat> {
   @override
   void initState() {
     print('set state pjln obat ${widget.tgl_transaksi}');
-
-    AkuntanBacaDataPenjualanObat(widget.tgl_transaksi);
+    widget.stream.listen((tgl_stream) {
+      AkuntanBacaDataPenjualanObat(tgl_stream);
+    });
+    // AkuntanBacaDataPenjualanObat(widget.tgl_transaksi);
     super.initState();
   }
 
