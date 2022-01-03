@@ -77,8 +77,8 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
                       .then((value) {
                     controllerdateLR.text = value.toString().substring(0, 7);
                     // akunObat.globalBacaDataObat(controllerdateLR.text);
-                    _controllerTgl.add(controllerdateLR.text);
-                    print(_controllerTgl);
+                    _controllerTglStream.add(controllerdateLR.text);
+                    // print(_controllerTglStream);
                   });
                 },
                 child: Icon(
@@ -95,11 +95,12 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
     DateTime now = new DateTime.now();
     DateTime date = new DateTime(now.year, now.month, now.day);
     controllerdateLR.text = date.toString().substring(0, 7);
+    _controllerTglStream.add(controllerdateLR.text);
     super.initState();
   }
 
   StreamController<int> _controller = StreamController<int>();
-  StreamController<String> _controllerTgl = StreamController<String>();
+  StreamController<String> _controllerTglStream = StreamController<String>();
 
   int _seconds = 1;
   Widget widgetListView() {
@@ -117,7 +118,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
         widgetSelectTgl(),
         WidgetTglPnjlnObat(
           tgl_transaksi: controllerdateLR.text,
-          stream: _controllerTgl.stream,
+          stream: _controllerTglStream.stream,
         ),
         WidgetAkunHPPObat(tgl_hpp: controllerdateLR.text),
         Divider(),
@@ -143,6 +144,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
             icon: new Icon(Icons.arrow_back),
             onPressed: () {
               Navigator.pop(context);
+              _controllerTglStream.close();
             },
           ),
         ),

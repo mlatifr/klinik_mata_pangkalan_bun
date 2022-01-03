@@ -144,11 +144,23 @@ class _WidgetTglPnjlnObatState extends State<WidgetTglPnjlnObat> {
   @override
   void initState() {
     print('set state pjln obat ${widget.tgl_transaksi}');
-    widget.stream.listen((tgl_stream) {
-      AkuntanBacaDataPenjualanObat(tgl_stream);
-    });
+    streamBacaPenjualanObat();
     // AkuntanBacaDataPenjualanObat(widget.tgl_transaksi);
     super.initState();
+  }
+
+  StreamSubscription _streamObat;
+  streamBacaPenjualanObat() {
+    _streamObat = widget.stream.listen((tgl_stream) {
+      AkuntanBacaDataPenjualanObat(tgl_stream);
+    });
+  }
+
+  @override
+  void dispose() {
+    _streamObat.cancel();
+    print('cancelstream');
+    super.dispose();
   }
 
   @override
