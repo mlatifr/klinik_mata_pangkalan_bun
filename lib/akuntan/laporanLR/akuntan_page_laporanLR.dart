@@ -129,9 +129,9 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
           stream: _controllerTglStream.stream,
         ),
         // Divider(),
-        // widgetListTglTindakan(
-        //   tgl_nota_tindakan: controllerdateLR.text,
-        // ),
+        widgetListTglTindakan(
+          stream: _controllerTglStream.stream,
+        ),
         Divider(),
       ],
     );

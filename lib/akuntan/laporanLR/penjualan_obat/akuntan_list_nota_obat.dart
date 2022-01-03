@@ -65,7 +65,8 @@ class _WidgetListNotaPjlnObatState extends State<WidgetListNotaPjlnObat> {
                               nota_id: listNotaPjnlObat[index].nota_id)));
                     },
                     title: Center(
-                      child: Text('Nota ${listNotaPjnlObat[index].nota_id}'),
+                      child: Text(
+                          'Nota ${listNotaPjnlObat[index].nota_id} | ${listNotaPjnlObat[index].total_harga}'),
                     ),
                   ),
                 ));

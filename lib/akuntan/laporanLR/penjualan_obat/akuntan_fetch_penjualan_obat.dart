@@ -4,23 +4,6 @@ import 'dart:async';
 import 'package:flutter_application_1/main.dart';
 import 'package:http/http.dart' as http;
 
-//untuk akun obat
-List<AkuntanVNotaPenjualan> listNotaPenjualans = [];
-
-class AkuntanVNotaPenjualan {
-  var no_nota, tgl_transaksi, total_harga, nama_kasir;
-  AkuntanVNotaPenjualan(
-      {this.no_nota, this.tgl_transaksi, this.total_harga, this.nama_kasir});
-  // untuk convert dari jSon
-  factory AkuntanVNotaPenjualan.fromJson(Map<String, dynamic> json) {
-    return new AkuntanVNotaPenjualan(
-        no_nota: json['no_nota'],
-        tgl_transaksi: json['tgl_transaksi'],
-        total_harga: json['total_harga'],
-        nama_kasir: json['nama_kasir']);
-  }
-}
-
 Future<String> fetchDataVNotaPenjualan(pTglCatat) async {
   final response =
       await http.post(Uri.parse(apiUrl + "akuntan_v_pjualan_nota.php"), body: {
@@ -101,25 +84,8 @@ Future<String> fetchDataVPjlnObatTotal(pTglCatat) async {
   }
 }
 
-// daftar nota penjualan obat
-List<AkuntanVPenjualanNotaObat> listNotaPjnlObat = [];//kepake
-
-class AkuntanVPenjualanNotaObat {
-  var nota_id, user_kasir, visit_id, tgl_nota;
-  AkuntanVPenjualanNotaObat(
-      {this.nota_id, this.user_kasir, this.visit_id, this.tgl_nota});
-  // untuk convert dari jSon
-  factory AkuntanVPenjualanNotaObat.fromJson(Map<String, dynamic> json) {
-    return new AkuntanVPenjualanNotaObat(
-      nota_id: json['no_nota'],
-      user_kasir: json['user_kasir'],
-      visit_id: json['visit_id'],
-      tgl_nota: json['tgl_nota'],
-    );
-  }
-}
-
-class AkuntanVPenjualanNotaObatTotal {//kepake
+class AkuntanVPenjualanNotaObatTotal {
+  //kepake
   var text_total_pejualan;
   AkuntanVPenjualanNotaObatTotal({this.text_total_pejualan});
   // untuk convert dari jSon
@@ -129,12 +95,26 @@ class AkuntanVPenjualanNotaObatTotal {//kepake
     );
   }
 }
+
+// daftar nota penjualan obat
+List<AkuntanVPenjualanNotaObat> listNotaPjnlObat = []; //kepake
+
+class AkuntanVPenjualanNotaObat {
+  var nota_id, total_harga;
+  AkuntanVPenjualanNotaObat({this.nota_id, this.total_harga});
+  // untuk convert dari jSon
+  factory AkuntanVPenjualanNotaObat.fromJson(Map<String, dynamic> json) {
+    return new AkuntanVPenjualanNotaObat(
+        nota_id: json['nota_id'], total_harga: json['total_harga']);
+  }
+}
+
 //kepake
 Future<String> fetchDataVPenjualanListNotaObat(pTglCatat) async {
   // print('pTglCatat $pTglCatat');
   final response =
-      await http.post(Uri.parse(apiUrl + "akuntan_v_pjualan_nota.php"), body: {
-    'tgl_nota': pTglCatat.toString(),
+      await http.post(Uri.parse(apiUrl + "akuntan_v_pjualan_obat.php"), body: {
+    'tgl_resep_nota': pTglCatat.toString(),
   });
   // print('fetchDataVPenjualanObatNota ${response.body}');
   if (response.statusCode == 200) {
