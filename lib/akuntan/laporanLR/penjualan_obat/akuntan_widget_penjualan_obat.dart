@@ -34,34 +34,46 @@ class _WidgetTglPnjlnObatState extends State<WidgetTglPnjlnObat> {
     //harus ada resep apoteker id di kasir
     Future<String> data = fetchDataVPjlnTglObat(tgl);
     data.then((value) {
-      //Mengubah json menjadi Array
-      // ignore: unused_local_variable
-      Map json = jsonDecode(value);
-      for (var i in json['data']) {
-        ////print(i);
-        AkuntanVPenjualanObat pjlnObtNota = AkuntanVPenjualanObat.fromJson(i);
-        listPjlnTglObats.add(pjlnObtNota);
+      if (value.toString().contains('success')) {
+        //Mengubah json menjadi Array
+        // ignore: unused_local_variable
+        Map json = jsonDecode(value);
+        for (var i in json['data']) {
+          ////print(i);
+          AkuntanVPenjualanObat pjlnObtNota = AkuntanVPenjualanObat.fromJson(i);
+          listPjlnTglObats.add(pjlnObtNota);
+        }
+      } else {
+        listPjlnTglObats = [];
       }
-    }).then((value) {
-      Future<String> data2 = fetchDataVPjlnObatTotal(tgl);
-      data2.then((value2) {
+      setState(() {
+        widgetListObat();
+      });
+      print('value baca data penjualan obat $value');
+    });
+    Future<String> data2 = fetchDataVPjlnObatTotal(tgl);
+    data2.then((value2) {
+      if (value2.toString().contains('success')) {
         Map json = jsonDecode(value2);
         for (var i in json['data']) {
           AkuntanVPenjualanNotaObatTotal ttl =
               AkuntanVPenjualanNotaObatTotal.fromJson(i);
           TextTotalPenjualanObat = ttl.text_total_pejualan;
-          print('TextTotalPenjualanObat $TextTotalPenjualanObat');
+          print(
+              ' value baca data penjualan obat TextTotalPenjualanObat $TextTotalPenjualanObat');
           // fetchPenjualan.totalPenjualan = ttl.text_total_pejualan;
 
           // //print('fetchDataVPjlnObatTotal ${fetchPenjualan.totalPenjualan}');
         }
-        setState(() {
-          widgetListObat();
-          widgetTextTotalPenjualanObat();
-          globalLabaRugi.widgetListView();
-          print(
-              'globalLabaRugi.controllerdateLR ${globalLabaRugi.controllerdateLR}');
-        });
+      } else {
+        TextTotalPenjualanObat = 0;
+      }
+
+      setState(() {
+        widgetTextTotalPenjualanObat();
+        globalLabaRugi.widgetListView();
+        print(
+            'globalLabaRugi.controllerdateLR ${globalLabaRugi.controllerdateLR}');
       });
     });
   }
@@ -115,12 +127,16 @@ class _WidgetTglPnjlnObatState extends State<WidgetTglPnjlnObat> {
   }
 
   Widget widgetTextTotalPenjualanObat() {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: ListTile(
-          title: Text(
-              'Total Penjualan Obat Rp ${numberFormatRp.format(TextTotalPenjualanObat)}\n')),
-    );
+    if (TextTotalPenjualanObat != null) {
+      return Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: ListTile(
+            title: Text('Total Penjualan Obat Rp ' +
+                '${numberFormatRp.format(TextTotalPenjualanObat)}')),
+      );
+    } else {
+      return Container();
+    }
   }
 
   var TextTotalPenjualanObat = 0;
