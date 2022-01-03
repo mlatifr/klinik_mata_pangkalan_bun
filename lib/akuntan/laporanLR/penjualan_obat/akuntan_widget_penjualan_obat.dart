@@ -49,7 +49,7 @@ class _WidgetTglPnjlnObatState extends State<WidgetTglPnjlnObat> {
       setState(() {
         widgetListObat();
       });
-      print('value baca data penjualan obat $value');
+      // print('value baca data penjualan obat $value');
     });
     Future<String> data2 = fetchDataVPjlnObatTotal(tgl);
     data2.then((value2) {
@@ -59,8 +59,8 @@ class _WidgetTglPnjlnObatState extends State<WidgetTglPnjlnObat> {
           AkuntanVPenjualanNotaObatTotal ttl =
               AkuntanVPenjualanNotaObatTotal.fromJson(i);
           TextTotalPenjualanObat = ttl.text_total_pejualan;
-          print(
-              ' value baca data penjualan obat TextTotalPenjualanObat $TextTotalPenjualanObat');
+          // print(
+          //     ' value baca data penjualan obat TextTotalPenjualanObat $TextTotalPenjualanObat');
           // fetchPenjualan.totalPenjualan = ttl.text_total_pejualan;
 
           // //print('fetchDataVPjlnObatTotal ${fetchPenjualan.totalPenjualan}');
@@ -71,11 +71,12 @@ class _WidgetTglPnjlnObatState extends State<WidgetTglPnjlnObat> {
 
       setState(() {
         widgetTextTotalPenjualanObat();
-        globalLabaRugi.widgetListView();
-        print(
-            'globalLabaRugi.controllerdateLR ${globalLabaRugi.controllerdateLR}');
+        // globalLabaRugi.widgetListView();
+        // print(
+        //     'globalLabaRugi.controllerdateLR ${globalLabaRugi.controllerdateLR}');
       });
     });
+    print('AkuntanBacaDataPenjualanObat');
   }
 
   var numberFormatRp = new NumberFormat("#,##0", "id_ID");
@@ -139,7 +140,7 @@ class _WidgetTglPnjlnObatState extends State<WidgetTglPnjlnObat> {
     }
   }
 
-  var TextTotalPenjualanObat = 0;
+  var TextTotalPenjualanObat = null;
 
   @override
   void initState() {
@@ -151,6 +152,7 @@ class _WidgetTglPnjlnObatState extends State<WidgetTglPnjlnObat> {
 
   StreamSubscription _streamObat;
   streamBacaPenjualanObat() {
+    print('streamBacaPenjualanObat');
     _streamObat = widget.stream.listen((tgl_stream) {
       AkuntanBacaDataPenjualanObat(tgl_stream);
     });

@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:flutter_application_1/akuntan/laporanLR/HPP/akuntan_page_akun_HPP_obat.dart';
 import 'package:flutter_application_1/akuntan/laporanLR/HPP/akuntan_page_akun_HPP_obat.dart'
     as akunHPPObat;
+import 'package:flutter_application_1/akuntan/laporanLR/penjualan_obat/akuntan_fetch_penjualan_obat.dart';
 import 'package:flutter_application_1/akuntan/laporanLR/penjualan_obat/stream_test.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_admin.dart'
     as akunAdmin;
@@ -107,15 +108,15 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
   Widget widgetListView() {
     return ListView(
       children: [
-        IconButton(
-          icon: Icon(Icons.remove_circle),
-          onPressed: () {
-            _controller.add(_seconds++);
-            print('proses 1');
-          },
-          iconSize: 150.0,
-        ),
-        WidgetStream(stream: _controller.stream),
+        // IconButton(
+        //   icon: Icon(Icons.remove_circle),
+        //   onPressed: () {
+        //     _controller.add(_seconds++);
+        //     print('proses 1');
+        //   },
+        //   iconSize: 150.0,
+        // ),
+        // WidgetStream(stream: _controller.stream),
         widgetSelectTgl(),
         WidgetTglPnjlnObat(
           tgl_transaksi: controllerdateLR.text,
@@ -126,14 +127,19 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
           stream: _controllerTglStream.stream,
         ),
         Divider(),
-        WidgetLabaKotor(tgl_laba_kotor: controllerdateLR.text),
-        Divider(),
-        widgetListTglTindakan(
-          tgl_nota_tindakan: controllerdateLR.text,
-        ),
+        // WidgetLabaKotor(tgl_laba_kotor: controllerdateLR.text),
+        // Divider(),
+        // widgetListTglTindakan(
+        //   tgl_nota_tindakan: controllerdateLR.text,
+        // ),
         Divider(),
       ],
     );
+  }
+
+  clearListLabaRugi() {
+    listPjlnTglObats.clear();
+    listHppObats.clear();
   }
 
   @override
@@ -147,8 +153,10 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
           leading: new IconButton(
             icon: new Icon(Icons.arrow_back),
             onPressed: () {
-              Navigator.pop(context);
+              controllerdateLR.text = '0';
               _controllerTglStream.close();
+              clearListLabaRugi();
+              Navigator.pop(context);
             },
           ),
         ),

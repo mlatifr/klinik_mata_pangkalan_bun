@@ -69,7 +69,7 @@ class _WidgetAkunHPPObatState extends State<WidgetAkunHPPObat> {
       return Column(
         children: [
           // CircularProgressIndicator(),
-          Text('HPP Penjualan Obat'),
+          Text('HPP Penjualan Obat null'),
         ],
       );
     }
@@ -82,18 +82,23 @@ class _WidgetAkunHPPObatState extends State<WidgetAkunHPPObat> {
     // //print('listHppObats: ${listHppObats.length}');
     Future<String> data = fetchDataVHppObat(tgl);
     data.then((value) {
-      //Mengubah json menjadi Array
-      // ignore: unused_local_variable
-      Map json = jsonDecode(value);
-      for (var i in json['data']) {
-        // print(i);
-        AkuntanVHppObat pjlnObtNota = AkuntanVHppObat.fromJson(i);
-        listHppObats.add(pjlnObtNota);
+      print('AkunanBacaDataHPPObat $value');
+      if (value.toString().contains('null')) {
+        listHppObats.clear();
+      } else {
+        //Mengubah json menjadi Array
+        // ignore: unused_local_variable
+        Map json = jsonDecode(value);
+        for (var i in json['data']) {
+          print('hppObatI $i');
+          AkuntanVHppObat pjlnObtNota = AkuntanVHppObat.fromJson(i);
+          listHppObats.add(pjlnObtNota);
+        }
+        setState(() {
+          // print('listHppObats[0].tgl_transaksi ${listHppObats[0].tgl_resep}');
+          widgetListHPPObat();
+        });
       }
-      setState(() {
-        // print('listHppObats[0].tgl_transaksi ${listHppObats[0].tgl_resep}');
-        widgetListHPPObat();
-      });
     });
 
     fetchDataVTotalHppObat(tgl).then((value) {
@@ -120,8 +125,8 @@ class _WidgetAkunHPPObatState extends State<WidgetAkunHPPObat> {
 
   @override
   void dispose() {
-    _streamHppObat.cancel();
-    print('cancelstream _streamHppObat');
+    // _streamHppObat.cancel();
+    // print('cancelstream _streamHppObat');
     super.dispose();
   }
 
@@ -140,11 +145,7 @@ class _WidgetAkunHPPObatState extends State<WidgetAkunHPPObat> {
                 'Total HPP Obat Rp ${numberFormatRp.format(TextHppObat)}')),
       );
     } else {
-      return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListTile(
-            title: Text('Total HPP Obat Rp ${numberFormatRp.format(0)}')),
-      );
+      return Container();
     }
   }
 
