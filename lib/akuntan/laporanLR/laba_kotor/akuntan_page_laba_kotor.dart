@@ -16,10 +16,8 @@ import 'package:flutter_application_1/akuntan/akuntan_fetch_penjualan_nota.dart'
 import 'fetch_laba_kotor.dart';
 
 class WidgetLabaKotor extends StatefulWidget {
-  var tgl_laba_kotor;
   final Stream<String> stream;
-  WidgetLabaKotor({Key key, this.tgl_laba_kotor, this.stream})
-      : super(key: key);
+  WidgetLabaKotor({Key key, this.stream}) : super(key: key);
 
   @override
   _WidgetLabaKotorState createState() => _WidgetLabaKotorState();
@@ -44,14 +42,18 @@ class _WidgetLabaKotorState extends State<WidgetLabaKotor> {
   streamBacaHppObat() {
     _streamLabaKotor = widget.stream.listen((tgl_stream) {
       fetchDataVLabaKotor(tgl_stream).then((value) {
-        //Mengubah json menjadi Array
-        // ignore: unused_local_variable
-        Map json = jsonDecode(value);
-        for (var i in json['data']) {
-          print('i laba kotor $i');
-          AkuntanVLabaKotor lbKotor = AkuntanVLabaKotor.fromJson(i);
-          // print(lbKotor.laba_kotor.runtimeType);
-          labaKotor = lbKotor.laba_kotor;
+        print('labakotor Value $value');
+        if (value.toString().contains('error')) {
+          labaKotor = 0;
+        } else {
+          //Mengubah json menjadi Array
+          // ignore: unused_local_variable
+          Map json = jsonDecode(value);
+          for (var i in json['data']) {
+            AkuntanVLabaKotor lbKotor = AkuntanVLabaKotor.fromJson(i);
+            // print(lbKotor.laba_kotor.runtimeType);
+            labaKotor = lbKotor.laba_kotor;
+          }
         }
         setState(() {
           widgetTextLabarKotor();
