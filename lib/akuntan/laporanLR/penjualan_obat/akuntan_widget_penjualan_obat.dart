@@ -143,7 +143,7 @@ class _WidgetTglPnjlnObatState extends State<WidgetTglPnjlnObat> {
 
   @override
   void initState() {
-    print('set state pjln obat ${widget.tgl_transaksi}');
+    // print('set state pjln obat ${widget.tgl_transaksi}');
     streamBacaPenjualanObat();
     // AkuntanBacaDataPenjualanObat(widget.tgl_transaksi);
     super.initState();
@@ -159,7 +159,7 @@ class _WidgetTglPnjlnObatState extends State<WidgetTglPnjlnObat> {
   @override
   void dispose() {
     _streamObat.cancel();
-    print('cancelstream');
+    // print('cancelstream');
     super.dispose();
   }
 

@@ -100,7 +100,8 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
   }
 
   StreamController<int> _controller = StreamController<int>();
-  StreamController<String> _controllerTglStream = StreamController<String>();
+  StreamController<String> _controllerTglStream =
+      StreamController<String>.broadcast();
 
   int _seconds = 1;
   Widget widgetListView() {
@@ -120,7 +121,10 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
           tgl_transaksi: controllerdateLR.text,
           stream: _controllerTglStream.stream,
         ),
-        WidgetAkunHPPObat(tgl_hpp: controllerdateLR.text),
+        WidgetAkunHPPObat(
+          tgl_hpp: controllerdateLR.text,
+          stream: _controllerTglStream.stream,
+        ),
         Divider(),
         WidgetLabaKotor(tgl_laba_kotor: controllerdateLR.text),
         Divider(),

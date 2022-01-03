@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -11,7 +12,8 @@ import 'akuntan_list_nota_hpp.dart';
 // ignore: must_be_immutable
 class WidgetAkunHPPObat extends StatefulWidget {
   var tgl_hpp;
-  WidgetAkunHPPObat({Key key, this.tgl_hpp}) : super(key: key);
+  final Stream<String> stream;
+  WidgetAkunHPPObat({Key key, this.tgl_hpp, this.stream}) : super(key: key);
 
   @override
   _WidgetAkunHPPObatState createState() => _WidgetAkunHPPObatState();
@@ -93,12 +95,8 @@ class _WidgetAkunHPPObatState extends State<WidgetAkunHPPObat> {
         widgetListHPPObat();
       });
     });
-  }
 
-  @override
-  void initState() {
-    AkunanBacaDataHPPObat(widget.tgl_hpp);
-    fetchDataVTotalHppObat(widget.tgl_hpp).then((value) {
+    fetchDataVTotalHppObat(tgl).then((value) {
       //Mengubah json menjadi Array
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
@@ -111,6 +109,25 @@ class _WidgetAkunHPPObatState extends State<WidgetAkunHPPObat> {
         widgetListHPPObat();
       });
     });
+  }
+
+  StreamSubscription _streamHppObat;
+  streamBacaHppObat() {
+    _streamHppObat = widget.stream.listen((tgl_stream) {
+      AkunanBacaDataHPPObat(tgl_stream);
+    });
+  }
+
+  @override
+  void dispose() {
+    _streamHppObat.cancel();
+    print('cancelstream _streamHppObat');
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    streamBacaHppObat();
     super.initState();
   }
 
