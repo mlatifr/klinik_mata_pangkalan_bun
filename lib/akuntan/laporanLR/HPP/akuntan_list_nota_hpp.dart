@@ -20,7 +20,7 @@ class _WidgetListNotaHppState extends State<WidgetListNotaHpp> {
   //baca data nota akun obat
 // ignore: non_constant_identifier_names
   AkunanBacaDataDaftarNotaHpp(tgl) {
-    listDetailNotaHppObat.clear();
+    listNotaHppObats.clear();
     // print('listPenjualanObatNotas: ${listPenjualanObatNotas.length}');
     Future<String> data = fetchDataVListNotaHppObat(tgl);
     data.then((value) {

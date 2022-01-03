@@ -10,10 +10,8 @@ import 'akuntan_list_nota_obat.dart';
 
 // ignore: must_be_immutable
 class WidgetTglPnjlnObat extends StatefulWidget {
-  var tgl_transaksi;
   final Stream<String> stream;
-  WidgetTglPnjlnObat({Key key, this.tgl_transaksi, this.stream})
-      : super(key: key);
+  WidgetTglPnjlnObat({Key key, this.stream}) : super(key: key);
 
   @override
   _WidgetTglPnjlnObatState createState() => _WidgetTglPnjlnObatState();

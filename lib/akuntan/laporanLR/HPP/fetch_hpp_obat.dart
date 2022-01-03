@@ -23,13 +23,13 @@ class DetailNotaHppPbat {
 }
 
 Future<String> fetchDataVListDetailNotaHpp(nota_id) async {
-  print('pTglCatat $nota_id');
+  //print('pTglCatat $nota_id');
   final response = await http
       .post(Uri.parse(apiUrl + "akuntan_v_pjualan_obat_hpp.php"), body: {
     'nota_id': nota_id.toString(),
   });
   if (response.statusCode == 200) {
-    print('fetchDataVListDetailNotaHpp: ${response.body}');
+    //print('fetchDataVListDetailNotaHpp: ${response.body}');
     return response.body;
   } else {
     throw Exception('Failed to read API');
@@ -58,7 +58,7 @@ Future<String> fetchDataVListNotaHppObat(pTglCatat) async {
     'tgl_list_nota_hpp': pTglCatat.toString(),
   });
   if (response.statusCode == 200) {
-    print('fetchDataVListNotaHppObat: ${response.body}');
+    //print('fetchDataVListNotaHppObat: ${response.body}');
     return response.body;
   } else {
     throw Exception('Failed to read API');
@@ -87,7 +87,7 @@ Future<String> fetchDataVHppObat(pTglCatat) async {
     'tgl_list': pTglCatat.toString(),
   });
   if (response.statusCode == 200) {
-    // print('fetchDataVHppObat: ${response.body}');
+    // //print('fetchDataVHppObat: ${response.body}');
     return response.body;
   } else {
     throw Exception('Failed to read API');
@@ -106,13 +106,13 @@ class AkuntanVTotalHppObat {
 }
 
 Future<String> fetchDataVTotalHppObat(pTglCatat) async {
-  print('pTglCatat $pTglCatat');
+  //print('pTglCatat $pTglCatat');
   final response = await http
       .post(Uri.parse(apiUrl + "akuntan_v_pjualan_obat_hpp.php"), body: {
     'tgl_total_hpp_obat': pTglCatat.toString(),
   });
   if (response.statusCode == 200) {
-    print('fetchDataVTotalHppObat: ${response.body}');
+    //print('fetchDataVTotalHppObat: ${response.body}');
     return response.body;
   } else {
     throw Exception('Failed to read API');

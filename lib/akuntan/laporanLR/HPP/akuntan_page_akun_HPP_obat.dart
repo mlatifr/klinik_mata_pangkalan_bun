@@ -11,9 +11,8 @@ import 'akuntan_list_nota_hpp.dart';
 
 // ignore: must_be_immutable
 class WidgetAkunHPPObat extends StatefulWidget {
-  var tgl_hpp;
   final Stream<String> stream;
-  WidgetAkunHPPObat({Key key, this.tgl_hpp, this.stream}) : super(key: key);
+  WidgetAkunHPPObat({Key key, this.stream}) : super(key: key);
 
   @override
   _WidgetAkunHPPObatState createState() => _WidgetAkunHPPObatState();
@@ -82,7 +81,7 @@ class _WidgetAkunHPPObatState extends State<WidgetAkunHPPObat> {
     // //print('listHppObats: ${listHppObats.length}');
     Future<String> data = fetchDataVHppObat(tgl);
     data.then((value) {
-      print('AkunanBacaDataHPPObat $value');
+      // print('AkunanBacaDataHPPObat $value');
       if (value.toString().contains('null')) {
         listHppObats.clear();
       } else {
@@ -90,7 +89,7 @@ class _WidgetAkunHPPObatState extends State<WidgetAkunHPPObat> {
         // ignore: unused_local_variable
         Map json = jsonDecode(value);
         for (var i in json['data']) {
-          print('hppObatI $i');
+          // print('hppObatI $i');
           AkuntanVHppObat pjlnObtNota = AkuntanVHppObat.fromJson(i);
           listHppObats.add(pjlnObtNota);
         }

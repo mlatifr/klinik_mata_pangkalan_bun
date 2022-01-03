@@ -119,15 +119,15 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
         // WidgetStream(stream: _controller.stream),
         widgetSelectTgl(),
         WidgetTglPnjlnObat(
-          tgl_transaksi: controllerdateLR.text,
           stream: _controllerTglStream.stream,
         ),
         WidgetAkunHPPObat(
-          tgl_hpp: controllerdateLR.text,
           stream: _controllerTglStream.stream,
         ),
         Divider(),
-        // WidgetLabaKotor(tgl_laba_kotor: controllerdateLR.text),
+        WidgetLabaKotor(
+          stream: _controllerTglStream.stream,
+        ),
         // Divider(),
         // widgetListTglTindakan(
         //   tgl_nota_tindakan: controllerdateLR.text,
