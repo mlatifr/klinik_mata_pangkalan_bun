@@ -7,6 +7,7 @@ import 'package:flutter_application_1/akuntan/laporanLR/HPP/akuntan_page_akun_HP
     as akunHPPObat;
 import 'package:flutter_application_1/akuntan/laporanLR/penjualan_obat/akuntan_fetch_penjualan_obat.dart';
 import 'package:flutter_application_1/akuntan/laporanLR/penjualan_obat/stream_test.dart';
+import 'package:flutter_application_1/akuntan/laporanLR/tindakan/fetch_tindakan.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_admin.dart'
     as akunAdmin;
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_jasmed.dart'
@@ -140,6 +141,7 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
   clearListLabaRugi() {
     listPjlnTglObats.clear();
     listHppObats.clear();
+    listTglTindakan.clear();
   }
 
   @override

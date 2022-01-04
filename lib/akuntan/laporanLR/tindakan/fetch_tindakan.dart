@@ -55,7 +55,7 @@ Future<String> fetchDataVListNotaTindakan(pTglCatat) async {
       await http.post(Uri.parse(apiUrl + "akuntan_v_pjualan_tdkn.php"), body: {
     'tgl_list_nota': pTglCatat.toString(),
   });
-  print('fetchDataVListNotaTindakan: ${response.body}');
+  print('fetchDataVListNotaTindakan: ${response.statusCode}');
   if (response.statusCode == 200) {
     return response.body;
   } else {
