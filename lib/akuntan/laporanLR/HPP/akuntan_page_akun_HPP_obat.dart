@@ -115,6 +115,7 @@ class _WidgetAkunHPPObatState extends State<WidgetAkunHPPObat> {
     });
   }
 
+  // ignore: unused_field
   StreamSubscription _streamHppObat;
   streamBacaHppObat() {
     _streamHppObat = widget.stream.listen((tgl_stream) {

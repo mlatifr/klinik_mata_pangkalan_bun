@@ -5,6 +5,7 @@ import 'package:flutter_application_1/akuntan/laporanLR/akuntan_page_laporanLR.d
 import 'package:flutter_application_1/akuntan/page_input_penjurnalan/akuntan_page_input_penjurnalan.dart';
 import 'package:flutter_application_1/akuntan/akuntan_page_split_view.dart';
 import '../main.dart';
+import 'neraca/akuntan_page_neraca.dart';
 import 'page_input_penjurnalan/akuntan_get_daftar_akun.dart';
 
 class AkuntanMainPage extends StatefulWidget {
@@ -35,13 +36,13 @@ class _AkuntanMainPageState extends State<AkuntanMainPage> {
               ),
             ),
           ),
-          // ListTile(
-          //   title: Text('Neraca'),
-          //   onTap: () {
-          //     Navigator.of(context).push(
-          //         MaterialPageRoute(builder: (context) => AkuntanVNeraca()));
-          //   },
-          // ),
+          ListTile(
+            title: Text('Neraca'),
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => AkuntanVNeraca()));
+            },
+          ),
           ListTile(
             title: Text('Laporan Laba Rugi'),
             onTap: () {

@@ -38,6 +38,7 @@ class _WidgetLabaKotorState extends State<WidgetLabaKotor> {
     }
   }
 
+  // ignore: unused_field
   StreamSubscription _streamLabaKotor;
   streamBacaHppObat() {
     _streamLabaKotor = widget.stream.listen((tgl_stream) {

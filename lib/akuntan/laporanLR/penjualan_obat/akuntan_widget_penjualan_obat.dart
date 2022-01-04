@@ -3,9 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/akuntan/laporanLR/penjualan_obat/akuntan_fetch_penjualan_obat.dart';
-import 'package:flutter_application_1/akuntan/laporanLR/tindakan/akuntan_page_akun_tindakan.dart';
 import 'package:intl/intl.dart';
-import '../akuntan_page_laporanLR.dart';
 import 'akuntan_list_nota_obat.dart';
 
 // ignore: must_be_immutable

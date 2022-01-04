@@ -111,6 +111,7 @@ class _widgetListTglTindakanState extends State<widgetListTglTindakan> {
     });
   }
 
+  // ignore: unused_field
   StreamSubscription _streamTindakan;
   streamBacaHppObat() {
     _streamTindakan = widget.stream.listen((tgl_stream) {

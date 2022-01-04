@@ -6,7 +6,7 @@ import 'package:flutter_application_1/akuntan/laporanLR/HPP/akuntan_page_akun_HP
 import 'package:flutter_application_1/akuntan/laporanLR/HPP/akuntan_page_akun_HPP_obat.dart'
     as akunHPPObat;
 import 'package:flutter_application_1/akuntan/laporanLR/penjualan_obat/akuntan_fetch_penjualan_obat.dart';
-import 'package:flutter_application_1/akuntan/laporanLR/penjualan_obat/stream_test.dart';
+// import 'package:flutter_application_1/akuntan/laporanLR/penjualan_obat/stream_test.dart';
 import 'package:flutter_application_1/akuntan/laporanLR/tindakan/fetch_tindakan.dart';
 import 'package:flutter_application_1/akuntan/page_nota/akuntan_page_akun_admin.dart'
     as akunAdmin;
@@ -101,11 +101,9 @@ class _AkuntanVLaporanLRState extends State<AkuntanVLaporanLR> {
     super.initState();
   }
 
-  StreamController<int> _controller = StreamController<int>();
   StreamController<String> _controllerTglStream =
       StreamController<String>.broadcast();
 
-  int _seconds = 1;
   Widget widgetListView() {
     return ListView(
       children: [
