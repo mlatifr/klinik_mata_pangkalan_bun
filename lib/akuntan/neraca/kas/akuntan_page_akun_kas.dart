@@ -68,7 +68,7 @@ class _WidgetAkunKasState extends State<WidgetAkunKas> {
                 'Total Akun Kas Rp ${numberFormatRp.format(totalAkunKas)}')),
       );
     } else
-      return Container();
+      return Text('total akun kas null');
   }
 
   @override
@@ -98,14 +98,18 @@ class _WidgetAkunKasState extends State<WidgetAkunKas> {
     // print('listAkunKass after: ${listAkunKass.length}');
     Future<String> data = fetchDataKas(tgl);
     data.then((value) {
-      //Mengubah json menjadi Array
-      // ignore: unused_local_variable
-      Map json = jsonDecode(value);
-      for (var i in json['data']) {
-        // print(i);
-        AkuntanVKas AkunKas = AkuntanVKas.fromJson(i);
-        listAkunKass.add(AkunKas);
+      if (value.toString().contains('null')) {
+        listAkunKass.clear();
+      } else {
+        //Mengubah json menjadi Array
+        // ignore: unused_local_variable
+        Map json = jsonDecode(value);
+        for (var i in json['data']) {
+          AkuntanVKas AkunKas = AkuntanVKas.fromJson(i);
+          listAkunKass.add(AkunKas);
+        }
       }
+
       setState(() {
         widgetListKas();
       });

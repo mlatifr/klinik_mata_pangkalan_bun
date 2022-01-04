@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
+import 'sediaan_barang/akuntan_page_akun_sediaan_brg.dart';
+
 class AkuntanVNeraca extends StatefulWidget {
   const AkuntanVNeraca({Key key}) : super(key: key);
 
@@ -13,31 +15,6 @@ class AkuntanVNeraca extends StatefulWidget {
 
 class _AkuntanVNeracaState extends State<AkuntanVNeraca> {
   var numberFormatRp = new NumberFormat("#,##0", "id_ID");
-
-  //baca data nota akun sediaan barang
-// ignore: non_constant_identifier_names
-  // AkuntanBacaDataAkunSediaanBrg() {
-  //   // print('listAkunKass before: ${listAkunKass.length}');
-  //   // if (listAkunSediaanBrgs.isNotEmpty) {
-  //   //   listAkunSediaanBrgs.clear();
-  //   // }
-  //   // print('listAkunKass after: ${listAkunKass.length}');
-  //   // Future<String> data = fetchDataVAkunSediaanBrg();
-  //   // data.then((value) {
-  //   //Mengubah json menjadi Array
-  //   // ignore: unused_local_variable
-  //   // Map json = jsonDecode(value);
-  //   // for (var i in json['data']) {
-  //   //   // print(i);
-  //   //   // AkuntanVAkunSediaanBrg AkunSediaanBrg =
-  //   //   //     AkuntanVAkunSediaanBrg.fromJson(i);
-  //   //   // listAkunSediaanBrgs.add(AkunSediaanBrg);
-  //   // }
-  //   setState(() {
-  //     // WidgetAkunSediaanBarang();
-  //   });
-  //   // });
-  // }
 
 // //baca data nota akun jasmed
 // // ignore: non_constant_identifier_names
@@ -168,14 +145,6 @@ class _AkuntanVNeracaState extends State<AkuntanVNeraca> {
                     setState(() {
                       controllerdate.text = value.toString().substring(0, 7);
                       _controllerTglStream.add(controllerdate.text);
-                      // baca data seluruh nota transaksi yg ada di klinik
-                      // AkuntanBacaDataAkunKas(controllerdate.text);
-                      // AkunanBacaDataPenjualanObat(controllerdate.text);
-                      // AkunanBacaDataPenjualanjasmed(controllerdate.text);
-                      // AkunanBacaDataPenjualanAdmin(controllerdate.text);
-                      // AkunanBacaDataHPPObat(controllerdate.text);
-                      // AkunanBacaDataPenjualanTindakan(controllerdate.text);
-                      //print('showDatePicker : ${controllerdate.text}');
                     });
                   });
                 },
@@ -195,8 +164,6 @@ class _AkuntanVNeracaState extends State<AkuntanVNeraca> {
     //print(date);
     controllerdate.text = date.toString().substring(0, 7);
     _controllerTglStream.add(controllerdate.text);
-    // AkuntanBacaDataAkunKas(controllerdate.text);
-    // AkuntanBacaDataAkunSediaanBrg();
     super.initState();
   }
 
@@ -228,8 +195,9 @@ class _AkuntanVNeracaState extends State<AkuntanVNeraca> {
                 stream: _controllerTglStream.stream,
               ),
               Divider(),
-              // WidgetAkunSediaanBarang(
-              //     textHeaderPenjualanObat: 'Sediaan Barang Dagang'),
+              WidgetAkunSediaanBarang(
+                stream: _controllerTglStream.stream,
+              ),
               ListTile(
                 title: Text('Total Aset Lancar: Rp 17.991.000'),
               ),
