@@ -3,6 +3,8 @@ import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/admin_order_obat/admin_order_obat_fetch/admOrderObat_fetch.dart';
 
+import '../admOrderObat_main_page.dart';
+
 DateTime date;
 
 class AdminOrderInputObat extends StatefulWidget {
@@ -23,77 +25,6 @@ class AdminOrderInputObat extends StatefulWidget {
 }
 
 class _AdminOrderInputObatState extends State<AdminOrderInputObat> {
-  // // ignore: non_constant_identifier_names
-  // PemilikBacaDataVListObat(pNamaObat) {
-  //   aVLOs.clear();
-  //   Future<String> data = fetchDataPemilikVListObat(pNamaObat);
-  //   data.then((value) {
-  //     //Mengubah json menjadi Array
-  //     // ignore: unused_local_variable
-  //     Map json = jsonDecode(value);
-  //     print(json);
-  //     if (json['result'].toString().contains('success')) {
-  //       for (var i in json['data']) {
-  //         ApotekerrVListObat avlo = ApotekerrVListObat.fromJson(i);
-  //         aVLOs.add(avlo);
-  //       }
-  //     }
-  //     setState(() {
-  //       widgetListSuggestObats();
-  //     });
-  //     print('PemilikBacaDataVListObat aVLOs.length: ${aVLOs.length} ');
-  //   });
-  // }
-
-  Widget widgetCariObat() {
-    return Row(
-      children: [
-        Expanded(
-          flex: 12,
-          child: TextFormField(
-              controller: controllerCariObat,
-              decoration: InputDecoration(
-                labelText: "Resep",
-                fillColor: Colors.white,
-                prefixIcon: Padding(
-                  padding: EdgeInsets.only(top: 15),
-                  child: Icon(Icons.search),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: BorderSide(
-                    color: Colors.blue,
-                  ),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                  borderSide: BorderSide(
-                    color: Colors.blue,
-                  ),
-                ),
-              )),
-        ),
-        Expanded(flex: 1, child: SizedBox()),
-        Expanded(
-          flex: 4,
-          child: TextButton(
-            onPressed: () {
-              // PemilikBacaDataVListObat(controllerCariObat.text);
-            },
-            child: Text(
-              'Cari',
-            ),
-            style: TextButton.styleFrom(
-                primary: Colors.white,
-                backgroundColor: Colors.blue,
-                minimumSize: Size(MediaQuery.of(context).size.width,
-                    MediaQuery.of(context).size.height * 0.01)),
-          ),
-        ),
-      ],
-    );
-  }
-
   TextEditingController controllerdate = TextEditingController();
   TextEditingController controllerJumlah = TextEditingController();
   TextEditingController controllerHargaBeli = TextEditingController();
@@ -379,18 +310,21 @@ class _AdminOrderInputObatState extends State<AdminOrderInputObat> {
                       ),
                       ElevatedButton(
                           onPressed: () {
+                            print('listObatKadaluarsa.length' +
+                                ' ${listObatKadaluarsa.length}');
+                            //untuk index pertama jika ada, update info
                             if (listObatKadaluarsa.length > 0) {
-                              //untuk index pertama jika ada, update info
-                              if (listObatKadaluarsa.length > 0) {
-                                fetchDataAdminUpdateOrderObat(
-                                        listObatKadaluarsa[0].jumlah_diterima,
-                                        listObatKadaluarsa[0].jumlah_diterima,
-                                        listObatKadaluarsa[0].kadaluarsa,
-                                        'diterima',
-                                        listObatKadaluarsa[0].id_obat)
-                                    .then((value) {
+                              fetchDataAdminUpdateOrderObat(
+                                      listObatKadaluarsa[0].jumlah_diterima,
+                                      listObatKadaluarsa[0].jumlah_diterima,
+                                      listObatKadaluarsa[0].kadaluarsa,
+                                      'diterima',
+                                      listObatKadaluarsa[0].id_obat)
+                                  .then((value) {
+                                print('fetchDataAdminUpdateOrderObat $value');
+                                if (value.toString().contains('success')) {
                                   // untuk berikutnya, insert obat jika ada.
-                                  for (var i = 1;
+                                  for (var i = 0;
                                       i < listObatKadaluarsa.length;
                                       i++) {
                                     print('${listObatKadaluarsa[i].nama}|' +
@@ -408,11 +342,25 @@ class _AdminOrderInputObatState extends State<AdminOrderInputObat> {
                                             listObatKadaluarsa[i].harga_jual,
                                             listObatKadaluarsa[i].harga_beli,
                                             'diterima')
-                                        .then((value) =>
-                                            print(value[i].toString()));
+                                        .then((value) {
+                                      print(
+                                          'fetchDataAdminInputKadaluarsaObat ${value} print $i');
+                                      if (i + 1 == listObatKadaluarsa.length) {
+                                        listObatKadaluarsa.clear();
+                                        print('last index $i ' +
+                                            'length ${listObatKadaluarsa.length}');
+                                        Navigator.push(
+                                            context,
+                                            MaterialPageRoute(
+                                                builder: (context) =>
+                                                    AdmOrderObatMainPage()));
+                                      }
+                                    });
                                   }
-                                });
-                              }
+                                } else {
+                                  print(' value null $value ');
+                                }
+                              });
                             } else {
                               print('keranjang tidak boleh kosong');
                             }

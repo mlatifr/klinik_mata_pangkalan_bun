@@ -542,6 +542,58 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
     );
   }
 
+  Widget widgetButtonSimpan() {
+    var textBtnSimpan = 'SIMPAN';
+    return ElevatedButton(
+        onPressed: () {
+          if (ListKeranjangObat.isNotEmpty) {
+            // send data tgl and user pemesan to db
+            // then simpan hasil id order ke aplikasi
+            // then simpan list obat dg id_order
+            print('${widget.pmlkId} | ${date.toString().substring(0, 10)}');
+            idOrder = '';
+            fetchDataIdOrderId(widget.pmlkId, date.toString().substring(0, 10))
+                .then((value) {
+              Map json = jsonDecode(value);
+              idOrder = json['order_obat_id'].toString();
+              for (var i = 0; i < ListKeranjangObat.length; i++) {
+                //fetch send kirim data krjg obat
+                fetchDataPemilikSendKrjgObat(
+                        idOrder,
+                        ListKeranjangObat[i].jumlah_order,
+                        ListKeranjangObat[i].obatNama,
+                        ListKeranjangObat[i].harga_beli,
+                        ListKeranjangObat[i].harga_jual,
+                        'pemesanan')
+                    .then((value) {
+                  print('btn simpan $value');
+                  ListKeranjangObat.clear();
+                  Navigator.pop(context);
+                });
+              }
+            });
+          } else {
+            showDialog<String>(
+              context: context,
+              builder: (BuildContext context) => AlertDialog(
+                title: Text(
+                  'Keranjang tidak Boleh Kosong',
+                  style: TextStyle(fontSize: 14),
+                ),
+                actions: <Widget>[
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text('ok')),
+                ],
+              ),
+            );
+          }
+        },
+        child: Text('$textBtnSimpan'));
+  }
+
   @override
   void initState() {
     DateTime now = new DateTime.now();
@@ -669,60 +721,12 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                           widgetKeranjangObatBodyPemilik(),
                         ],
                       ),
-                      ElevatedButton(
-                          onPressed: () {
-                            if (ListKeranjangObat.isNotEmpty) {
-                              // send data tgl and user pemesan to db
-                              // then simpan hasil id order ke aplikasi
-                              // then simpan list obat dg id_order
-                              print(
-                                  '${widget.pmlkId} | ${date.toString().substring(0, 10)}');
-                              idOrder = '';
-                              fetchDataIdOrderId(widget.pmlkId,
-                                      date.toString().substring(0, 10))
-                                  .then((value) {
-                                Map json = jsonDecode(value);
-                                idOrder = json['order_obat_id'].toString();
-                                for (var i = 0;
-                                    i < ListKeranjangObat.length;
-                                    i++) {
-                                  //fetch send kirim data krjg obat
-                                  fetchDataPemilikSendKrjgObat(
-                                          idOrder,
-                                          ListKeranjangObat[i].jumlah_order,
-                                          ListKeranjangObat[i].obatNama,
-                                          ListKeranjangObat[i].harga_beli,
-                                          ListKeranjangObat[i].harga_jual,
-                                          'pemesanan')
-                                      .then((value) =>
-                                          print('btn simpan $value'));
-                                }
-                              });
-                            } else {
-                              showDialog<String>(
-                                context: context,
-                                builder: (BuildContext context) => AlertDialog(
-                                  title: Text(
-                                    'Keranjang tidak Boleh Kosong',
-                                    style: TextStyle(fontSize: 14),
-                                  ),
-                                  actions: <Widget>[
-                                    TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: Text('ok')),
-                                  ],
-                                ),
-                              );
-                            }
-                          },
-                          child: Text('SIMPAN'))
                     ],
                   ),
                 ),
               ],
             ),
+            widgetButtonSimpan()
           ],
         ),
       ),

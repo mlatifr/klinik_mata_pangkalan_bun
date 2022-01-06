@@ -742,26 +742,35 @@ class _PagePasienDaftarBaruState extends State<PagePasienDaftarBaru> {
                                       _controllerPernikahan.text,
                                       _controllerPekerjaan.text,
                                       _controllerKewarganegaraan.text,
-                                      _controllerTelepon)
+                                      _controllerTelepon.text)
                                   .then((value) {
+                                _controllerUsername.text = '';
+                                _controllerSandi.text = '';
+                                _controllerNik.text = '';
+                                _controllerNamaLengkap.text = '';
+                                _controllerAlamat.text = '';
+                                _controllerAgama.text = '';
+                                _controllerTempatLahir.text = '';
+                                _controllerTglLahir.text = '';
+                                _controllerKelamin.text = '';
+                                _controllerGolonganDarah.text = '';
+                                _controllerPernikahan.text = '';
+                                _controllerPekerjaan.text = '';
+                                _controllerKewarganegaraan.text = '';
+                                _controllerTelepon.text = '';
                                 showDialog<String>(
                                   context: context,
                                   builder: (BuildContext context) =>
                                       AlertDialog(
                                     title: Text(
-                                      'Anda akan menyimpan data:',
+                                      'Pendaftaran Berhasil!',
                                       style: TextStyle(fontSize: 14),
                                     ),
-                                    content: TextFormField(
-                                        enabled: false,
-                                        maxLines: 8,
-                                        initialValue: '$value'),
+                                    // content: TextFormField(
+                                    //     enabled: false,
+                                    //     maxLines: 8,
+                                    //     initialValue: '$value'),
                                     actions: <Widget>[
-                                      TextButton(
-                                          onPressed: () {
-                                            Navigator.pop(context);
-                                          },
-                                          child: Text('Batal')),
                                       TextButton(
                                           onPressed: () {
                                             Navigator.pop(context);
@@ -771,6 +780,7 @@ class _PagePasienDaftarBaruState extends State<PagePasienDaftarBaru> {
                                   ),
                                 );
                               });
+                              Navigator.pop(context);
                               Navigator.pop(context);
                             },
                             child: Text('ok')),

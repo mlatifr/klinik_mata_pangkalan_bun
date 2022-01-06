@@ -199,7 +199,7 @@ class _AkuntanVNeracaState extends State<AkuntanVNeraca> {
                 stream: _controllerTglStream.stream,
               ),
               ListTile(
-                title: Text('Total Aset Lancar: Rp 17.991.000'),
+                title: Text('Total Aset Lancar: null'),
               ),
             ],
           )),

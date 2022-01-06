@@ -222,9 +222,11 @@ class _AdminAntreanPasienState extends State<AdminAntreanPasien> {
   }
 
   Future<String> fetchDataStatusAntrean(index, String status) async {
-    final response = await http.post(
-        Uri.parse(apiUrl + "admin_status_antrean.php"),
-        body: {'visit_id': adminVAntreans[index].visitId.toString(), 'status': status});
+    final response = await http
+        .post(Uri.parse(apiUrl + "admin_status_antrean.php"), body: {
+      'visit_id': adminVAntreans[index].visitId.toString(),
+      'status': status
+    });
     if (response.statusCode == 200) {
       AdminKlikBacaDataAntrean();
       return response.body;
@@ -586,65 +588,65 @@ class _AdminAntreanPasienState extends State<AdminAntreanPasien> {
                             ))
                       ],
                     )),
-                Padding(
-                    padding: EdgeInsets.all(10),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Expanded(
-                            child: TextFormField(
-                          controller: controllerdate,
-                          onChanged: (value) {
-                            setState(() {
-                              controllerdate.text = value.toString();
-                              controllerdate.selection =
-                                  TextSelection.fromPosition(TextPosition(
-                                      offset: controllerdate.text.length));
-                              // print(value.toString());
-                              AdminBacaDataAntrean();
-                            });
-                          },
-                          enabled: false,
-                          keyboardType: TextInputType.number,
-                          inputFormatters: <TextInputFormatter>[
-                            FilteringTextInputFormatter.digitsOnly
-                          ],
-                          decoration: InputDecoration(
-                            labelText: 'Tanggal Visit',
-                            fillColor: Colors.white,
-                            enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10.0),
-                              borderSide: BorderSide(
-                                color: Colors.blue,
-                              ),
-                            ),
-                          ),
-                        )),
-                        ElevatedButton(
-                            onPressed: () {
-                              showDatePicker(
-                                      context: context,
-                                      initialDate: DateTime.now(),
-                                      firstDate: DateTime(2000),
-                                      lastDate: DateTime(2200))
-                                  .then((value) {
-                                setState(() {
-                                  controllerdate.text =
-                                      value.toString().substring(0, 10);
-                                  // print(value.toString());
-                                  AdminBacaDataAntrean();
-                                  AdminBacaDataAntreanSekarangAwal();
-                                  // print('elevatedButton');
-                                });
-                              });
-                            },
-                            child: Icon(
-                              Icons.calendar_today_sharp,
-                              color: Colors.white,
-                              size: 24.0,
-                            ))
-                      ],
-                    )),
+                // Padding(
+                //     padding: EdgeInsets.all(10),
+                //     child: Row(
+                //       mainAxisAlignment: MainAxisAlignment.start,
+                //       children: [
+                //         Expanded(
+                //             child: TextFormField(
+                //           controller: controllerdate,
+                //           onChanged: (value) {
+                //             setState(() {
+                //               controllerdate.text = value.toString();
+                //               controllerdate.selection =
+                //                   TextSelection.fromPosition(TextPosition(
+                //                       offset: controllerdate.text.length));
+                //               // print(value.toString());
+                //               AdminBacaDataAntrean();
+                //             });
+                //           },
+                //           enabled: false,
+                //           keyboardType: TextInputType.number,
+                //           inputFormatters: <TextInputFormatter>[
+                //             FilteringTextInputFormatter.digitsOnly
+                //           ],
+                //           decoration: InputDecoration(
+                //             labelText: 'Tanggal Visit',
+                //             fillColor: Colors.white,
+                //             enabledBorder: OutlineInputBorder(
+                //               borderRadius: BorderRadius.circular(10.0),
+                //               borderSide: BorderSide(
+                //                 color: Colors.blue,
+                //               ),
+                //             ),
+                //           ),
+                //         )),
+                //         ElevatedButton(
+                //             onPressed: () {
+                //               showDatePicker(
+                //                       context: context,
+                //                       initialDate: DateTime.now(),
+                //                       firstDate: DateTime(2000),
+                //                       lastDate: DateTime(2200))
+                //                   .then((value) {
+                //                 setState(() {
+                //                   controllerdate.text =
+                //                       value.toString().substring(0, 10);
+                //                   // print(value.toString());
+                //                   AdminBacaDataAntrean();
+                //                   AdminBacaDataAntreanSekarangAwal();
+                //                   // print('elevatedButton');
+                //                 });
+                //               });
+                //             },
+                //             child: Icon(
+                //               Icons.calendar_today_sharp,
+                //               color: Colors.white,
+                //               size: 24.0,
+                //             ))
+                //       ],
+                //     )),
                 widgetLbuilderCekAntrean()
               ],
             ),
