@@ -877,97 +877,7 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
                                 widgetCariObat(),
                                 widgetListObats(),
                               ]),
-                          ElevatedButton(
-                            onPressed: () {
-                              //kirim data tindakan
-                              for (var i = 0; i < dVKTs.length; i++) {
-                                // print('$i | input tindakan '
-                                //     'visitId ${widget.visitId} | '
-                                //     'tindakanId ${dVKTs[i].tindakanId} | '
-                                //     'mataSisiTindakan ${dVKTs[i].mataSisiTindakan}');
-                                fetchDataDokterInputTindakan(
-                                        widget.visitId,
-                                        dVKTs[i].tindakanId,
-                                        dVKTs[i].mataSisiTindakan)
-                                    .then((value) {
-                                  if (i == dVKTs.length - 1) {
-                                    print('last dVKTs $i');
-                                    showDialog<String>(
-                                      context: context,
-                                      builder: (BuildContext context) =>
-                                          AlertDialog(
-                                        title: Text(
-                                          'Input Tindakan Berhasil',
-                                          style: TextStyle(fontSize: 14),
-                                        ),
-                                        actions: <Widget>[
-                                          ElevatedButton(
-                                            onPressed: () =>
-                                                Navigator.pop(context),
-                                            child: Text(
-                                              'Ok',
-                                              // style: TextStyle(
-                                              //     fontSize: 14,
-                                              //     backgroundColor: Colors.blue,
-                                              //     color: Colors.white),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  }
-                                });
-                              }
-
-                              for (var i = 0; i < dVLKOs.length; i++) {
-                                // print('$i | input obat: '
-                                //     'obatId ${dVLKOs[i].obatId} | '
-                                //     'obatDosis ${dVLKOs[i].obatDosis} | '
-                                //     'obatJumlah ${dVLKOs[i].obatJumlah} | '
-                                //     'visitId ${widget.visitId}');
-                                fetchDataDokterInputResepObat(
-                                        dVLKOs[i].obatId,
-                                        dVLKOs[i].obatDosis,
-                                        dVLKOs[i].obatJumlah,
-                                        widget.visitId)
-                                    .then((value) {
-                                  if (i == dVLKOs.length - 1) {
-                                    print('last dVLKOs $i');
-                                    showDialog<String>(
-                                      context: context,
-                                      builder: (BuildContext context) =>
-                                          AlertDialog(
-                                        title: Text(
-                                          'Input Obat Berhasil',
-                                          style: TextStyle(fontSize: 14),
-                                        ),
-                                        actions: <Widget>[
-                                          ElevatedButton(
-                                            onPressed: () =>
-                                                Navigator.pop(context),
-                                            child: Text(
-                                              'Ok',
-                                              // style: TextStyle(
-                                              //     fontSize: 14,
-                                              //     backgroundColor: Colors.blue,
-                                              //     color: Colors.white),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
-                                    );
-                                  }
-                                });
-                              }
-                            },
-                            child: Text('SIMPAN'),
-                            style: TextButton.styleFrom(
-                                primary: Colors.white,
-                                backgroundColor: Colors.blue,
-                                minimumSize: Size(
-                                    MediaQuery.of(context).size.width,
-                                    MediaQuery.of(context).size.height * 0.04)),
-                          )
+                          WidgetButtonSimpan(context)
                         ],
                       ),
                     ),
@@ -994,6 +904,116 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
           ),
           body: Center(child: CircularProgressIndicator()),
         ),
+      );
+    }
+  }
+
+  ElevatedButton WidgetButtonSimpan(BuildContext context) {
+    var enableBtn = true;
+    if (enableBtn == false) {
+      return ElevatedButton(
+        child: Text('BACK'),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      );
+    } else {
+      return ElevatedButton(
+        onPressed: () {
+          //kirim data tindakan
+          for (var i = 0; i < dVKTs.length; i++) {
+            // print('$i | input tindakan '
+            //     'visitId ${widget.visitId} | '
+            //     'tindakanId ${dVKTs[i].tindakanId} | '
+            //     'mataSisiTindakan ${dVKTs[i].mataSisiTindakan}');
+            fetchDataDokterInputTindakan(widget.visitId, dVKTs[i].tindakanId,
+                    dVKTs[i].mataSisiTindakan)
+                .then((value) {
+              if (i == dVKTs.length - 1) {
+                print('last dVKTs $i');
+                showDialog<String>(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    title: Text(
+                      'Input Tindakan Berhasil',
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    actions: <Widget>[
+                      ElevatedButton(
+                        onPressed: () {
+                          enableBtn = false;
+                          dVKTs.clear();
+                          setState(() {
+                            widgetLisTindakans();
+                            WidgetButtonSimpan(context);
+                          });
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          'Ok',
+                          // style: TextStyle(
+                          //     fontSize: 14,
+                          //     backgroundColor: Colors.blue,
+                          //     color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }
+            });
+          }
+
+          for (var i = 0; i < dVLKOs.length; i++) {
+            // print('$i | input obat: '
+            //     'obatId ${dVLKOs[i].obatId} | '
+            //     'obatDosis ${dVLKOs[i].obatDosis} | '
+            //     'obatJumlah ${dVLKOs[i].obatJumlah} | '
+            //     'visitId ${widget.visitId}');
+            fetchDataDokterInputResepObat(dVLKOs[i].obatId, dVLKOs[i].obatDosis,
+                    dVLKOs[i].obatJumlah, widget.visitId)
+                .then((value) {
+              if (i == dVLKOs.length - 1) {
+                print('last dVLKOs $i');
+                showDialog<String>(
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    title: Text(
+                      'Input Obat Berhasil',
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    actions: <Widget>[
+                      ElevatedButton(
+                        onPressed: () {
+                          dVLKOs.clear();
+                          enableBtn = false;
+                          setState(() {
+                            widgetListObats();
+                            WidgetButtonSimpan(context);
+                          });
+                          Navigator.pop(context);
+                        },
+                        child: Text(
+                          'Ok',
+                          // style: TextStyle(
+                          //     fontSize: 14,
+                          //     backgroundColor: Colors.blue,
+                          //     color: Colors.white),
+                        ),
+                      ),
+                    ],
+                  ),
+                );
+              }
+            });
+          }
+        },
+        child: Text('SIMPAN'),
+        style: TextButton.styleFrom(
+            primary: Colors.white,
+            backgroundColor: Colors.blue,
+            minimumSize: Size(MediaQuery.of(context).size.width,
+                MediaQuery.of(context).size.height * 0.04)),
       );
     }
   }

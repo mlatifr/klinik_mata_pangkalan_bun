@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/apoteker/apt_get_resep_pasien_detail.dart';
 import 'package:flutter_application_1/pemilik/pemilik_fetch/pemilik_send_input_order.dart';
+
+import '../pemilik_main_page.dart';
 
 DateTime date;
 
@@ -567,8 +568,28 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                         'pemesanan')
                     .then((value) {
                   print('btn simpan $value');
-                  ListKeranjangObat.clear();
-                  Navigator.pop(context);
+                  // ListKeranjangObat.clear();
+                  if (i + 1 == ListKeranjangObat.length) {
+                    showDialog<String>(
+                      context: context,
+                      builder: (BuildContext context) => AlertDialog(
+                        title: Text(
+                          'Pemesana Berhasil',
+                          style: TextStyle(fontSize: 14),
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                              onPressed: () {
+                                ListKeranjangObat.clear();
+                                print('last index $i ' +
+                                    'length ${ListKeranjangObat.length}');
+                                Navigator.pop(context);
+                              },
+                              child: Text('ok')),
+                        ],
+                      ),
+                    );
+                  }
                 });
               }
             });
