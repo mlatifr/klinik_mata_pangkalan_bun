@@ -233,6 +233,10 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                     )),
               ),
             ),
+          ],
+        ),
+        Row(
+          children: [
             Flexible(
               flex: 1,
               child: Padding(
