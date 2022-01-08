@@ -323,7 +323,7 @@ class _AdminOrderInputObatState extends State<AdminOrderInputObat> {
                                 print('fetchDataAdminUpdateOrderObat $value');
                                 if (value.toString().contains('success')) {
                                   // untuk berikutnya, insert obat jika ada.
-                                  for (var i = 0;
+                                  for (var i = 1;
                                       i < listObatKadaluarsa.length;
                                       i++) {
                                     print('${listObatKadaluarsa[i].nama}|' +

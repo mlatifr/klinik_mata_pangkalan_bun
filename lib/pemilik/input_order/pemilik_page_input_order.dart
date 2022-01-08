@@ -341,6 +341,8 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                 controllerObatNama.text = '';
                 controllerJumlah.text = '';
                 controllerHargaBeliPerItem.text = '';
+                controllerBiayaOngkir.text = '';
+                controllerHPP.text = '';
               });
             },
             child: Text('tambah'),
@@ -560,7 +562,7 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                 textAlign: TextAlign.center,
               ),
               Text(
-                'Hg Beli',
+                'Hg Item',
                 textAlign: TextAlign.center,
               ),
               Text(
@@ -712,6 +714,9 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                                 ListKeranjangObat.clear();
                                 print('last index $i ' +
                                     'length ${ListKeranjangObat.length}');
+                                setState(() {
+                                  widgetKeranjangObatBodyPemilik();
+                                });
                                 Navigator.pop(context);
                               },
                               child: Text('ok')),
