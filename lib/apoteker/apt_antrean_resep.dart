@@ -17,13 +17,19 @@ class AptAntreanPasien extends StatefulWidget {
 }
 
 class ApotekerVAntrean {
-  var visitId, vhuId, pasienId, tglVisit, userName, nomorAntrean, statusAntrean;
+  var visitId,
+      vhuId,
+      pasienId,
+      tglVisit,
+      namaPasien,
+      nomorAntrean,
+      statusAntrean;
   ApotekerVAntrean({
     this.visitId,
+    this.namaPasien,
     this.vhuId,
     this.pasienId,
     this.tglVisit,
-    this.userName,
     this.nomorAntrean,
     this.statusAntrean,
   });
@@ -32,10 +38,10 @@ class ApotekerVAntrean {
   factory ApotekerVAntrean.fromJson(Map<String, dynamic> json) {
     return new ApotekerVAntrean(
       visitId: json['visit_id'],
+      namaPasien: json['nama_pasien'],
       vhuId: json['vhu_id'],
       pasienId: json['pasien_id'],
       tglVisit: json['tgl_visit'],
-      userName: json['username'],
       nomorAntrean: json['nomor_antrean'],
       statusAntrean: json['status_antrean'],
     );
@@ -191,25 +197,20 @@ class _AptAntreanPasienState extends State<AptAntreanPasien> {
                     onTap: () {
                       _timerForInter.cancel();
                       print('timer stop');
-                      // fetchDataApotekerInputRspVst(
-                      //   AptkrVAs[index].visitId,
-                      //   userid,
-                      //   DateTime.now().toString().substring(0, 10),
-                      // );
                       Navigator.push(
                           context,
                           MaterialPageRoute(
                               builder: (context) => AptInputObat(
                                     aptkrId: userIdMainDart,
-                                    namaPasien: AptkrVAs[index].userName,
+                                    namaPasien: AptkrVAs[index].namaPasien,
                                     visitId: AptkrVAs[index].visitId,
                                   ))).then((onGoBack));
                     },
                     leading: CircleAvatar(
                       child: Text('${index + 1}'),
                     ),
-                    title: Text('${AptkrVAs[index].userName}'),
-                    subtitle: Text('sub judul'),
+                    title: Text('${AptkrVAs[index].namaPasien}'),
+                    subtitle: Text('No Visit: ${AptkrVAs[index].visitId}'),
                     // trailing: widgetStatusAntrean(index)
                   ));
             }),
@@ -224,6 +225,7 @@ class _AptAntreanPasienState extends State<AptAntreanPasien> {
     }
   }
 
+  // (beli x jumlah + biaya )\jumlah
   Widget widgetSelectTgl() {
     return Padding(
         padding: EdgeInsets.all(10),
