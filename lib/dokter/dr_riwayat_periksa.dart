@@ -908,8 +908,8 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
     }
   }
 
+  var enableBtn = true;
   ElevatedButton WidgetButtonSimpan(BuildContext context) {
-    var enableBtn = true;
     if (enableBtn == false) {
       return ElevatedButton(
         child: Text('BACK'),
@@ -922,10 +922,6 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
         onPressed: () {
           //kirim data tindakan
           for (var i = 0; i < dVKTs.length; i++) {
-            // print('$i | input tindakan '
-            //     'visitId ${widget.visitId} | '
-            //     'tindakanId ${dVKTs[i].tindakanId} | '
-            //     'mataSisiTindakan ${dVKTs[i].mataSisiTindakan}');
             fetchDataDokterInputTindakan(widget.visitId, dVKTs[i].tindakanId,
                     dVKTs[i].mataSisiTindakan)
                 .then((value) {
@@ -951,10 +947,6 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
                         },
                         child: Text(
                           'Ok',
-                          // style: TextStyle(
-                          //     fontSize: 14,
-                          //     backgroundColor: Colors.blue,
-                          //     color: Colors.white),
                         ),
                       ),
                     ],
@@ -965,11 +957,6 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
           }
 
           for (var i = 0; i < dVLKOs.length; i++) {
-            // print('$i | input obat: '
-            //     'obatId ${dVLKOs[i].obatId} | '
-            //     'obatDosis ${dVLKOs[i].obatDosis} | '
-            //     'obatJumlah ${dVLKOs[i].obatJumlah} | '
-            //     'visitId ${widget.visitId}');
             fetchDataDokterInputResepObat(dVLKOs[i].obatId, dVLKOs[i].obatDosis,
                     dVLKOs[i].obatJumlah, widget.visitId)
                 .then((value) {
