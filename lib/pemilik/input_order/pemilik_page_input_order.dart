@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_application_1/apoteker/apt_get_resep_pasien_detail.dart';
 import 'package:flutter_application_1/pemilik/pemilik_fetch/pemilik_send_input_order.dart';
 
-
 DateTime date;
 
 class PemilikInputOrderObat extends StatefulWidget {
@@ -97,7 +96,6 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
   TextEditingController controllerHPP = TextEditingController();
   TextEditingController controllerCariObat = TextEditingController();
   int selected; //agar yg terbuka hanya bisa 1 ListTile
-  // (jumlah * Hrg Item)- ongkir
   Widget widgetInputObatBaru() {
     return ExpansionTile(
       title: Padding(
@@ -162,8 +160,7 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                       if (controllerBiayaOngkir.text != '') {
                         ongKir = int.parse(controllerBiayaOngkir.text);
                       }
-                      print('jmlh $jumlah | item $hrgItem | ongkir $ongKir');
-                      hpp = (jumlah * hrgItem) - ongKir;
+                      hpp = (jumlah * hrgItem) + ongKir;
                       setState(() {
                         controllerHPP.text = hpp.toString();
                       });
@@ -208,8 +205,7 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                       if (controllerBiayaOngkir.text != '') {
                         ongKir = int.parse(controllerBiayaOngkir.text);
                       }
-                      print('jmlh $jumlah | item $hrgItem | ongkir $ongKir');
-                      hpp = (jumlah * hrgItem) - ongKir;
+                      hpp = (jumlah * hrgItem) + ongKir;
                       setState(() {
                         controllerHPP.text = hpp.toString();
                       });
@@ -258,8 +254,7 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                       if (value.isNotEmpty) {
                         ongKir = int.parse(value);
                       }
-                      print('jmlh $jumlah | item $hrgItem | ongkir $ongKir');
-                      hpp = (jumlah * hrgItem) - ongKir;
+                      hpp = (jumlah * hrgItem) + ongKir;
                       setState(() {
                         controllerHPP.text = hpp.toString();
                       });
@@ -300,7 +295,7 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                       }
                     },
                     decoration: InputDecoration(
-                      labelText: "Harga Jual",
+                      labelText: "HPP Total",
                       fillColor: Colors.white,
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
@@ -326,16 +321,20 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
               PemilikInputResepList selectedObat = PemilikInputResepList(
                   obatNama: controllerObatNama.text,
                   jumlah_order: controllerJumlah.text,
-                  harga_beli: controllerHargaBeliPerItem.text);
+                  harga_item: controllerHargaBeliPerItem.text,
+                  hpp: controllerHPP.text);
               ListKeranjangObat.add(selectedObat);
+              // print('controllerHPP ${controllerHPP.text}');
+              ListHargaJual.clear();
+              for (var i = 0; i < ListKeranjangObat.length; i++) {
+                // print('ListKeranjangObat[i] ${ListKeranjangObat[i].hpp}');
+                TextEditingController txtHrgJual = TextEditingController();
+                txtHrgJual.text = (ListKeranjangObat[i].hpp).toString();
+                ListHargaJual.add(txtHrgJual);
+                // print(
+                //     "widgetKeranjangObatBodyPemilik: ${ListHargaJual[i].text}");
+              }
               setState(() {
-                ListHargaJual.clear();
-                // print("widgetKeranjangObatBodyPemilik: ${ListInputResep.length}");
-                for (var i = 0; i < ListKeranjangObat.length; i++) {
-                  TextEditingController txtHrgJual = TextEditingController();
-                  txtHrgJual.text = (i - i).toString();
-                  ListHargaJual.add(txtHrgJual);
-                }
                 widgetKeranjangObatBodyPemilik();
                 controllerObatNama.text = '';
                 controllerJumlah.text = '';
@@ -354,148 +353,6 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
         ),
       ],
     );
-  }
-
-  // ignore: missing_return
-  Widget widgetListObats() {
-    if (aVLOs.length > 0) {
-      return ListView.builder(
-          key: Key(
-              'builder ${selected.toString()}'), //agar yg terbuka hanya bisa 1 ListTile
-          physics: NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: aVLOs.length,
-          itemBuilder: (context, index) {
-            return Row(
-              children: [
-                Expanded(
-                  flex: 8,
-                  child: Column(
-                    children: [
-                      ExpansionTile(
-                          key: Key(index
-                              .toString()), //agar yg terbuka hanya bisa 1 ListTile
-                          initiallyExpanded: index ==
-                              selected, //agar yg terbuka hanya bisa 1 ListTile
-                          onExpansionChanged: ((newState) {
-                            controllerJumlah.text = "";
-                            controllerHargaBeliPerItem.text = "";
-                            if (newState)
-                              setState(() {
-                                selected = index;
-                              });
-                            else
-                              setState(() {
-                                selected = -1;
-                              });
-                          }),
-                          title: Text(
-                            '${aVLOs[index].obatNama} : ${aVLOs[index].obatStok}',
-                            textAlign: TextAlign.center,
-                            style: TextStyle(),
-                          ),
-                          children: [
-                            Row(
-                              children: [
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: TextFormField(
-                                        enabled: true,
-                                        controller: controllerJumlah,
-                                        keyboardType: TextInputType.number,
-                                        inputFormatters: <TextInputFormatter>[
-                                          FilteringTextInputFormatter.digitsOnly
-                                        ],
-                                        decoration: InputDecoration(
-                                          labelText: "Jumlah",
-                                          fillColor: Colors.white,
-                                          enabledBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                            borderSide: BorderSide(
-                                              color: Colors.blue,
-                                            ),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                            borderSide: BorderSide(
-                                              color: Colors.blue,
-                                            ),
-                                          ),
-                                        )),
-                                  ),
-                                ),
-                                Expanded(
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: TextFormField(
-                                        enabled: true,
-                                        controller: controllerHargaBeliPerItem,
-                                        keyboardType: TextInputType.number,
-                                        inputFormatters: <TextInputFormatter>[
-                                          FilteringTextInputFormatter.digitsOnly
-                                        ],
-                                        decoration: InputDecoration(
-                                          labelText: "Harga Beli",
-                                          fillColor: Colors.white,
-                                          enabledBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                            borderSide: BorderSide(
-                                              color: Colors.blue,
-                                            ),
-                                          ),
-                                          focusedBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
-                                            borderSide: BorderSide(
-                                              color: Colors.blue,
-                                            ),
-                                          ),
-                                        )),
-                                  ),
-                                )
-                              ],
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: TextButton(
-                                onPressed: () {
-                                  PemilikInputResepList selectedObat =
-                                      PemilikInputResepList(
-                                          obatNama: aVLOs[index].obatNama,
-                                          jumlah_order: controllerJumlah.text,
-                                          harga_beli:
-                                              controllerHargaBeliPerItem.text);
-                                  ListKeranjangObat.add(selectedObat);
-                                  setState(() {
-                                    controllerJumlah.text = "";
-                                    controllerHargaBeliPerItem.text = "";
-                                    widgetKeranjangObatBodyPemilik();
-                                  });
-                                  print(ListKeranjangObat.length);
-                                },
-                                child: Text('tambah'),
-                                style: TextButton.styleFrom(
-                                    primary: Colors.white,
-                                    backgroundColor: Colors.blue,
-                                    minimumSize: Size(
-                                        MediaQuery.of(context).size.width,
-                                        MediaQuery.of(context).size.height *
-                                            0.01)),
-                              ),
-                            ),
-                          ]),
-                    ],
-                  ),
-                ),
-              ],
-            );
-          });
-    } else
-      return Container();
   }
 
   var suggestNamaObat = true;
@@ -565,7 +422,7 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                 textAlign: TextAlign.center,
               ),
               Text(
-                'Hg Jual',
+                'HPP Total',
                 textAlign: TextAlign.center,
               ),
               Text(
@@ -613,7 +470,7 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                     Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
-                        '${ListKeranjangObat[index].harga_beli}',
+                        '${ListKeranjangObat[index].harga_item}',
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -623,6 +480,7 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                           style: TextStyle(fontSize: 14),
                           enabled: true,
                           controller: ListHargaJual[index],
+                          // initialValue: ListHargaJual[index].text.toString(),
                           keyboardType: TextInputType.number,
                           inputFormatters: <TextInputFormatter>[
                             FilteringTextInputFormatter.digitsOnly
@@ -631,28 +489,8 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                             print(
                                 'kerangjang value ${ListHargaJual[index].text}');
                           },
-
-                          // onChanged: (value) {
-                          //   ListKeranjangObat[index].harga_jual =
-                          //       ListHargaJual[index].text;
-                          //   for (var item in ListKeranjangObat) {
-                          //     print(item.obatNama + '\n' + item.harga_jual);
-                          //   }
-                          // },
                           decoration: InputDecoration(
                             fillColor: Colors.white,
-                            // enabledBorder: OutlineInputBorder(
-                            //   borderRadius: BorderRadius.circular(10.0),
-                            //   borderSide: BorderSide(
-                            //     color: Colors.blue,
-                            //   ),
-                            // ),
-                            // focusedBorder: OutlineInputBorder(
-                            //   borderRadius: BorderRadius.circular(10.0),
-                            //   borderSide: BorderSide(
-                            //     color: Colors.blue,
-                            //   ),
-                            // ),
                           )),
                     ),
                     TextButton(
@@ -693,8 +531,8 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                         idOrder,
                         ListKeranjangObat[i].jumlah_order,
                         ListKeranjangObat[i].obatNama,
-                        ListKeranjangObat[i].harga_beli,
-                        ListKeranjangObat[i].harga_jual,
+                        ListKeranjangObat[i].harga_item,
+                        ListKeranjangObat[i].hpp,
                         'pemesanan')
                     .then((value) {
                   print('btn simpan $value');
@@ -790,15 +628,6 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                   child: Column(
                     children: [
                       widgetInputObatBaru(),
-                      // ExpansionTile(
-                      //     title: Text(
-                      //       'Stok Obat',
-                      //       textAlign: TextAlign.center,
-                      //     ),
-                      //     children: [
-                      //       widgetCariObat(),
-                      //       widgetListObats(),
-                      //     ]),
                       ExpansionTile(
                         title: Text(
                           'Keranjang Obat',
@@ -830,7 +659,7 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                                             var persen = int.parse(value);
                                             var hBeli = int.parse(
                                                 ListKeranjangObat[i]
-                                                    .harga_beli);
+                                                    .harga_item);
                                             var rumus =
                                                 hBeli + (hBeli * persen / 100);
                                             ListHargaJual[i].text = (rumus)
@@ -839,7 +668,7 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                                                     0,
                                                     rumus.toString().length -
                                                         2);
-                                            ListKeranjangObat[i].harga_jual =
+                                            ListKeranjangObat[i].hpp =
                                                 ListHargaJual[i].text;
                                             print(ListHargaJual[i].text);
                                           }

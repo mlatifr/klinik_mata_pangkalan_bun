@@ -26,9 +26,9 @@ List<PemilikInputResepList> ListKeranjangObat = [];
 List<TextEditingController> ListHargaJual = [];
 
 class PemilikInputResepList {
-  var harga_beli, harga_jual, jumlah_order, obatNama;
+  var harga_item, hpp, jumlah_order, obatNama;
   PemilikInputResepList(
-      {this.harga_beli, this.harga_jual, this.obatNama, this.jumlah_order});
+      {this.harga_item, this.hpp, this.obatNama, this.jumlah_order});
 }
 
 Future<String> fetchDataPemilikSendKrjgObat(pOrder_obat_id, pJumlah_order,
