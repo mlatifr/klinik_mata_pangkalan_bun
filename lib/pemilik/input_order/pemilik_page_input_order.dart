@@ -527,12 +527,14 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
               idOrder = json['order_obat_id'].toString();
               for (var i = 0; i < ListKeranjangObat.length; i++) {
                 //fetch send kirim data krjg obat
+                var hargJual = int.parse(ListKeranjangObat[i].hpp) /
+                    int.parse(ListKeranjangObat[i].jumlah_order);
                 fetchDataPemilikSendKrjgObat(
                         idOrder,
                         ListKeranjangObat[i].jumlah_order,
                         ListKeranjangObat[i].obatNama,
                         ListKeranjangObat[i].harga_item,
-                        ListKeranjangObat[i].hpp,
+                        hargJual.toString(),
                         'pemesanan')
                     .then((value) {
                   print('btn simpan $value');

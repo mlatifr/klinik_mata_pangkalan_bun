@@ -307,64 +307,7 @@ class _AdminOrderInputObatState extends State<AdminOrderInputObat> {
                           widgetKeranjangObatBody(),
                         ],
                       ),
-                      ElevatedButton(
-                          onPressed: () {
-                            print('listObatKadaluarsa.length' +
-                                ' ${listObatKadaluarsa.length}');
-                            //untuk index pertama jika ada, update info
-                            if (listObatKadaluarsa.length > 0) {
-                              fetchDataAdminUpdateOrderObat(
-                                      listObatKadaluarsa[0].jumlah_diterima,
-                                      listObatKadaluarsa[0].jumlah_diterima,
-                                      listObatKadaluarsa[0].kadaluarsa,
-                                      'diterima',
-                                      listObatKadaluarsa[0].id_obat)
-                                  .then((value) {
-                                print('fetchDataAdminUpdateOrderObat $value');
-                                if (value.toString().contains('success')) {
-                                  // untuk berikutnya, insert obat jika ada.
-                                  for (var i = 1;
-                                      i < listObatKadaluarsa.length;
-                                      i++) {
-                                    print('${listObatKadaluarsa[i].nama}|' +
-                                        '${listObatKadaluarsa[i].jumlah_diterima}|' +
-                                        '${listObatKadaluarsa[i].kadaluarsa}');
-                                    fetchDataAdminInputKadaluarsaObat(
-                                            listObatKadaluarsa[i].order_id,
-                                            listObatKadaluarsa[i].jumlah_order,
-                                            listObatKadaluarsa[i]
-                                                .jumlah_diterima,
-                                            listObatKadaluarsa[i].nama,
-                                            listObatKadaluarsa[i]
-                                                .jumlah_diterima,
-                                            listObatKadaluarsa[i].kadaluarsa,
-                                            listObatKadaluarsa[i].harga_jual,
-                                            listObatKadaluarsa[i].harga_beli,
-                                            'diterima')
-                                        .then((value) {
-                                      print(
-                                          'fetchDataAdminInputKadaluarsaObat ${value} print $i');
-                                      if (i + 1 == listObatKadaluarsa.length) {
-                                        listObatKadaluarsa.clear();
-                                        print('last index $i ' +
-                                            'length ${listObatKadaluarsa.length}');
-                                        Navigator.push(
-                                            context,
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    AdmOrderObatMainPage()));
-                                      }
-                                    });
-                                  }
-                                } else {
-                                  print(' value null $value ');
-                                }
-                              });
-                            } else {
-                              print('keranjang tidak boleh kosong');
-                            }
-                          },
-                          child: Text('SIMPAN'))
+                      WidgetButtonSimpan(context)
                     ],
                   ),
                 ),
@@ -374,5 +317,80 @@ class _AdminOrderInputObatState extends State<AdminOrderInputObat> {
         ),
       ),
     );
+  }
+
+  var enableBtnSimpan = true;
+  ElevatedButton WidgetButtonSimpan(BuildContext context) {
+    if (enableBtnSimpan == true) {
+      return ElevatedButton(
+          onPressed: () {
+            print(
+                'listObatKadaluarsa.length' + ' ${listObatKadaluarsa.length}');
+            //untuk index pertama jika ada, update info
+            if (listObatKadaluarsa.length > 0) {
+              fetchDataAdminUpdateOrderObat(
+                      listObatKadaluarsa[0].jumlah_diterima,
+                      listObatKadaluarsa[0].jumlah_diterima,
+                      listObatKadaluarsa[0].kadaluarsa,
+                      'diterima',
+                      listObatKadaluarsa[0].id_obat)
+                  .then((value) {
+                print('fetchDataAdminUpdateOrderObat $value');
+                if (value.toString().contains('success')) {
+                  if (listObatKadaluarsa.length == 1) {
+                    // Navigator.pop(context);
+                  }
+                  // untuk berikutnya, insert obat jika ada.
+                  for (var i = 1; i < listObatKadaluarsa.length; i++) {
+                    print('${listObatKadaluarsa[i].nama}|' +
+                        '${listObatKadaluarsa[i].jumlah_diterima}|' +
+                        '${listObatKadaluarsa[i].kadaluarsa}');
+                    fetchDataAdminInputKadaluarsaObat(
+                            listObatKadaluarsa[i].order_id,
+                            listObatKadaluarsa[i].jumlah_order,
+                            listObatKadaluarsa[i].jumlah_diterima,
+                            listObatKadaluarsa[i].nama,
+                            listObatKadaluarsa[i].jumlah_diterima,
+                            listObatKadaluarsa[i].kadaluarsa,
+                            listObatKadaluarsa[i].harga_jual,
+                            listObatKadaluarsa[i].harga_beli,
+                            'diterima')
+                        .then((value) {
+                      print(
+                          'fetchDataAdminInputKadaluarsaObat ${value} print $i');
+                      if (i + 1 == listObatKadaluarsa.length) {
+                        listObatKadaluarsa.clear();
+                        print('last index $i ' +
+                            'length ${listObatKadaluarsa.length}');
+                        // Navigator.pop(context);
+                        // Navigator.pop(context);
+                        // Navigator.pushAndRemoveUntil(
+                        //     context,
+                        //     MaterialPageRoute(
+                        //         builder: (context) => AdmOrderObatMainPage()),
+                        //     (route) => false);
+                      }
+                    });
+                  }
+                } else {
+                  print(' value null $value ');
+                }
+              });
+              enableBtnSimpan = false;
+              setState(() {
+                WidgetButtonSimpan(context);
+              });
+            } else {
+              print('keranjang tidak boleh kosong');
+            }
+          },
+          child: Text('SIMPAN'));
+    } else {
+      return ElevatedButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: Text('BACK'));
+    }
   }
 }

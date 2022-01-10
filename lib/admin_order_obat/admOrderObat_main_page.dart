@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/admin_order_obat/input_order/admOrderObat_page_tgl_order.dart';
+import '../login.dart' as loginPage;
 import '../main.dart';
 
 class AdmOrderObatMainPage extends StatefulWidget {
@@ -36,14 +37,21 @@ class _AdmOrderObatMainPageState extends State<AdmOrderObatMainPage> {
               Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => AdminOrderTglOrder(
-                          adminId: userIdMainDart)));
+                      builder: (context) =>
+                          AdminOrderTglOrder(adminId: userIdMainDart)));
             },
           ),
           ListTile(
             title: Text('Logout'),
             onTap: () {
               doLogout();
+              // Navigator.pop(context);
+              // Navigator.pushAndRemoveUntil(
+              //     context,
+              //     MaterialPageRoute(
+              //         builder: (context) => loginPage.LoginPage()),
+              //     (route) => true);
+              setState(() {});
             },
           ),
         ],

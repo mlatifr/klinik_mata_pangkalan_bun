@@ -20,6 +20,12 @@ class AdminOrderListObat extends StatefulWidget {
 
 class _AdminOrderListObatState extends State<AdminOrderListObat> {
   // ignore: non_constant_identifier_names
+  onGoBack(dynamic value) {
+    AdminBacaDataVListObat(widget.orderId);
+    print('widget.orderId ${widget.orderId}');
+  }
+
+  // ignore: non_constant_identifier_names
   AdminBacaDataVListObat(pIdOrder) {
     listObatOrder.clear();
     Future<String> data = fetchDataAdminVListObat(pIdOrder);

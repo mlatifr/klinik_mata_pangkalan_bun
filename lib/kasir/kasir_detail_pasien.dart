@@ -15,7 +15,7 @@ import 'fetch_data/kasir_get_tindakan.dart';
 var numberFormatRpResep, numberFormatRpTindakan;
 var cekInitState = 1;
 
-int totalBiayaObat = 0;
+double totalBiayaObat = 0;
 var hargaKaliObat = [];
 TextEditingController controllerBiayaAdmin = TextEditingController(text: "0");
 TextEditingController controllerBiayaJasaMedis =
@@ -119,8 +119,8 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
     totalBiayaObat = 0;
     if (kVKRs.length > 0) {
       for (var i = 0; i < kVKRs.length; i++) {
-        hargaKaliObat
-            .add(int.parse(kVKRs[i].hargaJual) * int.parse(kVKRs[i].jumlah));
+        hargaKaliObat.add(
+            double.parse(kVKRs[i].hargaJual) * double.parse(kVKRs[i].jumlah));
         // totalBiayaObat = totalBiayaObat + hargaKaliObat[i];
       }
       for (var i = 0; i < hargaKaliObat.length; i++) {
@@ -179,7 +179,7 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
                         //   textAlign: TextAlign.center,
                         // ),
                         Text(
-                          '${numberFormatRpResep.format(int.parse(kVKRs[index].hargaJual))}',
+                          '${numberFormatRpResep.format(double.parse(kVKRs[index].hargaJual))}',
                           textAlign: TextAlign.center,
                         ),
                         Text(

@@ -18,6 +18,12 @@ class AdminOrderTglOrder extends StatefulWidget {
 
 class _AdminOrderTglOrderState extends State<AdminOrderTglOrder> {
   // ignore: non_constant_identifier_names
+  onGoBack(dynamic value) {
+    DateTime now = new DateTime.now();
+    date = new DateTime(now.year, now.month, now.day);
+    AdminBacaDataVOrderObat(date.toString().substring(0, 10));
+  }
+
   AdminBacaDataVOrderObat(pTgl_order) {
     listOrderTgl.clear();
     Future<String> data = fetchDataAdminVOrderTgl();
@@ -73,13 +79,14 @@ class _AdminOrderTglOrderState extends State<AdminOrderTglOrder> {
                 ),
                 onTap: () {
                   Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => AdminOrderNotaOrder(
-                              tglOrder: listOrderTgl[index]
-                                  .tgl_order
-                                  .toString()
-                                  .substring(0, 10))));
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AdminOrderNotaOrder(
+                                  tglOrder: listOrderTgl[index]
+                                      .tgl_order
+                                      .toString()
+                                      .substring(0, 10))))
+                      .then((value) => onGoBack(value));
                 });
           });
     } else

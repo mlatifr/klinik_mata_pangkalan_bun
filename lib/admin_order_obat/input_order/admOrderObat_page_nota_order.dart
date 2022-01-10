@@ -18,6 +18,14 @@ class AdminOrderNotaOrder extends StatefulWidget {
 
 class _AdminOrderNotaOrderState extends State<AdminOrderNotaOrder> {
   // ignore: non_constant_identifier_names
+  onGoBack(dynamic value) {
+    DateTime now = new DateTime.now();
+    date = new DateTime(now.year, now.month, now.day);
+    AdminBacaDataVOrderObat(date.toString().substring(0, 10));
+    setState(() {});
+  }
+
+  // ignore: non_constant_identifier_names
   AdminBacaDataVOrderObat(pTgl_order) {
     listOrderId.clear();
     Future<String> data = fetchDataAdminVOrderNota(pTgl_order);
@@ -71,7 +79,7 @@ class _AdminOrderNotaOrderState extends State<AdminOrderNotaOrder> {
                       MaterialPageRoute(
                           builder: (context) => AdminOrderListObat(
                                 orderId: listOrderId[index].order_id,
-                              )));
+                              ))).then((value) => onGoBack(value));
                 });
           });
     } else
