@@ -4,17 +4,17 @@ import 'dart:async';
 import 'package:flutter_application_1/main.dart';
 import 'package:http/http.dart' as http;
 
-Future<String> fetchDataVNotaPenjualan(pTglCatat) async {
-  final response =
-      await http.post(Uri.parse(apiUrl + "akuntan_v_pjualan_nota.php"), body: {
-    'tgl_nota': pTglCatat.toString(),
-  });
-  if (response.statusCode == 200) {
-    return response.body;
-  } else {
-    throw Exception('Failed to read API');
-  }
-}
+// Future<String> fetchDataVNotaPenjualan(pTglCatat) async {
+//   final response =
+//       await http.post(Uri.parse(apiUrl + "akuntan_v_pjualan_nota.php"), body: {
+//     'tgl_nota': pTglCatat.toString(),
+//   });
+//   if (response.statusCode == 200) {
+//     return response.body;
+//   } else {
+//     throw Exception('Failed to read API');
+//   }
+// }
 
 //untuk akun obat
 List<AkuntanVPenjualanObat> listPjlnTglObats = [];
@@ -105,7 +105,7 @@ class AkuntanVPenjualanNotaObat {
   // untuk convert dari jSon
   factory AkuntanVPenjualanNotaObat.fromJson(Map<String, dynamic> json) {
     return new AkuntanVPenjualanNotaObat(
-        nota_id: json['nota_id'], total_harga: json['total_harga']);
+        nota_id: json['nota_id'], total_harga: json['total_penjualan']);
   }
 }
 

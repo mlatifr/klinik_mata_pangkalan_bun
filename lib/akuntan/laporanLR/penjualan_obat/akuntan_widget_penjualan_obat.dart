@@ -22,6 +22,27 @@ _WidgetTglPnjlnObatState globalObat = _WidgetTglPnjlnObatState();
 // }
 
 class _WidgetTglPnjlnObatState extends State<WidgetTglPnjlnObat> {
+  AkunanBacaDataDaftarNotaObat(tgl) {
+    listNotaPjnlObat.clear();
+    // print('listPenjualanObatNotas: ${listPenjualanObatNotas.length}');
+    Future<String> data = fetchDataVPenjualanListNotaObat(tgl);
+    data.then((value) {
+      //Mengubah json menjadi Array
+      // ignore: unused_local_variable
+      Map json = jsonDecode(value);
+      for (var i in json['data']) {
+        //print(i);
+        AkuntanVPenjualanNotaObat pjlnObtNota =
+            AkuntanVPenjualanNotaObat.fromJson(i);
+        listNotaPjnlObat.add(pjlnObtNota);
+      }
+      setState(() {
+        // widgetListObatNota();
+        print('listNotaPjnlObat.length ${listNotaPjnlObat.length}');
+      });
+    });
+  }
+
 //baca data nota akun obat
 // ignore: non_constant_identifier_names
   AkuntanBacaDataPenjualanObat(tgl) {
@@ -110,6 +131,7 @@ class _WidgetTglPnjlnObatState extends State<WidgetTglPnjlnObat> {
                             '${listPjlnTglObats[index].tgl_transaksi.substring(0, 10)} ' +
                                 '| Rp ${numberFormatRp.format(listPjlnTglObats[index].totalHarga)}'),
                       ),
+                      trailing: WidgetDaftarNota(),
                     ),
                   ));
             }),
@@ -121,6 +143,10 @@ class _WidgetTglPnjlnObatState extends State<WidgetTglPnjlnObat> {
         ],
       );
     }
+  }
+
+  Widget WidgetDaftarNota() {
+    return Text('${listNotaPjnlObat[0].nota_id}');
   }
 
   Widget widgetTextTotalPenjualanObat() {
@@ -151,6 +177,7 @@ class _WidgetTglPnjlnObatState extends State<WidgetTglPnjlnObat> {
     print('streamBacaPenjualanObat');
     _streamObat = widget.stream.listen((tgl_stream) {
       AkuntanBacaDataPenjualanObat(tgl_stream);
+      AkunanBacaDataDaftarNotaObat(tgl_stream);
     });
   }
 
