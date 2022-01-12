@@ -197,7 +197,7 @@ class _KsrAntreanPasienState extends State<KsrAntreanPasien> {
                       child: Text('${index + 1}'),
                     ),
                     title: Text('${kVAs[index].userName}'),
-                    subtitle: Text('sub judul'),
+                    // subtitle: Text('sub judul'),
                     // trailing: widgetStatusAntrean(index)
                   ));
             }),

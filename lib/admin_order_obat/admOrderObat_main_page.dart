@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/admin_order_obat/input_order/admOrderObat_page_tgl_order.dart';
-import '../login.dart' as loginPage;
 import '../main.dart';
 
 class AdmOrderObatMainPage extends StatefulWidget {

@@ -526,15 +526,15 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
               Map json = jsonDecode(value);
               idOrder = json['order_obat_id'].toString();
               for (var i = 0; i < ListKeranjangObat.length; i++) {
-                //fetch send kirim data krjg obat
-                var hargJual = int.parse(ListKeranjangObat[i].hpp) /
+                var hargaJualSatuan = int.parse(ListKeranjangObat[i].hpp) /
                     int.parse(ListKeranjangObat[i].jumlah_order);
+                //fetch send kirim data krjg obat
                 fetchDataPemilikSendKrjgObat(
                         idOrder,
                         ListKeranjangObat[i].jumlah_order,
                         ListKeranjangObat[i].obatNama,
                         ListKeranjangObat[i].harga_item,
-                        hargJual.toString(),
+                        hargaJualSatuan.toInt(),
                         'pemesanan')
                     .then((value) {
                   print('btn simpan $value');
@@ -662,8 +662,13 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                                             var hBeli = int.parse(
                                                 ListKeranjangObat[i]
                                                     .harga_item);
-                                            var rumus =
-                                                hBeli + (hBeli * persen / 100);
+                                            var jumlah = int.parse(
+                                                ListKeranjangObat[i]
+                                                    .jumlah_order);
+                                            var hargaTotal = hBeli * jumlah;
+
+                                            var rumus = (hargaTotal +
+                                                (hargaTotal * persen / 100));
                                             ListHargaJual[i].text = (rumus)
                                                 .toString()
                                                 .substring(

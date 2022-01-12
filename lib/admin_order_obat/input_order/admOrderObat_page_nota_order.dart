@@ -22,7 +22,9 @@ class _AdminOrderNotaOrderState extends State<AdminOrderNotaOrder> {
     DateTime now = new DateTime.now();
     date = new DateTime(now.year, now.month, now.day);
     AdminBacaDataVOrderObat(date.toString().substring(0, 10));
-    setState(() {});
+    setState(() {
+      widgetListNotaOrder();
+    });
   }
 
   // ignore: non_constant_identifier_names

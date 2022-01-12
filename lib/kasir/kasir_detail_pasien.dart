@@ -26,6 +26,7 @@ var totalAdmin = 0;
 int totalBiayaTindakan = 0;
 var refreshTextTotalPembayaran = false;
 Widget widgetTextTotalPembayaran() {
+  numberFormatRpResep = new NumberFormat("#,##0", "id_ID");
   print('widgetTextTotalPembayaran: $totalBiayaObat');
   if (refreshTextTotalPembayaran == true) {
     if (controllerBiayaAdmin.text.isNotEmpty) {
@@ -36,7 +37,7 @@ Widget widgetTextTotalPembayaran() {
     }
     totalTdknRspAdmMdis =
         totalBiayaTindakan + totalBiayaObat + totalAdmin + totalMedis;
-    if (totalAdmin != 0 && totalMedis != 0) {
+    if (totalAdmin != null && totalMedis != null) {
       return Text(
         'Rp ${numberFormatRpResep.format(totalTdknRspAdmMdis)}',
         textAlign: TextAlign.center,
@@ -220,75 +221,6 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
   Widget widgetInputPembayaran() {
     return Column(
       children: [
-        // Padding(
-        //   padding: const EdgeInsets.all(8.0),
-        //   child: TextFormField(
-        //       enabled: true,
-        //       controller: controllerBiayaAdmin,
-        //       keyboardType: TextInputType.number,
-        //       inputFormatters: <TextInputFormatter>[
-        //         FilteringTextInputFormatter.digitsOnly
-        //       ],
-        //       onChanged: (value) {
-        //         setState(() {
-        //           // controllerBiayaAdmin.text = value.toString();
-        //           // controllerBiayaAdmin.selection = TextSelection.fromPosition(
-        //           //     TextPosition(offset: controllerBiayaAdmin.text.length));
-        //           widgetTextTotalPembayaran();
-        //         });
-        //       },
-        //       decoration: InputDecoration(
-        //         labelText: "Biaya Admin",
-        //         fillColor: Colors.white,
-        //         enabledBorder: OutlineInputBorder(
-        //           borderRadius: BorderRadius.circular(10.0),
-        //           borderSide: BorderSide(
-        //             color: Colors.blue,
-        //           ),
-        //         ),
-        //         focusedBorder: OutlineInputBorder(
-        //           borderRadius: BorderRadius.circular(10.0),
-        //           borderSide: BorderSide(
-        //             color: Colors.blue,
-        //           ),
-        //         ),
-        //       )),
-        // ),
-        // Padding(
-        //   padding: const EdgeInsets.all(8.0),
-        //   child: TextFormField(
-        //       enabled: true,
-        //       controller: controllerBiayaJasaMedis,
-        //       keyboardType: TextInputType.number,
-        //       inputFormatters: <TextInputFormatter>[
-        //         FilteringTextInputFormatter.digitsOnly
-        //       ],
-        //       onChanged: (value) {
-        //         setState(() {
-        //           // controllerBiayaJasaMedis.text = value.toString();
-        //           // controllerBiayaJasaMedis.selection =
-        //           //     TextSelection.fromPosition(TextPosition(
-        //           //         offset: controllerBiayaJasaMedis.text.length));
-        //           widgetTextTotalPembayaran();
-        //         });
-        //       },
-        //       decoration: InputDecoration(
-        //         labelText: "Biaya Jasa Medis",
-        //         fillColor: Colors.white,
-        //         enabledBorder: OutlineInputBorder(
-        //           borderRadius: BorderRadius.circular(10.0),
-        //           borderSide: BorderSide(
-        //             color: Colors.blue,
-        //           ),
-        //         ),
-        //         focusedBorder: OutlineInputBorder(
-        //           borderRadius: BorderRadius.circular(10.0),
-        //           borderSide: BorderSide(
-        //             color: Colors.blue,
-        //           ),
-        //         ),
-        //       )),
-        // ),
         Table(
             border: TableBorder
                 .all(), // Allows to add a border decoration around your table
@@ -394,44 +326,86 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
   }
 
   Widget widgetBayarYa() {
+    print('kVKRs.length ${kVKRs.length}');
     return ElevatedButton(
         onPressed: () {
-          fetchDataKasirInputNotaJual(
-                  userIdMainDart,
-                  widget.visitId,
-                  widget.visitDate,
-                  controllerBiayaJasaMedis.text,
-                  controllerBiayaAdmin.text,
-                  totalTdknRspAdmMdis,
-                  kVKRs[0].resepId)
-              .then((value) {
-            if (value.contains('success')) {
-              showDialog<String>(
-                barrierDismissible: false,
-                context: context,
-                builder: (BuildContext context) => AlertDialog(
-                  title: Text(
-                    'pembayaran sukses',
-                    style: TextStyle(fontSize: 14),
+          if (kVKRs.length > 0 && totalTdknRspAdmMdis > 0) {
+            fetchDataKasirInputNotaJual(
+                    userIdMainDart,
+                    widget.visitId,
+                    widget.visitDate,
+                    controllerBiayaJasaMedis.text,
+                    controllerBiayaAdmin.text,
+                    totalTdknRspAdmMdis,
+                    kVKRs[0].resepId)
+                .then((value) {
+              if (value.contains('success')) {
+                showDialog<String>(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    title: Text(
+                      'pembayaran sukses',
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    actions: <Widget>[
+                      ElevatedButton(
+                          onPressed: () {
+                            bayarButton = false;
+                            setState(() {
+                              widgetTextTotalPembayaran();
+                              widgetButtonBayar();
+                            });
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                          },
+                          child: Text('ok')),
+                    ],
                   ),
-                  actions: <Widget>[
-                    ElevatedButton(
-                        onPressed: () {
-                          bayarButton = false;
-                          setState(() {
-                            widgetTextTotalPembayaran();
-                            widgetButtonBayar();
-                          });
-                          Navigator.pop(context);
-                          Navigator.pop(context);
-                        },
-                        child: Text('ok')),
-                  ],
-                ),
-              );
-            }
-            CalculateStokObatBaru();
-          });
+                );
+              }
+              CalculateStokObatBaru();
+            });
+          }
+          if (kVKRs.length <= 0) {
+            fetchDataKasirInputNotaJual(
+                    userIdMainDart,
+                    widget.visitId,
+                    widget.visitDate,
+                    controllerBiayaJasaMedis.text,
+                    controllerBiayaAdmin.text,
+                    totalTdknRspAdmMdis,
+                    'null')
+                .then((value) {
+              print('value input nota kasir $value');
+              if (value.contains('success')) {
+                showDialog<String>(
+                  barrierDismissible: false,
+                  context: context,
+                  builder: (BuildContext context) => AlertDialog(
+                    title: Text(
+                      'pembayaran sukses',
+                      style: TextStyle(fontSize: 14),
+                    ),
+                    actions: <Widget>[
+                      ElevatedButton(
+                          onPressed: () {
+                            bayarButton = false;
+                            setState(() {
+                              widgetTextTotalPembayaran();
+                              widgetButtonBayar();
+                            });
+                            Navigator.pop(context);
+                            Navigator.pop(context);
+                          },
+                          child: Text('ok')),
+                    ],
+                  ),
+                );
+              }
+              CalculateStokObatBaru();
+            });
+          }
         },
         child: Text('Ya'));
   }
@@ -445,7 +419,7 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
         padding: const EdgeInsets.all(8.0),
         child: ElevatedButton(
           onPressed: () {
-            print('kVKRs[0].resepId ${kVKRs[0].resepId}');
+            // print('kVKRs[0].resepId ${kVKRs[0].resepId}');
             showDialog<String>(
               context: context,
               builder: (BuildContext context) => AlertDialog(
