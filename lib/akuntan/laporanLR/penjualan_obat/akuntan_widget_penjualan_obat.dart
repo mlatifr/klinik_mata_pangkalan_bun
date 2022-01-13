@@ -20,16 +20,27 @@ _WidgetTglPnjlnObatState globalObat = _WidgetTglPnjlnObatState();
 //   staa.AkuntanBacaDataPenjualanObat(pTgl);
 //   print('pTgl $pTgl');
 // }
+//baca data nota akun obat
+// ignore: non_constant_identifier_names
+List<TglDanNota> listSimpanTgl = [];
+
+class TglDanNota {
+  var tanggal;
+  List<String> listNotaDalamtgl = [];
+  TglDanNota({this.tanggal, this.listNotaDalamtgl});
+}
 
 class _WidgetTglPnjlnObatState extends State<WidgetTglPnjlnObat> {
-  AkunanBacaDataDaftarNotaObat(tgl) {
-    listNotaPjnlObat.clear();
-    // print('listPenjualanObatNotas: ${listPenjualanObatNotas.length}');
+  // AkunanBacaDataDaftarNotaObat(tgl) {
+  //   listNotaPjnlObat.clear();
+  //   // print('listPenjualanObatNotas: ${listPenjualanObatNotas.length}');
+  Future getListNotaDariTgl(tgl) {
     Future<String> data = fetchDataVPenjualanListNotaObat(tgl);
     data.then((value) {
       //Mengubah json menjadi Array
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
+      // print('getListNotaDariTgl value $value');
       for (var i in json['data']) {
         //print(i);
         AkuntanVPenjualanNotaObat pjlnObtNota =
@@ -37,16 +48,37 @@ class _WidgetTglPnjlnObatState extends State<WidgetTglPnjlnObat> {
         listNotaPjnlObat.add(pjlnObtNota);
       }
       setState(() {
-        // widgetListObatNota();
-        print('listNotaPjnlObat.length ${listNotaPjnlObat.length}');
+        listSimpanNotaDalamTgl.clear();
+        for (var i = 0; i < listSimpanTgl.length; i++) {
+          for (var item in listNotaPjnlObat) {
+            listSimpanTgl[i].listNotaDalamtgl.add(item.nota_id.toString());
+
+            // listSimpanNotaDalamTgl.add(item.nota_id.toString());
+          }
+        }
+        for (var i = 0; i < listSimpanTgl.length; i++) {
+          for (var j = 0; j < listSimpanTgl[i].listNotaDalamtgl.length; j++) {
+            print(
+                'listSimpanTgl[i].listNotaDalamtgl[j] ${listSimpanTgl[i].listNotaDalamtgl[j]}');
+          }
+        }
+        // var angka = 0;
+        // for (var item in listSimpanNotaDalamTgl) {
+        //   // angka++;
+        //   // print('listSimpanNotaDalamTgl $angka ${item}');
+        // }
+        // // widgetListObatNota();
+        // // print('listNotaPjnlObat.length ${listNotaPjnlObat.length}');
       });
     });
   }
+  // }
 
-//baca data nota akun obat
-// ignore: non_constant_identifier_names
+  List<String> listSimpanNotaDalamTgl = [];
   AkuntanBacaDataPenjualanObat(tgl) {
     listPjlnTglObats.clear();
+    listSimpanTgl.clear();
+    listSimpanNotaDalamTgl.clear();
     // //print('listPenjualanObats: ${listPenjualanObats.length}');
     //harus ada resep apoteker id di kasir
     Future<String> data = fetchDataVPjlnTglObat(tgl);
@@ -59,11 +91,19 @@ class _WidgetTglPnjlnObatState extends State<WidgetTglPnjlnObat> {
           ////print(i);
           AkuntanVPenjualanObat pjlnObtNota = AkuntanVPenjualanObat.fromJson(i);
           listPjlnTglObats.add(pjlnObtNota);
+          TglDanNota tglNnota = TglDanNota(
+              tanggal: pjlnObtNota.tgl_transaksi.toString().substring(0, 10));
+          listSimpanTgl.add(tglNnota);
         }
       } else {
         listPjlnTglObats = [];
       }
       setState(() {
+        for (var item in listSimpanTgl) {
+          getListNotaDariTgl(item);
+          // item = item + 'xxx';
+          // print('listSimpanTgl[i] ${item.listNotaDalamtgl}');
+        }
         widgetListObat();
       });
       // print('value baca data penjualan obat $value');
@@ -93,7 +133,7 @@ class _WidgetTglPnjlnObatState extends State<WidgetTglPnjlnObat> {
         //     'globalLabaRugi.controllerdateLR ${globalLabaRugi.controllerdateLR}');
       });
     });
-    print('AkuntanBacaDataPenjualanObat');
+    // print('AkuntanBacaDataPenjualanObat');
   }
 
   var numberFormatRp = new NumberFormat("#,##0", "id_ID");
@@ -174,10 +214,10 @@ class _WidgetTglPnjlnObatState extends State<WidgetTglPnjlnObat> {
 
   StreamSubscription _streamObat;
   streamBacaPenjualanObat() {
-    print('streamBacaPenjualanObat');
+    // print('streamBacaPenjualanObat');
     _streamObat = widget.stream.listen((tgl_stream) {
       AkuntanBacaDataPenjualanObat(tgl_stream);
-      AkunanBacaDataDaftarNotaObat(tgl_stream);
+      // AkunanBacaDataDaftarNotaObat(tgl_stream);
     });
   }
 
