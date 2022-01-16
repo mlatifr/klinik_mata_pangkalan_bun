@@ -40,15 +40,15 @@ Future<String> fetchDataVListDetailNotaHpp(nota_id) async {
 List<AkuntanVListNotaHpp> listNotaHppObats = [];
 
 class AkuntanVListNotaHpp {
-  var no_nota, total_harga;
+  var nota_id, total_penjualan;
   AkuntanVListNotaHpp({
-    this.no_nota,
-    this.total_harga,
+    this.nota_id,
+    this.total_penjualan,
   });
   // untuk convert dari jSon
   factory AkuntanVListNotaHpp.fromJson(Map<String, dynamic> json) {
     return new AkuntanVListNotaHpp(
-        no_nota: json['no_nota'], total_harga: json['total']);
+        nota_id: json['nota_id'], total_penjualan: json['total_penjualan']);
   }
 }
 
@@ -69,15 +69,14 @@ Future<String> fetchDataVListNotaHppObat(pTglCatat) async {
 List<AkuntanVHppObat> listHppObats = [];
 
 class AkuntanVHppObat {
-  var tgl_resep, total_harga;
-  AkuntanVHppObat({
-    this.tgl_resep,
-    this.total_harga,
-  });
+  var tgl_transaksi, total_harga, total_nota;
+  AkuntanVHppObat({this.tgl_transaksi, this.total_harga, this.total_nota});
   // untuk convert dari jSon
   factory AkuntanVHppObat.fromJson(Map<String, dynamic> json) {
     return new AkuntanVHppObat(
-        tgl_resep: json['tgl_resep'], total_harga: json['total_harga']);
+        total_nota: json['total_nota'],
+        tgl_transaksi: json['tgl_transaksi'],
+        total_harga: json['total_harga']);
   }
 }
 

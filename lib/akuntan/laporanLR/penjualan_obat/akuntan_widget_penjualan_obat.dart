@@ -95,15 +95,14 @@ class _WidgetTglPnjlnObatState extends State<WidgetTglPnjlnObat> {
                                       .substring(0, 10),
                                 )));
                       },
-                      trailing: Text(
-                          'Jumlah Nota: ${listPjlnTglObats[index].total_nota}'),
+                      leading: Text(
+                          'Rp ${numberFormatRp.format(listPjlnTglObats[index].totalHarga)}'),
                       title: Center(
                         child: Text(
                             '${listPjlnTglObats[index].tgl_transaksi.substring(0, 10)} '),
                       ),
-                      leading: Text(
-                          'Rp ${numberFormatRp.format(listPjlnTglObats[index].totalHarga)}'),
-                      // trailing: WidgetDaftarNota(),
+                      trailing: Text(
+                          'Jumlah Nota: ${listPjlnTglObats[index].total_nota}'),
                     ),
                   ));
             }),

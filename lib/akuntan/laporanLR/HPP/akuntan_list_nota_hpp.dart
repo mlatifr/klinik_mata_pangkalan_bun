@@ -62,11 +62,11 @@ class _WidgetListNotaHppState extends State<WidgetListNotaHpp> {
                     onTap: () {
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => WidgetDetailNotaHpp(
-                              nota_id: listNotaHppObats[index].no_nota)));
+                              nota_id: listNotaHppObats[index].nota_id)));
                     },
                     title: Center(
-                      child: Text('Nota ${listNotaHppObats[index].no_nota}' +
-                          ' | Rp ${numberFormatRp.format(listNotaHppObats[index].total_harga)}'),
+                      child: Text('Nota ${listNotaHppObats[index].nota_id}' +
+                          ' | Rp ${numberFormatRp.format(listNotaHppObats[index].total_penjualan)}'),
                     ),
                   ),
                 ));

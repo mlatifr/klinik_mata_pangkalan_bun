@@ -47,16 +47,19 @@ class _WidgetAkunHPPObatState extends State<WidgetAkunHPPObat> {
                             Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) => WidgetListNotaHpp(
                                       tgl_transaksi: listHppObats[index]
-                                          .tgl_resep
+                                          .tgl_transaksi
                                           .toString()
                                           .substring(0, 10),
                                     )));
                           },
+                          leading: Text(
+                              'Rp ${numberFormatRp.format(listHppObats[index].total_harga)}'),
                           title: Center(
                             child: Text(
-                                '${listHppObats[index].tgl_resep.toString().substring(0, 10)}' +
-                                    ' | Rp ${numberFormatRp.format(listHppObats[index].total_harga)}'),
+                                '${listHppObats[index].tgl_transaksi.toString().substring(0, 10)}'),
                           ),
+                          trailing: Text(
+                              'Jumlah Nota: ${listHppObats[index].total_nota}'),
                         ),
                       ));
                 }),
