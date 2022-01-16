@@ -16,69 +16,10 @@ class WidgetTglPnjlnObat extends StatefulWidget {
 }
 
 _WidgetTglPnjlnObatState globalObat = _WidgetTglPnjlnObatState();
-// globalBacaDataObat(pTgl) {
-//   staa.AkuntanBacaDataPenjualanObat(pTgl);
-//   print('pTgl $pTgl');
-// }
-//baca data nota akun obat
-// ignore: non_constant_identifier_names
-List<TglDanNota> listSimpanTgl = [];
-
-class TglDanNota {
-  var tanggal;
-  List<String> listNotaDalamtgl = [];
-  TglDanNota({this.tanggal, this.listNotaDalamtgl});
-}
 
 class _WidgetTglPnjlnObatState extends State<WidgetTglPnjlnObat> {
-  // AkunanBacaDataDaftarNotaObat(tgl) {
-  //   listNotaPjnlObat.clear();
-  //   // print('listPenjualanObatNotas: ${listPenjualanObatNotas.length}');
-  Future getListNotaDariTgl(tgl) {
-    Future<String> data = fetchDataVPenjualanListNotaObat(tgl);
-    data.then((value) {
-      //Mengubah json menjadi Array
-      // ignore: unused_local_variable
-      Map json = jsonDecode(value);
-      // print('getListNotaDariTgl value $value');
-      for (var i in json['data']) {
-        //print(i);
-        AkuntanVPenjualanNotaObat pjlnObtNota =
-            AkuntanVPenjualanNotaObat.fromJson(i);
-        listNotaPjnlObat.add(pjlnObtNota);
-      }
-      setState(() {
-        listSimpanNotaDalamTgl.clear();
-        for (var i = 0; i < listSimpanTgl.length; i++) {
-          for (var item in listNotaPjnlObat) {
-            listSimpanTgl[i].listNotaDalamtgl.add(item.nota_id.toString());
-
-            // listSimpanNotaDalamTgl.add(item.nota_id.toString());
-          }
-        }
-        for (var i = 0; i < listSimpanTgl.length; i++) {
-          for (var j = 0; j < listSimpanTgl[i].listNotaDalamtgl.length; j++) {
-            print(
-                'listSimpanTgl[i].listNotaDalamtgl[j] ${listSimpanTgl[i].listNotaDalamtgl[j]}');
-          }
-        }
-        // var angka = 0;
-        // for (var item in listSimpanNotaDalamTgl) {
-        //   // angka++;
-        //   // print('listSimpanNotaDalamTgl $angka ${item}');
-        // }
-        // // widgetListObatNota();
-        // // print('listNotaPjnlObat.length ${listNotaPjnlObat.length}');
-      });
-    });
-  }
-  // }
-
-  List<String> listSimpanNotaDalamTgl = [];
   AkuntanBacaDataPenjualanObat(tgl) {
     listPjlnTglObats.clear();
-    listSimpanTgl.clear();
-    listSimpanNotaDalamTgl.clear();
     // //print('listPenjualanObats: ${listPenjualanObats.length}');
     //harus ada resep apoteker id di kasir
     Future<String> data = fetchDataVPjlnTglObat(tgl);
@@ -91,22 +32,10 @@ class _WidgetTglPnjlnObatState extends State<WidgetTglPnjlnObat> {
           ////print(i);
           AkuntanVPenjualanObat pjlnObtNota = AkuntanVPenjualanObat.fromJson(i);
           listPjlnTglObats.add(pjlnObtNota);
-          TglDanNota tglNnota = TglDanNota(
-              tanggal: pjlnObtNota.tgl_transaksi.toString().substring(0, 10));
-          listSimpanTgl.add(tglNnota);
         }
       } else {
         listPjlnTglObats = [];
       }
-      setState(() {
-        for (var item in listSimpanTgl) {
-          getListNotaDariTgl(item);
-          // item = item + 'xxx';
-          // print('listSimpanTgl[i] ${item.listNotaDalamtgl}');
-        }
-        widgetListObat();
-      });
-      // print('value baca data penjualan obat $value');
     });
     Future<String> data2 = fetchDataVPjlnObatTotal(tgl);
     data2.then((value2) {
@@ -166,12 +95,15 @@ class _WidgetTglPnjlnObatState extends State<WidgetTglPnjlnObat> {
                                       .substring(0, 10),
                                 )));
                       },
+                      trailing: Text(
+                          'Jumlah Nota: ${listPjlnTglObats[index].total_nota}'),
                       title: Center(
                         child: Text(
-                            '${listPjlnTglObats[index].tgl_transaksi.substring(0, 10)} ' +
-                                '| Rp ${numberFormatRp.format(listPjlnTglObats[index].totalHarga)}'),
+                            '${listPjlnTglObats[index].tgl_transaksi.substring(0, 10)} '),
                       ),
-                      trailing: WidgetDaftarNota(),
+                      leading: Text(
+                          'Rp ${numberFormatRp.format(listPjlnTglObats[index].totalHarga)}'),
+                      // trailing: WidgetDaftarNota(),
                     ),
                   ));
             }),
@@ -217,7 +149,6 @@ class _WidgetTglPnjlnObatState extends State<WidgetTglPnjlnObat> {
     // print('streamBacaPenjualanObat');
     _streamObat = widget.stream.listen((tgl_stream) {
       AkuntanBacaDataPenjualanObat(tgl_stream);
-      // AkunanBacaDataDaftarNotaObat(tgl_stream);
     });
   }
 

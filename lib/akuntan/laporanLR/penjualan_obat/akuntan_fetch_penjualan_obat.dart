@@ -20,7 +20,8 @@ import 'package:http/http.dart' as http;
 List<AkuntanVPenjualanObat> listPjlnTglObats = [];
 
 class AkuntanVPenjualanObat {
-  var tgl_transaksi,
+  var total_nota,
+      tgl_transaksi,
       resepId,
       obatId,
       nama,
@@ -31,7 +32,8 @@ class AkuntanVPenjualanObat {
       user_kasir,
       visit_id;
   AkuntanVPenjualanObat(
-      {this.tgl_transaksi,
+      {this.total_nota,
+      this.tgl_transaksi,
       this.resepId,
       this.obatId,
       this.nama,
@@ -44,6 +46,7 @@ class AkuntanVPenjualanObat {
   // untuk convert dari jSon
   factory AkuntanVPenjualanObat.fromJson(Map<String, dynamic> json) {
     return new AkuntanVPenjualanObat(
+      total_nota: json['total_nota'],
       tgl_transaksi: json['tgl_transaksi'],
       resepId: json['resep_id'],
       obatId: json['obat_id'],
