@@ -322,7 +322,8 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                   obatNama: controllerObatNama.text,
                   jumlah_order: controllerJumlah.text,
                   harga_item: controllerHargaBeliPerItem.text,
-                  hpp: controllerHPP.text);
+                  hpp: controllerHPP.text,
+                  ongkir: controllerBiayaOngkir.text);
               ListKeranjangObat.add(selectedObat);
               // print('controllerHPP ${controllerHPP.text}');
               ListHargaJual.clear();
@@ -404,6 +405,7 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
             1: FlexColumnWidth(1.5),
             2: FlexColumnWidth(3),
             3: FlexColumnWidth(2.5),
+            4: FlexColumnWidth(2.5),
           },
           border: TableBorder
               .all(), // Allows to add a border decoration around your table
@@ -419,6 +421,10 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
               ),
               Text(
                 'Hg Item',
+                textAlign: TextAlign.center,
+              ),
+              Text(
+                'Ongkir',
                 textAlign: TextAlign.center,
               ),
               Text(
@@ -448,6 +454,7 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                   1: FlexColumnWidth(1),
                   2: FlexColumnWidth(3),
                   3: FlexColumnWidth(3),
+                  4: FlexColumnWidth(3),
                 },
                 border: TableBorder
                     .all(), // Allows to add a border decoration around your table
@@ -471,6 +478,13 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                       padding: const EdgeInsets.all(8.0),
                       child: Text(
                         '${ListKeranjangObat[index].harga_item}',
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text(
+                        '${ListKeranjangObat[index].ongkir}',
                         textAlign: TextAlign.center,
                       ),
                     ),
@@ -535,6 +549,7 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                         ListKeranjangObat[i].obatNama,
                         ListKeranjangObat[i].harga_item,
                         hargaJualSatuan.toInt(),
+                        ListKeranjangObat[i].ongkir,
                         'pemesanan')
                     .then((value) {
                   print('btn simpan $value');
@@ -657,7 +672,7 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                                           for (var i = 0;
                                               i < ListHargaJual.length;
                                               i++) {
-                                            //persamaan= h.beli + (h.beli * value/100)
+                                            //persamaan= h.beli + (h.beli * value/100) + ongkir
                                             var persen = int.parse(value);
                                             var hBeli = int.parse(
                                                 ListKeranjangObat[i]
@@ -665,10 +680,13 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                                             var jumlah = int.parse(
                                                 ListKeranjangObat[i]
                                                     .jumlah_order);
+                                            var ongkir = int.parse(
+                                                ListKeranjangObat[i].ongkir);
                                             var hargaTotal = hBeli * jumlah;
-
                                             var rumus = (hargaTotal +
-                                                (hargaTotal * persen / 100));
+                                                (hargaTotal * persen / 100) +
+                                                ongkir);
+                                            print('rumus: rumus $rumus');
                                             ListHargaJual[i].text = (rumus)
                                                 .toString()
                                                 .substring(

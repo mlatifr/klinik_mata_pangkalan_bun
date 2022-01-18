@@ -26,13 +26,17 @@ List<PemilikInputResepList> ListKeranjangObat = [];
 List<TextEditingController> ListHargaJual = [];
 
 class PemilikInputResepList {
-  var harga_item, hpp, jumlah_order, obatNama;
+  var harga_item, hpp, jumlah_order, obatNama, ongkir;
   PemilikInputResepList(
-      {this.harga_item, this.hpp, this.obatNama, this.jumlah_order});
+      {this.harga_item,
+      this.hpp,
+      this.obatNama,
+      this.jumlah_order,
+      this.ongkir});
 }
 
 Future<String> fetchDataPemilikSendKrjgObat(pOrder_obat_id, pJumlah_order,
-    pNama, pHarga_beli, pHarga_jual, pStatus_order) async {
+    pNama, pHarga_beli, pHarga_jual, ongkir, pStatus_order) async {
   final response = await http
       .post(Uri.parse(apiUrl + "pemilik_input_order_item.php"), body: {
     'order_obat_id': pOrder_obat_id.toString(),
@@ -40,6 +44,7 @@ Future<String> fetchDataPemilikSendKrjgObat(pOrder_obat_id, pJumlah_order,
     'nama': pNama.toString(),
     'harga_beli': pHarga_beli.toString(),
     'harga_jual': pHarga_jual.toString(),
+    'ongkir': ongkir.toString(),
     'status_order': pStatus_order.toString()
   });
   if (response.statusCode == 200) {
