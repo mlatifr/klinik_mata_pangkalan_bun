@@ -21,6 +21,7 @@ class WidgetAkunSediaanBarang extends StatefulWidget {
 class _WidgetAkunSediaanBarangState extends State<WidgetAkunSediaanBarang> {
   var numberFormatRp = new NumberFormat("#,##0", "id_ID");
   Widget widgetListSediaanBarang() {
+    print('listAkunSediaanBrgs.length ${listAkunSediaanBrgs.length}');
     totalPenjualan = 0;
     if (listAkunSediaanBrgs.length > 0) {
       return ExpansionTile(title: Text('Sediaan Barang'), children: [
@@ -42,15 +43,14 @@ class _WidgetAkunSediaanBarangState extends State<WidgetAkunSediaanBarang> {
                     ),
                     child: ListTile(
                         onTap: () {},
-                        leading: CircleAvatar(
-                          child: Text('${index + 1}'),
+                        leading:
+                            Text('Stok ${listAkunSediaanBrgs[index].stok}'),
+                        title: Text(
+                          '${listAkunSediaanBrgs[index].namaObat}',
+                          textAlign: TextAlign.center,
                         ),
-                        title: Text('${listAkunSediaanBrgs[index].namaObat}'),
-                        subtitle: Text(
-                            'Stok: ${listAkunSediaanBrgs[index].stok} ' +
-                                '\nHarga: ${numberFormatRp.format(int.parse(listAkunSediaanBrgs[index].harga))}'
-                            // +                          '\nTotal: ${numberFormatRp.format(listAkunSediaanBrgs[index].stok * int.parse(listAkunSediaanBrgs[index].harga))}'),
-                            )),
+                        trailing: Text(
+                            'Rp ${numberFormatRp.format(listAkunSediaanBrgs[index].harga)} ')),
                   ));
             }),
       ]);
@@ -64,31 +64,31 @@ class _WidgetAkunSediaanBarangState extends State<WidgetAkunSediaanBarang> {
     }
   }
 
-  Widget widgetTextTotalSediaanBarang() {
-    if (listAkunSediaanBrgs.length > 0) {
-      //print('ListPenjualanObat.length: ${plistPenjualanObats.length}');
-      //masih error disini
-      for (var i = 0; i < listAkunSediaanBrgs.length; i++) {
-        totalPenjualan = totalPenjualan +
-            (listAkunSediaanBrgs[i].stok *
-                int.parse(listAkunSediaanBrgs[i].harga));
-      }
-      //print(total.toString());
-      return Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: ListTile(
-            title: Text(
-                'Total Penjualan Obat Rp ${numberFormatRp.format(totalPenjualan)}')),
-      );
-    } else {
-      return Column(
-        children: [
-          // CircularProgressIndicator(),
-          // Text('data tidak ditemukan'),
-        ],
-      );
-    }
-  }
+  // Widget widgetTextTotalSediaanBarang() {
+  //   if (listAkunSediaanBrgs.length > 0) {
+  //     //print('ListPenjualanObat.length: ${plistPenjualanObats.length}');
+  //     //masih error disini
+  //     for (var i = 0; i < listAkunSediaanBrgs.length; i++) {
+  //       totalPenjualan = totalPenjualan +
+  //           (listAkunSediaanBrgs[i].stok *
+  //               int.parse(listAkunSediaanBrgs[i].harga));
+  //     }
+  //     //print(total.toString());
+  //     return Padding(
+  //       padding: const EdgeInsets.all(8.0),
+  //       child: ListTile(
+  //           title: Text(
+  //               'Total Penjualan Obat Rp ${numberFormatRp.format(totalPenjualan)}')),
+  //     );
+  //   } else {
+  //     return Column(
+  //       children: [
+  //         // CircularProgressIndicator(),
+  //         // Text('data tidak ditemukan'),
+  //       ],
+  //     );
+  //   }
+  // }
 
   @override
   void initState() {
@@ -126,10 +126,9 @@ class _WidgetAkunSediaanBarangState extends State<WidgetAkunSediaanBarang> {
       data = fetchDataSediaanBrgTgl(tgl);
     }
     data.then((value) {
+      print('value $value');
       // print('AkuntanBacaDataAkunSediaanBrg $value');
-      if (value.toString().contains('null')) {
-        listAkunSediaanBrgs.clear();
-      } else {
+      if (!value.toString().contains('error')) {
         // Mengubah json menjadi Array
         // ignore: unused_local_variable
         Map json = jsonDecode(value);
@@ -138,11 +137,13 @@ class _WidgetAkunSediaanBarangState extends State<WidgetAkunSediaanBarang> {
           AkuntanVSediaanBrg AkunSediaanBrg = AkuntanVSediaanBrg.fromJson(i);
           listAkunSediaanBrgs.add(AkunSediaanBrg);
         }
+      } else {
+        listAkunSediaanBrgs.clear();
       }
-
+    }).then((value) {
       setState(() {
         widgetListSediaanBarang();
-        widgetTextTotalSediaanBarang();
+        // widgetTextTotalSediaanBarang();
       });
     });
   }

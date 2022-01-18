@@ -4,18 +4,6 @@ import 'dart:async';
 import 'package:flutter_application_1/main.dart';
 import 'package:http/http.dart' as http;
 
-Future<String> fetchDataVNotaPenjualan(pTglCatat) async {
-  final response =
-      await http.post(Uri.parse(apiUrl + "akuntan_v_pjualan_nota.php"), body: {
-    'tgl_nota': pTglCatat.toString(),
-  });
-  if (response.statusCode == 200) {
-    return response.body;
-  } else {
-    throw Exception('Failed to read API');
-  }
-}
-
 //untuk akun obat
 List<AkuntanVSediaanBrg> listAkunSediaanBrgs = [];
 
@@ -27,7 +15,7 @@ class AkuntanVSediaanBrg {
     return new AkuntanVSediaanBrg(
       namaObat: json['nama'],
       stok: json['stok'],
-      harga: json['harga_beli'],
+      harga: json['total_harga'],
     );
   }
 }
