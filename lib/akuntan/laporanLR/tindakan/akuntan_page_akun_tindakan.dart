@@ -48,10 +48,11 @@ class _widgetListTglTindakanState extends State<widgetListTglTindakan> {
                                           .substring(0, 10),
                                     )));
                           },
+                          trailing: Text(
+                              'Rp ${numberFormatRp.format(int.parse(listTglTindakan[index].harga))}'),
                           title: Center(
                               child: Text(
-                                  '${listTglTindakan[index].tgl_transaksi.toString().substring(0, 10)} ' +
-                                      ' | Rp ${numberFormatRp.format(int.parse(listTglTindakan[index].harga))}')),
+                                  '${listTglTindakan[index].tgl_transaksi.toString().substring(0, 10)} ')),
                         ),
                       ));
                 }),
