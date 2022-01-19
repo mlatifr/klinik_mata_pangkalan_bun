@@ -80,13 +80,15 @@ class _PemilikMainPageState extends State<PemilikMainPage> {
     super.initState();
   }
 
-  List<_SalesData> data = [
-    _SalesData('Jan', 35),
-    _SalesData('Feb', 28),
-    _SalesData('Mar', 34),
-    _SalesData('Apr', 32),
-    _SalesData('May', 40)
+  final List<ChartData> chartData = <ChartData>[
+    ChartData(x: 'Jan', y1: 45, y2: 1000),
+    ChartData(x: 'Feb', y1: 100, y2: 3000),
+    ChartData(x: 'March', y1: 25, y2: 1000),
+    ChartData(x: 'April', y1: 100, y2: 7000),
+    ChartData(x: 'May', y1: 85, y2: 5000),
+    ChartData(x: 'June', y1: 140, y2: 7000)
   ];
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -97,61 +99,36 @@ class _PemilikMainPageState extends State<PemilikMainPage> {
             title: Text("Halaman Utama"),
           ),
           drawer: widgetDrawer(),
-          body: Column(
-            children: [
-              //Initialize the chart widget
-              SfCartesianChart(
-                  primaryXAxis: CategoryAxis(),
-                  // Chart title
-                  title: ChartTitle(text: 'Half yearly sales analysis'),
-                  // Enable legend
-                  legend: Legend(isVisible: true),
-                  // Enable tooltip
-                  tooltipBehavior: TooltipBehavior(enable: true),
-                  series: <ChartSeries<_SalesData, String>>[
-                    LineSeries<_SalesData, String>(
-                        dataSource: data,
-                        xValueMapper: (_SalesData sales, _) => sales.year,
-                        yValueMapper: (_SalesData sales, _) => sales.sales,
-                        name: 'Sales',
-                        // Enable data label
-                        dataLabelSettings: DataLabelSettings(isVisible: true))
-                  ]),
-              Expanded(
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  //Initialize the spark charts widget
-                  child: SfSparkLineChart.custom(
-                    //Enable the trackball
-                    trackball: SparkChartTrackball(
-                        activationMode: SparkChartActivationMode.tap),
-                    //Enable marker
-                    marker: SparkChartMarker(
-                        displayMode: SparkChartMarkerDisplayMode.all),
-                    //Enable data label
-                    labelDisplayMode: SparkChartLabelDisplayMode.all,
-                    xValueMapper: (int index) => data[index].year,
-                    yValueMapper: (int index) => data[index].sales,
-                    dataCount: 5,
-                  ),
-                ),
-                // ElevatedButton(
-                //     onPressed: () {
-                //       fetchDataAkuntanInputTransaksiPenjurnalanArray();
-                //     },
-                //     child: Text('From Postman'))
-                // widgetSelectTgl(),
-                // widgetLsTile(),
-              )
-            ],
-          )),
+          body: Center(
+              child: Container(
+                  child: SfCartesianChart(primaryXAxis: CategoryAxis(),
+                      // Palette colors
+                      palette: <Color>[
+                Colors.teal,
+                Colors.orange,
+                Colors.brown
+              ], series: <CartesianSeries>[
+            ColumnSeries<ChartData, String>(
+                dataSource: chartData,
+                xValueMapper: (ChartData data, _) => data.x,
+                yValueMapper: (ChartData data, _) => data.y),
+            ColumnSeries<ChartData, String>(
+                dataSource: chartData,
+                xValueMapper: (ChartData data, _) => data.x,
+                yValueMapper: (ChartData data, _) => data.y1),
+            ColumnSeries<ChartData, String>(
+                dataSource: chartData,
+                xValueMapper: (ChartData data, _) => data.x,
+                yValueMapper: (ChartData data, _) => data.y2)
+          ])))),
     );
   }
 }
 
-class _SalesData {
-  _SalesData(this.year, this.sales);
-
-  final String year;
-  final double sales;
+class ChartData {
+  final String x;
+  final double y;
+  final double y1;
+  final double y2;
+  ChartData({this.x, this.y, this.y1, this.y2});
 }
