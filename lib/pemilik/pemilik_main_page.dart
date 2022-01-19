@@ -74,8 +74,12 @@ class _PemilikMainPageState extends State<PemilikMainPage> {
     );
   }
 
+  TrackballBehavior _trackballBehavior;
   @override
   void initState() {
+    _trackballBehavior = TrackballBehavior(
+      enable: true,
+    );
     getUserId();
     super.initState();
   }
@@ -101,26 +105,30 @@ class _PemilikMainPageState extends State<PemilikMainPage> {
           drawer: widgetDrawer(),
           body: Center(
               child: Container(
-                  child: SfCartesianChart(primaryXAxis: CategoryAxis(),
+                  child: SfCartesianChart(
+                      title: ChartTitle(text: 'Half yearly sales analysis'),
+                      primaryXAxis: CategoryAxis(),
+                      trackballBehavior: _trackballBehavior,
                       // Palette colors
                       palette: <Color>[
                 Colors.teal,
                 Colors.orange,
                 Colors.brown
-              ], series: <CartesianSeries>[
-            ColumnSeries<ChartData, String>(
-                dataSource: chartData,
-                xValueMapper: (ChartData data, _) => data.x,
-                yValueMapper: (ChartData data, _) => data.y),
-            ColumnSeries<ChartData, String>(
-                dataSource: chartData,
-                xValueMapper: (ChartData data, _) => data.x,
-                yValueMapper: (ChartData data, _) => data.y1),
-            ColumnSeries<ChartData, String>(
-                dataSource: chartData,
-                xValueMapper: (ChartData data, _) => data.x,
-                yValueMapper: (ChartData data, _) => data.y2)
-          ])))),
+              ],
+                      series: <CartesianSeries>[
+                ColumnSeries<ChartData, String>(
+                    dataSource: chartData,
+                    xValueMapper: (ChartData data, _) => data.x,
+                    yValueMapper: (ChartData data, _) => data.y),
+                ColumnSeries<ChartData, String>(
+                    dataSource: chartData,
+                    xValueMapper: (ChartData data, _) => data.x,
+                    yValueMapper: (ChartData data, _) => data.y1),
+                ColumnSeries<ChartData, String>(
+                    dataSource: chartData,
+                    xValueMapper: (ChartData data, _) => data.x,
+                    yValueMapper: (ChartData data, _) => data.y2)
+              ])))),
     );
   }
 }
