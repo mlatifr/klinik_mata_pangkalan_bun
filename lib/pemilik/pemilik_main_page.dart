@@ -58,9 +58,9 @@ class _PemilikMainPageState extends State<PemilikMainPage> {
   }
 
   // ignore: non_constant_identifier_names
-  PemilikBacaDataVListObat(tahun) {
-    chartData.clear();
-    Future<String> data = fetchDataIdOrderId(tahun);
+  PemilikBacaDataGrafikKas(tahun) {
+    chartDataKas.clear();
+    Future<String> data = fetchDataGrafikKas(tahun);
     data.then((value) {
       //Mengubah json menjadi Array
       // ignore: unused_local_variable
@@ -68,19 +68,40 @@ class _PemilikMainPageState extends State<PemilikMainPage> {
       print(json);
       if (json['result'].toString().contains('success')) {
         for (var i in json['data']) {
-          ChartData avlo = ChartData.fromJson(i);
-          chartData.add(avlo);
+          ChartDataKas avlo = ChartDataKas.fromJson(i);
+          chartDataKas.add(avlo);
         }
       }
       setState(() {
-        WidgetGrafikBI();
+        WidgetGrafikKas();
+      });
+    });
+  } // ignore: non_constant_identifier_names
+
+  PemilikBacaDataGrafikVisit(tahun) {
+    chartDataVisit.clear();
+    Future<String> data = fetchDataGrafikVisit(tahun);
+    data.then((value) {
+      //Mengubah json menjadi Array
+      // ignore: unused_local_variable
+      Map json = jsonDecode(value);
+      print(json);
+      if (json['result'].toString().contains('success')) {
+        for (var i in json['data']) {
+          ChartDataVisit avlo = ChartDataVisit.fromJson(i);
+          chartDataVisit.add(avlo);
+        }
+      }
+      setState(() {
+        WidgetGrafikVisit();
       });
     });
   }
 
   @override
   void initState() {
-    PemilikBacaDataVListObat('2022');
+    PemilikBacaDataGrafikKas('2022');
+    PemilikBacaDataGrafikVisit('2022');
     getUserId();
     super.initState();
   }
@@ -103,17 +124,18 @@ class _PemilikMainPageState extends State<PemilikMainPage> {
   DateTime _selectedDate = DateTime.now();
   Container WidgetGrafikBI() {
     return Container(
-        child: Column(
+        child: ListView(
       children: [
         widgetButtonYear(),
-        WidgetGrafik(),
+        WidgetGrafikKas(),
+        WidgetGrafikVisit(),
       ],
     ));
   }
 
-  SfCartesianChart WidgetGrafik() {
+  SfCartesianChart WidgetGrafikKas() {
     return SfCartesianChart(
-        title: ChartTitle(text: 'Kas Periode'),
+        title: ChartTitle(text: 'Kas'),
         primaryXAxis: CategoryAxis(),
         // Palette colors
         palette: <Color>[
@@ -122,25 +144,55 @@ class _PemilikMainPageState extends State<PemilikMainPage> {
           Colors.brown
         ],
         series: <CartesianSeries>[
-          ColumnSeries<ChartData, String>(
-              dataSource: chartData,
-              xValueMapper: (ChartData data, _) => data.x,
-              yValueMapper: (ChartData data, _) => data.y),
-          ColumnSeries<ChartData, String>(
-              dataSource: chartData,
-              xValueMapper: (ChartData data, _) => data.x,
-              yValueMapper: (ChartData data, _) => data.y1),
-          ColumnSeries<ChartData, String>(
-              dataSource: chartData,
-              xValueMapper: (ChartData data, _) => data.x,
-              yValueMapper: (ChartData data, _) => data.y2)
+          ColumnSeries<ChartDataKas, String>(
+              dataSource: chartDataKas,
+              xValueMapper: (ChartDataKas data, _) => data.x,
+              yValueMapper: (ChartDataKas data, _) => data.y),
+          // ColumnSeries<ChartData, String>(
+          //     dataSource: chartDataKas,
+          //     xValueMapper: (ChartData data, _) => data.x,
+          //     yValueMapper: (ChartData data, _) => data.y1),
+          // ColumnSeries<ChartData, String>(
+          //     dataSource: chartDataKas,
+          //     xValueMapper: (ChartData data, _) => data.x,
+          //     yValueMapper: (ChartData data, _) => data.y2)
+        ]);
+  }
+
+  SfCartesianChart WidgetGrafikVisit() {
+    return SfCartesianChart(
+        title: ChartTitle(text: 'Visit'),
+        primaryXAxis: CategoryAxis(),
+        // Palette colors
+        palette: <Color>[
+          Colors.teal,
+          Colors.orange,
+          Colors.brown
+        ],
+        series: <CartesianSeries>[
+          ColumnSeries<ChartDataVisit, String>(
+              dataSource: chartDataVisit,
+              xValueMapper: (ChartDataVisit data, _) => data.x,
+              yValueMapper: (ChartDataVisit data, _) => data.y),
+          // ColumnSeries<ChartData, String>(
+          //     dataSource: chartDataVisit,
+          //     xValueMapper: (ChartData data, _) => data.x,
+          //     yValueMapper: (ChartData data, _) => data.y1),
+          // ColumnSeries<ChartData, String>(
+          //     dataSource: chartDataVisit,
+          //     xValueMapper: (ChartData data, _) => data.x,
+          //     yValueMapper: (ChartData data, _) => data.y2)
         ]);
   }
 
   Padding widgetButtonYear() {
     return Padding(
-      padding: const EdgeInsets.only(left: 8.0),
+      padding: const EdgeInsets.all(8.0),
       child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              primary: Colors.blue[300],
+              padding: EdgeInsets.symmetric(horizontal: 100, vertical: 10),
+              textStyle: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
           onPressed: () {
             showDialog(
               context: context,
@@ -163,9 +215,11 @@ class _PemilikMainPageState extends State<PemilikMainPage> {
                         _selectedDate = dateTime;
                         _controllerPeriodeTahun.text =
                             _selectedDate.toString().substring(0, 4);
-                        PemilikBacaDataVListObat(_controllerPeriodeTahun.text);
+                        PemilikBacaDataGrafikKas(_controllerPeriodeTahun.text);
+                        PemilikBacaDataGrafikVisit(
+                            _controllerPeriodeTahun.text);
                         setState(() {
-                          WidgetGrafik();
+                          WidgetGrafikKas();
                         });
                         print(
                             '_controllerPeriodeTahun.text ${_controllerPeriodeTahun.text}');
@@ -177,10 +231,19 @@ class _PemilikMainPageState extends State<PemilikMainPage> {
               },
             );
           },
-          child: Icon(
-            Icons.calendar_today_sharp,
-            color: Colors.white,
-            size: 32.0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Icon(
+                Icons.calendar_today_sharp,
+                color: Colors.white,
+                size: 32.0,
+              ),
+              Text(
+                '${_controllerPeriodeTahun.text}',
+                // style: TextStyle(fontSize: 24),
+              ),
+            ],
           )),
     );
   }

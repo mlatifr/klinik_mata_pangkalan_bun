@@ -559,7 +559,7 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                       context: context,
                       builder: (BuildContext context) => AlertDialog(
                         title: Text(
-                          'Pemesana Berhasil',
+                          'Pemesanan Berhasil',
                           style: TextStyle(fontSize: 14),
                         ),
                         actions: <Widget>[
