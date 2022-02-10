@@ -100,6 +100,7 @@ class _PemilikMainPageState extends State<PemilikMainPage> {
 
   @override
   void initState() {
+    _controllerPeriodeTahun.text = '2022';
     PemilikBacaDataGrafikKas('2022');
     PemilikBacaDataGrafikVisit('2022');
     getUserId();
@@ -120,7 +121,7 @@ class _PemilikMainPageState extends State<PemilikMainPage> {
     );
   }
 
-  final _controllerPeriodeTahun = TextEditingController();
+  TextEditingController _controllerPeriodeTahun = TextEditingController();
   DateTime _selectedDate = DateTime.now();
   Container WidgetGrafikBI() {
     return Container(

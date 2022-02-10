@@ -17,9 +17,6 @@ import 'package:flutter_application_1/akuntan/laporanLR/penjualan_obat/akuntan_w
     as akunObat;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_application_1/akuntan/akuntan_fetch_penjualan_nota.dart'
-    as fetchPenjualan;
-import 'package:flutter_application_1/akuntan/akuntan_fetch_penjualan_nota.dart';
 import 'package:flutter_application_1/akuntan/laporanLR/tindakan/akuntan_page_akun_tindakan.dart';
 import 'package:flutter_application_1/akuntan/laporanLR/tindakan/akuntan_page_akun_tindakan.dart'
     as akunTindakanOperasi;

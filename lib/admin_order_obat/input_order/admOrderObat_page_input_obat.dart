@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/admin_order_obat/admin_order_obat_fetch/admOrderObat_fetch.dart';
 
-
 DateTime date;
 
 class AdminOrderInputObat extends StatefulWidget {
@@ -23,7 +22,7 @@ class AdminOrderInputObat extends StatefulWidget {
 }
 
 class _AdminOrderInputObatState extends State<AdminOrderInputObat> {
-  TextEditingController controllerdate = TextEditingController();
+  TextEditingController controllerdateInputOrder = TextEditingController();
   TextEditingController controllerJumlah = TextEditingController();
   TextEditingController controllerHargaBeli = TextEditingController();
   TextEditingController controllerCariObat = TextEditingController();
@@ -46,12 +45,13 @@ class _AdminOrderInputObatState extends State<AdminOrderInputObat> {
               children: [
                 Expanded(
                     child: TextFormField(
-                  controller: controllerdate,
+                  controller: controllerdateInputOrder,
                   onChanged: (value) {
                     setState(() {
-                      controllerdate.text = value.toString();
-                      controllerdate.selection = TextSelection.fromPosition(
-                          TextPosition(offset: controllerdate.text.length));
+                      controllerdateInputOrder.text = value.toString();
+                      controllerdateInputOrder.selection =
+                          TextSelection.fromPosition(TextPosition(
+                              offset: controllerdateInputOrder.text.length));
                     });
                   },
                   enabled: false,
@@ -79,7 +79,7 @@ class _AdminOrderInputObatState extends State<AdminOrderInputObat> {
                               lastDate: DateTime(2200))
                           .then((value) {
                         setState(() {
-                          controllerdate.text =
+                          controllerdateInputOrder.text =
                               value.toString().substring(0, 10);
                         });
                       });
@@ -122,14 +122,14 @@ class _AdminOrderInputObatState extends State<AdminOrderInputObat> {
           padding: const EdgeInsets.all(8.0),
           child: TextButton(
             onPressed: () {
-              if (controllerdate.text.isNotEmpty &&
+              if (controllerdateInputOrder.text.isNotEmpty &&
                   controllerJumlah.text.isNotEmpty) {
                 KeranjangOrderClass krjg = KeranjangOrderClass();
                 krjg.id_obat = widget.obatId;
                 krjg.order_id = widget.orderId;
                 krjg.nama = widget.obatNama;
                 krjg.jumlah_diterima = controllerJumlah.text;
-                krjg.kadaluarsa = controllerdate.text;
+                krjg.kadaluarsa = controllerdateInputOrder.text;
                 krjg.status_order = 'diterima';
                 krjg.harga_jual = widget.hargaJual;
                 krjg.harga_beli = widget.hargaBeli;
@@ -138,7 +138,7 @@ class _AdminOrderInputObatState extends State<AdminOrderInputObat> {
                 setState(() {
                   widgetKeranjangObatBody();
                 });
-                controllerdate.text = '';
+                controllerdateInputOrder.text = '';
                 controllerJumlah.text = '';
                 print('${krjg.id_obat}\n' +
                     '${krjg.order_id}\n' +
@@ -260,8 +260,10 @@ class _AdminOrderInputObatState extends State<AdminOrderInputObat> {
 
   @override
   void initState() {
+    listObatKadaluarsa.clear();
     DateTime now = new DateTime.now();
-    date = new DateTime(now.year, now.month, now.day);
+    date = new DateTime(now.year + 2, now.month, now.day);
+    controllerdateInputOrder.text = date.toString().substring(0, 10);
     super.initState();
   }
 
@@ -336,9 +338,6 @@ class _AdminOrderInputObatState extends State<AdminOrderInputObat> {
                   .then((value) {
                 print('fetchDataAdminUpdateOrderObat $value');
                 if (value.toString().contains('success')) {
-                  if (listObatKadaluarsa.length == 1) {
-                    // Navigator.pop(context);
-                  }
                   // untuk berikutnya, insert obat jika ada.
                   for (var i = 1; i < listObatKadaluarsa.length; i++) {
                     print('${listObatKadaluarsa[i].nama}|' +
@@ -355,19 +354,8 @@ class _AdminOrderInputObatState extends State<AdminOrderInputObat> {
                             listObatKadaluarsa[i].harga_beli,
                             'diterima')
                         .then((value) {
-                      print(
-                          'fetchDataAdminInputKadaluarsaObat ${value} print $i');
                       if (i + 1 == listObatKadaluarsa.length) {
                         listObatKadaluarsa.clear();
-                        print('last index $i ' +
-                            'length ${listObatKadaluarsa.length}');
-                        // Navigator.pop(context);
-                        // Navigator.pop(context);
-                        // Navigator.pushAndRemoveUntil(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) => AdmOrderObatMainPage()),
-                        //     (route) => false);
                       }
                     });
                   }

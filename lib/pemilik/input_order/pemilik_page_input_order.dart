@@ -32,6 +32,8 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
           ApotekerrVListObat avlo = ApotekerrVListObat.fromJson(i);
           aVLOs.add(avlo);
         }
+      } else {
+        suggestNamaObat = false;
       }
       setState(() {
         widgetListSuggestObats();
@@ -325,15 +327,11 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                   hpp: controllerHPP.text,
                   ongkir: controllerBiayaOngkir.text);
               ListKeranjangObat.add(selectedObat);
-              // print('controllerHPP ${controllerHPP.text}');
               ListHargaJual.clear();
               for (var i = 0; i < ListKeranjangObat.length; i++) {
-                // print('ListKeranjangObat[i] ${ListKeranjangObat[i].hpp}');
                 TextEditingController txtHrgJual = TextEditingController();
                 txtHrgJual.text = (ListKeranjangObat[i].hpp).toString();
                 ListHargaJual.add(txtHrgJual);
-                // print(
-                //     "widgetKeranjangObatBodyPemilik: ${ListHargaJual[i].text}");
               }
               setState(() {
                 widgetKeranjangObatBodyPemilik();
@@ -359,7 +357,7 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
   var suggestNamaObat = true;
   // ignore: missing_return
   Widget widgetListSuggestObats() {
-    if (suggestNamaObat == true && controllerObatNama.text.length > 0) {
+    if (suggestNamaObat == true) {
       return Padding(
         padding: const EdgeInsets.only(right: 20.0, left: 20),
         child: Column(
@@ -533,7 +531,6 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
             // send data tgl and user pemesan to db
             // then simpan hasil id order ke aplikasi
             // then simpan list obat dg id_order
-            print('${widget.pmlkId} | ${date.toString().substring(0, 10)}');
             idOrder = '';
             fetchDataIdOrderId(widget.pmlkId, date.toString().substring(0, 10))
                 .then((value) {
@@ -552,8 +549,6 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                         ListKeranjangObat[i].ongkir,
                         'pemesanan')
                     .then((value) {
-                  print('btn simpan $value');
-                  // ListKeranjangObat.clear();
                   if (i + 1 == ListKeranjangObat.length) {
                     showDialog<String>(
                       context: context,
@@ -566,10 +561,9 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                           TextButton(
                               onPressed: () {
                                 ListKeranjangObat.clear();
-                                print('last index $i ' +
-                                    'length ${ListKeranjangObat.length}');
                                 setState(() {
                                   widgetKeranjangObatBodyPemilik();
+                                  
                                 });
                                 Navigator.pop(context);
                               },

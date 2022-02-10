@@ -76,7 +76,7 @@ class _AptInputObatState extends State<AptInputObat> {
                 labelText: "Resep",
                 fillColor: Colors.white,
                 prefixIcon: Padding(
-                  padding: EdgeInsets.only(top: 15),
+                  padding: EdgeInsets.only(top: 5),
                   child: Icon(Icons.search),
                 ),
                 enabledBorder: OutlineInputBorder(
@@ -116,8 +116,15 @@ class _AptInputObatState extends State<AptInputObat> {
 
   Widget widgetTextKadaluarsa(index) {
     if (aVLOs[index].kadaluarsa != null) {
-      return Text(
-          'Kadaluarsa ${aVLOs[index].kadaluarsa.toString().substring(0, 10)}');
+      return Container(
+        width: 123,
+        child: Row(
+          children: [
+            Text('Exp ${aVLOs[index].kadaluarsa.toString().substring(0, 10)}'),
+            Icon(Icons.arrow_drop_down)
+          ],
+        ),
+      );
     } else {
       return Text('Kadaluarsa ${aVLOs[index].kadaluarsa}');
     }
@@ -159,18 +166,14 @@ class _AptInputObatState extends State<AptInputObat> {
                                 selected = -1;
                               });
                           }),
-                          title: Column(
-                            children: [
-                              Text(
-                                '${aVLOs[index].obatNama}',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(),
-                              ),
-                              widgetTextKadaluarsa(index),
-                            ],
+                          leading: Text('Stok: ${aVLOs[index].obatStok}'),
+                          title: Text(
+                            '${aVLOs[index].obatNama}',
+                            textAlign: TextAlign.center,
+                            style: TextStyle(),
                           ),
+                          trailing: widgetTextKadaluarsa(index),
                           children: [
-                            Text('Stok: ${aVLOs[index].obatStok}'),
                             Row(
                               children: [
                                 Expanded(

@@ -20,16 +20,12 @@ _WidgetTglPnjlnObatState globalObat = _WidgetTglPnjlnObatState();
 class _WidgetTglPnjlnObatState extends State<WidgetTglPnjlnObat> {
   AkuntanBacaDataPenjualanObat(tgl) {
     listPjlnTglObats.clear();
-    // //print('listPenjualanObats: ${listPenjualanObats.length}');
-    //harus ada resep apoteker id di kasir
     Future<String> data = fetchDataVPjlnTglObat(tgl);
     data.then((value) {
       if (value.toString().contains('success')) {
         //Mengubah json menjadi Array
-        // ignore: unused_local_variable
         Map json = jsonDecode(value);
         for (var i in json['data']) {
-          ////print(i);
           AkuntanVPenjualanObat pjlnObtNota = AkuntanVPenjualanObat.fromJson(i);
           listPjlnTglObats.add(pjlnObtNota);
         }

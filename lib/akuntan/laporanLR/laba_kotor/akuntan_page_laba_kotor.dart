@@ -10,9 +10,6 @@ import 'package:flutter_application_1/akuntan/laporanLR/HPP/akuntan_page_akun_HP
 import 'package:flutter_application_1/akuntan/laporanLR/penjualan_obat/akuntan_widget_penjualan_obat.dart'
     as akunObat;
 
-import 'package:flutter_application_1/akuntan/akuntan_fetch_penjualan_nota.dart'
-    as fetchPenjualan;
-
 import 'fetch_laba_kotor.dart';
 
 class WidgetLabaKotor extends StatefulWidget {
