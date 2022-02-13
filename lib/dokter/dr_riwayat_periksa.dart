@@ -73,6 +73,7 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
       for (var i in json['data']) {
+        print('error $i');
         DokterVKeranjangObat keranjangObat = DokterVKeranjangObat.fromJson(i);
         dVLKOs.add(keranjangObat);
       }

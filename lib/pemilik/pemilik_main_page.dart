@@ -164,6 +164,10 @@ class _PemilikMainPageState extends State<PemilikMainPage> {
     return SfCartesianChart(
         title: ChartTitle(text: 'Visit'),
         primaryXAxis: CategoryAxis(),
+        primaryYAxis: NumericAxis(
+          decimalPlaces: 0,
+        ),
+
         // Palette colors
         palette: <Color>[
           Colors.teal,
@@ -172,17 +176,10 @@ class _PemilikMainPageState extends State<PemilikMainPage> {
         ],
         series: <CartesianSeries>[
           ColumnSeries<ChartDataVisit, String>(
-              dataSource: chartDataVisit,
-              xValueMapper: (ChartDataVisit data, _) => data.x,
-              yValueMapper: (ChartDataVisit data, _) => data.y),
-          // ColumnSeries<ChartData, String>(
-          //     dataSource: chartDataVisit,
-          //     xValueMapper: (ChartData data, _) => data.x,
-          //     yValueMapper: (ChartData data, _) => data.y1),
-          // ColumnSeries<ChartData, String>(
-          //     dataSource: chartDataVisit,
-          //     xValueMapper: (ChartData data, _) => data.x,
-          //     yValueMapper: (ChartData data, _) => data.y2)
+            dataSource: chartDataVisit,
+            xValueMapper: (ChartDataVisit data, _) => data.x,
+            yValueMapper: (ChartDataVisit data, _) => data.y,
+          )
         ]);
   }
 

@@ -18,12 +18,12 @@ Future<String> fetchDataGrafikKas(tahun) async {
 }
 
 List<ChartDataKas> chartDataKas = <ChartDataKas>[
-  ChartDataKas(x: 'Jan', y1: 45, y2: 1000),
-  ChartDataKas(x: 'Feb', y1: 100, y2: 3000),
-  ChartDataKas(x: 'March', y1: 25, y2: 1000),
-  ChartDataKas(x: 'April', y1: 100, y2: 7000),
-  ChartDataKas(x: 'May', y1: 85, y2: 5000),
-  ChartDataKas(x: 'June', y1: 140, y2: 7000)
+  // ChartDataKas(x: 'Jan', y1: 45, y2: 1000),
+  // ChartDataKas(x: 'Feb', y1: 100, y2: 3000),
+  // ChartDataKas(x: 'March', y1: 25, y2: 1000),
+  // ChartDataKas(x: 'April', y1: 100, y2: 7000),
+  // ChartDataKas(x: 'May', y1: 85, y2: 5000),
+  // ChartDataKas(x: 'June', y1: 140, y2: 7000)
 ];
 
 class ChartDataKas {
@@ -59,12 +59,12 @@ Future<String> fetchDataGrafikVisit(tahun) async {
 }
 
 List<ChartDataVisit> chartDataVisit = <ChartDataVisit>[
-  ChartDataVisit(x: 'Jan', y1: 45, y2: 1000),
-  ChartDataVisit(x: 'Feb', y1: 100, y2: 3000),
-  ChartDataVisit(x: 'March', y1: 25, y2: 1000),
-  ChartDataVisit(x: 'April', y1: 100, y2: 7000),
-  ChartDataVisit(x: 'May', y1: 85, y2: 5000),
-  ChartDataVisit(x: 'June', y1: 140, y2: 7000)
+  // ChartDataVisit(x: 'Jan', y1: 45, y2: 1000),
+  // ChartDataVisit(x: 'Feb', y1: 100, y2: 3000),
+  // ChartDataVisit(x: 'March', y1: 25, y2: 1000),
+  // ChartDataVisit(x: 'April', y1: 100, y2: 7000),
+  // ChartDataVisit(x: 'May', y1: 85, y2: 5000),
+  // ChartDataVisit(x: 'June', y1: 140, y2: 7000)
 ];
 
 class ChartDataVisit {
