@@ -253,7 +253,7 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                       if (controllerHargaBeliPerItem.text != '') {
                         hrgItem = int.parse(controllerHargaBeliPerItem.text);
                       }
-                      if (value.isNotEmpty) {
+                      if (controllerBiayaOngkir.text.isNotEmpty) {
                         ongKir = int.parse(value);
                       }
                       hpp = (jumlah * hrgItem) + ongKir;
@@ -320,6 +320,12 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
           padding: const EdgeInsets.all(8.0),
           child: TextButton(
             onPressed: () {
+              if (controllerBiayaOngkir.text.isEmpty) {
+                print('empty controller ongkir: ${controllerBiayaOngkir.text}');
+                controllerBiayaOngkir.text = '0';
+              }
+              print('controller ongkir: ${controllerBiayaOngkir.text}');
+
               PemilikInputResepList selectedObat = PemilikInputResepList(
                   obatNama: controllerObatNama.text,
                   jumlah_order: controllerJumlah.text,
@@ -563,7 +569,6 @@ class _PemilikInputOrderObatState extends State<PemilikInputOrderObat> {
                                 ListKeranjangObat.clear();
                                 setState(() {
                                   widgetKeranjangObatBodyPemilik();
-                                  
                                 });
                                 Navigator.pop(context);
                               },
