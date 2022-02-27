@@ -22,7 +22,7 @@ import 'kasir/kasir_antrean_pasien.dart';
 DateTime now = new DateTime.now();
 DateTime date = new DateTime(now.year, now.month, now.day);
 // ignore: non_constant_identifier_names
-String username, userIdMainDart = "";
+String username, userIdMainDart = ""; 
 var keluhan = TextEditingController();
 // ignore: non_constant_identifier_names
 String statusAntrean, navigateToNomorAntrean;
@@ -30,7 +30,7 @@ int antreanSekarang, antreanTerakhir, batasAntrean;
 String apiUrl = "https://localhost/tugas_akhir/";
 // String apiUrl = "https://192.168.1.8/tugas_akhir/";
 // String apiUrl = "https://192.168.43.5/tugas_akhir/";
-// String APIurl = "http://kmtpbun.ddnsking.com//tugas_akhir/";
+// String apiUrl = "https://192.168.1.96//tugas_akhir/";
 void getUserId() async {
   final prefs = await SharedPreferences.getInstance();
   userIdMainDart = prefs.getString("userid");

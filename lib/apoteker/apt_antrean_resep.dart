@@ -72,7 +72,7 @@ class _AptAntreanPasienState extends State<AptAntreanPasien> {
   @override
   void initState() {
     getUserIdApoteker();
-    print('user id apoteker $userIdMainDart');
+    // print('user id apoteker $userIdMainDart');
     DateTime now = new DateTime.now();
     DateTime date = new DateTime(now.year, now.month, now.day);
     // print(date);
@@ -104,6 +104,7 @@ class _AptAntreanPasienState extends State<AptAntreanPasien> {
       //Mengubah json menjadi Array
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
+      print('baca antrean: $json');
       for (var i in json['data']) {
         print(i);
         ApotekerVAntrean dva = ApotekerVAntrean.fromJson(i);

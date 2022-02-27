@@ -96,11 +96,12 @@ class _DrAntreanPasienState extends State<DrAntreanPasien> {
       //Mengubah json menjadi Array
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
-      for (var i in json['data']) {
-        print(i);
-        DokterVAntrean dva = DokterVAntrean.fromJson(i);
-        DVAs.add(dva);
-      }
+      if (value.toString().contains('success'))
+        for (var i in json['data']) {
+          print(i);
+          DokterVAntrean dva = DokterVAntrean.fromJson(i);
+          DVAs.add(dva);
+        }
       setState(() {});
     });
   }
@@ -182,14 +183,15 @@ class _DrAntreanPasienState extends State<DrAntreanPasien> {
                         _timerForInter.cancel();
                         print('timer stop');
                         DokterVListTindakan();
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => DrRiwayatPeriksaPasien(
-                                      namaPasien: '${DVAs[index].userName}',
-                                      visitId: '${DVAs[index].visitId}',
-                                      keluhan: '${DVAs[index].keluhan}',
-                                    ))).then((value) => onGoBack(value));
+                        if (DVAs[index].userName != null)
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => DrRiwayatPeriksaPasien(
+                                        namaPasien: '${DVAs[index].userName}',
+                                        visitId: '${DVAs[index].visitId}',
+                                        keluhan: '${DVAs[index].keluhan}',
+                                      ))).then((value) => onGoBack(value));
                       },
                       leading: CircleAvatar(
                         child: Text('${index + 1}'),

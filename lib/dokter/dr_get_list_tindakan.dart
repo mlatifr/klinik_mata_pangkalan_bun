@@ -48,6 +48,7 @@ Future<String> fetchDataDokterVListTindakan() async {
     Uri.parse(apiUrl + "dokter_v_list_tindakan.php"),
   );
   if (response.statusCode == 200) {
+    print('fetchDataDokterVListTindakan: ${response.body}');
     return response.body;
   } else {
     throw Exception('Failed to read API');

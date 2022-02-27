@@ -73,11 +73,12 @@ class _KsrAntreanPasienState extends State<KsrAntreanPasien> {
       //Mengubah json menjadi Array
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
-      for (var i in json['data']) {
-        // //print(i);
-        KasirVAntrean kva = KasirVAntrean.fromJson(i);
-        kVAs.add(kva);
-      }
+      if (json.toString().contains('success'))
+        for (var i in json['data']) {
+          // //print(i);
+          KasirVAntrean kva = KasirVAntrean.fromJson(i);
+          kVAs.add(kva);
+        }
       setState(() {});
     });
   }
