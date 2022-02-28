@@ -56,7 +56,9 @@ Widget widgetTextTotalPembayaran() {
 // ignore: must_be_immutable
 class KasirDetailPasien extends StatefulWidget {
   var visitId, namaPasien, visitDate;
-  KasirDetailPasien({Key key, this.visitId, this.namaPasien, this.visitDate})
+  bool isPasien;
+  KasirDetailPasien(
+      {Key key, this.visitId, this.namaPasien, this.visitDate, this.isPasien})
       : super(key: key);
 
   @override
@@ -82,11 +84,12 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
       //Mengubah json menjadi Array
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
-      for (var i in json['data']) {
-        print('fetchDataDokterVKeranjangTindakan: ${i.toString()}');
-        KasirVKeranjangResep kvt = KasirVKeranjangResep.fromJson(i);
-        kVKRs.add(kvt);
-      }
+      if (json.toString().contains('success'))
+        for (var i in json['data']) {
+          print('fetchDataDokterVKeranjangTindakan: ${i.toString()}');
+          KasirVKeranjangResep kvt = KasirVKeranjangResep.fromJson(i);
+          kVKRs.add(kvt);
+        }
       setState(() {
         widgetKeranjangResep();
         // WidgetKrjgRsp();
@@ -104,11 +107,12 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
       //Mengubah json menjadi Array
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
-      for (var i in json['data']) {
-        // print('fetchDataDokterVKeranjangTindakan: ${i.toString()}');
-        KasirVKeranjangTindakan kvt = KasirVKeranjangTindakan.fromJson(i);
-        kVKTs.add(kvt);
-      }
+      if (json.toString().contains('success'))
+        for (var i in json['data']) {
+          // print('fetchDataDokterVKeranjangTindakan: ${i.toString()}');
+          KasirVKeranjangTindakan kvt = KasirVKeranjangTindakan.fromJson(i);
+          kVKTs.add(kvt);
+        }
       setState(() {
         widgetKeranjangTindakan();
       });
@@ -478,12 +482,13 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
                     color: Colors.green[50],
                     child: Column(
                       children: [
-                        Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Text(
-                              '${widget.namaPasien}',
-                              style: TextStyle(fontSize: 22),
-                            )),
+                        if (widget.namaPasien != null)
+                          Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Text(
+                                '${widget.namaPasien}',
+                                style: TextStyle(fontSize: 22),
+                              )),
                         Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: ExpansionTile(
@@ -511,7 +516,7 @@ class _KasirDetailPasienState extends State<KasirDetailPasien> {
                         Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: widgetInputPembayaran()),
-                        widgetButtonBayar()
+                        if (widget.isPasien == false) widgetButtonBayar()
                       ],
                     ),
                   ),

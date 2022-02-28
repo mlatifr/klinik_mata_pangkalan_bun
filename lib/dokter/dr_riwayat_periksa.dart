@@ -72,11 +72,12 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
       //Mengubah json menjadi Array
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
-      for (var i in json['data']) {
-        // print('error $i');
-        DokterVKeranjangObat keranjangObat = DokterVKeranjangObat.fromJson(i);
-        dVLKOs.add(keranjangObat);
-      }
+      if (json.toString().contains('success'))
+        for (var i in json['data']) {
+          // print('error $i');
+          DokterVKeranjangObat keranjangObat = DokterVKeranjangObat.fromJson(i);
+          dVLKOs.add(keranjangObat);
+        }
       setState(() {
         widgetListObats();
         for (var i = 0; i < dVLKOs.length; i++) {

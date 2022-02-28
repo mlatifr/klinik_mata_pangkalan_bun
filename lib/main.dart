@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/admin_antrean/admin_antrean_pasien.dart';
 import 'package:flutter_application_1/admin_order_obat/admOrderObat_main_page.dart';
+import 'package:flutter_application_1/kasir/kasir_detail_pasien.dart';
 import 'package:flutter_application_1/login.dart';
 import 'package:flutter_application_1/pasien/nomor_antrean_pasien.dart';
 import 'package:flutter_application_1/pasien/nota_pembayaran.dart';
@@ -22,7 +23,7 @@ import 'kasir/kasir_antrean_pasien.dart';
 DateTime now = new DateTime.now();
 DateTime date = new DateTime(now.year, now.month, now.day);
 // ignore: non_constant_identifier_names
-String username, userIdMainDart = ""; 
+String username, userIdMainDart = "";
 var keluhan = TextEditingController();
 // ignore: non_constant_identifier_names
 String statusAntrean, navigateToNomorAntrean;
@@ -267,28 +268,25 @@ class _MyHomePageState extends State<MyHomePage> {
           ListTile(
             title: Text('Nota Pembayaran'),
             onTap: () {
-              if (visitIdPasien == 0) {
-                getUserId();
-                //perbaiki disini error masihan kliru di userMain,Dart telat baca data
-                print('useridMainDart: main page $userIdMainDart');
-                fetchDataVisitId(
-                        userIdMainDart, date.toString().substring(0, 10))
-                    .then((value) {
-                  Map json = jsonDecode(value);
-                  visitIdPasien = json['visit_id'];
-                  // print('visitIdPasien: $visitIdPasien | $date');
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => NotaPembayaranPasien(
-                                visitId: visitIdPasien,
-                              )));
+              getUserId();
+              //perbaiki disini error masihan kliru di userMain,Dart telat baca data
+              print('useridMainDart: main page $userIdMainDart');
+              fetchDataVisitId(userIdMainDart, date.toString().substring(0, 10))
+                  .then((value) {
+                Map json = jsonDecode(value);
+                print('fetchDataVisitId: ${value}');
+                visitIdPasien = json['visit_id'];
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => KasirDetailPasien(
+                              visitId: visitIdPasien,
+                              visitDate: date, isPasien: true,
+                              // namaPasien: username,
+                            )));
 
-                  print('visitIdPasien: $visitIdPasien after nol');
-                });
-              } else {
-                print(visitIdPasien);
-              }
+                print('visitIdPasien: $visitIdPasien after nol');
+              });
             },
           ),
           ListTile(

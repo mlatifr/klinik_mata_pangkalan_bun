@@ -186,6 +186,7 @@ class _KsrAntreanPasienState extends State<KsrAntreanPasien> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => KasirDetailPasien(
+                                      isPasien: false,
                                       namaPasien: kVAs[index].userName,
                                       visitId: kVAs[index].visitId,
                                       visitDate: controllerdate.text

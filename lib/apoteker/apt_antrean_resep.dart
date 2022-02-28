@@ -104,12 +104,12 @@ class _AptAntreanPasienState extends State<AptAntreanPasien> {
       //Mengubah json menjadi Array
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
-      print('baca antrean: $json');
-      for (var i in json['data']) {
-        print(i);
-        ApotekerVAntrean dva = ApotekerVAntrean.fromJson(i);
-        AptkrVAs.add(dva);
-      }
+      if (json.toString().contains('success'))
+        for (var i in json['data']) {
+          print(i);
+          ApotekerVAntrean dva = ApotekerVAntrean.fromJson(i);
+          AptkrVAs.add(dva);
+        }
       setState(() {});
     });
   }
