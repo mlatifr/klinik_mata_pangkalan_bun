@@ -29,7 +29,7 @@ String statusAntrean, navigateToNomorAntrean;
 int antreanSekarang, antreanTerakhir, batasAntrean;
 // String apiUrl = "https://localhost/tugas_akhir/";
 String apiUrl = "https://192.168.1.96/tugas_akhir/";
-// String apiUrl = "https://192.168.43.5/tugas_akhir/";
+// String APIurl = "https://192.168.43.5/tugas_akhir/";
 // String APIurl = "http://kmtpbun.ddnsking.com//tugas_akhir/";
 void getUserId() async {
   final prefs = await SharedPreferences.getInstance();
@@ -267,10 +267,11 @@ class _MyHomePageState extends State<MyHomePage> {
           ListTile(
             title: Text('Nota Pembayaran'),
             onTap: () {
-              if (visitIdPasien == 0) {
+              if (visitIdPasien == null) {
+                print('Pembayaran');
                 getUserId();
                 //perbaiki disini error masihan kliru di userMain,Dart telat baca data
-                print('useridMainDart: main page $userIdMainDart');
+                // print('useridMainDart: main page $userIdMainDart');
                 fetchDataVisitId(
                         userIdMainDart, date.toString().substring(0, 10))
                     .then((value) {
@@ -337,7 +338,6 @@ class _MyHomePageState extends State<MyHomePage> {
                 padding: const EdgeInsets.all(8.0),
                 child: Image.asset(
                   './asset/image/clinic_text.jpg',
-                  width: 250,
                 ),
               ),
               SizedBox(height: MediaQuery.of(context).size.height * 0.02),
@@ -363,7 +363,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       ),
                     ),
                   )),
-              SizedBox(height: MediaQuery.of(context).size.height * 0.01),
+              // SizedBox(height: MediaQuery.of(context).size.height * 0.02),
               SizedBox(
                 width: MediaQuery.of(context).size.width,
                 child: TextButton(
