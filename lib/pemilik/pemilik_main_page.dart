@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/akuntan/laporanLR/akuntan_page_laporanLR.dart';
+import 'package:flutter_application_1/akuntan/neraca/akuntan_page_neraca.dart';
 import 'package:flutter_application_1/pemilik/input_order/pemilik_page_input_order.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import '../main.dart';
@@ -33,6 +35,20 @@ class _PemilikMainPageState extends State<PemilikMainPage> {
                 image: AssetImage('./asset/image/clinic_text.jpg'),
               ),
             ),
+          ),
+          ListTile(
+            title: Text('Neraca'),
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => AkuntanVNeraca()));
+            },
+          ),
+          ListTile(
+            title: Text('Laporan Laba Rugi'),
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => AkuntanVLaporanLR()));
+            },
           ),
           ListTile(
             title: Text('Input Order'),
