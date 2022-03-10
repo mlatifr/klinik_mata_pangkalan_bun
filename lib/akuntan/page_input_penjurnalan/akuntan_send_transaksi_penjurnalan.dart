@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 
 Future<String> fetchDataAkuntanInputBukaBukuPenjurnalan(pIdAkuntan) async {
   final response =
-      await http.post(Uri.parse(apiUrl + "akuntan_inpt_penjurnalan.php"),
+      await http.post(Uri.parse(ApiUrl.apiUrl + "akuntan_inpt_penjurnalan.php"),
           // body: {'bodyPost': '1'});
           body: {'user_klinik': pIdAkuntan.toString()});
   // body: jsonEncode({transaksi_array}));
@@ -21,7 +21,7 @@ Future<String> fetchDataAkuntanInputBukaBukuPenjurnalan(pIdAkuntan) async {
 Future<String> fetchDataAkuntanInputTransaksiPenjurnalan(pPenjurnalanId,
     pDaftarAkunId, pTglCatat, pDebet, pKredit, pKetTransaksi) async {
   final response =
-      await http.post(Uri.parse(apiUrl + "akuntan_inpt_penjurnalan_akun.php"),
+      await http.post(Uri.parse(ApiUrl.apiUrl + "akuntan_inpt_penjurnalan_akun.php"),
           // body: {'bodyPost': '1'});
           body: {
         'penjurnalan_id': pPenjurnalanId,
@@ -42,7 +42,7 @@ Future<String> fetchDataAkuntanInputTransaksiPenjurnalan(pPenjurnalanId,
 
 Future<String> fetchDataAkuntanInputTransaksiPenjurnalanArray() async {
   final response = await http
-      .post(Uri.parse(apiUrl + "akuntan_inpt_penjurnalan_akun_copy.php"),
+      .post(Uri.parse(ApiUrl.apiUrl + "akuntan_inpt_penjurnalan_akun_copy.php"),
           // body: {'bodyPost': '1'});
           body: {
         'transaksi_array[transaksi_1][penjurnalan_id]': '1',

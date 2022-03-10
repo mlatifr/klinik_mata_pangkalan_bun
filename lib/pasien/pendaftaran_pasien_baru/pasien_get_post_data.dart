@@ -26,7 +26,7 @@ import 'package:http/http.dart' as http;
 
 Future<String> fetchDataPostDaftarUsernameBaru(pUsername, pSandi) async {
   final response = await http
-      .post(Uri.parse(apiUrl + "pasien_v_username_available.php"), body: {
+      .post(Uri.parse(ApiUrl.apiUrl + "pasien_v_username_available.php"), body: {
     'username': pUsername.toString(),
     'sandi': pSandi.toString(),
   });
@@ -54,7 +54,7 @@ Future<String> fetchDataPostDaftarBaru(
     pKewarganegaraan,
     pTlp) async {
   final response =
-      await http.post(Uri.parse(apiUrl + "pasien_daftar_user_baru.php"), body: {
+      await http.post(Uri.parse(ApiUrl.apiUrl + "pasien_daftar_user_baru.php"), body: {
     'username': pUsername.toString(),
     'sandi': pSandi.toString(),
     'NIK': pNik.toString(),
@@ -80,7 +80,7 @@ Future<String> fetchDataPostDaftarBaru(
 
 Future<String> fetchDataAvailableUsername(username) async {
   final response = await http.post(
-      Uri.parse(apiUrl + "pasien_v_username_available.php"),
+      Uri.parse(ApiUrl.apiUrl + "pasien_v_username_available.php"),
       body: {'username': username.toString()});
   if (response.statusCode == 200) {
     print(response.body);

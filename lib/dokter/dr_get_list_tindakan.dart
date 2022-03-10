@@ -45,7 +45,7 @@ class DokterVListTindakan {
 
 Future<String> fetchDataDokterVListTindakan() async {
   final response = await http.post(
-    Uri.parse(apiUrl + "dokter_v_list_tindakan.php"),
+    Uri.parse(ApiUrl.apiUrl + "dokter_v_list_tindakan.php"),
   );
   if (response.statusCode == 200) {
     return response.body;
@@ -57,7 +57,7 @@ Future<String> fetchDataDokterVListTindakan() async {
 Future<String> fetchDataDokterVCariListTindakan(pTindakan) async {
   print(pTindakan);
   final response = await http.post(
-      Uri.parse(apiUrl + "dokter_v_list_tindakan.php"),
+      Uri.parse(ApiUrl.apiUrl + "dokter_v_list_tindakan.php"),
       body: {'tindakan_nama': pTindakan.toString()});
   print(response.body);
   if (response.statusCode == 200) {
@@ -70,7 +70,7 @@ Future<String> fetchDataDokterVCariListTindakan(pTindakan) async {
 Future<String> fetchDataDokterInputTindakan(pVisitId, pTdkId, pMtSisi) async {
   // print('final: $pVisitId | $pTdkId | $pMtSisi');
   final response = await http
-      .post(Uri.parse(apiUrl + "dokter_input_tindakan_array.php"), body: {
+      .post(Uri.parse(ApiUrl.apiUrl + "dokter_input_tindakan_array.php"), body: {
     "visit_id": pVisitId.toString(),
     "tindakan_id": pTdkId.toString(),
     "mt_sisi": pMtSisi
@@ -88,7 +88,7 @@ Future<String> fetchDataDokterInputTindakanBatal(
     pVisitId, pTdkId, pMtSisi) async {
   // print('final: $pVisitId | $pTdkId | $pMtSisi');
   final response = await http
-      .post(Uri.parse(apiUrl + "dokter_input_tindakan_batal.php"), body: {
+      .post(Uri.parse(ApiUrl.apiUrl + "dokter_input_tindakan_batal.php"), body: {
     "visit_id": pVisitId.toString(),
     "tindakan_id": pTdkId.toString(),
     "mt_sisi": pMtSisi
@@ -105,7 +105,7 @@ Future<String> fetchDataDokterInputTindakanBatal(
 Future<String> fetchDataDokterVKeranjangTindakan(pVisitId) async {
   print('final: $pVisitId');
   final response = await http.post(
-      Uri.parse(apiUrl + "dokter_v_keranjang_tindakan.php"),
+      Uri.parse(ApiUrl.apiUrl + "dokter_v_keranjang_tindakan.php"),
       body: {"visit_id": pVisitId.toString()});
   if (response.statusCode == 200) {
     print('keranjang tindakan: ${response.body}');

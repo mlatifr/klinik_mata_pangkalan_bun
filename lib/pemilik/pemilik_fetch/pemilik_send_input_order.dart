@@ -10,7 +10,7 @@ var idOrder = '';
 
 Future<String> fetchDataIdOrderId(pIdUser, pTglOrder) async {
   final response = await http
-      .post(Uri.parse(apiUrl + "pemilik_input_tgl_order.php"), body: {
+      .post(Uri.parse(ApiUrl.apiUrl + "pemilik_input_tgl_order.php"), body: {
     'user_klinik_id': pIdUser.toString(),
     'tgl_order': pTglOrder.toString()
   });
@@ -38,7 +38,7 @@ class PemilikInputResepList {
 Future<String> fetchDataPemilikSendKrjgObat(pOrder_obat_id, pJumlah_order,
     pNama, pHarga_beli, pHarga_jual, ongkir, pStatus_order) async {
   final response = await http
-      .post(Uri.parse(apiUrl + "pemilik_input_order_item.php"), body: {
+      .post(Uri.parse(ApiUrl.apiUrl + "pemilik_input_order_item.php"), body: {
     'order_obat_id': pOrder_obat_id.toString(),
     'jumlah_order': pJumlah_order.toString(),
     'nama': pNama.toString(),
@@ -58,7 +58,7 @@ Future<String> fetchDataPemilikSendKrjgObat(pOrder_obat_id, pJumlah_order,
 Future<String> fetchDataPemilikVListObat(pNamaObat) async {
   // print('final: $pVisitId | $pTdkId | $pMtSisi');
   final response = await http.post(
-      Uri.parse(apiUrl + "pemilik_v_list_obat.php"),
+      Uri.parse(ApiUrl.apiUrl + "pemilik_v_list_obat.php"),
       body: {'nama_obat': pNamaObat.toString()});
   if (response.statusCode == 200) {
     // print('200: ${response.body}');

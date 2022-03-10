@@ -25,7 +25,7 @@ class DetailNotaHppPbat {
 Future<String> fetchDataVListDetailNotaHpp(nota_id) async {
   //print('pTglCatat $nota_id');
   final response = await http
-      .post(Uri.parse(apiUrl + "akuntan_v_pjualan_obat_hpp.php"), body: {
+      .post(Uri.parse(ApiUrl.apiUrl + "akuntan_v_pjualan_obat_hpp.php"), body: {
     'nota_id': nota_id.toString(),
   });
   if (response.statusCode == 200) {
@@ -54,7 +54,7 @@ class AkuntanVListNotaHpp {
 
 Future<String> fetchDataVListNotaHppObat(pTglCatat) async {
   final response = await http
-      .post(Uri.parse(apiUrl + "akuntan_v_pjualan_obat_hpp.php"), body: {
+      .post(Uri.parse(ApiUrl.apiUrl + "akuntan_v_pjualan_obat_hpp.php"), body: {
     'tgl_list_nota_hpp': pTglCatat.toString(),
   });
   if (response.statusCode == 200) {
@@ -82,7 +82,7 @@ class AkuntanVHppObat {
 
 Future<String> fetchDataVHppObat(pTglCatat) async {
   final response = await http
-      .post(Uri.parse(apiUrl + "akuntan_v_pjualan_obat_hpp.php"), body: {
+      .post(Uri.parse(ApiUrl.apiUrl + "akuntan_v_pjualan_obat_hpp.php"), body: {
     'tgl_list': pTglCatat.toString(),
   });
   if (response.statusCode == 200) {
@@ -107,7 +107,7 @@ class AkuntanVTotalHppObat {
 Future<String> fetchDataVTotalHppObat(pTglCatat) async {
   //print('pTglCatat $pTglCatat');
   final response = await http
-      .post(Uri.parse(apiUrl + "akuntan_v_pjualan_obat_hpp.php"), body: {
+      .post(Uri.parse(ApiUrl.apiUrl + "akuntan_v_pjualan_obat_hpp.php"), body: {
     'tgl_total_hpp_obat': pTglCatat.toString(),
   });
   if (response.statusCode == 200) {

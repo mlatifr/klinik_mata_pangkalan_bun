@@ -22,7 +22,7 @@ class AkuntanVSediaanBrg {
 
 Future<String> fetchDataSediaanBrg() async {
   final response =
-      await http.get(Uri.parse(apiUrl + "akuntan_v_sediaan_brg.php"));
+      await http.get(Uri.parse(ApiUrl.apiUrl + "akuntan_v_sediaan_brg.php"));
   print('fetchDataSediaanBrg ${response.body}');
   if (response.statusCode == 200) {
     return response.body;
@@ -33,7 +33,7 @@ Future<String> fetchDataSediaanBrg() async {
 
 Future<String> fetchDataSediaanBrgTgl(tgl) async {
   final response =
-      await http.post(Uri.parse(apiUrl + "akuntan_v_sediaan_brg.php"), body: {
+      await http.post(Uri.parse(ApiUrl.apiUrl + "akuntan_v_sediaan_brg.php"), body: {
     'tgl_transaksi': tgl.toString(),
   });
   print('fetchDataSediaanBrgTgl ${response.statusCode}');

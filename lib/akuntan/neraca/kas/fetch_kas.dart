@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 
 Future<String> fetchDataVNotaPenjualan(pTglCatat) async {
   final response =
-      await http.post(Uri.parse(apiUrl + "akuntan_v_pjualan_nota.php"), body: {
+      await http.post(Uri.parse(ApiUrl.apiUrl + "akuntan_v_pjualan_nota.php"), body: {
     'tgl_nota': pTglCatat.toString(),
   });
   if (response.statusCode == 200) {
@@ -36,7 +36,7 @@ class AkuntanVKas {
 
 Future<String> fetchDataKas(pTglCatat) async {
   final response =
-      await http.post(Uri.parse(apiUrl + "akuntan_v_kas.php"), body: {
+      await http.post(Uri.parse(ApiUrl.apiUrl + "akuntan_v_kas.php"), body: {
     'tgl_transaksi': pTglCatat.toString(),
   });
   // print('fetchDataVPenjualanObat ${response.body}');

@@ -28,7 +28,7 @@ class AkuntanVDftrAkun {
 
 Future<String> fetchDataAkuntanVDftrAkun() async {
   final response = await http.post(
-    Uri.parse(apiUrl + "akuntan_v_dftr_akun.php"),
+    Uri.parse(ApiUrl.apiUrl + "akuntan_v_dftr_akun.php"),
   );
   if (response.statusCode == 200) {
     // print(response.body);

@@ -45,7 +45,7 @@ class KasirVKeranjangResep {
 
 Future<String> fetchDataKasirVKeranjangResep(pVisitId) async {
   //print('final: $pVisitId');
-  final response = await http.post(Uri.parse(apiUrl + "kasir_v_resep.php"),
+  final response = await http.post(Uri.parse(ApiUrl.apiUrl + "kasir_v_resep.php"),
       body: {"visit_id": pVisitId.toString()});
   if (response.statusCode == 200) {
     //print('keranjang kasir_v_resep: ${response.body}');
@@ -80,7 +80,7 @@ class KasirVKrjgTglNonVisit {
 
 Future<String> fetchDataKasirVTglNonVisit(tgl_penulisan_resep) async {
   // print('fetchDataKasirVKeranjangResepNonVisit: $tgl_penulisan_resep');
-  final response = await http.post(Uri.parse(apiUrl + "kasir_v_antrean.php"),
+  final response = await http.post(Uri.parse(ApiUrl.apiUrl + "kasir_v_antrean.php"),
       body: {"tgl_penulisan_resep": tgl_penulisan_resep.toString()});
   // print('tgl_penulisan_resep: ${response.statusCode}');
   if (response.statusCode == 200) {
@@ -132,7 +132,7 @@ class KasirVKrjgObatNonVisit {
 
 Future<String> fetchDataKasirVKeranjangResepNonVisit(resep_apoteker_id) async {
   // print('fetchDataKasirVKeranjangResepNonVisit: $resep_apoteker_id');
-  final response = await http.post(Uri.parse(apiUrl + "kasir_v_antrean.php"),
+  final response = await http.post(Uri.parse(ApiUrl.apiUrl + "kasir_v_antrean.php"),
       body: {"resep_id_non_visit": resep_apoteker_id.toString()});
   // print('fetchDataKasirVKeranjangResepNonVisit: ${response.statusCode}');
   if (response.statusCode == 200) {

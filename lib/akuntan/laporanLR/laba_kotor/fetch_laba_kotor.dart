@@ -18,7 +18,7 @@ class AkuntanVLabaKotor {
 Future<String> fetchDataVLabaKotor(pTglCatat) async {
   // print('pTglCatat $pTglCatat');
   final response =
-      await http.post(Uri.parse(apiUrl + "akuntan_v_laba_kotor.php"), body: {
+      await http.post(Uri.parse(ApiUrl.apiUrl + "akuntan_v_laba_kotor.php"), body: {
     'tgl_laba_kotor': pTglCatat.toString(),
   });
   if (response.statusCode == 200) {

@@ -34,7 +34,7 @@ class AntreanPasien extends StatefulWidget {
 class _AntreanPasienState extends State<AntreanPasien> {
   Future<String> fetchDataTglVstPsien() async {
     var response = await http
-        .post(Uri.parse(apiUrl + "pasien_view_antrean_user_tgl.php"), body: {
+        .post(Uri.parse(ApiUrl.apiUrl + "pasien_view_antrean_user_tgl.php"), body: {
       'user_klinik_id': widget.userKlinikId.toString(),
       'tgl_visit': widget.tglVisit.toString()
     });

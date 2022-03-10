@@ -39,7 +39,7 @@ class _AdminInputTindakanState extends State<AdminInputTindakan> {
 
   Future<String> fetchDataAdminInputTindakan() async {
     final response =
-        await http.post(Uri.parse(apiUrl + "admin_input_tindakan.php"), body: {
+        await http.post(Uri.parse(ApiUrl.apiUrl + "admin_input_tindakan.php"), body: {
       'nama': _namaTindakanController.text,
       'harga': _hargaTindakanController.text,
     });
@@ -70,7 +70,7 @@ class _AdminInputTindakanState extends State<AdminInputTindakan> {
 
   Future<String> fetchDataAdminListTindakan() async {
     final response =
-        await http.post(Uri.parse(apiUrl + "dokter_v_list_tindakan.php"));
+        await http.post(Uri.parse(ApiUrl.apiUrl + "dokter_v_list_tindakan.php"));
     if (response.statusCode == 200) {
       return response.body;
     } else {

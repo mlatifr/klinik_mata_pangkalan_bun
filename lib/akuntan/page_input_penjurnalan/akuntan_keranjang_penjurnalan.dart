@@ -48,7 +48,7 @@ Future<String> fetchDataInputKeranjangPenjurnalan(
   pKetTransaksi,
 ) async {
   final response = await http
-      .post(Uri.parse(apiUrl + "akuntan_inpt_penjurnalan_akun.php"), body: {
+      .post(Uri.parse(ApiUrl.apiUrl + "akuntan_inpt_penjurnalan_akun.php"), body: {
     'penjurnalan_id': pPenjurnalanId.toString(),
     'daftar_akun_id': pDaftarAkunId.toString(),
     'tgl_catat': pTglCatat.toString(),

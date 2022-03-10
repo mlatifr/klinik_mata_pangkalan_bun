@@ -24,7 +24,7 @@ class KasirVKeranjangTindakan {
 
 Future<String> fetchDataKasirVKeranjangTindakan(pVisitId) async {
   // print('fetchDataDokterVKeranjangTindakan : $pVisitId');
-  final response = await http.post(Uri.parse(apiUrl + "kasir_v_tindakan.php"),
+  final response = await http.post(Uri.parse(ApiUrl.apiUrl + "kasir_v_tindakan.php"),
       body: {"visit_id": pVisitId.toString()});
   if (response.statusCode == 200) {
     // print('fetchDataDokterVKeranjangTindakan: ${response.body}');

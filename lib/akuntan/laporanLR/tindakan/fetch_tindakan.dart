@@ -23,7 +23,7 @@ class DetailNotaTindakan {
 Future<String> fetchDataVListDetailNotaTindakan(nota_id) async {
   print('pTglCatat $nota_id');
   final response =
-      await http.post(Uri.parse(apiUrl + "akuntan_v_pjualan_tdkn.php"), body: {
+      await http.post(Uri.parse(ApiUrl.apiUrl + "akuntan_v_pjualan_tdkn.php"), body: {
     'no_nota': nota_id.toString(),
   });
   print('fetchDataVListDetailNotaTindakan: ${response.body}');
@@ -52,7 +52,7 @@ class ListNotaTindakan {
 
 Future<String> fetchDataVListNotaTindakan(pTglCatat) async {
   final response =
-      await http.post(Uri.parse(apiUrl + "akuntan_v_pjualan_tdkn.php"), body: {
+      await http.post(Uri.parse(ApiUrl.apiUrl + "akuntan_v_pjualan_tdkn.php"), body: {
     'tgl_list_nota': pTglCatat.toString(),
   });
   print('fetchDataVListNotaTindakan: ${response.statusCode}');
@@ -81,7 +81,7 @@ class ListTglTindakan {
 
 Future<String> fetchDataVListTglTindakan(pTglCatat) async {
   final response =
-      await http.post(Uri.parse(apiUrl + "akuntan_v_pjualan_tdkn.php"), body: {
+      await http.post(Uri.parse(ApiUrl.apiUrl + "akuntan_v_pjualan_tdkn.php"), body: {
     'tgl_transaksi': pTglCatat.toString(),
   });
   if (response.statusCode == 200) {
@@ -106,7 +106,7 @@ class AkuntanVTotalTindakan {
 Future<String> fetchDataVTotalTindakan(pTglCatat) async {
   print('pTglCatatTindakan $pTglCatat');
   final response =
-      await http.post(Uri.parse(apiUrl + "akuntan_v_pjualan_tdkn.php"), body: {
+      await http.post(Uri.parse(ApiUrl.apiUrl + "akuntan_v_pjualan_tdkn.php"), body: {
     'tgl_total_tindakan': pTglCatat.toString(),
   });
   if (response.statusCode == 200) {

@@ -86,8 +86,8 @@ class _AdminAntreanPasienState extends State<AdminAntreanPasien> {
   }
 
   Future<String> fetchDataResetAntreanTerakhir() async {
-    final response =
-        await http.post(Uri.parse(apiUrl + "admin_upd_antrean_now.php"), body: {
+    final response = await http
+        .post(Uri.parse(ApiUrl.apiUrl + "admin_upd_antrean_now.php"), body: {
       'antrean_terakhir': '0',
       // 'tgl_visit': '2021-10-21',
     });
@@ -101,8 +101,8 @@ class _AdminAntreanPasienState extends State<AdminAntreanPasien> {
   }
 
   Future<String> fetchDataAntreanSekarangAwal() async {
-    final response =
-        await http.post(Uri.parse(apiUrl + "pasien_view_antrean_sekarang.php"));
+    final response = await http
+        .post(Uri.parse(ApiUrl.apiUrl + "pasien_view_antrean_sekarang.php"));
     if (response.statusCode == 200) {
       return response.body;
     } else {
@@ -128,8 +128,8 @@ class _AdminAntreanPasienState extends State<AdminAntreanPasien> {
   }
 
   Future<String> fetchDataAntrean() async {
-    final response =
-        await http.post(Uri.parse(apiUrl + "admin_v_antrean.php"), body: {
+    final response = await http
+        .post(Uri.parse(ApiUrl.apiUrl + "admin_v_antrean.php"), body: {
       'tgl_visit': controllerdate.text.toString().substring(0, 10),
       // 'tgl_visit': '2021-10-21',
     });
@@ -164,8 +164,8 @@ class _AdminAntreanPasienState extends State<AdminAntreanPasien> {
   }
 
   Future<String> fetchDataAntreanSekarang() async {
-    final response =
-        await http.post(Uri.parse(apiUrl + "admin_upd_antrean_now.php"), body: {
+    final response = await http
+        .post(Uri.parse(ApiUrl.apiUrl + "admin_upd_antrean_now.php"), body: {
       'antrean_sekarang': controllerAntreanSekarang.text.toString(),
       'batas_antrean': controllerBatasAntrean.text.toString(),
       // 'tgl_visit': '2021-10-21',
@@ -223,7 +223,7 @@ class _AdminAntreanPasienState extends State<AdminAntreanPasien> {
 
   Future<String> fetchDataStatusAntrean(index, String status) async {
     final response = await http
-        .post(Uri.parse(apiUrl + "admin_status_antrean.php"), body: {
+        .post(Uri.parse(ApiUrl.apiUrl + "admin_status_antrean.php"), body: {
       'visit_id': adminVAntreans[index].visitId.toString(),
       'status': status
     });

@@ -58,7 +58,7 @@ Function CalculateStokObatBaruNonVisit() {
 Future<String> updateStokObat(pObatId, pObatStok) async {
   print('$pObatId | $pObatStok');
   final response = await http
-      .post(Uri.parse(apiUrl + "kasir_update_stok_obat.php"), body: {
+      .post(Uri.parse(ApiUrl.apiUrl + "kasir_update_stok_obat.php"), body: {
     "obat_id": pObatId.toString(),
     "stok_obat_baru": pObatStok.toString()
   });

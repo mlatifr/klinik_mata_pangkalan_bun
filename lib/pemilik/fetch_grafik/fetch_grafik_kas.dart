@@ -6,7 +6,7 @@ import 'package:http/http.dart' as http;
 
 Future<String> fetchDataGrafikKas(tahun) async {
   final response =
-      await http.post(Uri.parse(apiUrl + "pemilik_v_kas.php"), body: {
+      await http.post(Uri.parse(ApiUrl.apiUrl + "pemilik_v_kas.php"), body: {
     'tahun': tahun.toString(),
   });
   if (response.statusCode == 200) {
@@ -47,7 +47,7 @@ class ChartDataKas {
 
 Future<String> fetchDataGrafikVisit(tahun) async {
   final response =
-      await http.post(Uri.parse(apiUrl + "pemilik_v_visit.php"), body: {
+      await http.post(Uri.parse(ApiUrl.apiUrl + "pemilik_v_visit.php"), body: {
     'tahun': tahun.toString(),
   });
   if (response.statusCode == 200) {

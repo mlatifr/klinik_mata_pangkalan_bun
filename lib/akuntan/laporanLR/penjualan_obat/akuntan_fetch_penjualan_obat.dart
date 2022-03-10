@@ -63,7 +63,7 @@ class AkuntanVPenjualanObat {
 
 Future<String> fetchDataVPjlnTglObat(pTglCatat) async {
   final response =
-      await http.post(Uri.parse(apiUrl + "akuntan_v_pjualan_obat.php"), body: {
+      await http.post(Uri.parse(ApiUrl.apiUrl + "akuntan_v_pjualan_obat.php"), body: {
     'tgl_penjualan': pTglCatat.toString(),
   });
   // print('fetchDataVPenjualanObat ${response.body}');
@@ -76,7 +76,7 @@ Future<String> fetchDataVPjlnTglObat(pTglCatat) async {
 
 Future<String> fetchDataVPjlnObatTotal(pTglCatat) async {
   final response =
-      await http.post(Uri.parse(apiUrl + "akuntan_v_pjualan_obat.php"), body: {
+      await http.post(Uri.parse(ApiUrl.apiUrl + "akuntan_v_pjualan_obat.php"), body: {
     'tgl_penjualan_total': pTglCatat.toString(),
   });
   // print('fetchDataVPenjualanObat ${response.body}');
@@ -116,7 +116,7 @@ class AkuntanVPenjualanNotaObat {
 Future<String> fetchDataVPenjualanListNotaObat(pTglCatat) async {
   // print('pTglCatat $pTglCatat');
   final response =
-      await http.post(Uri.parse(apiUrl + "akuntan_v_pjualan_obat.php"), body: {
+      await http.post(Uri.parse(ApiUrl.apiUrl + "akuntan_v_pjualan_obat.php"), body: {
     'tgl_resep_nota': pTglCatat.toString(),
   });
   // print('fetchDataVPenjualanObatNota ${response.body}');
@@ -147,7 +147,7 @@ class AkuntanVDetailNotaObat {
 
 Future<String> fetchDataVPjlnDetailNota(pTglCatat) async {
   final response = await http
-      .post(Uri.parse(apiUrl + "akuntan_v_pjualan_nota_detail.php"), body: {
+      .post(Uri.parse(ApiUrl.apiUrl + "akuntan_v_pjualan_nota_detail.php"), body: {
     'nota_id': pTglCatat.toString(),
   });
   print('fetchDataVPjlnDetailNota ${response.body}');

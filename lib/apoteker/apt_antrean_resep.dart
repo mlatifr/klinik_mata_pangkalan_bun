@@ -85,7 +85,7 @@ class _AptAntreanPasienState extends State<AptAntreanPasien> {
 
   Future<String> fetchDataApotekerAntreanPasien() async {
     final response =
-        await http.post(Uri.parse(apiUrl + "apoteker_v_antrean.php"), body: {
+        await http.post(Uri.parse(ApiUrl.apiUrl + "apoteker_v_antrean.php"), body: {
       'tgl_visit': controllerdate.text.toString().substring(0, 10),
       // 'tgl_visit': '2021-10-21',
     });

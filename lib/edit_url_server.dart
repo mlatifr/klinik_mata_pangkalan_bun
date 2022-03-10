@@ -33,11 +33,29 @@ class _EditUrlServerState extends State<EditUrlServer> {
                 child: ElevatedButton(
                     onPressed: () {
                       setState(() {
-                        apiUrl = _urlController.text.toString();
+                        ApiUrl.apiUrl = _urlController.text.toString();
                       });
                     },
                     child: Text('Change Server Url'))),
-            Text('current url:\n$apiUrl')
+            Center(
+              child: SelectableText(
+                "contoh:\nhttp://192.168.1.96:8080/tugas_akhir/\n\nurl sekarang:\n${ApiUrl.apiUrl}",
+                style: TextStyle(
+                    // color: Colors.blue,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 20),
+                textAlign: TextAlign.center,
+                onTap: () => print('Tapped'),
+                toolbarOptions: ToolbarOptions(
+                  copy: true,
+                  selectAll: true,
+                ),
+                showCursor: true,
+                cursorWidth: 2,
+                cursorColor: Colors.red,
+                cursorRadius: Radius.circular(5),
+              ),
+            ),
           ],
         ),
       ),

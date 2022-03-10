@@ -23,7 +23,7 @@ class KasirInputNotaJualNonVisit {
 Future<String> fetchDataKasirInputNotaJualNonVisit(
     user_id, resep_apoteker_id, tgl_transaksi, total_harga) async {
   final response =
-      await http.post(Uri.parse(apiUrl + "kasir_input_nota_jual.php"), body: {
+      await http.post(Uri.parse(ApiUrl.apiUrl + "kasir_input_nota_jual.php"), body: {
     "user_id": user_id.toString(),
     "resep_apoteker_id": resep_apoteker_id.toString(),
     "tgl_transaksi": tgl_transaksi.toString().substring(0, 10),

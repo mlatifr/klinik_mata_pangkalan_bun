@@ -42,7 +42,7 @@ class KasirVAntrean {
 
 Future<String> fetchDataKasirVAntreanPasien(pDate) async {
   final response =
-      await http.post(Uri.parse(apiUrl + "kasir_v_antrean.php"), body: {
+      await http.post(Uri.parse(ApiUrl.apiUrl + "kasir_v_antrean.php"), body: {
     'tgl_visit': pDate.toString().substring(0, 10),
     // 'tgl_visit': '2021-10-21',
   });

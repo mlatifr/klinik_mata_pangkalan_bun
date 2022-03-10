@@ -27,8 +27,12 @@ var keluhan = TextEditingController();
 // ignore: non_constant_identifier_names
 String statusAntrean, navigateToNomorAntrean;
 int antreanSekarang, antreanTerakhir, batasAntrean;
+
 // String apiUrl = "https://localhost/tugas_akhir/";
-String apiUrl = "https://192.168.1.119/tugas_akhir/";
+class ApiUrl {
+  static String apiUrl = "https://192.168.1.119/tugas_akhir/";
+}
+
 // String APIurl = "https://192.168.43.5/tugas_akhir/";
 // String APIurl = "http://kmtpbun.ddnsking.com//tugas_akhir/";
 void getUserId() async {
@@ -149,8 +153,8 @@ class _MyHomePageState extends State<MyHomePage> {
 //untuk memasukan keluhan + nomor antrean: pasien_input_keluhan.php
   Future<String> fetchDataKeluhan() async {
     print("antrean_terakhir: $antreanTerakhir");
-    final response =
-        await http.post(Uri.parse(apiUrl + "pasien_input_keluhan.php"), body: {
+    final response = await http
+        .post(Uri.parse(ApiUrl.apiUrl + "pasien_input_keluhan.php"), body: {
       'keluhan': keluhan.text,
       'no_antrean': antreanTerakhir.toString(),
       'user_klinik_id': userIdMainDart.toString()
@@ -193,7 +197,7 @@ class _MyHomePageState extends State<MyHomePage> {
 // untuk mengecek antrean
   Future<String> fetchDataAntreanSekarang() async {
     final response =
-        await http.post(Uri.parse(apiUrl + "pasien_view_antrean_sekarang.php"));
+        await http.post(Uri.parse(ApiUrl.apiUrl + "pasien_view_antrean_sekarang.php"));
     if (response.statusCode == 200) {
       return response.body;
     } else {

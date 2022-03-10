@@ -86,7 +86,7 @@ Future<String> fetchDataApotekerInputRspVst(
   // print(
   //     'fetchDataApotekerInputRspVst: $pVisit_id | $pUser_id_apoteker | $pTgl_penulisan_resep');
   final response = await http
-      .post(Uri.parse(apiUrl + "apoteker_input_resep_visit.php"), body: {
+      .post(Uri.parse(ApiUrl.apiUrl + "apoteker_input_resep_visit.php"), body: {
     'visit_id': pVisitId.toString(),
     'user_id_apoteker': pUserIdApoteker.toString(),
     'tgl_penulisan_resep': pTglPenulisanResep.toString()
@@ -105,7 +105,7 @@ Future<String> fetchDataApotekerInputRsp(
   // print(
   //     'fetchDataApotekerInputRspVst: $pVisit_id | $pUser_id_apoteker | $pTgl_penulisan_resep');
   final response = await http
-      .post(Uri.parse(apiUrl + "apoteker_input_resep_visit.php"), body: {
+      .post(Uri.parse(ApiUrl.apiUrl + "apoteker_input_resep_visit.php"), body: {
     'user_id_apoteker': pUserIdApoteker.toString(),
     'tgl_penulisan_resep': pTglPenulisanResep.toString(),
     'nama_pembeli': pNama_pembeli.toString()
@@ -122,7 +122,7 @@ Future<String> fetchDataApotekerInputRsp(
 Future<String> fetchDataApotekerVListObat(pNamaObat) async {
   // print('final: $pVisitId | $pTdkId | $pMtSisi');
   final response = await http.post(
-      Uri.parse(apiUrl + "apoteker_v_list_obat.php"),
+      Uri.parse(ApiUrl.apiUrl + "apoteker_v_list_obat.php"),
       body: {'nama_obat': pNamaObat.toString()});
   if (response.statusCode == 200) {
     // print('200: ${response.body}');
@@ -137,7 +137,7 @@ Future<String> fetchDataApotekerInputResepObat(
     pRspAptkrId, pObtId, pDosis, pJumlah) async {
   // print('final: $pObtId | $pDosis | $pJumlah | $pVisitId');
   final response = await http
-      .post(Uri.parse(apiUrl + "apoteker_input_resep_has_obat.php"), body: {
+      .post(Uri.parse(ApiUrl.apiUrl + "apoteker_input_resep_has_obat.php"), body: {
     "resep_apoteker_id": pRspAptkrId.toString(),
     "obat_id": pObtId.toString(),
     "dosis": pDosis.toString(),
@@ -156,7 +156,7 @@ Future<String> fetchDataApotekerInputResepObat(
 Future<String> fetchDataApotekerKeranjangObatDokter(pVisitId) async {
   // print('final:$pVisitId');
   final response =
-      await http.post(Uri.parse(apiUrl + "apoteker_v_rsp_dr.php"), body: {
+      await http.post(Uri.parse(ApiUrl.apiUrl + "apoteker_v_rsp_dr.php"), body: {
     "visit_id": pVisitId.toString(),
   });
   if (response.statusCode == 200) {
