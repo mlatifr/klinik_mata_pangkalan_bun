@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/edit_url_server.dart';
 import 'package:flutter_application_1/pasien/pendaftaran_pasien_baru/pendaftaran_pasien_baru.dart';
 import 'main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -246,6 +247,13 @@ class _LoginPageState extends State<LoginPage> {
                             context,
                             MaterialPageRoute(
                                 builder: (context) => PagePasienDaftarBaru()));
+                      },
+                      onLongPress: () {
+                        print('object');
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => EditUrlServer()));
                       },
                       child: Text(
                         'DAFTAR',
