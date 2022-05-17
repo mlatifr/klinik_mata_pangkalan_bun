@@ -5,6 +5,7 @@ import 'package:flutter_application_1/akuntan/laporanLR/akuntan_page_laporanLR.d
 import 'package:flutter_application_1/akuntan/page_input_penjurnalan/akuntan_page_input_penjurnalan.dart';
 import 'package:flutter_application_1/akuntan/akuntan_page_split_view.dart';
 import '../main.dart';
+import 'chartOfAccount/chart_of_account.dart';
 import 'neraca/akuntan_page_neraca.dart';
 import 'page_input_penjurnalan/akuntan_get_daftar_akun.dart';
 
@@ -35,6 +36,13 @@ class _AkuntanMainPageState extends State<AkuntanMainPage> {
                 image: AssetImage('./asset/image/clinic_text.jpg'),
               ),
             ),
+          ),
+          ListTile(
+            title: Text('Chart Of Account'),
+            onTap: () {
+              Navigator.of(context).push(
+                  MaterialPageRoute(builder: (context) => ChartOfAccount()));
+            },
           ),
           ListTile(
             title: Text('Neraca'),
