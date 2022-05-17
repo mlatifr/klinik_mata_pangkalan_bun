@@ -8,6 +8,9 @@ class ChartOfAccount extends StatefulWidget {
 }
 
 class _ChartOfAccountState extends State<ChartOfAccount> {
+  TextEditingController _editText = TextEditingController();
+  bool _isEnable = false;
+  Color onEditColor = Colors.red;
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -28,20 +31,49 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
                   border: TableBorder.all(),
                   columnWidths: {
                     0: FlexColumnWidth(1),
-                    1: FlexColumnWidth(5),
+                    1: FlexColumnWidth(1),
+                    2: FlexColumnWidth(5),
                   },
                   children: [
                     TableRow(children: [
+                      TableCell(child: Text('')),
                       TableCell(child: Text('No')),
                       TableCell(child: Text('Nama'))
                     ]),
                     for (var i = 1; i < 11; i++)
                       TableRow(children: [
-                        TableCell(child: Text('No $i')),
+                        TableCell(
+                          child: IconButton(
+                              icon: Icon(Icons.edit),
+                              color: onEditColor,
+                              onPressed: () {
+                                setState(() {
+                                  _isEnable = !_isEnable;
+                                  if (_isEnable)
+                                    onEditColor = Colors.red;
+                                  else
+                                    onEditColor = Colors.blue;
+                                });
+                              }),
+                        ),
+                        TableCell(
+                            child: TextFormField(
+                          controller: _editText,
+                          enabled: _isEnable,
+                        )),
                         TableCell(child: Text('Nama $i'))
                       ]),
                   ],
                 ),
+                Row(
+                  children: [
+                    ElevatedButton.icon(
+                      onPressed: () {},
+                      icon: Icon(Icons.edit),
+                      label: Text('Edit'),
+                    )
+                  ],
+                )
               ],
             )),
       ),
