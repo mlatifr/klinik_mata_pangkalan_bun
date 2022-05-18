@@ -7,10 +7,29 @@ class ChartOfAccount extends StatefulWidget {
   State<ChartOfAccount> createState() => _ChartOfAccountState();
 }
 
+class AkunCoA {
+  final int noCoA;
+  final String namaCoA;
+  bool isEnable;
+  AkunCoA(
+    this.noCoA,
+    this.namaCoA,
+    this.isEnable,
+  );
+}
+
 class _ChartOfAccountState extends State<ChartOfAccount> {
-  TextEditingController _editText = TextEditingController();
-  bool _isEnable = false;
+  List<TextEditingController> _editText =
+      List.generate(5, (index) => TextEditingController());
   Color onEditColor = Colors.red;
+
+  List<AkunCoA> listNamaAkun = [
+    AkunCoA(001, 'kas1', false),
+    AkunCoA(002, 'kas2', false),
+    AkunCoA(003, 'kas3', false),
+    AkunCoA(004, 'kas4', false),
+    AkunCoA(005, 'kas5', false),
+  ];
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -25,57 +44,39 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
                 },
               ),
             ),
-            body: Column(
-              children: [
-                Table(
-                  border: TableBorder.all(),
-                  columnWidths: {
-                    0: FlexColumnWidth(1),
-                    1: FlexColumnWidth(1),
-                    2: FlexColumnWidth(5),
-                  },
-                  children: [
-                    TableRow(children: [
-                      TableCell(child: Text('')),
-                      TableCell(child: Text('No')),
-                      TableCell(child: Text('Nama'))
-                    ]),
-                    for (var i = 1; i < 11; i++)
-                      TableRow(children: [
-                        TableCell(
-                          child: IconButton(
-                              icon: Icon(Icons.edit),
-                              color: onEditColor,
-                              onPressed: () {
-                                setState(() {
-                                  _isEnable = !_isEnable;
-                                  if (_isEnable)
-                                    onEditColor = Colors.red;
-                                  else
-                                    onEditColor = Colors.blue;
-                                });
-                              }),
-                        ),
-                        TableCell(
-                            child: TextFormField(
-                          controller: _editText,
-                          enabled: _isEnable,
-                        )),
-                        TableCell(child: Text('Nama $i'))
-                      ]),
-                  ],
-                ),
-                Row(
-                  children: [
-                    ElevatedButton.icon(
-                      onPressed: () {},
-                      icon: Icon(Icons.edit),
-                      label: Text('Edit'),
-                    )
-                  ],
-                )
-              ],
-            )),
+            body: DataTable(columns: [
+              DataColumn(label: Text('Nomor')),
+              DataColumn(label: Text('Nama')),
+            ], rows: [
+              for (var i = 0; i < listNamaAkun.length; i++)
+                DataRow(cells: [
+                  DataCell(
+                    TextFormField(
+                      initialValue: '${listNamaAkun[i].noCoA}',
+                      enabled: listNamaAkun[i].isEnable,
+                    ),
+                    showEditIcon: true,
+                    onTap: () {
+                      setState(() {
+                        listNamaAkun[i].isEnable = !listNamaAkun[i].isEnable;
+                      });
+                    },
+                  ),
+                  DataCell(
+                    TextFormField(
+                      // initialValue: '${listNamaAkun[i].namaCoA}',
+                      controller: _editText[i],
+                      enabled: listNamaAkun[i].isEnable,
+                    ),
+                    showEditIcon: true,
+                    onTap: () {
+                      setState(() {
+                        listNamaAkun[i].isEnable = !listNamaAkun[i].isEnable;
+                      });
+                    },
+                  ),
+                ]),
+            ])),
       ),
     );
   }
