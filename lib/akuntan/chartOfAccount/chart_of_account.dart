@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'get_listCoA.dart';
+
 class ChartOfAccount extends StatefulWidget {
   const ChartOfAccount({Key key}) : super(key: key);
 
@@ -7,38 +9,37 @@ class ChartOfAccount extends StatefulWidget {
   State<ChartOfAccount> createState() => _ChartOfAccountState();
 }
 
-class AkunCoA {
-  int noCoA;
-  String namaCoA;
-  bool isEnablenoCoA;
-  bool isEnablenamaCoA;
-  AkunCoA(this.noCoA, this.namaCoA, this.isEnablenoCoA, this.isEnablenamaCoA);
-}
-
 class _ChartOfAccountState extends State<ChartOfAccount> {
-  List<AkunCoA> listNamaAkun = [
-    AkunCoA(001, 'kas1', false, false),
-    AkunCoA(002, 'kas2', false, false),
-    AkunCoA(003, 'kas3', false, false),
-    AkunCoA(004, 'kas4', false, false),
-    AkunCoA(005, 'kas5', false, false),
-    AkunCoA(006, 'kas6', false, false),
-    AkunCoA(007, 'kas7', false, false),
-    AkunCoA(008, 'kas8', false, false),
-    AkunCoA(009, 'kas9', false, false),
-    AkunCoA(010, 'kas10', false, false),
-    AkunCoA(011, 'kas11', false, false),
-    AkunCoA(012, 'kas12', false, false),
-    AkunCoA(013, 'kas13', false, false),
-  ];
-  List<TextEditingController> listEditNamaCoA = List.generate(13, (index) {
-    TextEditingController();
-  });
+  // List<TextEditingController> listEditNamaCoA =
+  //     List.generate(listNamaAkun.length, (index) {
+  //   TextEditingController();
+  // });
   // List<TextEditingController> listEditText = [
   //   TextEditingController(text: 'first')
   // ];
 
-  List<Color> onEditColor = List.generate(13, (index) => Colors.red);
+  List<Color> onEditColor =
+      List.generate(listNamaAkun.length, (index) => Colors.red);
+
+  @override
+  void initState() {
+    super.initState();
+    // AkuntanBacaDataCoa();
+    // setState(() {});
+    // print('done waiting: list total= ${listNamaAkun.length}');
+    
+    //tampil rendersetelah completed loade all data
+    WidgetsBinding.instance.addPostFrameCallback((_) => AkuntanBacaDataCoa());
+  }
+
+  // void waitingReadListCoA() async {
+  //   await Future.wait([
+  //     AkuntanBacaDataCoa().then((value) {
+  //       print('done waiting: list total= ${listNamaAkun.length}');
+  //       setState(() {});
+  //     })
+  //   ]);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -68,18 +69,18 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
                       DataRow(cells: [
                         DataCell(
                           TextFormField(
-                            initialValue: '${listNamaAkun[i].noCoA}',
-                            enabled: listNamaAkun[i].isEnablenoCoA,
+                            initialValue: '${listNamaAkun[i].no}',
+                            enabled: listNamaAkun[i].enableEditing,
                           ),
                         ),
                         DataCell(
                           TextFormField(
-                            initialValue: '${listNamaAkun[i].namaCoA}',
+                            initialValue: '${listNamaAkun[i].nama}',
                             // controller: listEditNamaCoA[i],
-                            enabled: listNamaAkun[i].isEnablenamaCoA,
+                            enabled: listNamaAkun[i].enableEditing,
                             onChanged: (value) {
-                              listNamaAkun[i].namaCoA = value;
-                              print("${listNamaAkun[i].namaCoA}");
+                              listNamaAkun[i].nama = value;
+                              print("${listNamaAkun[i].nama}");
                             },
                           ),
                         ),
@@ -90,12 +91,12 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
                             ),
                             onPressed: () {
                               setState(() {
-                                listNamaAkun[i].isEnablenamaCoA =
-                                    !listNamaAkun[i].isEnablenamaCoA;
-                                if (listNamaAkun[i].isEnablenamaCoA) {
+                                listNamaAkun[i].enableEditing =
+                                    !listNamaAkun[i].enableEditing;
+                                if (listNamaAkun[i].enableEditing) {
                                   onEditColor[i] = Colors.blue;
                                 }
-                                if (listNamaAkun[i].isEnablenamaCoA == false) {
+                                if (listNamaAkun[i].enableEditing == false) {
                                   onEditColor[i] = Colors.red;
                                 }
                               });
