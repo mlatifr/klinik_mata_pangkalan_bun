@@ -20,8 +20,7 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
   // List<TextEditingController> listEditText = [
   //   TextEditingController(text: 'first')
   // ];
-  List<Color> onEditColor =
-      List.generate(listNamaAkun.length, (index) => Colors.red);
+  Color onEditColor;
 
   // @override
   // void initState() {
@@ -78,10 +77,9 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
                               enableEditing: false,
                               id: i['id'],
                               no: i['no'],
-                              nama: i['nama']));
+                              nama: i['nama'],
+                              editColor: Colors.blue));
                         }
-                        onEditColor = List.generate(
-                            listNamaAkun.length, (index) => Colors.blue);
 
                         return SingleChildScrollView(
                           child: DataTable(
@@ -115,22 +113,31 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
                                     DataCell(IconButton(
                                         icon: Icon(
                                           Icons.edit,
-                                          color: onEditColor[i],
+                                          color: listNamaAkun[i].editColor,
                                         ),
                                         onPressed: () {
                                           listNamaAkun[i].enableEditing =
                                               !listNamaAkun[i].enableEditing;
-                                          setState(() {
+
+                                          if (listNamaAkun[i].enableEditing) {
                                             print(
-                                                "listNamaAkun[$i].enableEditing: ${listNamaAkun[i].enableEditing}");
-                                            if (listNamaAkun[i].enableEditing) {
-                                              onEditColor[i] = Colors.yellow;
-                                            }
-                                            if (listNamaAkun[i].enableEditing ==
-                                                false) {
-                                              onEditColor[i] = Colors.red;
-                                            }
-                                          });
+                                                "listNamaAkun[$i].enableEditing: ${listNamaAkun[i].enableEditing}"
+                                                "\n onEditColor[$i] ${listNamaAkun[i].editColor}");
+                                            setState(() {
+                                              listNamaAkun[i].editColor =
+                                                  Colors.blue;
+                                            });
+                                          }
+                                          if (listNamaAkun[i].enableEditing ==
+                                              false) {
+                                            print(
+                                                "listNamaAkun[$i].enableEditing: ${listNamaAkun[i].enableEditing}"
+                                                "\n onEditColor[$i] ${listNamaAkun[i].editColor}");
+                                            setState(() {
+                                              listNamaAkun[i].editColor =
+                                                  Colors.red[200];
+                                            });
+                                          }
                                         }))
                                   ]),
                               ]),

@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/src/material/colors.dart';
 import 'package:flutter_application_1/akuntan/chartOfAccount/get_listCoA.dart';
 
 class DataCoA {
@@ -7,7 +9,8 @@ class DataCoA {
   int no;
   String nama;
   bool enableEditing;
-  DataCoA({this.id, this.no, this.nama, this.enableEditing});
+  Color editColor;
+  DataCoA({this.id, this.no, this.nama, this.enableEditing, this.editColor});
 
   DataCoA.fromJson(Map<String, dynamic> json) {
     id = json['id'];
