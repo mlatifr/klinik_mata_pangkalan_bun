@@ -1,4 +1,7 @@
+import 'dart:ffi';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/akuntan/chartOfAccount/model_listAkun.dart';
 
 import 'get_listCoA.dart';
 
@@ -17,21 +20,28 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
   // List<TextEditingController> listEditText = [
   //   TextEditingController(text: 'first')
   // ];
-
   List<Color> onEditColor =
       List.generate(listNamaAkun.length, (index) => Colors.red);
 
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   AkuntanBacaDataCoa().then((value) {
+  //     setState(() {
+  //       _listNamaAkun = listNamaAkun;
+  //       onEditColor =
+  //           List.generate(_listNamaAkun.length, (index) => Colors.red);
+  //     });
+  //     print('done waiting: list total= ${_listNamaAkun.length}');
+  //   });
+
+  //   // //tampil rendersetelah completed loade all data
+  //   // WidgetsBinding.instance.addPostFrameCallback((_) => AkuntanBacaDataCoa());
+  // }
   @override
   void initState() {
     super.initState();
-    // AkuntanBacaDataCoa();
-    // setState(() {});
-    // print('done waiting: list total= ${listNamaAkun.length}');
-    
-    //tampil rendersetelah completed loade all data
-    WidgetsBinding.instance.addPostFrameCallback((_) => AkuntanBacaDataCoa());
   }
-
   // void waitingReadListCoA() async {
   //   await Future.wait([
   //     AkuntanBacaDataCoa().then((value) {
@@ -56,54 +66,32 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
               ),
             ),
             body: SingleChildScrollView(
-              child: DataTable(
-                  headingRowColor: MaterialStateColor.resolveWith(
-                      (states) => Colors.blue[100]),
-                  columns: [
-                    DataColumn(label: Text('Nomor')),
-                    DataColumn(label: Text('Nama')),
-                    DataColumn(label: Text('Edit')),
-                  ],
-                  rows: [
-                    for (var i = 0; i < listNamaAkun.length; i++)
-                      DataRow(cells: [
-                        DataCell(
-                          TextFormField(
-                            initialValue: '${listNamaAkun[i].no}',
-                            enabled: listNamaAkun[i].enableEditing,
-                          ),
-                        ),
-                        DataCell(
-                          TextFormField(
-                            initialValue: '${listNamaAkun[i].nama}',
-                            // controller: listEditNamaCoA[i],
-                            enabled: listNamaAkun[i].enableEditing,
-                            onChanged: (value) {
-                              listNamaAkun[i].nama = value;
-                              print("${listNamaAkun[i].nama}");
-                            },
-                          ),
-                        ),
-                        DataCell(IconButton(
-                            icon: Icon(
-                              Icons.edit,
-                              color: onEditColor[i],
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                listNamaAkun[i].enableEditing =
-                                    !listNamaAkun[i].enableEditing;
-                                if (listNamaAkun[i].enableEditing) {
-                                  onEditColor[i] = Colors.blue;
-                                }
-                                if (listNamaAkun[i].enableEditing == false) {
-                                  onEditColor[i] = Colors.red;
-                                }
-                              });
-                            }))
-                      ]),
-                  ]),
-            )),
+                child: FutureBuilder(
+                    future: fetchAkuntanCoA(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        var _hasil = snapshot.data['data'];
+                        // print("snapshot: ${snapshot.data}");
+                        for (var i in _hasil) {
+                          listNamaAkun.add(DataCoA(
+                              enableEditing: false,
+                              id: i['id'],
+                              no: i['no'],
+                              nama: i['nama']));
+                        }
+                        for (var i in listNamaAkun) {
+                          print("${i.nama}");
+                        }
+                        return Column(
+                          children: [
+                            for (var i = 0; i < listNamaAkun.length; i++)
+                              Text(listNamaAkun[i].nama),
+                          ],
+                        );
+                      } else {
+                        return Text('data waiting');
+                      }
+                    }))),
       ),
     );
   }
