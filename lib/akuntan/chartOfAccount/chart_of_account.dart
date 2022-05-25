@@ -71,6 +71,7 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
                     builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         var _hasil = snapshot.data['data'];
+
                         // print("snapshot: ${snapshot.data}");
                         for (var i in _hasil) {
                           listNamaAkun.add(DataCoA(
@@ -79,14 +80,60 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
                               no: i['no'],
                               nama: i['nama']));
                         }
-                        for (var i in listNamaAkun) {
-                          print("${i.nama}");
-                        }
-                        return Column(
-                          children: [
-                            for (var i = 0; i < listNamaAkun.length; i++)
-                              Text(listNamaAkun[i].nama),
-                          ],
+                        onEditColor = List.generate(
+                            listNamaAkun.length, (index) => Colors.blue);
+
+                        return SingleChildScrollView(
+                          child: DataTable(
+                              headingRowColor: MaterialStateColor.resolveWith(
+                                  (states) => Colors.blue[100]),
+                              columns: [
+                                DataColumn(label: Text('Nomor')),
+                                DataColumn(label: Text('Nama')),
+                                DataColumn(label: Text('Edit')),
+                              ],
+                              rows: [
+                                for (var i = 0; i < listNamaAkun.length; i++)
+                                  DataRow(cells: [
+                                    DataCell(
+                                      TextFormField(
+                                        initialValue: '${listNamaAkun[i].no}',
+                                        enabled: listNamaAkun[i].enableEditing,
+                                      ),
+                                    ),
+                                    DataCell(
+                                      TextFormField(
+                                        initialValue: '${listNamaAkun[i].nama}',
+                                        // controller: listEditNamaCoA[i],
+                                        enabled: listNamaAkun[i].enableEditing,
+                                        onChanged: (value) {
+                                          listNamaAkun[i].nama = value;
+                                          print("${listNamaAkun[i].nama}");
+                                        },
+                                      ),
+                                    ),
+                                    DataCell(IconButton(
+                                        icon: Icon(
+                                          Icons.edit,
+                                          color: onEditColor[i],
+                                        ),
+                                        onPressed: () {
+                                          listNamaAkun[i].enableEditing =
+                                              !listNamaAkun[i].enableEditing;
+                                          setState(() {
+                                            print(
+                                                "listNamaAkun[$i].enableEditing: ${listNamaAkun[i].enableEditing}");
+                                            if (listNamaAkun[i].enableEditing) {
+                                              onEditColor[i] = Colors.yellow;
+                                            }
+                                            if (listNamaAkun[i].enableEditing ==
+                                                false) {
+                                              onEditColor[i] = Colors.red;
+                                            }
+                                          });
+                                        }))
+                                  ]),
+                              ]),
                         );
                       } else {
                         return Text('data waiting');
