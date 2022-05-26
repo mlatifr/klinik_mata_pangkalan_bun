@@ -2,6 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/akuntan/chartOfAccount/model_listAkun.dart';
+import 'package:flutter_application_1/akuntan/chartOfAccount/tambah_akun/tambah_akunCoA.dart';
 
 import 'get_listCoA.dart';
 
@@ -153,7 +154,43 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
           //   icon: Icon(Icons.add),
           // ),
           floatingActionButton: FloatingActionButton(
-            onPressed: () {},
+            onPressed: () {
+              // Navigator.push(context,
+              //     MaterialPageRoute(builder: (context) => TambahAkunCoA()));
+              showModalBottomSheet<void>(
+                context: context,
+                builder: (BuildContext ctx) {
+                  return Container(
+                    height: MediaQuery.of(context).size.height * 0.5,
+                    color: Colors.amber,
+                    child: Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: <Widget>[
+                          TextFormField(
+                            decoration: InputDecoration(
+                              // border: OutlineInputBorder(),
+                              hintText: 'No Akun',
+                            ),
+                          ),
+                          TextFormField(
+                            decoration: InputDecoration(
+                              // border: OutlineInputBorder(),
+                              hintText: 'Nama Akun',
+                            ),
+                          ),
+                          ElevatedButton(
+                            child: const Text('Close BottomSheet'),
+                            onPressed: () => Navigator.pop(ctx),
+                          )
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              );
+            },
             child: Icon(Icons.add),
           ),
         ),
