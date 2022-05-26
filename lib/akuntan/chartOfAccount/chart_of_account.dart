@@ -55,97 +55,108 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
     return SafeArea(
       child: MaterialApp(
         home: Scaffold(
-            appBar: AppBar(
-              title: Center(child: Text('Chart Of Account')),
-              leading: new IconButton(
-                icon: new Icon(Icons.arrow_back),
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-              ),
+          appBar: AppBar(
+            title: Center(child: Text('Chart Of Account')),
+            leading: new IconButton(
+              icon: new Icon(Icons.arrow_back),
+              onPressed: () {
+                Navigator.pop(context);
+              },
             ),
-            body: SingleChildScrollView(
-                child: FutureBuilder(
-                    future: fetchAkuntanCoA(),
-                    builder: (context, snapshot) {
-                      if (snapshot.hasData) {
-                        var _hasil = snapshot.data['data'];
+          ),
+          body: SingleChildScrollView(
+              child: FutureBuilder(
+                  future: fetchAkuntanCoA(),
+                  builder: (context, snapshot) {
+                    if (snapshot.hasData) {
+                      var _hasil = snapshot.data['data'];
 
-                        // print("snapshot: ${snapshot.data}");
-                        for (var i in _hasil) {
-                          listNamaAkun.add(DataCoA(
-                              enableEditing: false,
-                              id: i['id'],
-                              no: i['no'],
-                              nama: i['nama'],
-                              editColor: Colors.blue));
-                        }
-
-                        return SingleChildScrollView(
-                          child: DataTable(
-                              headingRowColor: MaterialStateColor.resolveWith(
-                                  (states) => Colors.blue[100]),
-                              columns: [
-                                DataColumn(label: Text('Nomor')),
-                                DataColumn(label: Text('Nama')),
-                                DataColumn(label: Text('Edit')),
-                              ],
-                              rows: [
-                                for (var i = 0; i < listNamaAkun.length; i++)
-                                  DataRow(cells: [
-                                    DataCell(
-                                      TextFormField(
-                                        initialValue: '${listNamaAkun[i].no}',
-                                        enabled: listNamaAkun[i].enableEditing,
-                                      ),
-                                    ),
-                                    DataCell(
-                                      TextFormField(
-                                        initialValue: '${listNamaAkun[i].nama}',
-                                        // controller: listEditNamaCoA[i],
-                                        enabled: listNamaAkun[i].enableEditing,
-                                        onChanged: (value) {
-                                          listNamaAkun[i].nama = value;
-                                          print("${listNamaAkun[i].nama}");
-                                        },
-                                      ),
-                                    ),
-                                    DataCell(IconButton(
-                                        icon: Icon(
-                                          Icons.edit,
-                                          color: listNamaAkun[i].editColor,
-                                        ),
-                                        onPressed: () {
-                                          listNamaAkun[i].enableEditing =
-                                              !listNamaAkun[i].enableEditing;
-
-                                          if (listNamaAkun[i].enableEditing) {
-                                            print(
-                                                "listNamaAkun[$i].enableEditing: ${listNamaAkun[i].enableEditing}"
-                                                "\n onEditColor[$i] ${listNamaAkun[i].editColor}");
-                                            setState(() {
-                                              listNamaAkun[i].editColor =
-                                                  Colors.blue;
-                                            });
-                                          }
-                                          if (listNamaAkun[i].enableEditing ==
-                                              false) {
-                                            print(
-                                                "listNamaAkun[$i].enableEditing: ${listNamaAkun[i].enableEditing}"
-                                                "\n onEditColor[$i] ${listNamaAkun[i].editColor}");
-                                            setState(() {
-                                              listNamaAkun[i].editColor =
-                                                  Colors.red[200];
-                                            });
-                                          }
-                                        }))
-                                  ]),
-                              ]),
-                        );
-                      } else {
-                        return Text('data waiting');
+                      // print("snapshot: ${snapshot.data}");
+                      listNamaAkun.clear();
+                      for (var i in _hasil) {
+                        listNamaAkun.add(DataCoA(
+                            enableEditing: false,
+                            id: i['id'],
+                            no: i['no'],
+                            nama: i['nama'],
+                            editColor: Colors.blue));
                       }
-                    }))),
+
+                      return SingleChildScrollView(
+                        child: DataTable(
+                            headingRowColor: MaterialStateColor.resolveWith(
+                                (states) => Colors.blue[100]),
+                            columns: [
+                              DataColumn(label: Text('Nomor')),
+                              DataColumn(label: Text('Nama')),
+                              DataColumn(label: Text('Edit')),
+                            ],
+                            rows: [
+                              for (var i = 0; i < listNamaAkun.length; i++)
+                                DataRow(cells: [
+                                  DataCell(
+                                    TextFormField(
+                                      initialValue: '${listNamaAkun[i].no}',
+                                      enabled: listNamaAkun[i].enableEditing,
+                                    ),
+                                  ),
+                                  DataCell(
+                                    TextFormField(
+                                      initialValue: '${listNamaAkun[i].nama}',
+                                      // controller: listEditNamaCoA[i],
+                                      enabled: listNamaAkun[i].enableEditing,
+                                      onChanged: (value) {
+                                        listNamaAkun[i].nama = value;
+                                        print("${listNamaAkun[i].nama}");
+                                      },
+                                    ),
+                                  ),
+                                  DataCell(IconButton(
+                                      icon: Icon(
+                                        Icons.edit,
+                                        color: listNamaAkun[i].editColor,
+                                      ),
+                                      onPressed: () {
+                                        listNamaAkun[i].enableEditing =
+                                            !listNamaAkun[i].enableEditing;
+
+                                        if (listNamaAkun[i].enableEditing) {
+                                          print(
+                                              "listNamaAkun[$i].enableEditing: ${listNamaAkun[i].enableEditing}"
+                                              "\n onEditColor[$i] ${listNamaAkun[i].editColor}");
+                                          setState(() {
+                                            listNamaAkun[i].editColor =
+                                                Colors.red;
+                                          });
+                                        }
+                                        if (listNamaAkun[i].enableEditing ==
+                                            false) {
+                                          print(
+                                              "listNamaAkun[$i].enableEditing: ${listNamaAkun[i].enableEditing}"
+                                              "\n onEditColor[$i] ${listNamaAkun[i].editColor}");
+                                          setState(() {
+                                            listNamaAkun[i].editColor =
+                                                Colors.blue;
+                                          });
+                                        }
+                                      }))
+                                ]),
+                            ]),
+                      );
+                    } else {
+                      return Text('data waiting');
+                    }
+                  })),
+          // floatingActionButton: FloatingActionButton.extended(
+          //   onPressed: () {},
+          //   label: Text('Tambah Akun'),
+          //   icon: Icon(Icons.add),
+          // ),
+          floatingActionButton: FloatingActionButton(
+            onPressed: () {},
+            child: Icon(Icons.add),
+          ),
+        ),
       ),
     );
   }
