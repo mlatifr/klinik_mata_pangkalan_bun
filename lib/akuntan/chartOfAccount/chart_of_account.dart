@@ -1,8 +1,5 @@
-import 'dart:ffi';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/akuntan/chartOfAccount/model_listAkun.dart';
-import 'package:flutter_application_1/akuntan/chartOfAccount/tambah_akun/tambah_akunCoA.dart';
 
 import 'get_listCoA.dart';
 
@@ -118,8 +115,10 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
                                         color: listNamaAkun[i].editColor,
                                       ),
                                       onPressed: () {
-                                        listNamaAkun[i].enableEditing =
-                                            !listNamaAkun[i].enableEditing;
+                                        setState(() {
+                                          listNamaAkun[i].enableEditing =
+                                              !listNamaAkun[i].enableEditing;
+                                        });
 
                                         if (listNamaAkun[i].enableEditing) {
                                           print(
@@ -129,8 +128,8 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
                                             listNamaAkun[i].editColor =
                                                 Colors.red;
                                           });
-                                        }
-                                        if (listNamaAkun[i].enableEditing ==
+                                        } else if (listNamaAkun[i]
+                                                .enableEditing ==
                                             false) {
                                           print(
                                               "listNamaAkun[$i].enableEditing: ${listNamaAkun[i].enableEditing}"
@@ -154,47 +153,78 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
           //   icon: Icon(Icons.add),
           // ),
           floatingActionButton: FloatingActionButton(
-            onPressed: () {
+            onPressed: () async {
               // Navigator.push(context,
               //     MaterialPageRoute(builder: (context) => TambahAkunCoA()));
-              showModalBottomSheet<void>(
-                context: context,
-                builder: (BuildContext ctx) {
-                  return Container(
-                    height: MediaQuery.of(context).size.height * 0.5,
-                    color: Colors.amber,
-                    child: Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        mainAxisSize: MainAxisSize.min,
-                        children: <Widget>[
-                          TextFormField(
-                            decoration: InputDecoration(
-                              // border: OutlineInputBorder(),
-                              hintText: 'No Akun',
-                            ),
-                          ),
-                          TextFormField(
-                            decoration: InputDecoration(
-                              // border: OutlineInputBorder(),
-                              hintText: 'Nama Akun',
-                            ),
-                          ),
-                          ElevatedButton(
-                            child: const Text('Close BottomSheet'),
-                            onPressed: () => Navigator.pop(ctx),
-                          )
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              );
+              await ModalBottomAddCoA(context);
+              setState(() {});
             },
             child: Icon(Icons.add),
           ),
         ),
       ),
+    );
+  }
+
+  Future<void> ModalBottomAddCoA(BuildContext context) {
+    TextEditingController _noAkun = TextEditingController();
+    TextEditingController _namaAkun = TextEditingController();
+    return showModalBottomSheet<void>(
+      context: context,
+      builder: (BuildContext ctx) {
+        return Container(
+          padding: EdgeInsets.all(10),
+          height: MediaQuery.of(context).size.height * 0.3,
+          // color: Colors.amber,
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisSize: MainAxisSize.min,
+              children: <Widget>[
+                TextFormField(
+                  controller: _noAkun,
+                  decoration: InputDecoration(
+                    // border: OutlineInputBorder(),
+                    hintText: 'No Akun',
+                  ),
+                ),
+                TextFormField(
+                  controller: _namaAkun,
+                  decoration: InputDecoration(
+                    // border: OutlineInputBorder(),
+                    hintText: 'Nama Akun',
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                      child: const Text('Tambah'),
+                      onPressed: () {
+                        listNamaAkun.add(
+                          DataCoA(
+                              nama: _namaAkun.text,
+                              no: int.parse(_noAkun.text),
+                              enableEditing: false,
+                              editColor: Colors.blue),
+                        );
+                        for (var item in listNamaAkun) {
+                          print(item.nama);
+                        }
+                        Navigator.pop(ctx);
+                      },
+                    ),
+                    ElevatedButton(
+                      child: const Text('Batal'),
+                      onPressed: () => Navigator.pop(ctx),
+                    ),
+                  ],
+                )
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 }
