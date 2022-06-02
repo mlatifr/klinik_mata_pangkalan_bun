@@ -11,42 +11,10 @@ class ChartOfAccount extends StatefulWidget {
 }
 
 class _ChartOfAccountState extends State<ChartOfAccount> {
-  // List<TextEditingController> listEditNamaCoA =
-  //     List.generate(listNamaAkun.length, (index) {
-  //   TextEditingController();
-  // });
-  // List<TextEditingController> listEditText = [
-  //   TextEditingController(text: 'first')
-  // ];
-  Color onEditColor;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   AkuntanBacaDataCoa().then((value) {
-  //     setState(() {
-  //       _listNamaAkun = listNamaAkun;
-  //       onEditColor =
-  //           List.generate(_listNamaAkun.length, (index) => Colors.red);
-  //     });
-  //     print('done waiting: list total= ${_listNamaAkun.length}');
-  //   });
-
-  //   // //tampil rendersetelah completed loade all data
-  //   // WidgetsBinding.instance.addPostFrameCallback((_) => AkuntanBacaDataCoa());
-  // }
   @override
   void initState() {
     super.initState();
   }
-  // void waitingReadListCoA() async {
-  //   await Future.wait([
-  //     AkuntanBacaDataCoa().then((value) {
-  //       print('done waiting: list total= ${listNamaAkun.length}');
-  //       setState(() {});
-  //     })
-  //   ]);
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -67,19 +35,6 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
                   future: fetchAkuntanCoA(),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
-                      var _hasil = snapshot.data['data'];
-
-                      // print("snapshot: ${snapshot.data}");
-                      listNamaAkun.clear();
-                      for (var i in _hasil) {
-                        listNamaAkun.add(DataCoA(
-                            enableEditing: false,
-                            id: i['id'],
-                            no: i['no'],
-                            nama: i['nama'],
-                            editColor: Colors.blue));
-                      }
-
                       return SingleChildScrollView(
                         child: DataTable(
                             headingRowColor: MaterialStateColor.resolveWith(
@@ -87,7 +42,6 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
                             columns: [
                               DataColumn(label: Text('Nomor')),
                               DataColumn(label: Text('Nama')),
-                              DataColumn(label: Text('Edit')),
                             ],
                             rows: [
                               for (var i = 0; i < listNamaAkun.length; i++)
@@ -95,51 +49,19 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
                                   DataCell(
                                     TextFormField(
                                       initialValue: '${listNamaAkun[i].no}',
-                                      enabled: listNamaAkun[i].enableEditing,
+                                      enabled: false,
                                     ),
                                   ),
                                   DataCell(
                                     TextFormField(
                                       initialValue: '${listNamaAkun[i].nama}',
-                                      // controller: listEditNamaCoA[i],
-                                      enabled: listNamaAkun[i].enableEditing,
+                                      enabled: false,
                                       onChanged: (value) {
                                         listNamaAkun[i].nama = value;
                                         print("${listNamaAkun[i].nama}");
                                       },
                                     ),
                                   ),
-                                  DataCell(IconButton(
-                                      icon: Icon(
-                                        Icons.edit,
-                                        color: listNamaAkun[i].editColor,
-                                      ),
-                                      onPressed: () {
-                                        setState(() {
-                                          listNamaAkun[i].enableEditing =
-                                              !listNamaAkun[i].enableEditing;
-                                        });
-
-                                        if (listNamaAkun[i].enableEditing) {
-                                          print(
-                                              "listNamaAkun[$i].enableEditing: ${listNamaAkun[i].enableEditing}"
-                                              "\n onEditColor[$i] ${listNamaAkun[i].editColor}");
-                                          setState(() {
-                                            listNamaAkun[i].editColor =
-                                                Colors.red;
-                                          });
-                                        } else if (listNamaAkun[i]
-                                                .enableEditing ==
-                                            false) {
-                                          print(
-                                              "listNamaAkun[$i].enableEditing: ${listNamaAkun[i].enableEditing}"
-                                              "\n onEditColor[$i] ${listNamaAkun[i].editColor}");
-                                          setState(() {
-                                            listNamaAkun[i].editColor =
-                                                Colors.blue;
-                                          });
-                                        }
-                                      }))
                                 ]),
                             ]),
                       );
@@ -147,17 +69,9 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
                       return Text('data waiting');
                     }
                   })),
-          // floatingActionButton: FloatingActionButton.extended(
-          //   onPressed: () {},
-          //   label: Text('Tambah Akun'),
-          //   icon: Icon(Icons.add),
-          // ),
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
-              // Navigator.push(context,
-              //     MaterialPageRoute(builder: (context) => TambahAkunCoA()));
               await ModalBottomAddCoA(context);
-              setState(() {});
             },
             child: Icon(Icons.add),
           ),
@@ -201,13 +115,15 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
                     ElevatedButton(
                       child: const Text('Tambah'),
                       onPressed: () {
-                        listNamaAkun.add(
-                          DataCoA(
-                              nama: _namaAkun.text,
-                              no: int.parse(_noAkun.text),
-                              enableEditing: false,
-                              editColor: Colors.blue),
-                        );
+                        setState(() {
+                          listNamaAkun.add(
+                            DataCoA(
+                                nama: _namaAkun.text,
+                                no: int.parse(_noAkun.text),
+                                enableEditing: false,
+                                editColor: Colors.blue),
+                          );
+                        });
                         for (var item in listNamaAkun) {
                           print(item.nama);
                         }
