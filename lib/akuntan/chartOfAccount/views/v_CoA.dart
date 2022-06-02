@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/akuntan/chartOfAccount/model_listAkun.dart';
-
-import 'get_listCoA.dart';
+import 'package:flutter_application_1/akuntan/chartOfAccount/models/model_listAkun.dart';
+import 'package:flutter_application_1/akuntan/chartOfAccount/services/fetchListCoA.dart';
+import '../controllers/controller_CoA.dart';
+import 'package:get/get.dart';
+ 
 
 class ChartOfAccount extends StatefulWidget {
   const ChartOfAccount({Key key}) : super(key: key);
@@ -31,44 +33,46 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
             ),
           ),
           body: SingleChildScrollView(
-              child: FutureBuilder(
-                  future: fetchAkuntanCoA(),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return SingleChildScrollView(
-                        child: DataTable(
-                            headingRowColor: MaterialStateColor.resolveWith(
-                                (states) => Colors.blue[100]),
-                            columns: [
-                              DataColumn(label: Text('Nomor')),
-                              DataColumn(label: Text('Nama')),
-                            ],
-                            rows: [
-                              for (var i = 0; i < listNamaAkun.length; i++)
-                                DataRow(cells: [
-                                  DataCell(
-                                    TextFormField(
-                                      initialValue: '${listNamaAkun[i].no}',
-                                      enabled: false,
-                                    ),
+              child: Obx(
+            () => FutureBuilder(
+                future: fetchAkuntanCoA(),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return SingleChildScrollView(
+                      child: DataTable(
+                          headingRowColor: MaterialStateColor.resolveWith(
+                              (states) => Colors.blue[100]),
+                          columns: [
+                            DataColumn(label: Text('Nomor')),
+                            DataColumn(label: Text('Nama')),
+                          ],
+                          rows: [
+                            for (var i = 0; i < listCoAController().listNamaAkun.length; i++)
+                              DataRow(cells: [
+                                DataCell(
+                                  TextFormField(
+                                    initialValue: '${listCoAController().listNamaAkun[i].no}',
+                                    enabled: false,
                                   ),
-                                  DataCell(
-                                    TextFormField(
-                                      initialValue: '${listNamaAkun[i].nama}',
-                                      enabled: false,
-                                      onChanged: (value) {
-                                        listNamaAkun[i].nama = value;
-                                        print("${listNamaAkun[i].nama}");
-                                      },
-                                    ),
+                                ),
+                                DataCell(
+                                  TextFormField(
+                                    initialValue: '${listCoAController().listNamaAkun[i].nama}',
+                                    enabled: false,
+                                    onChanged: (value) {
+                                      listCoAController().listNamaAkun[i].nama = value;
+                                      print("${listCoAController().listNamaAkun[i].nama}");
+                                    },
                                   ),
-                                ]),
-                            ]),
-                      );
-                    } else {
-                      return Text('data waiting');
-                    }
-                  })),
+                                ),
+                              ]),
+                          ]),
+                    );
+                  } else {
+                    return Text('data waiting');
+                  }
+                }),
+          )),
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
               await ModalBottomAddCoA(context);
@@ -116,7 +120,7 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
                       child: const Text('Tambah'),
                       onPressed: () {
                         setState(() {
-                          listNamaAkun.add(
+                          listCoAController().listNamaAkun.add(
                             DataCoA(
                                 nama: _namaAkun.text,
                                 no: int.parse(_noAkun.text),
@@ -124,7 +128,7 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
                                 editColor: Colors.blue),
                           );
                         });
-                        for (var item in listNamaAkun) {
+                        for (var item in listCoAController().listNamaAkun) {
                           print(item.nama);
                         }
                         Navigator.pop(ctx);
