@@ -16,7 +16,7 @@ import 'dokter/dr_antrean_pasien.dart';
 import 'dart:async';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-
+import 'package:get/get.dart';
 import 'kasir/kasir_antrean_pasien.dart';
 
 DateTime now = new DateTime.now();
@@ -105,7 +105,7 @@ void main() {
       runApp(MaterialApp(home: KsrAntreanPasien()));
     } else if (result.contains('akuntan')) {
       username = result;
-      runApp(MaterialApp(home: AkuntanMainPage()));
+      runApp(GetMaterialApp(home: AkuntanMainPage()));
     } else if (result != null || result != '') {
       username = result;
       runApp(MyApp());

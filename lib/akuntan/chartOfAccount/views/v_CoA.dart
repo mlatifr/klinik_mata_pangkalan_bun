@@ -3,21 +3,13 @@ import 'package:flutter_application_1/akuntan/chartOfAccount/models/model_listAk
 import 'package:flutter_application_1/akuntan/chartOfAccount/services/fetchListCoA.dart';
 import '../controllers/controller_CoA.dart';
 import 'package:get/get.dart';
- 
 
 class ChartOfAccount extends StatefulWidget {
-  const ChartOfAccount({Key key}) : super(key: key);
-
   @override
   State<ChartOfAccount> createState() => _ChartOfAccountState();
 }
 
 class _ChartOfAccountState extends State<ChartOfAccount> {
-  @override
-  void initState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -37,7 +29,9 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
             () => FutureBuilder(
                 future: fetchAkuntanCoA(),
                 builder: (context, snapshot) {
+                  print('cek obx');
                   if (snapshot.hasData) {
+                    print('cek snapshot.hasData ${snapshot.data}');
                     return SingleChildScrollView(
                       child: DataTable(
                           headingRowColor: MaterialStateColor.resolveWith(
@@ -47,21 +41,27 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
                             DataColumn(label: Text('Nama')),
                           ],
                           rows: [
-                            for (var i = 0; i < listCoAController().listNamaAkun.length; i++)
+                            for (var i = 0;
+                                i < _CoAController.listNamaAkun.length;
+                                i++)
                               DataRow(cells: [
                                 DataCell(
                                   TextFormField(
-                                    initialValue: '${listCoAController().listNamaAkun[i].no}',
+                                    initialValue:
+                                        '${_CoAController.listNamaAkun[i].no}',
                                     enabled: false,
                                   ),
                                 ),
                                 DataCell(
                                   TextFormField(
-                                    initialValue: '${listCoAController().listNamaAkun[i].nama}',
+                                    initialValue:
+                                        '${_CoAController.listNamaAkun[i].nama}',
                                     enabled: false,
                                     onChanged: (value) {
-                                      listCoAController().listNamaAkun[i].nama = value;
-                                      print("${listCoAController().listNamaAkun[i].nama}");
+                                      _CoAController.listNamaAkun[i].nama =
+                                          value;
+                                      print(
+                                          "${_CoAController.listNamaAkun[i].nama}");
                                     },
                                   ),
                                 ),
@@ -69,6 +69,7 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
                           ]),
                     );
                   } else {
+                    print('cek else');
                     return Text('data waiting');
                   }
                 }),
@@ -84,6 +85,7 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
     );
   }
 
+  final _CoAController = Get.put(listCoAController());
   Future<void> ModalBottomAddCoA(BuildContext context) {
     TextEditingController _noAkun = TextEditingController();
     TextEditingController _namaAkun = TextEditingController();
@@ -119,15 +121,8 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
                     ElevatedButton(
                       child: const Text('Tambah'),
                       onPressed: () {
-                        setState(() {
-                          listCoAController().listNamaAkun.add(
-                            DataCoA(
-                                nama: _namaAkun.text,
-                                no: int.parse(_noAkun.text),
-                                enableEditing: false,
-                                editColor: Colors.blue),
-                          );
-                        });
+                        _CoAController.addAkunCoa(
+                            _namaAkun.text, int.parse(_noAkun.text));
                         for (var item in listCoAController().listNamaAkun) {
                           print(item.nama);
                         }
