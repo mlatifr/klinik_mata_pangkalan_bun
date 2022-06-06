@@ -9,6 +9,7 @@ class ChartOfAccount extends StatefulWidget {
 }
 
 class _ChartOfAccountState extends State<ChartOfAccount> {
+  final CoAController = Get.put(listCoAController());
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -29,9 +30,14 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
                 future: fetchAkuntanCoA(),
                 builder: (context, snapshot) {
                   print('cek obx');
-                  _CoAController.AkuntanBacaDataCoa();
-                  if (snapshot.hasData) {
-                    print('cek snapshot.hasData ${snapshot.data}');
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return Center(
+                      child: CircularProgressIndicator(),
+                    );
+                  }
+                  if (snapshot.connectionState == ConnectionState.done) {
+                    var hasilGet = snapshot.data['data'];
+                    print('cek snapshot.hasData ${hasilGet.length}');
                     return SingleChildScrollView(
                       child: DataTable(
                           headingRowColor: MaterialStateColor.resolveWith(
@@ -41,28 +47,24 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
                             DataColumn(label: Text('Nama')),
                           ],
                           rows: [
-                            for (var i = 0;
-                                i < _CoAController.listNamaAkun.length;
-                                i++)
+                            for (var i = 0; i < hasilGet.length; i++)
                               DataRow(cells: [
+                                DataCell(Text('${hasilGet}')
+                                    // TextFormField(
+                                    //   // initialValue: '${hasilGet['no']}',
+                                    //   enabled: false,
+                                    // ),
+                                    ),
                                 DataCell(
                                   TextFormField(
-                                    initialValue:
-                                        '${_CoAController.listNamaAkun[i].no}',
+                                    // initialValue: '${hasilGet['nama']}',
                                     enabled: false,
-                                  ),
-                                ),
-                                DataCell(
-                                  TextFormField(
-                                    initialValue:
-                                        '${_CoAController.listNamaAkun[i].nama}',
-                                    enabled: false,
-                                    onChanged: (value) {
-                                      _CoAController.listNamaAkun[i].nama =
-                                          value;
-                                      print(
-                                          "${_CoAController.listNamaAkun[i].nama}");
-                                    },
+                                    // onChanged: (value) {
+                                    //   CoAController.listNamaAkun[i].nama =
+                                    //       value;
+                                    //   print(
+                                    //       "${CoAController.listNamaAkun[i].nama}");
+                                    // },
                                   ),
                                 ),
                               ]),
@@ -85,7 +87,6 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
     );
   }
 
-  final _CoAController = Get.put(listCoAController());
   Future<void> ModalBottomAddCoA(BuildContext context) {
     TextEditingController _noAkun = TextEditingController();
     TextEditingController _namaAkun = TextEditingController();
@@ -121,7 +122,7 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
                     ElevatedButton(
                       child: const Text('Tambah'),
                       onPressed: () {
-                        _CoAController.addAkunCoa(
+                        CoAController.addAkunCoa(
                             _namaAkun.text, int.parse(_noAkun.text));
                         for (var item in listCoAController().listNamaAkun) {
                           print(item.nama);
