@@ -15,6 +15,7 @@ class listCoAController extends GetxController {
         id: 1,
         no: 1)
   ].obs;
+  
   Future AkuntanBacaDataCoa() async {
     listNamaAkun.clear();
     Future dataCoa = fetchAkuntanCoA();
@@ -33,4 +34,5 @@ class listCoAController extends GetxController {
     listNamaAkun.add(DataCoA(
         nama: nama, no: no, enableEditing: false, editColor: Colors.blue));
   }
+  
 }

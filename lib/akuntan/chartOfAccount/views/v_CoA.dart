@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/akuntan/chartOfAccount/models/model_listAkun.dart';
 import 'package:flutter_application_1/akuntan/chartOfAccount/services/fetchListCoA.dart';
 import '../controllers/controller_CoA.dart';
 import 'package:get/get.dart';
@@ -30,6 +29,7 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
                 future: fetchAkuntanCoA(),
                 builder: (context, snapshot) {
                   print('cek obx');
+                  _CoAController.AkuntanBacaDataCoa();
                   if (snapshot.hasData) {
                     print('cek snapshot.hasData ${snapshot.data}');
                     return SingleChildScrollView(
