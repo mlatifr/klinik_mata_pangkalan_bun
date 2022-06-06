@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/akuntan/chartOfAccount/models/model_listAkun.dart';
 import 'package:flutter_application_1/akuntan/chartOfAccount/services/fetchListCoA.dart';
 import '../controllers/controller_CoA.dart';
 import 'package:get/get.dart';
@@ -36,8 +37,13 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
                     );
                   }
                   if (snapshot.connectionState == ConnectionState.done) {
+                    List<DataCoA> _listCoA = [];
                     var hasilGet = snapshot.data['data'];
-                    print('cek snapshot.hasData ${hasilGet.length}');
+                    for (var i in hasilGet) {
+                      var jsnRslt = DataCoA.fromJson(i);
+                      _listCoA.add(jsnRslt);
+                    }
+                    // print('cek snapshot.hasData ${hasilGet.length}');
                     return SingleChildScrollView(
                       child: DataTable(
                           headingRowColor: MaterialStateColor.resolveWith(
@@ -47,26 +53,26 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
                             DataColumn(label: Text('Nama')),
                           ],
                           rows: [
-                            for (var i = 0; i < hasilGet.length; i++)
+                            for (var i = 0; i < _listCoA.length; i++)
                               DataRow(cells: [
-                                DataCell(Text('${hasilGet}')
+                                DataCell(Text('${_listCoA[i].no}')
                                     // TextFormField(
                                     //   // initialValue: '${hasilGet['no']}',
                                     //   enabled: false,
                                     // ),
                                     ),
-                                DataCell(
-                                  TextFormField(
-                                    // initialValue: '${hasilGet['nama']}',
-                                    enabled: false,
-                                    // onChanged: (value) {
-                                    //   CoAController.listNamaAkun[i].nama =
-                                    //       value;
-                                    //   print(
-                                    //       "${CoAController.listNamaAkun[i].nama}");
-                                    // },
-                                  ),
-                                ),
+                                DataCell(Text('${_listCoA[i].nama}')
+                                    // TextFormField(
+                                    //   // initialValue: '${hasilGet['nama']}',
+                                    //   enabled: false,
+                                    //   // onChanged: (value) {
+                                    //   //   CoAController.listNamaAkun[i].nama =
+                                    //   //       value;
+                                    //   //   print(
+                                    //   //       "${CoAController.listNamaAkun[i].nama}");
+                                    //   // },
+                                    // ),
+                                    ),
                               ]),
                           ]),
                     );
