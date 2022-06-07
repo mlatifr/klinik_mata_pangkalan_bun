@@ -105,7 +105,10 @@ void main() {
       runApp(MaterialApp(home: KsrAntreanPasien()));
     } else if (result.contains('akuntan')) {
       username = result;
-      runApp(GetMaterialApp(home: AkuntanMainPage()));
+      runApp(GetMaterialApp(
+        home: AkuntanMainPage(),
+        debugShowCheckedModeBanner: false,
+      ));
     } else if (result != null || result != '') {
       username = result;
       runApp(MyApp());

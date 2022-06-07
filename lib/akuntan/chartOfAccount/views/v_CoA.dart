@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/akuntan/chartOfAccount/controllers/controller_CoA.dart';
-import 'package:flutter_application_1/akuntan/chartOfAccount/models/model_listAkun.dart';
 import 'package:flutter_application_1/akuntan/chartOfAccount/services/fetchListCoA.dart';
 import 'package:get/get.dart';
 import 'add_CoA.dart';
 
 class ChartOfAccount extends StatefulWidget {
   @override
-  State<ChartOfAccount> createState() => _ChartOfAccountState();
+  _ChartOfAccountState createState() => _ChartOfAccountState();
 }
 
 class _ChartOfAccountState extends State<ChartOfAccount> {
   listCoAController CoaController = Get.put(listCoAController());
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -30,20 +30,13 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
             child: FutureBuilder(
                 future: fetchAkuntanCoA(),
                 builder: (context, snapshot) {
-                  print('cek obx');
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return Center(
                       child: CircularProgressIndicator(),
                     );
                   }
                   if (snapshot.connectionState == ConnectionState.done) {
-                    // List<DataCoA> _listCoA = [];
-                    CoaController.listNamaAkun.clear();
-                    var hasilGet = snapshot.data['data'];
-                    for (var i in hasilGet) {
-                      var jsnRslt = DataCoA.fromJson(i);
-                      CoaController.listNamaAkun.add(jsnRslt);
-                    }
+                    // CoaController.GetCoAList(snapshot);
                     return SingleChildScrollView(
                       child: DataTable(
                           headingRowColor: MaterialStateColor.resolveWith(
@@ -65,14 +58,18 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
                           ]),
                     );
                   } else {
-                    print('cek else');
                     return Text('data waiting');
                   }
                 }),
           ),
           floatingActionButton: FloatingActionButton(
-            onPressed: () async {
-              await ModalBottomAddCoA(context);
+            onPressed: () {
+              for (var i = 0; i < CoaController.listNamaAkun.length; i++) {
+                print(CoaController.listNamaAkun[i].nama);
+              }
+              ModalBottomAddCoA(context).then((v) {
+                setState(() {});
+              });
             },
             child: Icon(Icons.add),
           ),
