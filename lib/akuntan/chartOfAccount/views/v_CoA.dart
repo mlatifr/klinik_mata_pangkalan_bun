@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/akuntan/chartOfAccount/controllers/controller_CoA.dart';
 import 'package:flutter_application_1/akuntan/chartOfAccount/models/model_listAkun.dart';
 import 'package:flutter_application_1/akuntan/chartOfAccount/services/fetchListCoA.dart';
-import '../controllers/controller_CoA.dart';
 import 'package:get/get.dart';
+import 'add_CoA.dart';
 
 class ChartOfAccount extends StatefulWidget {
   @override
@@ -10,7 +11,7 @@ class ChartOfAccount extends StatefulWidget {
 }
 
 class _ChartOfAccountState extends State<ChartOfAccount> {
-  final CoAController = Get.put(listCoAController());
+  listCoAController CoaController = Get.put(listCoAController());
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -26,8 +27,7 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
             ),
           ),
           body: SingleChildScrollView(
-              child: Obx(
-            () => FutureBuilder(
+            child: FutureBuilder(
                 future: fetchAkuntanCoA(),
                 builder: (context, snapshot) {
                   print('cek obx');
@@ -37,13 +37,13 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
                     );
                   }
                   if (snapshot.connectionState == ConnectionState.done) {
-                    List<DataCoA> _listCoA = [];
+                    // List<DataCoA> _listCoA = [];
+                    CoaController.listNamaAkun.clear();
                     var hasilGet = snapshot.data['data'];
                     for (var i in hasilGet) {
                       var jsnRslt = DataCoA.fromJson(i);
-                      _listCoA.add(jsnRslt);
+                      CoaController.listNamaAkun.add(jsnRslt);
                     }
-                    // print('cek snapshot.hasData ${hasilGet.length}');
                     return SingleChildScrollView(
                       child: DataTable(
                           headingRowColor: MaterialStateColor.resolveWith(
@@ -53,26 +53,14 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
                             DataColumn(label: Text('Nama')),
                           ],
                           rows: [
-                            for (var i = 0; i < _listCoA.length; i++)
+                            for (var i = 0;
+                                i < CoaController.listNamaAkun.length;
+                                i++)
                               DataRow(cells: [
-                                DataCell(Text('${_listCoA[i].no}')
-                                    // TextFormField(
-                                    //   // initialValue: '${hasilGet['no']}',
-                                    //   enabled: false,
-                                    // ),
-                                    ),
-                                DataCell(Text('${_listCoA[i].nama}')
-                                    // TextFormField(
-                                    //   // initialValue: '${hasilGet['nama']}',
-                                    //   enabled: false,
-                                    //   // onChanged: (value) {
-                                    //   //   CoAController.listNamaAkun[i].nama =
-                                    //   //       value;
-                                    //   //   print(
-                                    //   //       "${CoAController.listNamaAkun[i].nama}");
-                                    //   // },
-                                    // ),
-                                    ),
+                                DataCell(Text(
+                                    '${CoaController.listNamaAkun[i].no}')),
+                                DataCell(Text(
+                                    '${CoaController.listNamaAkun[i].nama}')),
                               ]),
                           ]),
                     );
@@ -81,7 +69,7 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
                     return Text('data waiting');
                   }
                 }),
-          )),
+          ),
           floatingActionButton: FloatingActionButton(
             onPressed: () async {
               await ModalBottomAddCoA(context);
@@ -90,63 +78,6 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
           ),
         ),
       ),
-    );
-  }
-
-  Future<void> ModalBottomAddCoA(BuildContext context) {
-    TextEditingController _noAkun = TextEditingController();
-    TextEditingController _namaAkun = TextEditingController();
-    return showModalBottomSheet<void>(
-      context: context,
-      builder: (BuildContext ctx) {
-        return Container(
-          padding: EdgeInsets.all(10),
-          height: MediaQuery.of(context).size.height * 0.3,
-          // color: Colors.amber,
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              mainAxisSize: MainAxisSize.min,
-              children: <Widget>[
-                TextFormField(
-                  controller: _noAkun,
-                  decoration: InputDecoration(
-                    // border: OutlineInputBorder(),
-                    hintText: 'No Akun',
-                  ),
-                ),
-                TextFormField(
-                  controller: _namaAkun,
-                  decoration: InputDecoration(
-                    // border: OutlineInputBorder(),
-                    hintText: 'Nama Akun',
-                  ),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                      child: const Text('Tambah'),
-                      onPressed: () {
-                        CoAController.addAkunCoa(
-                            _namaAkun.text, int.parse(_noAkun.text));
-                        for (var item in listCoAController().listNamaAkun) {
-                          print(item.nama);
-                        }
-                        Navigator.pop(ctx);
-                      },
-                    ),
-                    ElevatedButton(
-                      child: const Text('Batal'),
-                      onPressed: () => Navigator.pop(ctx),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          ),
-        );
-      },
     );
   }
 }
