@@ -36,7 +36,8 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
                     );
                   }
                   if (snapshot.connectionState == ConnectionState.done) {
-                    // CoaController.GetCoAList(snapshot);
+                    CoaController.GetCoAList(
+                        snapshot); //ada function Clear untuk mereset data lama
                     return SingleChildScrollView(
                       child: DataTable(
                           headingRowColor: MaterialStateColor.resolveWith(
