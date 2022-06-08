@@ -159,7 +159,7 @@ Future ModalBottomKonfirmasi(BuildContext ctx, no, nama) {
                       onPressed: () {
                         postAddCoA(no, nama).then((value) {
                           print(value);
-                          if (value.toString().contains('suscess')) {
+                          if (value.toString().contains('success')) {
                             Get.back();
                             Get.back();
                           }
