@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/akuntan/chartOfAccount/controllers/controller_CoA.dart';
 import 'package:flutter_application_1/akuntan/chartOfAccount/services/fetchListCoA.dart';
 import 'package:get/get.dart';
-import 'add_CoA.dart';
+import 'ModalBottomAdd_CoA.dart';
 
 class ChartOfAccount extends StatefulWidget {
   @override
@@ -12,6 +12,7 @@ class ChartOfAccount extends StatefulWidget {
 class _ChartOfAccountState extends State<ChartOfAccount> {
   listCoAController CoaController = Get.put(listCoAController());
 
+  final GlobalKey<ScaffoldState> _modelScaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -65,10 +66,8 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
-              for (var i = 0; i < CoaController.listNamaAkun.length; i++) {
-                print(CoaController.listNamaAkun[i].nama);
-              }
-              ModalBottomAddCoA(context).then((v) {
+              ModalBottomAddCoA(context, CoaController, _modelScaffoldKey)
+                  .then((v) {
                 setState(() {});
               });
             },
