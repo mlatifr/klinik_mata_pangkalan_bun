@@ -84,7 +84,7 @@ void main() {
       ));
     } else if (result == '' && result != 'daftarBaru') {
       username = result;
-      runApp(MaterialApp(home: LoginPage()));
+      runApp(GetMaterialApp(home: LoginPage()));
     } else if (result.contains('pemilik')) {
       username = result;
       runApp(MaterialApp(home: PemilikMainPage()));

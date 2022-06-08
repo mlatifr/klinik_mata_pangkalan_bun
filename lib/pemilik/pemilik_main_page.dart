@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pemilik/input_order/pemilik_page_input_order.dart';
+import 'package:flutter_application_1/pemilik/tambah_pegawai/view/daftar_pegawai.dart';
 import '../main.dart';
 
 class PemilikMainPage extends StatefulWidget {
@@ -45,6 +46,13 @@ class _PemilikMainPageState extends State<PemilikMainPage> {
                   MaterialPageRoute(
                       builder: (context) =>
                           PemilikInputOrderObat(pmlkId: userIdMainDart)));
+            },
+          ),
+          ListTile(
+            title: Text('Tambah Pegawai'),
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => DaftarPegawai()));
             },
           ),
           // ListTile(
