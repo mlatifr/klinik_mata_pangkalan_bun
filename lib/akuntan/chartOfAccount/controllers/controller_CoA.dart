@@ -3,7 +3,7 @@ import 'package:flutter_application_1/akuntan/chartOfAccount/models/model_listAk
 import 'package:get/get.dart';
 
 class listCoAController extends GetxController {
-  var listNamaAkun = <DataCoA>[DataCoA(nama: 'data null', no: 1)].obs;
+  List<DataCoA> listNamaAkun = <DataCoA>[DataCoA(nama: 'data null', no: 1)].obs;
   GetCoAList(snapshot) {
     listNamaAkun.clear();
     var hasilGet = snapshot.data['data'];

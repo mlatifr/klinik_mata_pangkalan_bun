@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/akuntan/chartOfAccount/controllers/controller_CoA.dart';
 import 'package:flutter_application_1/akuntan/chartOfAccount/models/model_listAkun.dart';
+import 'package:flutter_application_1/akuntan/chartOfAccount/services/postAddCoA.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 Future<void> ModalBottomAddCoA(
     BuildContext context, CoaController, _modelScaffoldKey) {
+  listCoAController _lstCoA = Get.find<listCoAController>();
   TextEditingController _noAkun = TextEditingController();
   TextEditingController _namaAkun = TextEditingController();
   return showModalBottomSheet<void>(
@@ -52,13 +54,23 @@ Future<void> ModalBottomAddCoA(
                     // for (var i = 0; i < coaC.listNamaAkun.length; i++) {
                     //   print(coaC.listNamaAkun[i].nama);
                     // }
-                    if (_noAkun.text != '' && _namaAkun.text != '') {
-                      CoaController.listNamaAkun.add(DataCoA(
-                          no: int.parse(_noAkun.text), nama: _namaAkun.text));
-                      return ModalBottomKonfirmasi(
-                          ctx, _noAkun.text, _namaAkun.text);
-                    } else {
-                      return modalBottomIfNull(ctx);
+                    for (DataCoA item in _lstCoA.listNamaAkun) {
+                      if (item.no == int.parse(_noAkun.text) ||
+                          item.nama == _namaAkun.text) {
+                        return modalBottomIfNull(
+                            ctx, _noAkun, _namaAkun, _lstCoA);
+                      }
+                      if (_noAkun.text == '' || _namaAkun.text == '') {
+                      }
+
+                      // return modalBottomIfNull(
+                      //     ctx, _noAkun, _namaAkun, _lstCoA);
+                      else {
+                        CoaController.listNamaAkun.add(DataCoA(
+                            no: int.parse(_noAkun.text), nama: _namaAkun.text));
+                        return ModalBottomKonfirmasi(
+                            ctx, _noAkun.text, _namaAkun.text);
+                      }
                     }
                   },
                 ),
@@ -71,7 +83,7 @@ Future<void> ModalBottomAddCoA(
   );
 }
 
-Future modalBottomIfNull(BuildContext ctx) {
+Future modalBottomIfNull(BuildContext ctx, _noAkun, _namaAkun, _lstCoA) {
   return showModalBottomSheet(
     context: ctx,
     builder: (ctx) {
@@ -84,7 +96,9 @@ Future modalBottomIfNull(BuildContext ctx) {
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                Text('Nomor & Nama tidak boleh kosong!'),
+                (_noAkun.text == '' || _namaAkun.text == '')
+                    ? Text('Nomor & Nama tidak boleh KOSONG!')
+                    : Text('Nomor & Nama tidak boleh SAMA!'),
                 SizedBox(height: 20),
                 ElevatedButton(
                   style: ElevatedButton.styleFrom(primary: (Colors.blue[400])),
@@ -143,8 +157,13 @@ Future ModalBottomKonfirmasi(BuildContext ctx, no, nama) {
                         style: TextStyle(color: Colors.black),
                       ),
                       onPressed: () {
-                        Get.back();
-                        Get.back();
+                        postAddCoA(no, nama).then((value) {
+                          print(value);
+                          if (value.toString().contains('suscess')) {
+                            Get.back();
+                            Get.back();
+                          }
+                        });
                       },
                     ),
                   ],
