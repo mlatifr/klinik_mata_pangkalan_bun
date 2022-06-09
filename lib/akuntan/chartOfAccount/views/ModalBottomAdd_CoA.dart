@@ -4,7 +4,6 @@ import 'package:flutter_application_1/akuntan/chartOfAccount/controllers/control
 import 'package:flutter_application_1/akuntan/chartOfAccount/models/model_listAkun.dart';
 import 'package:flutter_application_1/akuntan/chartOfAccount/services/postAddCoA.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 
 Future<void> ModalBottomAddCoA(
     BuildContext context, CoaController, _modelScaffoldKey) {

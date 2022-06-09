@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pemilik/input_order/pemilik_page_input_order.dart';
-import 'package:flutter_application_1/pemilik/tambah_pegawai/view/daftar_pegawai.dart';
+import 'package:flutter_application_1/pemilik/tambah_pegawai/view/daftar_pegawai_view.dart';
 import '../main.dart';
 
 class PemilikMainPage extends StatefulWidget {
