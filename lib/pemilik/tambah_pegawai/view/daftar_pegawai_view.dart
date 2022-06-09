@@ -1,8 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pemilik/tambah_pegawai/controller/daftar_pegawai_controller.dart';
 import 'package:flutter_application_1/pemilik/tambah_pegawai/service/get_info_pegawai.dart';
+import 'package:get/get.dart';
+
+import 'modalBottomAddPegawai.dart';
 
 class DaftarPegawai extends StatefulWidget {
   @override
@@ -42,7 +43,7 @@ class _DaftarPegawaiState extends State<DaftarPegawai> {
                             (states) => Colors.blue[100]),
                         columns: [
                           DataColumn(label: Text('Nama')),
-                          DataColumn(label: Text('Telepone')),
+                          DataColumn(label: Text('Telepon')),
                         ],
                         rows: [
                           for (var i = 0; i < _pgwCtrl.listPegawai.length; i++)
@@ -57,7 +58,9 @@ class _DaftarPegawaiState extends State<DaftarPegawai> {
                 }),
           ),
           floatingActionButton: FloatingActionButton(
-            onPressed: () {},
+            onPressed: () {
+              addPegawaiModalBottom(context);
+            },
             child: Icon(Icons.add),
           ),
         ),
