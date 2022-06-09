@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/pemilik/tambah_pegawai/controller/daftar_pegawai_controller.dart';
+import 'package:flutter_application_1/pemilik/tambah_pegawai/service/post_add_pegawai.dart';
+import 'package:flutter_application_1/pemilik/tambah_pegawai/view/daftar_pegawai_view.dart';
 import 'package:get/get.dart';
 
-Future addPegawaiModalBottom(context) {
+Future<void> AddPegawaiModalBottom(context, _pegawaiController) {
+  DaftarPegawaiController _daftarPegawai = DaftarPegawaiController();
   TextEditingController _username = TextEditingController();
   TextEditingController _sandi = TextEditingController();
   TextEditingController _sandi2 = TextEditingController();
@@ -17,8 +21,7 @@ Future addPegawaiModalBottom(context) {
     // color: Colors.red,
   );
   bool boolVisibility = true;
-
-  showModalBottomSheet(
+  return showModalBottomSheet<void>(
       context: context,
       builder: (context) {
         return StatefulBuilder(builder: (BuildContext context,
@@ -36,6 +39,9 @@ Future addPegawaiModalBottom(context) {
                     decoration: InputDecoration(
                       hintText: 'Username',
                     ),
+                    onChanged: (value) {
+                      for (var i in _daftarPegawai.listPegawai) {}
+                    },
                   ),
                   Row(
                     mainAxisSize: MainAxisSize.min,
@@ -137,7 +143,7 @@ Future addPegawaiModalBottom(context) {
                           style: TextStyle(color: Colors.black),
                         ),
                         onPressed: () {
-                          Get.back();
+                          Navigator.pop(context);
                         },
                       ),
                       SizedBox(width: 22),
@@ -148,7 +154,10 @@ Future addPegawaiModalBottom(context) {
                           'Simpan',
                           style: TextStyle(color: Colors.black),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          modalBottomKonfirmasi(context, _pegawaiController,
+                              _username, _sandi, _nama, _tlp, _alamat);
+                        },
                       ),
                     ],
                   ),
@@ -158,4 +167,65 @@ Future addPegawaiModalBottom(context) {
           );
         });
       });
+}
+
+Future modalBottomKonfirmasi(BuildContext context, _pegawaiController,
+    _username, _sandi, _namaAkun, _tlp, _alamat) {
+  return showModalBottomSheet(
+    context: context,
+    builder: (context) {
+      return Container(
+        padding: EdgeInsets.all(20),
+        height: MediaQuery.of(context).size.height,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text('Simpan:'
+                '\nUsername: \n${_username.text}'
+                '\nNama Akun:\n${_namaAkun.text}'
+                '\nTelepon: \n${_tlp.text}'
+                '\nAlamat:\n${_alamat.text}'),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(primary: (Colors.red[400])),
+                  child: const Text(
+                    'Batal',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    // Get.back();
+                  },
+                ),
+                SizedBox(width: 22),
+                ElevatedButton(
+                  style: ElevatedButton.styleFrom(primary: (Colors.blue[400])),
+                  child: const Text(
+                    'Simpan',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  onPressed: () {
+                    PostAddPegawai(_username.text, _sandi.text, _namaAkun.text,
+                            _tlp.text, _alamat.text)
+                        .then((value) {
+                      print(value);
+                      if (value.toString().contains('success')) {
+                        Navigator.pop(context);
+                        Navigator.pop(context);
+                      }
+                    });
+                  },
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    },
+  );
 }

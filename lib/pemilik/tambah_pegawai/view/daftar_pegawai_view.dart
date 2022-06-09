@@ -11,7 +11,8 @@ class DaftarPegawai extends StatefulWidget {
 }
 
 class _DaftarPegawaiState extends State<DaftarPegawai> {
-  DaftarPegawaiController _pgwCtrl = DaftarPegawaiController();
+  DaftarPegawaiController _pegawaiController = DaftarPegawaiController();
+  final GlobalKey<ScaffoldState> _modelScaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -37,7 +38,7 @@ class _DaftarPegawaiState extends State<DaftarPegawai> {
                   }
                   if (snapshot.connectionState == ConnectionState.done) {
                     // print((snapshot.data.runtimeType.toString()));
-                    _pgwCtrl.ConvertJsonListPegawai(snapshot);
+                    _pegawaiController.ConvertJsonListPegawai(snapshot);
                     return DataTable(
                         headingRowColor: MaterialStateColor.resolveWith(
                             (states) => Colors.blue[100]),
@@ -46,10 +47,14 @@ class _DaftarPegawaiState extends State<DaftarPegawai> {
                           DataColumn(label: Text('Telepon')),
                         ],
                         rows: [
-                          for (var i = 0; i < _pgwCtrl.listPegawai.length; i++)
+                          for (var i = 0;
+                              i < _pegawaiController.listPegawai.length;
+                              i++)
                             DataRow(cells: [
-                              DataCell(Text('${_pgwCtrl.listPegawai[i].nama}')),
-                              DataCell(Text('${_pgwCtrl.listPegawai[i].tlp}')),
+                              DataCell(Text(
+                                  '${_pegawaiController.listPegawai[i].nama}')),
+                              DataCell(Text(
+                                  '${_pegawaiController.listPegawai[i].tlp}')),
                             ]),
                         ]);
                   } else {
@@ -59,7 +64,9 @@ class _DaftarPegawaiState extends State<DaftarPegawai> {
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
-              addPegawaiModalBottom(context);
+              AddPegawaiModalBottom(context, _pegawaiController).then((value) {
+                setState(() {});
+              });
             },
             child: Icon(Icons.add),
           ),
