@@ -72,7 +72,7 @@ Future addPegawaiModalBottom(context) {
                     children: [
                       Expanded(
                         child: TextFormField(
-                          obscureText: true,
+                          obscureText: boolVisibility,
                           enableSuggestions: false,
                           autocorrect: false,
                           controller: _sandi2,
@@ -87,6 +87,13 @@ Future addPegawaiModalBottom(context) {
                                 ikonKonfirmasiPassword = Icon(
                                   Icons.check_circle,
                                   color: Colors.green,
+                                );
+                              });
+                            } else {
+                              setState(() {
+                                ikonKonfirmasiPassword = Icon(
+                                  Icons.remove_circle,
+                                  color: Colors.red,
                                 );
                               });
                             }
