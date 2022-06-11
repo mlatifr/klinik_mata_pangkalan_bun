@@ -11,8 +11,7 @@ class ChartOfAccount extends StatefulWidget {
 
 class _ChartOfAccountState extends State<ChartOfAccount> {
   listCoAController CoaController = Get.put(listCoAController());
-
-  final GlobalKey<ScaffoldState> _modelScaffoldKey = GlobalKey<ScaffoldState>();
+ 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -66,7 +65,7 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
-              ModalBottomAddCoA(context, CoaController, _modelScaffoldKey)
+              ModalBottomAddCoA(context, CoaController)
                   .then((v) {
                 setState(() {});
               });

@@ -135,15 +135,17 @@ class _AkuntanInputPenjurnalanState extends State<AkuntanInputPenjurnalan> {
   int idPenjurnalan = 0;
   @override
   void initState() {
+    super.initState();
     DateTime now = new DateTime.now();
     DateTime date = new DateTime(now.year, now.month, now.day);
     controllerdate.text = date.toString().substring(0, 10);
     getUserId();
+    print('userIdMainDart: ${userIdMainDart.runtimeType}');
     fetchDataAkuntanInputBukaBukuPenjurnalan(userIdMainDart).then((value) {
       //Mengubah json menjadi Array
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
-      idPenjurnalan = json['penjurnalan_id'];
+      idPenjurnalan = json['id'];
       print('id_penjurnalan: $idPenjurnalan');
     }).then((value) => fetchDataAkuntanVDftrAkun().then((value) {
           akntVDftrAkns.clear();
@@ -157,7 +159,6 @@ class _AkuntanInputPenjurnalanState extends State<AkuntanInputPenjurnalan> {
           setState(() {});
         }));
     keranjangTransaksiPenjurnalans.clear();
-    super.initState();
   }
 
   TextEditingController controllerNilaiAkun = TextEditingController();
@@ -218,7 +219,8 @@ class _AkuntanInputPenjurnalanState extends State<AkuntanInputPenjurnalan> {
         ),
         ElevatedButton(
             onPressed: () {
-              AkuntanKeranjangPenjurnalan akntnInptPnjrln = AkuntanKeranjangPenjurnalan();
+              AkuntanKeranjangPenjurnalan akntnInptPnjrln =
+                  AkuntanKeranjangPenjurnalan();
               akntnInptPnjrln.penjurnalanId = idPenjurnalan.toString();
               akntnInptPnjrln.daftarAkunId = valIdAkun.toString();
               akntnInptPnjrln.daftarAkunNama = valueNamaAkun.toString();

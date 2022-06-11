@@ -6,7 +6,7 @@ import 'package:flutter_application_1/akuntan/chartOfAccount/services/postAddCoA
 import 'package:get/get.dart';
 
 Future<void> ModalBottomAddCoA(
-    BuildContext context, CoaController, _modelScaffoldKey) {
+    BuildContext context, CoaController) {
   listCoAController _lstCoA = Get.find<listCoAController>();
   TextEditingController _noAkun = TextEditingController();
   TextEditingController _namaAkun = TextEditingController();
