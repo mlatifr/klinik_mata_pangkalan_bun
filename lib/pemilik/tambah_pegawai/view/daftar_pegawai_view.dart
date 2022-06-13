@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pemilik/tambah_pegawai/controller/daftar_pegawai_controller.dart';
 import 'package:flutter_application_1/pemilik/tambah_pegawai/service/get_info_pegawai.dart';
-import 'package:get/get.dart';
 
 import 'modalBottomAddPegawai.dart';
 
@@ -12,7 +11,6 @@ class DaftarPegawai extends StatefulWidget {
 
 class _DaftarPegawaiState extends State<DaftarPegawai> {
   DaftarPegawaiController _pegawaiController = DaftarPegawaiController();
-  final GlobalKey<ScaffoldState> _modelScaffoldKey = GlobalKey<ScaffoldState>();
   @override
   Widget build(BuildContext context) {
     return SafeArea(

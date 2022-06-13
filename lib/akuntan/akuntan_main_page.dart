@@ -5,6 +5,7 @@ import 'package:flutter_application_1/akuntan/chartOfAccount/views/v_CoA.dart';
 import 'package:flutter_application_1/akuntan/laporanLR/akuntan_page_laporanLR.dart';
 import 'package:flutter_application_1/akuntan/page_input_penjurnalan/akuntan_page_input_penjurnalan.dart';
 import 'package:flutter_application_1/akuntan/akuntan_page_split_view.dart';
+import 'package:flutter_application_1/akuntan/page_input_penjurnalan/views/list_penjurnalan.dart';
 import '../main.dart';
 import 'neraca/akuntan_page_neraca.dart';
 import 'page_input_penjurnalan/akuntan_get_daftar_akun.dart';
@@ -33,7 +34,7 @@ class _AkuntanMainPageState extends State<AkuntanMainPage> {
             decoration: BoxDecoration(
               image: DecorationImage(
                 fit: BoxFit.fill,
-                image: AssetImage('../asset/image/clinic_text.jpg'),
+                image: AssetImage('./asset/image/clinic_text.jpg'),
               ),
             ),
           ),
@@ -65,6 +66,13 @@ class _AkuntanMainPageState extends State<AkuntanMainPage> {
           //         MaterialPageRoute(builder: (context) => AkuntanVNotaPjln()));
           //   },
           // ),
+          ListTile(
+            title: Text('Daftar Penjurnalan'),
+            onTap: () {
+              Navigator.push(context,
+                  MaterialPageRoute(builder: (context) => ListPenjurnalan()));
+            },
+          ),
           ListTile(
             title: Text('Input Penjurnalan'),
             onTap: () {

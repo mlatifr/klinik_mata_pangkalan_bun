@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:flutter_application_1/main.dart';
 import 'package:http/http.dart' as http;
@@ -15,7 +14,6 @@ Future<String> PostAddPegawai(_username, _sandi, _nama, _tlp, _alamat) async {
   });
   if (response.statusCode == 200) {
     // print('200: ${jsonDecode(response.body)}');
-    var hasilGet = jsonDecode(response.body);
     // print(hasilGet['data']);
     // for (var item in hasilGet['data']) {
     //   print(item);

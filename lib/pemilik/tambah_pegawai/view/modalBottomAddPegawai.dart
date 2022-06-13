@@ -1,11 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/pemilik/tambah_pegawai/controller/daftar_pegawai_controller.dart';
 import 'package:flutter_application_1/pemilik/tambah_pegawai/service/post_add_pegawai.dart';
-import 'package:flutter_application_1/pemilik/tambah_pegawai/view/daftar_pegawai_view.dart';
-import 'package:get/get.dart';
 
 Future<void> AddPegawaiModalBottom(context, _pegawaiController) {
-  DaftarPegawaiController _daftarPegawai = DaftarPegawaiController();
   TextEditingController _username = TextEditingController();
   TextEditingController _sandi = TextEditingController();
   TextEditingController _sandi2 = TextEditingController();
@@ -39,9 +35,6 @@ Future<void> AddPegawaiModalBottom(context, _pegawaiController) {
                     decoration: InputDecoration(
                       hintText: 'Username',
                     ),
-                    onChanged: (value) {
-                      for (var i in _daftarPegawai.listPegawai) {}
-                    },
                   ),
                   Row(
                     mainAxisSize: MainAxisSize.min,
