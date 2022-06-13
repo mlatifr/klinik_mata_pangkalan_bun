@@ -25,40 +25,56 @@ class _DaftarPegawaiState extends State<DaftarPegawai> {
               },
             ),
           ),
-          body: SingleChildScrollView(
-            child: FutureBuilder(
-                future: FetchInfoPegawai(),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                  if (snapshot.connectionState == ConnectionState.done) {
-                    // print((snapshot.data.runtimeType.toString()));
-                    _pegawaiController.ConvertJsonListPegawai(snapshot);
-                    return DataTable(
-                        headingRowColor: MaterialStateColor.resolveWith(
-                            (states) => Colors.blue[100]),
-                        columns: [
-                          DataColumn(label: Text('Nama')),
-                          DataColumn(label: Text('Telepon')),
-                        ],
-                        rows: [
-                          for (var i = 0;
-                              i < _pegawaiController.listPegawai.length;
-                              i++)
-                            DataRow(cells: [
-                              DataCell(Text(
-                                  '${_pegawaiController.listPegawai[i].nama}')),
-                              DataCell(Text(
-                                  '${_pegawaiController.listPegawai[i].tlp}')),
-                            ]),
-                        ]);
-                  } else {
-                    return Text('data waiting');
-                  }
-                }),
+          body: ListView(
+            children: [
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: FutureBuilder(
+                    future: FetchInfoPegawai(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                      if (snapshot.connectionState == ConnectionState.done) {
+                        // print((snapshot.data.runtimeType.toString()));
+                        _pegawaiController.ConvertJsonListPegawai(snapshot);
+                        return DataTable(
+                            headingRowColor: MaterialStateColor.resolveWith(
+                                (states) => Colors.blue[100]),
+                            columns: [
+                              DataColumn(label: Text('Nama')),
+                              DataColumn(label: Text('Telepon')),
+                              DataColumn(label: Text('Status')),
+                              DataColumn(label: Text('Unit\nKerja')),
+                            ],
+                            rows: [
+                              for (var i = 0;
+                                  i < _pegawaiController.listPegawai.length;
+                                  i++)
+                                DataRow(cells: [
+                                  DataCell(Text(
+                                      '${_pegawaiController.listPegawai[i].nama}')),
+                                  DataCell(Text(
+                                      '${_pegawaiController.listPegawai[i].tlp}')),
+                                  if (i >= 5)
+                                    DataCell(Text(
+                                      'Aktif',
+                                      style: TextStyle(
+                                          backgroundColor: Colors.blue[200]),
+                                    )),
+                                  if (i < 5) DataCell(Text('Non-Aktif')),
+                                  if (i >= 5) DataCell(Text('Admin')),
+                                  if (i < 5) DataCell(Text('Perawat')),
+                                ]),
+                            ]);
+                      } else {
+                        return Text('data waiting');
+                      }
+                    }),
+              ),
+            ],
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
