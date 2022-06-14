@@ -1,0 +1,3 @@
+class ListPenjurnalanController {
+  List listPenjurnalanController = [];
+}
