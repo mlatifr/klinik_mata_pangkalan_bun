@@ -57,7 +57,7 @@ class _ListPenjurnalanState extends State<ListPenjurnalan> {
         ),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
-            showBottomSheet(
+            showModalBottomSheet(
               context: context,
               builder: (context) {
                 return Scaffold(body: AkuntanInputPenjurnalan());
