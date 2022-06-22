@@ -40,7 +40,6 @@ class _DaftarPegawaiState extends State<DaftarPegawai> {
                       if (snapshot.connectionState == ConnectionState.done) {
                         // print((snapshot.data.runtimeType.toString()));
                         _pegawaiController.ConvertJsonListPegawai(snapshot);
-                        int selectedIdx = _pegawaiController.listPegawai.length;
                         return DataTable(
                             headingRowColor: MaterialStateColor.resolveWith(
                                 (states) => Colors.blue[100]),
