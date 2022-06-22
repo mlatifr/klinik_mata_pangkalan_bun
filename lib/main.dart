@@ -18,6 +18,8 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:get/get.dart';
 import 'kasir/kasir_antrean_pasien.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:month_year_picker/month_year_picker.dart';
 
 DateTime now = new DateTime.now();
 DateTime date = new DateTime(now.year, now.month, now.day);
@@ -107,6 +109,11 @@ void main() {
       username = result;
       runApp(GetMaterialApp(
         home: AkuntanMainPage(),
+        localizationsDelegates: [
+          GlobalWidgetsLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          MonthYearPickerLocalizations.delegate,
+        ],
         debugShowCheckedModeBanner: false,
       ));
     } else if (result != null || result != '') {

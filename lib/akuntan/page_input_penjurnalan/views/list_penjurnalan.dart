@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/akuntan/page_input_penjurnalan/akuntan_page_input_penjurnalan.dart';
+import 'package:month_year_picker/month_year_picker.dart';
 
 class ListPenjurnalan extends StatefulWidget {
   @override
@@ -16,6 +17,41 @@ class _ListPenjurnalanState extends State<ListPenjurnalan> {
         ),
         body: ListView(
           children: [
+            Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              ElevatedButton(
+                  onPressed: () {
+                    showDatePicker(
+                            context: context,
+                            initialDate: DateTime.now(),
+                            firstDate: DateTime(2000),
+                            lastDate: DateTime(2200))
+                        .then((value) {
+                      // controllerdateLR.text = value.toString().substring(0, 7);
+                      // // akunObat.globalBacaDataObat(controllerdateLR.text);
+                      // _controllerTglStream.add(controllerdateLR.text);
+                      // print(_controllerTglStream);
+                    });
+                  },
+                  child: Icon(
+                    Icons.calendar_today_sharp,
+                    color: Colors.white,
+                    size: 24.0,
+                  )),
+              ElevatedButton(
+                  onPressed: () {
+                    showMonthYearPicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2019),
+                      lastDate: DateTime(2023),
+                    );
+                  },
+                  child: Icon(
+                    Icons.calendar_today_sharp,
+                    color: Colors.white,
+                    size: 24.0,
+                  ))
+            ]),
             SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: DataTable(
