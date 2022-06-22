@@ -40,6 +40,7 @@ class _DaftarPegawaiState extends State<DaftarPegawai> {
                       if (snapshot.connectionState == ConnectionState.done) {
                         // print((snapshot.data.runtimeType.toString()));
                         _pegawaiController.ConvertJsonListPegawai(snapshot);
+                        int selectedIdx = _pegawaiController.listPegawai.length;
                         return DataTable(
                             headingRowColor: MaterialStateColor.resolveWith(
                                 (states) => Colors.blue[100]),
@@ -53,21 +54,30 @@ class _DaftarPegawaiState extends State<DaftarPegawai> {
                               for (var i = 0;
                                   i < _pegawaiController.listPegawai.length;
                                   i++)
-                                DataRow(cells: [
-                                  DataCell(Text(
-                                      '${_pegawaiController.listPegawai[i].nama}')),
-                                  DataCell(Text(
-                                      '${_pegawaiController.listPegawai[i].tlp}')),
-                                  if (i >= 5)
-                                    DataCell(Text(
-                                      'Aktif',
-                                      style: TextStyle(
-                                          backgroundColor: Colors.blue[200]),
-                                    )),
-                                  if (i < 5) DataCell(Text('Non-Aktif')),
-                                  if (i >= 5) DataCell(Text('Admin')),
-                                  if (i < 5) DataCell(Text('Perawat')),
-                                ]),
+                                DataRow(
+                                    onLongPress: () {
+                                      print(
+                                          'buka halaman edit ${_pegawaiController.listPegawai[i].nama}');
+                                    },
+                                    cells: [
+                                      DataCell(Text(
+                                          '${_pegawaiController.listPegawai[i].nama}')),
+                                      DataCell(Text(
+                                          '${_pegawaiController.listPegawai[i].tlp}')),
+                                      DataCell(Text(
+                                          '${_pegawaiController.listPegawai[i].status}')),
+                                      DataCell(Text(
+                                          '${_pegawaiController.listPegawai[i].unitKerja}')),
+                                      // if (i >= 5)
+                                      //   DataCell(Text(
+                                      //     'Aktif',
+                                      //     style: TextStyle(
+                                      //         backgroundColor: Colors.blue[200]),
+                                      //   )),
+                                      // if (i < 5) DataCell(Text('Non-Aktif')),
+                                      // if (i >= 5) DataCell(Text('Admin')),
+                                      // if (i < 5) DataCell(Text('Perawat')),
+                                    ]),
                             ]);
                       } else {
                         return Text('data waiting');
