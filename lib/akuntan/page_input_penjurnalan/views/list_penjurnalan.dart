@@ -33,6 +33,9 @@ class _ListPenjurnalanState extends State<ListPenjurnalan> {
         body: ListView(
           children: [
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              SizedBox(
+                height: 10,
+              ),
               ElevatedButton(
                   style: ElevatedButton.styleFrom(
                       minimumSize: Size(MediaQuery.of(context).size.width, 50)),
@@ -40,17 +43,19 @@ class _ListPenjurnalanState extends State<ListPenjurnalan> {
                     showMonthYearPicker(
                       context: context,
                       initialDate: _bulanButton,
-                      firstDate: DateTime(2019),
-                      lastDate: DateTime(2023),
+                      firstDate: DateTime(2000),
+                      lastDate: DateTime.now(),
                     ).then((value) {
                       setState(() {
-                        _bulanButton = value;
+                        if (_bulanButton != null) _bulanButton = value;
+                        if (_bulanButton == null) _bulanButton = DateTime.now();
                       });
                     });
                   },
                   child: Row(
                     children: [
-                      Text('${_months[_bulanButton.month - 1]}'),
+                      Text(
+                          '${_months[_bulanButton.month - 1]} ${_bulanButton.year}'),
                       SizedBox(
                         width: 10,
                       ),
@@ -62,6 +67,10 @@ class _ListPenjurnalanState extends State<ListPenjurnalan> {
                     ],
                   ))
             ]),
+            SizedBox(
+              height: 10,
+            ),
+            // if(listPenjurnalan!=null)
             SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: DataTable(
