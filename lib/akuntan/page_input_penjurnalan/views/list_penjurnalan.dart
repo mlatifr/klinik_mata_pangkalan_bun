@@ -8,6 +8,21 @@ class ListPenjurnalan extends StatefulWidget {
 }
 
 class _ListPenjurnalanState extends State<ListPenjurnalan> {
+  DateTime _bulanButton = DateTime.now();
+  List _months = [
+    'jan',
+    'feb',
+    'mar',
+    'apr',
+    'may',
+    'jun',
+    'jul',
+    'aug',
+    'sep',
+    'oct',
+    'nov',
+    'dec'
+  ];
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -19,37 +34,32 @@ class _ListPenjurnalanState extends State<ListPenjurnalan> {
           children: [
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               ElevatedButton(
-                  onPressed: () {
-                    showDatePicker(
-                            context: context,
-                            initialDate: DateTime.now(),
-                            firstDate: DateTime(2000),
-                            lastDate: DateTime(2200))
-                        .then((value) {
-                      // controllerdateLR.text = value.toString().substring(0, 7);
-                      // // akunObat.globalBacaDataObat(controllerdateLR.text);
-                      // _controllerTglStream.add(controllerdateLR.text);
-                      // print(_controllerTglStream);
-                    });
-                  },
-                  child: Icon(
-                    Icons.calendar_today_sharp,
-                    color: Colors.white,
-                    size: 24.0,
-                  )),
-              ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                      minimumSize: Size(MediaQuery.of(context).size.width, 50)),
                   onPressed: () {
                     showMonthYearPicker(
                       context: context,
-                      initialDate: DateTime.now(),
+                      initialDate: _bulanButton,
                       firstDate: DateTime(2019),
                       lastDate: DateTime(2023),
-                    );
+                    ).then((value) {
+                      setState(() {
+                        _bulanButton = value;
+                      });
+                    });
                   },
-                  child: Icon(
-                    Icons.calendar_today_sharp,
-                    color: Colors.white,
-                    size: 24.0,
+                  child: Row(
+                    children: [
+                      Text('${_months[_bulanButton.month - 1]}'),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      Icon(
+                        Icons.calendar_today_sharp,
+                        color: Colors.white,
+                        size: 24.0,
+                      ),
+                    ],
                   ))
             ]),
             SingleChildScrollView(
