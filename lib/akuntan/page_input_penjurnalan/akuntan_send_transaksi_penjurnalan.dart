@@ -18,13 +18,13 @@ Future<String> fetchDataAkuntanInputBukaBukuPenjurnalan(pIdAkuntan) async {
   }
 }
 
-Future<String> fetchDataAkuntanInputTransaksiPenjurnalan(pPenjurnalanId,
+Future<String> fetchDataAkuntanInputTransaksiPenjurnalan(pIdAkuntan,
     pDaftarAkunId, pTglCatat, pDebet, pKredit, pKetTransaksi) async {
   final response = await http
       .post(Uri.parse(apiUrl + "akuntan_inpt_penjurnalan_has_akun.php"),
           // body: {'bodyPost': '1'});
           body: {
-        'id': pPenjurnalanId,
+        'user_klinik_id': pIdAkuntan,
         'daftar_akun_id': pDaftarAkunId,
         'tgl_catat': pTglCatat,
         'debet': pDebet,

@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 List<AkuntanKeranjangPenjurnalan> keranjangTransaksiPenjurnalans = [];
 
 class AkuntanKeranjangPenjurnalan {
-  var penjurnalanId,
+  var userIdMainDart,
       daftarAkunId,
       daftarAkunNama,
       tglCatat,
@@ -15,7 +15,7 @@ class AkuntanKeranjangPenjurnalan {
       kredit,
       ketTransaksi;
   AkuntanKeranjangPenjurnalan({
-    this.penjurnalanId,
+    this.userIdMainDart,
     this.daftarAkunId,
     this.daftarAkunNama,
     this.tglCatat,

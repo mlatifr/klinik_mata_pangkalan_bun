@@ -221,7 +221,7 @@ class _AkuntanInputPenjurnalanState extends State<AkuntanInputPenjurnalan> {
             onPressed: () {
               AkuntanKeranjangPenjurnalan akntnInptPnjrln =
                   AkuntanKeranjangPenjurnalan();
-              akntnInptPnjrln.penjurnalanId = idPenjurnalan.toString();
+              akntnInptPnjrln.userIdMainDart = userIdMainDart.toString();
               akntnInptPnjrln.daftarAkunId = valIdAkun.toString();
               akntnInptPnjrln.daftarAkunNama = valueNamaAkun.toString();
               akntnInptPnjrln.tglCatat = controllerdate.text;
@@ -236,7 +236,7 @@ class _AkuntanInputPenjurnalanState extends State<AkuntanInputPenjurnalan> {
               keranjangTransaksiPenjurnalans.add(akntnInptPnjrln);
               for (var i in keranjangTransaksiPenjurnalans) {
                 print(
-                    'penjurnalan_id:i.penjurnalan_id${i.penjurnalanId} \ndaftar_akun_id:${i.daftarAkunId}\ntgl_catat:${i.tglCatat}\ndebet:${i.debet}\nkredit:${i.kredit}\nket_transaksi${i.ketTransaksi}');
+                    'penjurnalan_id:i.penjurnalan_id${i.userIdMainDart} \ndaftar_akun_id:${i.daftarAkunId}\ntgl_catat:${i.tglCatat}\ndebet:${i.debet}\nkredit:${i.kredit}\nket_transaksi${i.ketTransaksi}');
               }
               setState(() {
                 // ignore: deprecated_member_use
@@ -323,7 +323,7 @@ class _AkuntanInputPenjurnalanState extends State<AkuntanInputPenjurnalan> {
     if (keranjangTransaksiPenjurnalans.isNotEmpty) {
       for (var i = 0; i < keranjangTransaksiPenjurnalans.length; i++) {
         fetchDataAkuntanInputTransaksiPenjurnalan(
-                keranjangTransaksiPenjurnalans[i].penjurnalanId,
+                keranjangTransaksiPenjurnalans[i].userIdMainDart,
                 keranjangTransaksiPenjurnalans[i].daftarAkunId,
                 keranjangTransaksiPenjurnalans[i].tglCatat,
                 keranjangTransaksiPenjurnalans[i].debet,

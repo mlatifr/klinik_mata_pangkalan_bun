@@ -103,26 +103,26 @@ class _ListPenjurnalanState extends State<ListPenjurnalan> {
                               DataRow(cells: [
                                 DataCell(Text('${i + 1}')),
                                 DataCell(Text(
-                                    '${lj.listPenjurnalan[i].tglCatat.toString().substring(0, 11)} jam'
-                                    ' ${lj.listPenjurnalan[i].tglCatat.toString().substring(11, 16)}')),
+                                    '${lj.listPenjurnalan[i].tglCatat.toString().substring(0, 11)}')),
                                 DataCell(Text('${lj.listPenjurnalan[i].nama}')),
                                 DataCell(
                                     Text('${lj.listPenjurnalan[i].noAkun}')),
-                                if (i.isOdd)
+                                if (lj.listPenjurnalan[i].debet != 0)
                                   DataCell(Text(
-                                    'debet',
-                                    style: TextStyle(
-                                        backgroundColor: Colors.blue,
-                                        color: Colors.white),
+                                    'db ${lj.listPenjurnalan[i].debet}',
+                                    // style: TextStyle(
+                                    //     backgroundColor: Colors.blue,
+                                    //     color: Colors.white),
                                   )),
-                                if (i.isEven)
+                                if (lj.listPenjurnalan[i].kredit != 0)
                                   DataCell(Text(
-                                    'kredit',
-                                    style: TextStyle(
-                                        backgroundColor: Colors.red,
-                                        color: Colors.white),
+                                    'kr ${lj.listPenjurnalan[i].kredit}',
+                                    // style: TextStyle(
+                                    //     backgroundColor: Colors.red,
+                                    //     color: Colors.white),
                                   )),
-                                DataCell(Text('Membeli Obat X Batch ${i}')),
+                                DataCell(Text(
+                                    '${lj.listPenjurnalan[i].ket_transaksi}')),
                               ]),
                           ]);
                     } else {
