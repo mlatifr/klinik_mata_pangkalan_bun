@@ -4,24 +4,10 @@ import 'dart:async';
 import 'package:flutter_application_1/main.dart';
 import 'package:http/http.dart' as http;
 
-Future<String> fetchDataAkuntanInputBukaBukuPenjurnalan(pIdAkuntan) async {
-  final response =
-      await http.post(Uri.parse(apiUrl + "akuntan_inpt_penjurnalan.php"),
-          // body: {'bodyPost': '1'});
-          body: {'user_klinik': pIdAkuntan.toString()});
-  // body: jsonEncode({transaksi_array}));
-  if (response.statusCode == 200) {
-    print('fetchDataAkuntanInputBukaBukuPenjurnalan: ${response.body}');
-    return response.body;
-  } else {
-    throw Exception('Failed to read API');
-  }
-}
-
 Future<String> fetchDataAkuntanInputTransaksiPenjurnalan(pIdAkuntan,
     pDaftarAkunId, pTglCatat, pDebet, pKredit, pKetTransaksi) async {
-  final response = await http
-      .post(Uri.parse(apiUrl + "akuntan_inpt_penjurnalan_has_akun.php"),
+  final response =
+      await http.post(Uri.parse(apiUrl + "akuntan_inpt_penjurnalan.php"),
           // body: {'bodyPost': '1'});
           body: {
         'user_klinik_id': pIdAkuntan,

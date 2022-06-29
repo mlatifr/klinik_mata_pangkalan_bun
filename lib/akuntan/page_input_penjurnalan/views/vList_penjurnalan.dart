@@ -140,7 +140,9 @@ class _ListPenjurnalanState extends State<ListPenjurnalan> {
               builder: (context) {
                 return Scaffold(body: AkuntanInputPenjurnalan());
               },
-            );
+            ).then((value) {
+              setState(() {});
+            });
           },
         ),
       ),

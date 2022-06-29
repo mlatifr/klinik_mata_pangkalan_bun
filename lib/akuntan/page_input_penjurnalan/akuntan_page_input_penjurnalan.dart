@@ -141,23 +141,17 @@ class _AkuntanInputPenjurnalanState extends State<AkuntanInputPenjurnalan> {
     controllerdate.text = date.toString().substring(0, 10);
     getUserId();
     print('userIdMainDart: ${userIdMainDart.runtimeType}');
-    fetchDataAkuntanInputBukaBukuPenjurnalan(userIdMainDart).then((value) {
+    fetchDataAkuntanVDftrAkun().then((value) {
+      akntVDftrAkns.clear();
       //Mengubah json menjadi Array
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
-      idPenjurnalan = json['id'];
-      print('id_penjurnalan: $idPenjurnalan');
-    }).then((value) => fetchDataAkuntanVDftrAkun().then((value) {
-          akntVDftrAkns.clear();
-          //Mengubah json menjadi Array
-          // ignore: unused_local_variable
-          Map json = jsonDecode(value);
-          for (var i in json['data']) {
-            AkuntanVDftrAkun dvlt = AkuntanVDftrAkun.fromJson(i);
-            akntVDftrAkns.add(dvlt);
-          }
-          setState(() {});
-        }));
+      for (var i in json['data']) {
+        AkuntanVDftrAkun dvlt = AkuntanVDftrAkun.fromJson(i);
+        akntVDftrAkns.add(dvlt);
+      }
+      setState(() {});
+    });
     keranjangTransaksiPenjurnalans.clear();
   }
 
@@ -236,7 +230,7 @@ class _AkuntanInputPenjurnalanState extends State<AkuntanInputPenjurnalan> {
               keranjangTransaksiPenjurnalans.add(akntnInptPnjrln);
               for (var i in keranjangTransaksiPenjurnalans) {
                 print(
-                    'penjurnalan_id:i.penjurnalan_id${i.userIdMainDart} \ndaftar_akun_id:${i.daftarAkunId}\ntgl_catat:${i.tglCatat}\ndebet:${i.debet}\nkredit:${i.kredit}\nket_transaksi${i.ketTransaksi}');
+                    'penjurnalan_id:${i.userIdMainDart} \ndaftar_akun_id:${i.daftarAkunId}\ntgl_catat:${i.tglCatat}\ndebet:${i.debet}\nkredit:${i.kredit}\nket_transaksi${i.ketTransaksi}');
               }
               setState(() {
                 // ignore: deprecated_member_use
@@ -321,6 +315,9 @@ class _AkuntanInputPenjurnalanState extends State<AkuntanInputPenjurnalan> {
   // ignore: missing_return
   Function functionSimpanPenjurnalan() {
     if (keranjangTransaksiPenjurnalans.isNotEmpty) {
+      for (var i in keranjangTransaksiPenjurnalans) {
+        print('${i.tglCatat}');
+      }
       for (var i = 0; i < keranjangTransaksiPenjurnalans.length; i++) {
         fetchDataAkuntanInputTransaksiPenjurnalan(
                 keranjangTransaksiPenjurnalans[i].userIdMainDart,
