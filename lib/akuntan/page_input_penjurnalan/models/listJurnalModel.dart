@@ -4,14 +4,14 @@
 
 class listJurnalModel {
   listJurnalModel({
-    this.id,
+    this.noAkun,
     this.nama,
     this.tglCatat,
     this.debet,
     this.kredit,
   });
 
-  int id;
+  int noAkun;
   String nama;
   DateTime tglCatat;
   int debet;
@@ -19,7 +19,7 @@ class listJurnalModel {
 
   factory listJurnalModel.fromJson(Map<String, dynamic> json) =>
       listJurnalModel(
-        id: json["id"],
+        noAkun: json["noAkun"],
         nama: json["nama"],
         tglCatat: DateTime.parse(json["tgl_catat"]),
         debet: json["debet"],
@@ -27,7 +27,7 @@ class listJurnalModel {
       );
 
   Map<String, dynamic> toJson() => {
-        "id": id,
+        "noAkun": noAkun,
         "nama": nama,
         "tgl_catat": tglCatat.toIso8601String(),
         "debet": debet,

@@ -11,7 +11,7 @@ class ChartOfAccount extends StatefulWidget {
 
 class _ChartOfAccountState extends State<ChartOfAccount> {
   listCoAController CoaController = Get.put(listCoAController());
- 
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -65,8 +65,7 @@ class _ChartOfAccountState extends State<ChartOfAccount> {
           ),
           floatingActionButton: FloatingActionButton(
             onPressed: () {
-              ModalBottomAddCoA(context, CoaController)
-                  .then((v) {
+              ModalBottomAddCoA(context, CoaController).then((v) {
                 setState(() {});
               });
             },

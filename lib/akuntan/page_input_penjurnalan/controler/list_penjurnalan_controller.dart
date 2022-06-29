@@ -1,7 +1,7 @@
 import 'package:flutter_application_1/akuntan/page_input_penjurnalan/models/listJurnalModel.dart';
 
 class ListPenjurnalanController {
-  List listPenjurnalan = [];
+  List<listJurnalModel> listPenjurnalan = [];
   GetListJurnal(snapshot) {
     listPenjurnalan.clear();
     var hasilGet = (snapshot.data);
@@ -9,5 +9,6 @@ class ListPenjurnalanController {
       var jsnRslt = listJurnalModel.fromJson(i);
       listPenjurnalan.add(jsnRslt);
     }
+    print('GetListJurnal: listPenjurnalan.length: ${listPenjurnalan.length}');
   }
 }

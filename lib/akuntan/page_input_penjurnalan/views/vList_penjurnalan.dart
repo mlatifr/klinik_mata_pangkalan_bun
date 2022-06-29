@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/akuntan/page_input_penjurnalan/akuntan_page_input_penjurnalan.dart';
+import 'package:flutter_application_1/akuntan/page_input_penjurnalan/controler/list_penjurnalan_controller.dart';
 import 'package:flutter_application_1/akuntan/page_input_penjurnalan/services/fetchListJurnal.dart';
 import 'package:month_year_picker/month_year_picker.dart';
 
@@ -24,6 +25,7 @@ class _ListPenjurnalanState extends State<ListPenjurnalan> {
     'nov',
     'dec'
   ];
+  var lj = ListPenjurnalanController();
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -75,15 +77,54 @@ class _ListPenjurnalanState extends State<ListPenjurnalan> {
             SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: FutureBuilder(
-                  future: fetchListJurnal(2022),
+                  future: fetchListJurnal(_bulanButton),
                   builder: (context, snapshot) {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return Center(
                         child: CircularProgressIndicator(),
                       );
                     }
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      return Text('data');
+                    if (snapshot.connectionState == ConnectionState.done &&
+                        snapshot.data.toString().contains('success')) {
+                      lj.GetListJurnal(snapshot);
+                      return DataTable(
+                          headingRowColor: MaterialStateColor.resolveWith(
+                              (states) => Colors.blue[100]),
+                          columns: [
+                            DataColumn(label: Text('No')),
+                            DataColumn(label: Text('Tgl')),
+                            DataColumn(label: Text('Nama')),
+                            DataColumn(label: Text('No\nAkun')),
+                            DataColumn(label: Text('Debet/\nKredit')),
+                            DataColumn(label: Text('Keterangan')),
+                          ],
+                          rows: [
+                            for (var i = 0; i < lj.listPenjurnalan.length; i++)
+                              DataRow(cells: [
+                                DataCell(Text('${i + 1}')),
+                                DataCell(Text(
+                                    '${lj.listPenjurnalan[i].tglCatat.toString().substring(0, 11)} jam'
+                                    ' ${lj.listPenjurnalan[i].tglCatat.toString().substring(11, 16)}')),
+                                DataCell(Text('${lj.listPenjurnalan[i].nama}')),
+                                DataCell(
+                                    Text('${lj.listPenjurnalan[i].noAkun}')),
+                                if (i.isOdd)
+                                  DataCell(Text(
+                                    'debet',
+                                    style: TextStyle(
+                                        backgroundColor: Colors.blue,
+                                        color: Colors.white),
+                                  )),
+                                if (i.isEven)
+                                  DataCell(Text(
+                                    'kredit',
+                                    style: TextStyle(
+                                        backgroundColor: Colors.red,
+                                        color: Colors.white),
+                                  )),
+                                DataCell(Text('Membeli Obat X Batch ${i}')),
+                              ]),
+                          ]);
                     } else {
                       return Text('data error');
                     }
