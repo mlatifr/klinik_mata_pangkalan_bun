@@ -133,6 +133,7 @@ class _ListPenjurnalanState extends State<ListPenjurnalan> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
           onPressed: () {
             showModalBottomSheet(
               context: context,
