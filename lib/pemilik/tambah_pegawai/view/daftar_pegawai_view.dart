@@ -48,6 +48,7 @@ class _DaftarPegawaiState extends State<DaftarPegawai> {
                               DataColumn(label: Text('Telepon')),
                               DataColumn(label: Text('Status')),
                               DataColumn(label: Text('Unit\nKerja')),
+                              DataColumn(label: Text('Edit')),
                             ],
                             rows: [
                               for (var i = 0;
@@ -67,6 +68,12 @@ class _DaftarPegawaiState extends State<DaftarPegawai> {
                                           '${_pegawaiController.listPegawai[i].status}')),
                                       DataCell(Text(
                                           '${_pegawaiController.listPegawai[i].unitKerja}')),
+                                      DataCell(IconButton(
+                                          onPressed: () {},
+                                          icon: Icon(
+                                            Icons.edit,
+                                            color: Colors.blue,
+                                          ))),
                                       // if (i >= 5)
                                       //   DataCell(Text(
                                       //     'Aktif',
