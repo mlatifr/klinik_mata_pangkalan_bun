@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/akuntan/page_input_penjurnalan/akuntan_page_input_penjurnalan.dart';
+import 'package:flutter_application_1/akuntan/page_input_penjurnalan/views/akuntan_page_input_penjurnalan.dart';
 import 'package:flutter_application_1/akuntan/page_input_penjurnalan/controler/list_penjurnalan_controller.dart';
 import 'package:flutter_application_1/akuntan/page_input_penjurnalan/services/fetchListJurnal.dart';
 import 'package:month_year_picker/month_year_picker.dart';
