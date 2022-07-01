@@ -59,7 +59,7 @@ class _DaftarPegawaiState extends State<DaftarPegawai> {
                           for (var i = 0; i < _pegawaiController.listPegawai.length; i++)
                             DataRow(
                                 onLongPress: () {
-                                  print('buka halaman edit ${_pegawaiController.listPegawai[i].nama}');
+                                  // print('buka halaman edit ${_pegawaiController.listPegawai[i].nama}');
                                 },
                                 cells: [
                                   DataCell(Text('${_pegawaiController.listPegawai[i].nama}')),
@@ -87,16 +87,40 @@ class _DaftarPegawaiState extends State<DaftarPegawai> {
                                                             ),
                                                             Align(alignment: Alignment.centerLeft, child: Text('Status')),
                                                             Row(
+                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                                               children: [
+                                                                RichText(
+                                                                    text: TextSpan(children: [
+                                                                  TextSpan(
+                                                                    text: "Status Pegawai: ",
+                                                                  ),
+                                                                  _pegawaiController.listPegawai[i].status == 'aktif'
+                                                                      ? TextSpan(
+                                                                          text: "${_pegawaiController.listPegawai[i].status}",
+                                                                          style: TextStyle(
+                                                                              // decoration: TextDecoration.unsderline,
+                                                                              decorationThickness: 2,
+                                                                              decorationStyle: TextDecorationStyle.wavy))
+                                                                      : TextSpan(
+                                                                          text: "${_pegawaiController.listPegawai[i].status}",
+                                                                          style: TextStyle(
+                                                                              color: Colors.red,
+                                                                              decoration: TextDecoration.underline,
+                                                                              decorationThickness: 2,
+                                                                              decorationStyle: TextDecorationStyle.wavy))
+                                                                ], style: TextStyle(color: Colors.black))),
+                                                                // Text('Status Pegawai: ${_pegawaiController.listPegawai[i].status} '),
                                                                 Switch(
                                                                     value: listSatusButton[i],
                                                                     onChanged: (bool value) {
                                                                       setState((() {
                                                                         listSatusButton[i] = value;
+                                                                        if (value == true) {
+                                                                          _pegawaiController.listPegawai[i].status = 'aktif';
+                                                                        } else {
+                                                                          _pegawaiController.listPegawai[i].status = 'non-aktif';
+                                                                        }
                                                                       }));
-                                                                      for (var element in listSatusButton) {
-                                                                        print(element);
-                                                                      }
                                                                     }),
                                                               ],
                                                             ),
@@ -112,6 +136,22 @@ class _DaftarPegawaiState extends State<DaftarPegawai> {
                                                                 hintText: 'Unit Kerja',
                                                               ),
                                                             ),
+                                                            Row(
+                                                              mainAxisAlignment: MainAxisAlignment.center,
+                                                              children: [
+                                                                ElevatedButton(onPressed: () {}, child: Text('Simpan')),
+                                                                SizedBox(
+                                                                  width: 50,
+                                                                ),
+                                                                ElevatedButton(
+                                                                  onPressed: () {
+                                                                    Navigator.pop(context);
+                                                                  },
+                                                                  child: Text('Batal'),
+                                                                  style: ElevatedButton.styleFrom(primary: Colors.red),
+                                                                )
+                                                              ],
+                                                            )
                                                           ],
                                                         )));
                                               });
