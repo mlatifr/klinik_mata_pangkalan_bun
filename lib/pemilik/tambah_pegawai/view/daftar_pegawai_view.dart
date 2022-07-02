@@ -68,94 +68,7 @@ class _DaftarPegawaiState extends State<DaftarPegawai> {
                                   DataCell(Text('${_pegawaiController.listPegawai[i].unitKerja}')),
                                   DataCell(IconButton(
                                       onPressed: () {
-                                        showModalBottomSheet(
-                                            context: context,
-                                            builder: (context) {
-                                              return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
-                                                return SafeArea(
-                                                    child: Container(
-                                                        padding: EdgeInsets.all(20),
-                                                        height: MediaQuery.of(context).size.height + (MediaQuery.of(context).size.height * 0.2),
-                                                        child: Column(
-                                                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                                                          children: [
-                                                            Align(alignment: Alignment.centerLeft, child: Text('Nama')),
-                                                            TextFormField(
-                                                              decoration: InputDecoration(
-                                                                hintText: 'Nama',
-                                                              ),
-                                                            ),
-                                                            Align(alignment: Alignment.centerLeft, child: Text('Status')),
-                                                            Row(
-                                                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                              children: [
-                                                                RichText(
-                                                                    text: TextSpan(children: [
-                                                                  TextSpan(
-                                                                    text: "Status Pegawai: ",
-                                                                  ),
-                                                                  _pegawaiController.listPegawai[i].status == 'aktif'
-                                                                      ? TextSpan(
-                                                                          text: "${_pegawaiController.listPegawai[i].status}",
-                                                                          style: TextStyle(
-                                                                              // decoration: TextDecoration.unsderline,
-                                                                              decorationThickness: 2,
-                                                                              decorationStyle: TextDecorationStyle.wavy))
-                                                                      : TextSpan(
-                                                                          text: "${_pegawaiController.listPegawai[i].status}",
-                                                                          style: TextStyle(
-                                                                              color: Colors.red,
-                                                                              decoration: TextDecoration.underline,
-                                                                              decorationThickness: 2,
-                                                                              decorationStyle: TextDecorationStyle.wavy))
-                                                                ], style: TextStyle(color: Colors.black))),
-                                                                // Text('Status Pegawai: ${_pegawaiController.listPegawai[i].status} '),
-                                                                Switch(
-                                                                    value: listSatusButton[i],
-                                                                    onChanged: (bool value) {
-                                                                      setState((() {
-                                                                        listSatusButton[i] = value;
-                                                                        if (value == true) {
-                                                                          _pegawaiController.listPegawai[i].status = 'aktif';
-                                                                        } else {
-                                                                          _pegawaiController.listPegawai[i].status = 'non-aktif';
-                                                                        }
-                                                                      }));
-                                                                    }),
-                                                              ],
-                                                            ),
-                                                            Align(alignment: Alignment.centerLeft, child: Text('Telpon')),
-                                                            TextFormField(
-                                                              decoration: InputDecoration(
-                                                                hintText: 'Tlp',
-                                                              ),
-                                                            ),
-                                                            Align(alignment: Alignment.centerLeft, child: Text('Unit Kerja')),
-                                                            TextFormField(
-                                                              decoration: InputDecoration(
-                                                                hintText: 'Unit Kerja',
-                                                              ),
-                                                            ),
-                                                            Row(
-                                                              mainAxisAlignment: MainAxisAlignment.center,
-                                                              children: [
-                                                                ElevatedButton(onPressed: () {}, child: Text('Simpan')),
-                                                                SizedBox(
-                                                                  width: 50,
-                                                                ),
-                                                                ElevatedButton(
-                                                                  onPressed: () {
-                                                                    Navigator.pop(context);
-                                                                  },
-                                                                  child: Text('Batal'),
-                                                                  style: ElevatedButton.styleFrom(primary: Colors.red),
-                                                                )
-                                                              ],
-                                                            )
-                                                          ],
-                                                        )));
-                                              });
-                                            });
+                                        EditPegawaiModalBottom(context, i);
                                       },
                                       icon: Icon(
                                         Icons.edit,
@@ -190,5 +103,96 @@ class _DaftarPegawaiState extends State<DaftarPegawai> {
         ),
       ),
     );
+  }
+
+  Future<dynamic> EditPegawaiModalBottom(BuildContext context, int i) {
+    return showModalBottomSheet(
+        context: context,
+        builder: (context) {
+          return StatefulBuilder(builder: (BuildContext context, StateSetter setState) {
+            return SafeArea(
+                child: Container(
+                    padding: EdgeInsets.all(20),
+                    height: MediaQuery.of(context).size.height + (MediaQuery.of(context).size.height * 0.2),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
+                      children: [
+                        Align(alignment: Alignment.centerLeft, child: Text('Nama')),
+                        TextFormField(
+                          decoration: InputDecoration(
+                            hintText: 'Nama',
+                          ),
+                        ),
+                        Align(alignment: Alignment.centerLeft, child: Text('Status')),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            RichText(
+                                text: TextSpan(children: [
+                              TextSpan(
+                                text: "Status Pegawai: ",
+                              ),
+                              _pegawaiController.listPegawai[i].status == 'aktif'
+                                  ? TextSpan(
+                                      text: "${_pegawaiController.listPegawai[i].status}",
+                                      style: TextStyle(
+                                          // decoration: TextDecoration.unsderline,
+                                          decorationThickness: 2,
+                                          decorationStyle: TextDecorationStyle.wavy))
+                                  : TextSpan(
+                                      text: "${_pegawaiController.listPegawai[i].status}",
+                                      style: TextStyle(
+                                          color: Colors.red,
+                                          decoration: TextDecoration.underline,
+                                          decorationThickness: 2,
+                                          decorationStyle: TextDecorationStyle.wavy))
+                            ], style: TextStyle(color: Colors.black))),
+                            // Text('Status Pegawai: ${_pegawaiController.listPegawai[i].status} '),
+                            Switch(
+                                value: listSatusButton[i],
+                                onChanged: (bool value) {
+                                  setState((() {
+                                    listSatusButton[i] = value;
+                                    if (value == true) {
+                                      _pegawaiController.listPegawai[i].status = 'aktif';
+                                    } else {
+                                      _pegawaiController.listPegawai[i].status = 'non-aktif';
+                                    }
+                                  }));
+                                }),
+                          ],
+                        ),
+                        Align(alignment: Alignment.centerLeft, child: Text('Telpon')),
+                        TextFormField(
+                          decoration: InputDecoration(
+                            hintText: 'Tlp',
+                          ),
+                        ),
+                        Align(alignment: Alignment.centerLeft, child: Text('Unit Kerja')),
+                        TextFormField(
+                          decoration: InputDecoration(
+                            hintText: 'Unit Kerja',
+                          ),
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            ElevatedButton(onPressed: () {}, child: Text('Simpan')),
+                            SizedBox(
+                              width: 50,
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
+                              child: Text('Batal'),
+                              style: ElevatedButton.styleFrom(primary: Colors.red),
+                            )
+                          ],
+                        )
+                      ],
+                    )));
+          });
+        });
   }
 }
