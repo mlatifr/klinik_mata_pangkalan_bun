@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/pemilik/tambah_pegawai/controller/daftar_pegawai_controller.dart';
+import 'package:flutter_application_1/pemilik/tambah_pegawai/service/edit_pegawai_service.dart';
 import 'package:flutter_application_1/pemilik/tambah_pegawai/service/get_info_pegawai.dart';
 
 import 'add_pegawai_view.dart';
@@ -11,7 +12,11 @@ class DaftarPegawai extends StatefulWidget {
 
 class _DaftarPegawaiState extends State<DaftarPegawai> {
   DaftarPegawaiController _pegawaiController = DaftarPegawaiController();
-  List listSatusButton = [];
+  List _listSatusButton = [];
+  List<TextEditingController> _listTxtEditNama = [];
+  List<TextEditingController> _listTxtEditTlp = [];
+  List<TextEditingController> _listTxtEditUnitKerja = [];
+  List<TextEditingController> _listTxtEditAlamat = [];
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -43,11 +48,19 @@ class _DaftarPegawaiState extends State<DaftarPegawai> {
                         _pegawaiController.ConvertJsonListPegawai(snapshot);
                         for (var i = 0; i < _pegawaiController.listPegawai.length; i++) {
                           if (_pegawaiController.listPegawai[i].status == 'aktif') {
-                            listSatusButton.add(true);
+                            _listSatusButton.add(true);
                           }
                           if (_pegawaiController.listPegawai[i].status == 'non-aktif') {
-                            listSatusButton.add(false);
+                            _listSatusButton.add(false);
                           }
+                          TextEditingController txtEditingNama = TextEditingController(text: _pegawaiController.listPegawai[i].nama);
+                          _listTxtEditNama.add(txtEditingNama);
+                          TextEditingController txtEditingTlp = TextEditingController(text: _pegawaiController.listPegawai[i].tlp);
+                          _listTxtEditTlp.add(txtEditingTlp);
+                          TextEditingController txtEditingUnitKerja = TextEditingController(text: _pegawaiController.listPegawai[i].unitKerja);
+                          _listTxtEditUnitKerja.add(txtEditingUnitKerja);
+                          TextEditingController txtEditingAlamat = TextEditingController(text: _pegawaiController.listPegawai[i].alamat);
+                          _listTxtEditAlamat.add(txtEditingAlamat);
                         }
                         return DataTable(headingRowColor: MaterialStateColor.resolveWith((states) => Colors.blue[100]), columns: [
                           DataColumn(label: Text('Nama')),
@@ -119,6 +132,8 @@ class _DaftarPegawaiState extends State<DaftarPegawai> {
                       children: [
                         Align(alignment: Alignment.centerLeft, child: Text('Nama')),
                         TextFormField(
+                          // initialValue: _pegawaiController.listPegawai[i].nama,
+                          controller: _listTxtEditNama[i],
                           decoration: InputDecoration(
                             hintText: 'Nama',
                           ),
@@ -149,10 +164,10 @@ class _DaftarPegawaiState extends State<DaftarPegawai> {
                             ], style: TextStyle(color: Colors.black))),
                             // Text('Status Pegawai: ${_pegawaiController.listPegawai[i].status} '),
                             Switch(
-                                value: listSatusButton[i],
+                                value: _listSatusButton[i],
                                 onChanged: (bool value) {
                                   setState((() {
-                                    listSatusButton[i] = value;
+                                    _listSatusButton[i] = value;
                                     if (value == true) {
                                       _pegawaiController.listPegawai[i].status = 'aktif';
                                     } else {
@@ -164,12 +179,16 @@ class _DaftarPegawaiState extends State<DaftarPegawai> {
                         ),
                         Align(alignment: Alignment.centerLeft, child: Text('Telpon')),
                         TextFormField(
+                          // initialValue: _pegawaiController.listPegawai[i].tlp,
+                          controller: _listTxtEditTlp[i],
                           decoration: InputDecoration(
                             hintText: 'Tlp',
                           ),
                         ),
                         Align(alignment: Alignment.centerLeft, child: Text('Unit Kerja')),
                         TextFormField(
+                          // initialValue: _pegawaiController.listPegawai[i].unitKerja,
+                          controller: _listTxtEditUnitKerja[i],
                           decoration: InputDecoration(
                             hintText: 'Unit Kerja',
                           ),
@@ -177,7 +196,18 @@ class _DaftarPegawaiState extends State<DaftarPegawai> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            ElevatedButton(onPressed: () {}, child: Text('Simpan')),
+                            ElevatedButton(
+                                onPressed: () {
+                                  String _status = '';
+                                  if (_listSatusButton[i]) {
+                                    _status = 'aktif';
+                                  } else {
+                                    _status = 'non-aktif';
+                                  }
+                                  PostEditPegawai(_pegawaiController.listPegawai[i].id, _status, _listTxtEditNama[i].text,
+                                      _listTxtEditUnitKerja[i].text, _listTxtEditTlp[i].text, _listTxtEditAlamat[i].text);
+                                },
+                                child: Text('Simpan')),
                             SizedBox(
                               width: 50,
                             ),
