@@ -9,13 +9,11 @@ import 'package:http/http.dart' as http;
 var idOrder = '';
 
 Future<String> fetchDataIdOrderId(pIdUser, pTglOrder) async {
+  print("tgl transaksi: $pTglOrder");
   final response = await http
-      .post(Uri.parse(apiUrl + "pemilik_input_tgl_order.php"), body: {
-    'user_klinik_id': pIdUser.toString(),
-    'tgl_order': pTglOrder.toString()
-  });
+      .post(Uri.parse(apiUrl + "pemilik_input_tgl_order.php"), body: {'user_klinik_id': pIdUser.toString(), 'tgl_order': pTglOrder.toString()});
   if (response.statusCode == 200) {
-    print('fetchDataIdOrderId: ${response.body}');
+    // print('fetchDataIdOrderId: ${response.body}');
     return response.body;
   } else {
     throw Exception('Failed to read API');
@@ -27,14 +25,11 @@ List<TextEditingController> ListHargaJual = [];
 
 class PemilikInputResepList {
   var harga_item, hpp, jumlah_order, obatNama;
-  PemilikInputResepList(
-      {this.harga_item, this.hpp, this.obatNama, this.jumlah_order});
+  PemilikInputResepList({this.harga_item, this.hpp, this.obatNama, this.jumlah_order});
 }
 
-Future<String> fetchDataPemilikSendKrjgObat(pOrder_obat_id, pJumlah_order,
-    pNama, pHarga_beli, pHarga_jual, pStatus_order) async {
-  final response = await http
-      .post(Uri.parse(apiUrl + "pemilik_input_order_item.php"), body: {
+Future<String> fetchDataPemilikSendKrjgObat(pOrder_obat_id, pJumlah_order, pNama, pHarga_beli, pHarga_jual, pStatus_order) async {
+  final response = await http.post(Uri.parse(apiUrl + "pemilik_input_order_item.php"), body: {
     'order_obat_id': pOrder_obat_id.toString(),
     'jumlah_order': pJumlah_order.toString(),
     'nama': pNama.toString(),
@@ -52,9 +47,7 @@ Future<String> fetchDataPemilikSendKrjgObat(pOrder_obat_id, pJumlah_order,
 
 Future<String> fetchDataPemilikVListObat(pNamaObat) async {
   // print('final: $pVisitId | $pTdkId | $pMtSisi');
-  final response = await http.post(
-      Uri.parse(apiUrl + "pemilik_v_list_obat.php"),
-      body: {'nama_obat': pNamaObat.toString()});
+  final response = await http.post(Uri.parse(apiUrl + "pemilik_v_list_obat.php"), body: {'nama_obat': pNamaObat.toString()});
   if (response.statusCode == 200) {
     // print('200: ${response.body}');
     return response.body;

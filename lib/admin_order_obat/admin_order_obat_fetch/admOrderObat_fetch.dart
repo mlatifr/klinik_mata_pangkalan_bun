@@ -8,15 +8,7 @@ import 'package:http/http.dart' as http;
 //untuk input obat kadaluarsa jika 1 order memiliki banyak tanggal Exp berbeda
 
 Future<String> fetchDataAdminInputKadaluarsaObat(
-    order_obat_id,
-    jumlah_order,
-    jumlah_diterima,
-    nama,
-    stok,
-    kadaluarsa,
-    harga_jual,
-    harga_beli,
-    status_order) async {
+    order_obat_id, jumlah_order, jumlah_diterima, nama, stok, kadaluarsa, harga_jual, harga_beli, status_order) async {
   print('order_obat_id | $order_obat_id \n' +
       'jumlah_order | $jumlah_order \n' +
       'jumlah_diterima | $jumlah_diterima \n' +
@@ -25,8 +17,7 @@ Future<String> fetchDataAdminInputKadaluarsaObat(
       'kadaluarsa | $kadaluarsa \n' +
       'harga_jual | $harga_jual \n' +
       'harga_beli | $harga_beli \n');
-  final response =
-      await http.post(Uri.parse(apiUrl + "admin_input_obat_stok.php"), body: {
+  final response = await http.post(Uri.parse(apiUrl + "admin_input_obat_stok.php"), body: {
     'order_obat_id': order_obat_id.toString(),
     'jumlah_order': jumlah_order.toString(),
     'jumlah_diterima': jumlah_diterima.toString(),
@@ -48,10 +39,8 @@ Future<String> fetchDataAdminInputKadaluarsaObat(
 //untuk update stok order obat yang diterima
 
 List<TextEditingController> ListKadaluarsa = [];
-Future<String> fetchDataAdminUpdateOrderObat(
-    jumlah_diterima, stok, kadaluarsa, status_order, obat_id) async {
-  final response =
-      await http.post(Uri.parse(apiUrl + "admin_upd_obat_stok.php"), body: {
+Future<String> fetchDataAdminUpdateOrderObat(jumlah_diterima, stok, kadaluarsa, status_order, obat_id) async {
+  final response = await http.post(Uri.parse(apiUrl + "admin_upd_obat_stok.php"), body: {
     'jumlah_diterima': jumlah_diterima.toString(),
     'stok': stok.toString(),
     'kadaluarsa': kadaluarsa.toString(),
@@ -74,17 +63,7 @@ List<KeranjangOrderClass> listObatKadaluarsa = [];
 List<TextEditingController> ListDiterima = [];
 
 class KeranjangOrderClass {
-  var tgl_order,
-      id_obat,
-      order_id,
-      jumlah_order,
-      jumlah_diterima,
-      nama,
-      stok,
-      kadaluarsa,
-      harga_jual,
-      harga_beli,
-      status_order;
+  var tgl_order, id_obat, order_id, jumlah_order, jumlah_diterima, nama, stok, kadaluarsa, harga_jual, harga_beli, status_order;
   KeranjangOrderClass(
       {this.tgl_order,
       this.id_obat,
@@ -116,8 +95,7 @@ class KeranjangOrderClass {
 }
 
 Future<String> fetchDataAdminVOrderTgl() async {
-  final response =
-      await http.post(Uri.parse(apiUrl + "admin_v_order_tgl.php"), body: {
+  final response = await http.post(Uri.parse(apiUrl + "admin_v_order_tgl.php"), body: {
     // 'tgl_order': pTglOrder.toString(),
   });
   if (response.statusCode == 200) {
@@ -130,11 +108,10 @@ Future<String> fetchDataAdminVOrderTgl() async {
 
 Future<String> fetchDataAdminVOrderNota(pTglOrder) async {
   print('fetchDataAdminVOrderNota $pTglOrder');
-  final response =
-      await http.post(Uri.parse(apiUrl + "admin_v_order_nota.php"), body: {
+  final response = await http.post(Uri.parse(apiUrl + "admin_v_order_nota.php"), body: {
     'tgl_order': pTglOrder.toString(),
   });
-  print('fetchDataAdminVOrderObat: ${response.body} | ${response.statusCode}');
+  print('fetchDataAdminVOrderObatTgl: ${response.body} | ${response.statusCode}');
   if (response.statusCode == 200) {
     return response.body;
   } else {
@@ -144,8 +121,7 @@ Future<String> fetchDataAdminVOrderNota(pTglOrder) async {
 
 Future<String> fetchDataAdminVListObat(pIdOrder) async {
   print('fetchDataAdminVListObat $pIdOrder');
-  final response =
-      await http.post(Uri.parse(apiUrl + "admin_v_order_list_obat.php"), body: {
+  final response = await http.post(Uri.parse(apiUrl + "admin_v_order_list_obat.php"), body: {
     'order_id': pIdOrder.toString(),
   });
   print('fetchDataAdminVListObat: ${response.body} | ${response.statusCode}');
