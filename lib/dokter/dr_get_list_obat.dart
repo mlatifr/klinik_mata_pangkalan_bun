@@ -8,8 +8,9 @@ List<DokterVListObat> dVLOs = [];
 List<DokterVKeranjangObat> dVLKOs = [];
 
 class DokterVKeranjangObat {
-  var obatId,obatNama, obatJumlah, obatDosis;
-  DokterVKeranjangObat({this.obatId,
+  var obatId, obatNama, obatJumlah, obatDosis;
+  DokterVKeranjangObat({
+    this.obatId,
     this.obatNama,
     this.obatJumlah,
     this.obatDosis,
@@ -18,6 +19,7 @@ class DokterVKeranjangObat {
   // untuk convert dari jSon
   factory DokterVKeranjangObat.fromJson(Map<String, dynamic> json) {
     return new DokterVKeranjangObat(
+      obatId: json['id'],
       obatNama: json['nama'],
       obatJumlah: json['jumlah'],
       obatDosis: json['dosis'],
@@ -45,8 +47,7 @@ class DokterVListObat {
 
 Future<String> fetchDataDokterVListObat(pNamaObat) async {
   // print('final: $pVisitId | $pTdkId | $pMtSisi');
-  final response = await http.post(Uri.parse(apiUrl + "dokter_v_list_obat.php"),
-      body: {'nama_obat': pNamaObat.toString()});
+  final response = await http.post(Uri.parse(apiUrl + "dokter_v_list_obat.php"), body: {'nama_obat': pNamaObat.toString()});
   if (response.statusCode == 200) {
     // print('200: ${response.body}');
     return response.body;
@@ -56,11 +57,9 @@ Future<String> fetchDataDokterVListObat(pNamaObat) async {
   }
 }
 
-Future<String> fetchDataDokterInputResepObat(
-    pObtId, pDosis, pJumlah, pVisitId) async {
+Future<String> fetchDataDokterInputResepObat(pObtId, pDosis, pJumlah, pVisitId) async {
   // print('final: $pObtId | $pDosis | $pJumlah | $pVisitId');
-  final response = await http
-      .post(Uri.parse(apiUrl + "dokter_input_resep_has_obat.php"), body: {
+  final response = await http.post(Uri.parse(apiUrl + "dokter_input_resep_has_obat.php"), body: {
     "obat_id": pObtId.toString(),
     "dosis": pDosis.toString(),
     "jumlah": pJumlah.toString(),
@@ -77,8 +76,7 @@ Future<String> fetchDataDokterInputResepObat(
 
 Future<String> fetchDataDokterKeranjangObat(pVisitId) async {
   // print('final:$pVisitId');
-  final response = await http
-      .post(Uri.parse(apiUrl + "dokter_v_keranjang_resep_obat.php"), body: {
+  final response = await http.post(Uri.parse(apiUrl + "dokter_v_keranjang_resep_obat.php"), body: {
     "visit_id": pVisitId.toString(),
   });
   if (response.statusCode == 200) {

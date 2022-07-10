@@ -30,9 +30,7 @@ List<Item> generateItems(int numberOfItems) {
 class DrRiwayatPeriksaPasien extends StatefulWidget {
   final namaPasien, visitId, keluhan;
 
-  const DrRiwayatPeriksaPasien(
-      {Key key, this.namaPasien, this.visitId, this.keluhan})
-      : super(key: key);
+  const DrRiwayatPeriksaPasien({Key key, this.namaPasien, this.visitId, this.keluhan}) : super(key: key);
 
   @override
   _DrRiwayatPeriksaPasienState createState() => _DrRiwayatPeriksaPasienState();
@@ -52,8 +50,7 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
         print('json[result]: ${json['result']}');
       } else {
         for (var i in json['data']) {
-          DokterVKeranjangTindakan keranjangObat =
-              DokterVKeranjangTindakan.fromJson(i);
+          DokterVKeranjangTindakan keranjangObat = DokterVKeranjangTindakan.fromJson(i);
           dVKTs.add(keranjangObat);
         }
       }
@@ -69,6 +66,7 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
     dVLKOs.clear();
     Future<String> data = fetchDataDokterKeranjangObat(pVisitId);
     data.then((value) {
+      print('DokterBacaDataVKeranjangObat: $value');
       //Mengubah json menjadi Array
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
@@ -154,8 +152,7 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
               onChanged: (value) {
                 setState(() {
                   controllerCariObat.text = value.toString();
-                  controllerCariObat.selection = TextSelection.fromPosition(
-                      TextPosition(offset: controllerCariObat.text.length));
+                  controllerCariObat.selection = TextSelection.fromPosition(TextPosition(offset: controllerCariObat.text.length));
                   // print(value.toString());
                 });
               },
@@ -193,8 +190,7 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
             style: TextButton.styleFrom(
                 primary: Colors.white,
                 backgroundColor: Colors.blue,
-                minimumSize: Size(MediaQuery.of(context).size.width,
-                    MediaQuery.of(context).size.height * 0.01)),
+                minimumSize: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height * 0.01)),
           ),
         ),
       ],
@@ -206,8 +202,7 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
   Widget widgetListObats() {
     if (dVLOs.length > 0) {
       return ListView.builder(
-          key: Key(
-              'builder ${selectedObat.toString()}'), //agar yg terbuka hanya bisa 1 ListTile
+          key: Key('builder ${selectedObat.toString()}'), //agar yg terbuka hanya bisa 1 ListTile
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount: dVLOs.length,
@@ -219,10 +214,8 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
                   child: Column(
                     children: [
                       ExpansionTile(
-                          key: Key(index
-                              .toString()), //agar yg terbuka hanya bisa 1 ListTile
-                          initiallyExpanded: index ==
-                              selectedObat, //agar yg terbuka hanya bisa 1 ListTile
+                          key: Key(index.toString()), //agar yg terbuka hanya bisa 1 ListTile
+                          initiallyExpanded: index == selectedObat, //agar yg terbuka hanya bisa 1 ListTile
                           onExpansionChanged: ((newState) {
                             if (newState)
                               setState(() {
@@ -256,33 +249,25 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
                                         enabled: true,
                                         controller: controllerJumlah,
                                         keyboardType: TextInputType.number,
-                                        inputFormatters: <TextInputFormatter>[
-                                          FilteringTextInputFormatter.digitsOnly
-                                        ],
+                                        inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
                                         onChanged: (value) {
                                           setState(() {
-                                            controllerJumlah.text =
-                                                value.toString();
+                                            controllerJumlah.text = value.toString();
                                             controllerJumlah.selection =
-                                                TextSelection.fromPosition(
-                                                    TextPosition(
-                                                        offset: controllerJumlah
-                                                            .text.length));
+                                                TextSelection.fromPosition(TextPosition(offset: controllerJumlah.text.length));
                                           });
                                         },
                                         decoration: InputDecoration(
                                           labelText: "Jumlah",
                                           fillColor: Colors.white,
                                           enabledBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
+                                            borderRadius: BorderRadius.circular(10.0),
                                             borderSide: BorderSide(
                                               color: Colors.blue,
                                             ),
                                           ),
                                           focusedBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
+                                            borderRadius: BorderRadius.circular(10.0),
                                             borderSide: BorderSide(
                                               color: Colors.blue,
                                             ),
@@ -302,13 +287,8 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
                                         // ],
                                         onChanged: (value) {
                                           setState(() {
-                                            controllerDosis.text =
-                                                value.toString();
-                                            controllerDosis.selection =
-                                                TextSelection.fromPosition(
-                                                    TextPosition(
-                                                        offset: controllerDosis
-                                                            .text.length));
+                                            controllerDosis.text = value.toString();
+                                            controllerDosis.selection = TextSelection.fromPosition(TextPosition(offset: controllerDosis.text.length));
                                             // print(value.toString());
                                           });
                                         },
@@ -316,15 +296,13 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
                                           labelText: "Dosis",
                                           fillColor: Colors.white,
                                           enabledBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
+                                            borderRadius: BorderRadius.circular(10.0),
                                             borderSide: BorderSide(
                                               color: Colors.blue,
                                             ),
                                           ),
                                           focusedBorder: OutlineInputBorder(
-                                            borderRadius:
-                                                BorderRadius.circular(10.0),
+                                            borderRadius: BorderRadius.circular(10.0),
                                             borderSide: BorderSide(
                                               color: Colors.blue,
                                             ),
@@ -338,8 +316,7 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
                               padding: const EdgeInsets.all(8.0),
                               child: TextButton(
                                 onPressed: () {
-                                  DokterVKeranjangObat tambahObat =
-                                      DokterVKeranjangObat();
+                                  DokterVKeranjangObat tambahObat = DokterVKeranjangObat();
                                   tambahObat.obatNama = dVLOs[index].obatNama;
                                   tambahObat.obatId = dVLOs[index].obatId;
                                   tambahObat.obatDosis = controllerDosis.text;
@@ -386,10 +363,7 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
                                 style: TextButton.styleFrom(
                                     primary: Colors.white,
                                     backgroundColor: Colors.blue,
-                                    minimumSize: Size(
-                                        MediaQuery.of(context).size.width,
-                                        MediaQuery.of(context).size.height *
-                                            0.01)),
+                                    minimumSize: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height * 0.01)),
                               ),
                             ),
                           ])
@@ -443,8 +417,7 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
             style: TextButton.styleFrom(
                 primary: Colors.white,
                 backgroundColor: Colors.blue,
-                minimumSize: Size(MediaQuery.of(context).size.width,
-                    MediaQuery.of(context).size.height * 0.01)),
+                minimumSize: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height * 0.01)),
           ),
         ),
       ],
@@ -457,8 +430,7 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
   Widget widgetLisTindakans() {
     if (dVLTs.length > 0) {
       return ListView.builder(
-          key: Key(
-              'builder ${selectedTindakan.toString()}'), //agar yg terbuka hanya bisa 1 ListTile
+          key: Key('builder ${selectedTindakan.toString()}'), //agar yg terbuka hanya bisa 1 ListTile
           physics: NeverScrollableScrollPhysics(),
           shrinkWrap: true,
           itemCount: dVLTs.length,
@@ -470,10 +442,8 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
                   child: Column(
                     children: [
                       ExpansionTile(
-                          key: Key(index
-                              .toString()), //agar yg terbuka hanya bisa 1 ListTile
-                          initiallyExpanded: index ==
-                              selectedTindakan, //agar yg terbuka hanya bisa 1 ListTile
+                          key: Key(index.toString()), //agar yg terbuka hanya bisa 1 ListTile
+                          initiallyExpanded: index == selectedTindakan, //agar yg terbuka hanya bisa 1 ListTile
                           onExpansionChanged: ((newState) {
                             if (newState)
                               setState(() {
@@ -527,19 +497,15 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
                             ElevatedButton(
                               onPressed: () {
                                 // kalau pnly kiri/kanan > input 1x
-                                if (sisiMataKiri == 'kiri' &&
-                                    sisiMataKanan != 'kanan') {
-                                  DokterVKeranjangTindakan tdkn =
-                                      DokterVKeranjangTindakan();
+                                if (sisiMataKiri == 'kiri' && sisiMataKanan != 'kanan') {
+                                  DokterVKeranjangTindakan tdkn = DokterVKeranjangTindakan();
                                   tdkn.namaTindakan = dVLTs[index].namaTindakan;
                                   tdkn.tindakanId = dVLTs[index].idTindakan;
                                   tdkn.mataSisiTindakan = 'kiri';
                                   dVKTs.add(tdkn);
                                   print('kiri');
-                                } else if (sisiMataKanan == 'kanan' &&
-                                    sisiMataKiri != 'kiri') {
-                                  DokterVKeranjangTindakan tdkn =
-                                      DokterVKeranjangTindakan();
+                                } else if (sisiMataKanan == 'kanan' && sisiMataKiri != 'kiri') {
+                                  DokterVKeranjangTindakan tdkn = DokterVKeranjangTindakan();
                                   tdkn.namaTindakan = dVLTs[index].namaTindakan;
                                   tdkn.tindakanId = dVLTs[index].idTindakan;
                                   tdkn.mataSisiTindakan = 'kanan';
@@ -547,19 +513,15 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
                                   print('kanan');
                                 }
                                 // kalau kanan dan kiri > input 2x
-                                else if (sisiMataKanan == 'kanan' &&
-                                    sisiMataKiri == 'kiri') {
-                                  DokterVKeranjangTindakan tdkn =
-                                      DokterVKeranjangTindakan();
+                                else if (sisiMataKanan == 'kanan' && sisiMataKiri == 'kiri') {
+                                  DokterVKeranjangTindakan tdkn = DokterVKeranjangTindakan();
                                   tdkn.namaTindakan = dVLTs[index].namaTindakan;
                                   tdkn.tindakanId = dVLTs[index].idTindakan;
                                   tdkn.mataSisiTindakan = 'kanan';
                                   dVKTs.add(tdkn);
                                   print('kanan');
-                                  DokterVKeranjangTindakan tdkns =
-                                      DokterVKeranjangTindakan();
-                                  tdkns.namaTindakan =
-                                      dVLTs[index].namaTindakan;
+                                  DokterVKeranjangTindakan tdkns = DokterVKeranjangTindakan();
+                                  tdkns.namaTindakan = dVLTs[index].namaTindakan;
                                   tdkns.tindakanId = dVLTs[index].idTindakan;
                                   tdkns.mataSisiTindakan = 'kiri';
                                   dVKTs.add(tdkns);
@@ -576,10 +538,7 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
                               style: TextButton.styleFrom(
                                   primary: Colors.white,
                                   backgroundColor: Colors.blue,
-                                  minimumSize: Size(
-                                      MediaQuery.of(context).size.width,
-                                      MediaQuery.of(context).size.height *
-                                          0.01)),
+                                  minimumSize: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height * 0.01)),
                             )
                           ])
                     ],
@@ -636,8 +595,7 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
                 2: FlexColumnWidth(2.5),
                 3: FlexColumnWidth(2.5),
               },
-              border: TableBorder
-                  .all(), // Allows to add a border decoration around your table
+              border: TableBorder.all(), // Allows to add a border decoration around your table
               children: [
                 TableRow(children: [
                   Text(
@@ -670,8 +628,7 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
                       2: FlexColumnWidth(2.5),
                       3: FlexColumnWidth(2.5),
                     },
-                    border: TableBorder
-                        .all(), // Allows to add a border decoration around your table
+                    border: TableBorder.all(), // Allows to add a border decoration around your table
                     children: [
                       TableRow(children: [
                         Text(
@@ -714,8 +671,7 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
                 1: FlexColumnWidth(2.5),
                 2: FlexColumnWidth(1.64),
               },
-              border: TableBorder
-                  .all(), // Allows to add a border decoration around your table
+              border: TableBorder.all(), // Allows to add a border decoration around your table
               children: [
                 TableRow(children: [
                   Text(
@@ -743,8 +699,7 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
                       1: FlexColumnWidth(2.5),
                       2: FlexColumnWidth(1.64),
                     },
-                    border: TableBorder
-                        .all(), // Allows to add a border decoration around your table
+                    border: TableBorder.all(), // Allows to add a border decoration around your table
                     children: [
                       TableRow(children: [
                         Text(
@@ -922,9 +877,8 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
         onPressed: () {
           //kirim data tindakan
           for (var i = 0; i < dVKTs.length; i++) {
-            fetchDataDokterInputTindakan(widget.visitId, dVKTs[i].tindakanId,
-                    dVKTs[i].mataSisiTindakan)
-                .then((value) {
+            fetchDataDokterInputTindakan(widget.visitId, dVKTs[i].tindakanId, dVKTs[i].mataSisiTindakan).then((value) {
+              print('fetchDataDokterInputTindakan: $value');
               if (i == dVKTs.length - 1) {
                 print('last dVKTs $i');
                 showDialog<String>(
@@ -957,9 +911,8 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
           }
 
           for (var i = 0; i < dVLKOs.length; i++) {
-            fetchDataDokterInputResepObat(dVLKOs[i].obatId, dVLKOs[i].obatDosis,
-                    dVLKOs[i].obatJumlah, widget.visitId)
-                .then((value) {
+            fetchDataDokterInputResepObat(dVLKOs[i].obatId, dVLKOs[i].obatDosis, dVLKOs[i].obatJumlah, widget.visitId).then((value) {
+              print('fetchDataDokterInputResepObat: $value');
               if (i == dVLKOs.length - 1) {
                 print('last dVLKOs $i');
                 showDialog<String>(
@@ -999,8 +952,7 @@ class _DrRiwayatPeriksaPasienState extends State<DrRiwayatPeriksaPasien> {
         style: TextButton.styleFrom(
             primary: Colors.white,
             backgroundColor: Colors.blue,
-            minimumSize: Size(MediaQuery.of(context).size.width,
-                MediaQuery.of(context).size.height * 0.04)),
+            minimumSize: Size(MediaQuery.of(context).size.width, MediaQuery.of(context).size.height * 0.04)),
       );
     }
   }
