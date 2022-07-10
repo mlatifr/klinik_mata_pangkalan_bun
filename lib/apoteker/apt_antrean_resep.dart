@@ -17,13 +17,7 @@ class AptAntreanPasien extends StatefulWidget {
 }
 
 class ApotekerVAntrean {
-  var visitId,
-      vhuId,
-      pasienId,
-      tglVisit,
-      namaPasien,
-      nomorAntrean,
-      statusAntrean;
+  var visitId, vhuId, pasienId, tglVisit, namaPasien, nomorAntrean, statusAntrean;
   ApotekerVAntrean({
     this.visitId,
     this.namaPasien,
@@ -84,8 +78,7 @@ class _AptAntreanPasienState extends State<AptAntreanPasien> {
   }
 
   Future<String> fetchDataApotekerAntreanPasien() async {
-    final response =
-        await http.post(Uri.parse(apiUrl + "apoteker_v_antrean.php"), body: {
+    final response = await http.post(Uri.parse(apiUrl + "apoteker_v_antrean.php"), body: {
       'tgl_visit': controllerdate.text.toString().substring(0, 10),
       // 'tgl_visit': '2021-10-21',
     });
@@ -101,6 +94,7 @@ class _AptAntreanPasienState extends State<AptAntreanPasien> {
     AptkrVAs.clear();
     Future<String> data = fetchDataApotekerAntreanPasien();
     data.then((value) {
+      print('fetchDataApotekerAntreanPasien: $value');
       //Mengubah json menjadi Array
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
@@ -238,17 +232,14 @@ class _AptAntreanPasienState extends State<AptAntreanPasien> {
               onChanged: (value) {
                 setState(() {
                   controllerdate.text = value.toString();
-                  controllerdate.selection = TextSelection.fromPosition(
-                      TextPosition(offset: controllerdate.text.length));
+                  controllerdate.selection = TextSelection.fromPosition(TextPosition(offset: controllerdate.text.length));
                   print(value.toString());
                   // AdminBacaDataAntrean();
                 });
               },
               enabled: false,
               keyboardType: TextInputType.number,
-              inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.digitsOnly
-              ],
+              inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
               decoration: InputDecoration(
                 labelText: 'Tanggal Visit',
                 fillColor: Colors.white,
@@ -262,12 +253,7 @@ class _AptAntreanPasienState extends State<AptAntreanPasien> {
             )),
             ElevatedButton(
                 onPressed: () {
-                  showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(2000),
-                          lastDate: DateTime(2200))
-                      .then((value) {
+                  showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(2000), lastDate: DateTime(2200)).then((value) {
                     setState(() {
                       controllerdate.text = value.toString().substring(0, 10);
                       print(value.toString());
