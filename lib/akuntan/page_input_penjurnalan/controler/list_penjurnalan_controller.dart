@@ -4,8 +4,8 @@ class ListPenjurnalanController {
   List<listJurnalModel> listPenjurnalan = [];
   GetListJurnal(snapshot) {
     listPenjurnalan.clear();
-    var hasilGet = (snapshot.data);
-    for (var i in hasilGet['data']) {
+    var _hasilGet = (snapshot.data);
+    for (var i in _hasilGet['data']) {
       var jsnRslt = listJurnalModel.fromJson(i);
       listPenjurnalan.add(jsnRslt);
     }

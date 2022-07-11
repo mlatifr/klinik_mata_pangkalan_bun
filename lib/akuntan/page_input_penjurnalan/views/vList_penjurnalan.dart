@@ -11,20 +11,7 @@ class ListPenjurnalan extends StatefulWidget {
 
 class _ListPenjurnalanState extends State<ListPenjurnalan> {
   DateTime _bulanButton = DateTime.now();
-  List _months = [
-    'jan',
-    'feb',
-    'mar',
-    'apr',
-    'may',
-    'jun',
-    'jul',
-    'aug',
-    'sep',
-    'oct',
-    'nov',
-    'dec'
-  ];
+  List _months = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
   var lj = ListPenjurnalanController();
   @override
   Widget build(BuildContext context) {
@@ -35,13 +22,15 @@ class _ListPenjurnalanState extends State<ListPenjurnalan> {
         ),
         body: ListView(
           children: [
+            SizedBox(
+              height: 10,
+            ),
             Row(mainAxisAlignment: MainAxisAlignment.center, children: [
               SizedBox(
                 height: 10,
               ),
               ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                      minimumSize: Size(MediaQuery.of(context).size.width, 50)),
+                  style: ElevatedButton.styleFrom(minimumSize: Size(MediaQuery.of(context).size.width, 50)),
                   onPressed: () {
                     showMonthYearPicker(
                       context: context,
@@ -57,8 +46,7 @@ class _ListPenjurnalanState extends State<ListPenjurnalan> {
                   },
                   child: Row(
                     children: [
-                      Text(
-                          '${_months[_bulanButton.month - 1]} ${_bulanButton.year}'),
+                      Text('${_months[_bulanButton.month - 1]} ${_bulanButton.year}'),
                       SizedBox(
                         width: 10,
                       ),
@@ -84,47 +72,39 @@ class _ListPenjurnalanState extends State<ListPenjurnalan> {
                         child: CircularProgressIndicator(),
                       );
                     }
-                    if (snapshot.connectionState == ConnectionState.done &&
-                        snapshot.data.toString().contains('success')) {
+                    if (snapshot.connectionState == ConnectionState.done && snapshot.data.toString().contains('success')) {
                       lj.GetListJurnal(snapshot);
-                      return DataTable(
-                          headingRowColor: MaterialStateColor.resolveWith(
-                              (states) => Colors.blue[100]),
-                          columns: [
-                            DataColumn(label: Text('No')),
-                            DataColumn(label: Text('Tgl')),
-                            DataColumn(label: Text('Nama')),
-                            DataColumn(label: Text('No\nAkun')),
-                            DataColumn(label: Text('Debet/\nKredit')),
-                            DataColumn(label: Text('Keterangan')),
-                          ],
-                          rows: [
-                            for (var i = 0; i < lj.listPenjurnalan.length; i++)
-                              DataRow(cells: [
-                                DataCell(Text('${i + 1}')),
-                                DataCell(Text(
-                                    '${lj.listPenjurnalan[i].tglCatat.toString().substring(0, 11)}')),
-                                DataCell(Text('${lj.listPenjurnalan[i].nama}')),
-                                DataCell(
-                                    Text('${lj.listPenjurnalan[i].noAkun}')),
-                                if (lj.listPenjurnalan[i].debet != 0)
-                                  DataCell(Text(
-                                    'db ${lj.listPenjurnalan[i].debet}',
-                                    // style: TextStyle(
-                                    //     backgroundColor: Colors.blue,
-                                    //     color: Colors.white),
-                                  )),
-                                if (lj.listPenjurnalan[i].kredit != 0)
-                                  DataCell(Text(
-                                    'kr ${lj.listPenjurnalan[i].kredit}',
-                                    // style: TextStyle(
-                                    //     backgroundColor: Colors.red,
-                                    //     color: Colors.white),
-                                  )),
-                                DataCell(Text(
-                                    '${lj.listPenjurnalan[i].ket_transaksi}')),
-                              ]),
-                          ]);
+                      return DataTable(headingRowColor: MaterialStateColor.resolveWith((states) => Colors.blue[100]), columns: [
+                        DataColumn(label: Text('No')),
+                        DataColumn(label: Text('Tgl')),
+                        DataColumn(label: Text('Nama')),
+                        DataColumn(label: Text('No\nAkun')),
+                        DataColumn(label: Text('Debet/\nKredit')),
+                        DataColumn(label: Text('Keterangan')),
+                      ], rows: [
+                        for (var i = 0; i < lj.listPenjurnalan.length; i++)
+                          DataRow(cells: [
+                            DataCell(Text('${i + 1}')),
+                            DataCell(Text('${lj.listPenjurnalan[i].tglCatat.toString().substring(0, 11)}')),
+                            DataCell(Text('${lj.listPenjurnalan[i].nama}')),
+                            DataCell(Text('${lj.listPenjurnalan[i].noAkun}')),
+                            if (lj.listPenjurnalan[i].debet != 0)
+                              DataCell(Text(
+                                'db ${lj.listPenjurnalan[i].debet}',
+                                // style: TextStyle(
+                                //     backgroundColor: Colors.blue,
+                                //     color: Colors.white),
+                              )),
+                            if (lj.listPenjurnalan[i].kredit != 0)
+                              DataCell(Text(
+                                'kr ${lj.listPenjurnalan[i].kredit}',
+                                // style: TextStyle(
+                                //     backgroundColor: Colors.red,
+                                //     color: Colors.white),
+                              )),
+                            DataCell(Text('${lj.listPenjurnalan[i].ket_transaksi}')),
+                          ]),
+                      ]);
                     } else {
                       return Text('data error');
                     }

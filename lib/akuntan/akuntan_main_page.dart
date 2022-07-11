@@ -8,6 +8,7 @@ import 'package:flutter_application_1/akuntan/akuntan_page_split_view.dart';
 import 'package:flutter_application_1/akuntan/page_input_penjurnalan/views/vList_penjurnalan.dart';
 import '../main.dart';
 import 'neraca/akuntan_page_neraca.dart';
+import 'nota/nota_obat/view/nota_obat_v.dart';
 import 'page_input_penjurnalan/services/akuntan_get_daftar_akun.dart';
 
 class AkuntanMainPage extends StatefulWidget {
@@ -41,22 +42,19 @@ class _AkuntanMainPageState extends State<AkuntanMainPage> {
           ListTile(
             title: Text('Chart Of Account'),
             onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => ChartOfAccount()));
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => ChartOfAccount()));
             },
           ),
           ListTile(
             title: Text('Neraca'),
             onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => AkuntanVNeraca()));
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => AkuntanVNeraca()));
             },
           ),
           ListTile(
             title: Text('Laporan Laba Rugi'),
             onTap: () {
-              Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => AkuntanVLaporanLR()));
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => AkuntanVLaporanLR()));
             },
           ),
           // ListTile(
@@ -67,21 +65,26 @@ class _AkuntanMainPageState extends State<AkuntanMainPage> {
           //   },
           // ),
           ListTile(
-            title: Text('Daftar Penjurnalan'),
+            title: Text('Nota Obat'),
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => ListPenjurnalan()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => AkuntanViewNotaObat()));
             },
           ),
           ListTile(
-            title: Text('Input Penjurnalan'),
+            title: Text('Daftar Penjurnalan'),
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => AkuntanInputPenjurnalan()));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => ListPenjurnalan()));
             },
           ),
+          // ListTile(
+          //   title: Text('Input Penjurnalan'),
+          //   onTap: () {
+          //     Navigator.push(
+          //         context,
+          //         MaterialPageRoute(
+          //             builder: (context) => AkuntanInputPenjurnalan()));
+          //   },
+          // ),
           ListTile(
             title: Text('Split View'),
             onTap: () {
