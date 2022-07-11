@@ -70,6 +70,7 @@ class _KsrAntreanPasienState extends State<KsrAntreanPasien> {
     kVAs.clear();
     Future<String> data = fetchDataKasirVAntreanPasien(pDate);
     data.then((value) {
+      print('fetchDataKasirVAntreanPasien : $value');
       //Mengubah json menjadi Array
       // ignore: unused_local_variable
       Map json = jsonDecode(value);
@@ -94,17 +95,14 @@ class _KsrAntreanPasienState extends State<KsrAntreanPasien> {
               onChanged: (value) {
                 setState(() {
                   controllerdate.text = value.toString();
-                  controllerdate.selection = TextSelection.fromPosition(
-                      TextPosition(offset: controllerdate.text.length));
+                  controllerdate.selection = TextSelection.fromPosition(TextPosition(offset: controllerdate.text.length));
                   //print(value.toString());
                   // AdminBacaDataAntrean();
                 });
               },
               enabled: false,
               keyboardType: TextInputType.number,
-              inputFormatters: <TextInputFormatter>[
-                FilteringTextInputFormatter.digitsOnly
-              ],
+              inputFormatters: <TextInputFormatter>[FilteringTextInputFormatter.digitsOnly],
               decoration: InputDecoration(
                 labelText: 'Tanggal Visit',
                 fillColor: Colors.white,
@@ -118,12 +116,7 @@ class _KsrAntreanPasienState extends State<KsrAntreanPasien> {
             )),
             ElevatedButton(
                 onPressed: () {
-                  showDatePicker(
-                          context: context,
-                          initialDate: DateTime.now(),
-                          firstDate: DateTime(2000),
-                          lastDate: DateTime(2200))
-                      .then((value) {
+                  showDatePicker(context: context, initialDate: DateTime.now(), firstDate: DateTime(2000), lastDate: DateTime(2200)).then((value) {
                     setState(() {
                       controllerdate.text = value.toString().substring(0, 10);
                       //print(value.toString());
@@ -187,9 +180,7 @@ class _KsrAntreanPasienState extends State<KsrAntreanPasien> {
                                   builder: (context) => KasirDetailPasien(
                                       namaPasien: kVAs[index].userName,
                                       visitId: kVAs[index].visitId,
-                                      visitDate: controllerdate.text
-                                          .toString()
-                                          .substring(0, 10))))
+                                      visitDate: controllerdate.text.toString().substring(0, 10))))
                           .then((onGoBack))
                           .then((value) => functionTimerRefresh());
                     },
