@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_application_1/akuntan/page_input_penjurnalan/akuntan_get_daftar_akun.dart';
+import 'package:flutter_application_1/akuntan/page_input_penjurnalan/services/akuntan_get_daftar_akun.dart';
 import 'package:flutter_application_1/akuntan/page_input_penjurnalan/akuntan_keranjang_penjurnalan.dart';
 import 'package:flutter_application_1/akuntan/page_input_penjurnalan/akuntan_send_transaksi_penjurnalan.dart';
 import 'package:flutter_application_1/main.dart';

@@ -8,7 +8,7 @@ import 'package:flutter_application_1/akuntan/akuntan_page_split_view.dart';
 import 'package:flutter_application_1/akuntan/page_input_penjurnalan/views/vList_penjurnalan.dart';
 import '../main.dart';
 import 'neraca/akuntan_page_neraca.dart';
-import 'page_input_penjurnalan/akuntan_get_daftar_akun.dart';
+import 'page_input_penjurnalan/services/akuntan_get_daftar_akun.dart';
 
 class AkuntanMainPage extends StatefulWidget {
   const AkuntanMainPage({Key key}) : super(key: key);
