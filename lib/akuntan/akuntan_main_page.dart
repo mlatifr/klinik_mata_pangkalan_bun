@@ -9,6 +9,7 @@ import 'package:flutter_application_1/akuntan/page_input_penjurnalan/views/vList
 import '../main.dart';
 import 'neraca/akuntan_page_neraca.dart';
 import 'nota/nota_obat/view/nota_obat_v.dart';
+import 'nota/nota_tindakan/view/nota_tindakan_v.dart';
 import 'page_input_penjurnalan/services/akuntan_get_daftar_akun.dart';
 
 class AkuntanMainPage extends StatefulWidget {
@@ -46,6 +47,24 @@ class _AkuntanMainPageState extends State<AkuntanMainPage> {
             },
           ),
           ListTile(
+            title: Text('Daftar Penjurnalan'),
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => ListPenjurnalan()));
+            },
+          ),
+          ListTile(
+            title: Text('Nota Obat'),
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => AkuntanViewNotaObat()));
+            },
+          ),
+          ListTile(
+            title: Text('Nota Tindakan'),
+            onTap: () {
+              Navigator.push(context, MaterialPageRoute(builder: (context) => AkuntanViewNotaTindakan()));
+            },
+          ),
+          ListTile(
             title: Text('Neraca'),
             onTap: () {
               Navigator.of(context).push(MaterialPageRoute(builder: (context) => AkuntanVNeraca()));
@@ -64,18 +83,7 @@ class _AkuntanMainPageState extends State<AkuntanMainPage> {
           //         MaterialPageRoute(builder: (context) => AkuntanVNotaPjln()));
           //   },
           // ),
-          ListTile(
-            title: Text('Nota Obat'),
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => AkuntanViewNotaObat()));
-            },
-          ),
-          ListTile(
-            title: Text('Daftar Penjurnalan'),
-            onTap: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => ListPenjurnalan()));
-            },
-          ),
+
           // ListTile(
           //   title: Text('Input Penjurnalan'),
           //   onTap: () {
