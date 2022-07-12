@@ -5,6 +5,8 @@ import 'package:flutter_application_1/akuntan/nota/nota_obat/controller/list_not
 import 'package:flutter_application_1/akuntan/nota/nota_obat/services/fetch_list_nota_obat.dart';
 import 'package:month_year_picker/month_year_picker.dart';
 
+import '../../../page_input_penjurnalan/views/akuntan_page_input_penjurnalan.dart';
+
 class AkuntanViewNotaObat extends StatefulWidget {
   const AkuntanViewNotaObat({Key key}) : super(key: key);
 
@@ -44,67 +46,83 @@ class _AkuntanViewNotaObatState extends State<AkuntanViewNotaObat> {
                 height: 10,
               ),
               // if(listPenjurnalan!=null)
-              SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: FutureBuilder(
-                    future: fetchListNotaObat(_bulanButton),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                      if (snapshot.connectionState == ConnectionState.done && snapshot.data.toString().contains('success')) {
-                        lj.GetListNotaObat(snapshot);
-                        return DataTable(headingRowColor: MaterialStateColor.resolveWith((states) => Colors.blue[100]), columns: [
-                          DataColumn(label: Text('No')),
-                          DataColumn(label: Text('Tgl')),
-                          DataColumn(label: Text('Nama')),
-                          DataColumn(label: Text('stok')),
-                          DataColumn(label: Text('terjual')),
-                          DataColumn(label: Text('hargaJual')),
-                          DataColumn(label: Text('hargaBeli')),
-                          DataColumn(label: Text('statusOrder')),
-                        ], rows: [
-                          for (var i = 0; i < lj.listNotaObat.length; i++)
-                            if (lj.listNotaObat[i].statusOrder == 'pemesanan')
-                              DataRow(cells: [
-                                DataCell(Text('${i + 1}')),
-                                DataCell(Text('${lj.listNotaObat[i].tanggal.toString().substring(0, 11)}')),
-                                DataCell(Text('${lj.listNotaObat[i].nama}')),
-                                DataCell(Text('${lj.listNotaObat[i].stok}')),
-                                DataCell(Text('${lj.listNotaObat[i].terjual}')),
-                                DataCell(Text('${lj.listNotaObat[i].hargaJual}')),
-                                DataCell(Text('${lj.listNotaObat[i].hargaBeli}')),
-                                DataCell(Text('${lj.listNotaObat[i].statusOrder}',
-                                    style: TextStyle(backgroundColor: Colors.redAccent, color: Colors.white))),
-                              ]),
-                          for (var i = 0; i < lj.listNotaObat.length; i++)
-                            if (lj.listNotaObat[i].statusOrder == 'penjualan')
-                              DataRow(cells: [
-                                DataCell(Text('${i + 1}')),
-                                DataCell(Text('${lj.listNotaObat[i].tanggal.toString().substring(0, 11)}')),
-                                DataCell(Text('${lj.listNotaObat[i].nama}')),
-                                DataCell(Text('${lj.listNotaObat[i].stok}')),
-                                DataCell(Text('${lj.listNotaObat[i].terjual}')),
-                                DataCell(Text('${lj.listNotaObat[i].hargaJual}')),
-                                DataCell(Text('${lj.listNotaObat[i].hargaBeli}')),
-                                DataCell(Text(
-                                  '${lj.listNotaObat[i].statusOrder}',
-                                  style: TextStyle(backgroundColor: Colors.green, color: Colors.white),
-                                )),
-                              ]),
-                        ]);
-                      } else {
-                        return Text('data error');
-                      }
-                    },
-                  )),
+              WidgetDataTable(),
             ],
+          ),
+          floatingActionButton: FloatingActionButton(
+            child: Icon(Icons.add),
+            onPressed: () {
+              showModalBottomSheet(
+                context: context,
+                builder: (context) {
+                  return Scaffold(body: AkuntanInputPenjurnalan());
+                },
+              ).then((value) {
+                setState(() {});
+              });
+            },
           ),
         ),
       ),
     );
+  }
+
+  SingleChildScrollView WidgetDataTable() {
+    return SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: FutureBuilder(
+          future: fetchListNotaObat(_bulanButton),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return Center(
+                child: CircularProgressIndicator(),
+              );
+            }
+            if (snapshot.connectionState == ConnectionState.done && snapshot.data.toString().contains('success')) {
+              lj.GetListNotaObat(snapshot);
+              return DataTable(headingRowColor: MaterialStateColor.resolveWith((states) => Colors.blue[100]), columns: [
+                DataColumn(label: Text('No')),
+                DataColumn(label: Text('Tgl')),
+                DataColumn(label: Text('Nama')),
+                DataColumn(label: Text('stok')),
+                DataColumn(label: Text('terjual')),
+                DataColumn(label: Text('hargaJual')),
+                DataColumn(label: Text('hargaBeli')),
+                DataColumn(label: Text('statusOrder')),
+              ], rows: [
+                for (var i = 0; i < lj.listNotaObat.length; i++)
+                  if (lj.listNotaObat[i].statusOrder == 'pemesanan')
+                    DataRow(cells: [
+                      DataCell(Text('${i + 1}')),
+                      DataCell(Text('${lj.listNotaObat[i].tanggal.toString().substring(0, 11)}')),
+                      DataCell(Text('${lj.listNotaObat[i].nama}')),
+                      DataCell(Text('${lj.listNotaObat[i].stok}')),
+                      DataCell(Text('${lj.listNotaObat[i].terjual}')),
+                      DataCell(Text('${lj.listNotaObat[i].hargaJual}')),
+                      DataCell(Text('${lj.listNotaObat[i].hargaBeli}')),
+                      DataCell(Text('${lj.listNotaObat[i].statusOrder}', style: TextStyle(backgroundColor: Colors.redAccent, color: Colors.white))),
+                    ]),
+                for (var i = 0; i < lj.listNotaObat.length; i++)
+                  if (lj.listNotaObat[i].statusOrder == 'penjualan')
+                    DataRow(cells: [
+                      DataCell(Text('${i + 1}')),
+                      DataCell(Text('${lj.listNotaObat[i].tanggal.toString().substring(0, 11)}')),
+                      DataCell(Text('${lj.listNotaObat[i].nama}')),
+                      DataCell(Text('${lj.listNotaObat[i].stok}')),
+                      DataCell(Text('${lj.listNotaObat[i].terjual}')),
+                      DataCell(Text('${lj.listNotaObat[i].hargaJual}')),
+                      DataCell(Text('${lj.listNotaObat[i].hargaBeli}')),
+                      DataCell(Text(
+                        '${lj.listNotaObat[i].statusOrder}',
+                        style: TextStyle(backgroundColor: Colors.green, color: Colors.white),
+                      )),
+                    ]),
+              ]);
+            } else {
+              return Text('data error');
+            }
+          },
+        ));
   }
 
   Row WidgetMonthPicker(BuildContext context) {
