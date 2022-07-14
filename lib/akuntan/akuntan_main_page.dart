@@ -8,6 +8,7 @@ import 'package:flutter_application_1/akuntan/akuntan_page_split_view.dart';
 import 'package:flutter_application_1/akuntan/page_input_penjurnalan/views/vList_penjurnalan.dart';
 import '../main.dart';
 import 'neraca/akuntan_page_neraca.dart';
+import 'neraca_percobaan/view/neraca_percobaan_v.dart';
 import 'nota/nota_obat/view/nota_obat_v.dart';
 import 'nota/nota_tindakan/view/nota_tindakan_v.dart';
 import 'page_input_penjurnalan/services/akuntan_get_daftar_akun.dart';
@@ -67,9 +68,15 @@ class _AkuntanMainPageState extends State<AkuntanMainPage> {
           ListTile(
             title: Text('Neraca'),
             onTap: () {
-              Navigator.of(context).push(MaterialPageRoute(builder: (context) => AkuntanVNeraca()));
+              Navigator.of(context).push(MaterialPageRoute(builder: (context) => NeracaPercobaanView()));
             },
           ),
+          // ListTile(
+          //   title: Text('Neraca'),
+          //   onTap: () {
+          //     Navigator.of(context).push(MaterialPageRoute(builder: (context) => AkuntanVNeraca()));
+          //   },
+          // ),
           ListTile(
             title: Text('Laporan Laba Rugi'),
             onTap: () {
