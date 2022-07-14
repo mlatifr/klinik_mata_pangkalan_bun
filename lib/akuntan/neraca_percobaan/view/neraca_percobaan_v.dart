@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:month_year_picker/month_year_picker.dart';
 
+import '../../page_input_penjurnalan/views/akuntan_page_input_penjurnalan.dart';
 import '../controller/list_neraca_percobaan_controller.dart';
 import '../services/fetch_list_neraca_percobaan.dart';
 
@@ -42,6 +43,19 @@ class _NeracaPercobaanViewState extends State<NeracaPercobaanView> {
             ),
             WidgetDataTable(),
           ],
+        ),
+        floatingActionButton: FloatingActionButton(
+          child: Icon(Icons.add),
+          onPressed: () {
+            showModalBottomSheet(
+              context: context,
+              builder: (context) {
+                return Scaffold(body: AkuntanInputPenjurnalan());
+              },
+            ).then((value) {
+              setState(() {});
+            });
+          },
         ),
       )),
     );
